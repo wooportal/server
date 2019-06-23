@@ -1,0 +1,26 @@
+package de.codeschluss.wooportal.server.core.api.advice;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import de.codeschluss.wooportal.server.core.api.dto.ApiError;
+import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
+
+/**
+ * The Class DuplicateEntryAdvice.
+ * 
+ * @author Valmir Etemi
+ *
+ */
+@ControllerAdvice
+public class DuplicateEntryAdvice extends ResponseEntityExceptionHandler {
+
+  @ExceptionHandler(DuplicateEntryException.class)
+  public ResponseEntity<ApiError> invalidApiAccessHandler(DuplicateEntryException ex) {
+    HttpStatus status = HttpStatus.CONFLICT;
+    return new ResponseEntity<ApiError>(new ApiError(status, "Conflict", ex.getMessage()), status);
+  }
+}

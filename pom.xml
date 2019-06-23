@@ -3,13 +3,44 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>de.codeschluss</groupId>
-	<artifactId>portal</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>de.codeschluss.wooportal</groupId>
+	<artifactId>server</artifactId>
+	<version>0.0.5</version>
 	<packaging>jar</packaging>
 
-	<name>portal</name>
-	<description>An informative portal</description>
+	<name>@wooportal/server</name>
+	<description>server for wooportal - conventional event mapping</description>
+	<url>https://github.com/wooportal/server</url>
+
+	<organization>
+		<name>codeschluss</name>
+		<url>https://www.codeschluss.de</url>
+	</organization>
+
+	<scm>
+		<tag>master</tag>
+		<url>https://github.com/wooportal/server</url>
+	</scm>
+
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/wooportal/server/issues</url>
+	</issueManagement>
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>dev</id>
+		</profile>
+		<profile>
+			<id>existing</id>
+		</profile>
+	</profiles>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,9 +52,9 @@
 		<oauth.version>3.4.0</oauth.version>
 		<greenmail.version>1.5.5</greenmail.version>
 		<webpush.version>4.0.0</webpush.version>
-        <imgscalr.version>4.2</imgscalr.version>
-        <twelvemonkeys.imageio>3.3.2</twelvemonkeys.imageio>
-        <apt-maven.version>1.1.3</apt-maven.version>
+		<imgscalr.version>4.2</imgscalr.version>
+		<twelvemonkeys.imageio>3.3.2</twelvemonkeys.imageio>
+		<apt-maven.version>1.1.3</apt-maven.version>
 		<liquibase-maven.version>3.6.2</liquibase-maven.version>
 		<liquibase-hibernate.version>3.6</liquibase-hibernate.version>
 		<jacoco.version>0.8.3</jacoco.version>
@@ -72,12 +103,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>com.icegreen</groupId>
 			<artifactId>greenmail</artifactId>
 			<version>${greenmail.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -133,9 +163,9 @@
 			<version>${liquibase.version}</version>
 		</dependency>
 		<dependency>
-		    <groupId>nl.martijndwars</groupId>
-		    <artifactId>web-push</artifactId>
-		    <version>${webpush.version}</version>
+			<groupId>nl.martijndwars</groupId>
+			<artifactId>web-push</artifactId>
+			<version>${webpush.version}</version>
 		</dependency>
 		<dependency>
 			<scope>test</scope>
@@ -147,7 +177,7 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>org.imgscalr</groupId>
 			<artifactId>imgscalr-lib</artifactId>
 			<version>${imgscalr.version}</version>
@@ -248,7 +278,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-            <plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.version}</version>
@@ -277,18 +307,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-		<profile>
-			<id>dev</id>
-		</profile>
-		<profile>
-			<id>existing</id>
-		</profile>
-		<profile>
-			<id>default</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
-	</profiles>
 </project>

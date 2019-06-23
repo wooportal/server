@@ -1,0 +1,38 @@
+package de.codeschluss.wooportal.server.integration.language;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.hateoas.Resource;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.i18n.language.LanguageController;
+import de.codeschluss.wooportal.server.core.i18n.language.LanguageEntity;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class LanguageControllerReadOneTest {
+
+  @Autowired
+  private LanguageController controller;
+
+  @Test
+  public void findOneOk() {
+    String languagesId = "00000000-0000-0000-0013-100000000000";
+
+    Resource<LanguageEntity> result = (Resource<LanguageEntity>) controller.readOne(languagesId);
+
+    assertThat(result.getContent()).isNotNull();
+  }
+
+  @Test(expected = NotFoundException.class)
+  public void findLanguageNotFound() {
+    String languagesId = "00000000-0000-0000-0013-XX0000000000";
+
+    controller.readOne(languagesId);
+  }
+}
