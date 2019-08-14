@@ -2,6 +2,11 @@ package de.codeschluss.wooportal.server.integration.category;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.category.CategoryController;
+import de.codeschluss.wooportal.server.components.category.CategoryEntity;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
+
 import java.net.URISyntaxException;
 
 import org.junit.Test;
@@ -14,11 +19,6 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.components.category.CategoryController;
-import de.codeschluss.wooportal.server.components.category.CategoryEntity;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
