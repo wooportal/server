@@ -31,13 +31,17 @@ public class TranslationInterceptor {
   @Pointcut("execution(public * de.codeschluss.wooportal.server.core.repository.DataRepository+.findOne(..))")
   private void findOne() {
   }
+  
+  @Pointcut("execution(* de.codeschluss.wooportal.server.core.repository.DataRepository+.findAll(..))")
+  private void findAll() {
+  }
 
   @Pointcut("execution(public * de.codeschluss.wooportal.server.core.api.AssemblerHelper.toResource(..))")
   private void toResource() {
   }
-
-  @Pointcut("execution(* de.codeschluss.wooportal.server.core.repository.DataRepository+.findAll(..))")
-  private void findAll() {
+  
+  @Pointcut("execution(public * de.codeschluss.wooportal.server.core.api.AssemblerHelper.resourceWithEmbeddable(..))")
+  private void resourceWithEmbeddable() {
   }
 
   /** The translation service. */
@@ -95,7 +99,7 @@ public class TranslationInterceptor {
    * @return the object
    * @throws Throwable the throwable
    */
-  @Around("toResource()")
+  @Around("toResource() || resourceWithEmbeddable()")
   public Object replaceSingleResourceWithTranslation(ProceedingJoinPoint pjp) throws Throwable {
     Object entity = pjp.getArgs()[0];
     if (TranslationHelper.isLocalizable(entity)) {

@@ -100,7 +100,7 @@ public class AssemblerHelper {
    * @param embeddables the embeddables
    * @return the resource
    */
-  <E extends BaseResource> Resource<E> resourceWithEmbeddable(E entity,
+  public <E extends BaseResource> Resource<E> resourceWithEmbeddable(E entity,
       Map<String, Object> embeddables) {
     entity.setEmbeddings(embeddables);
     return new Resource<E>(entity, entity.createResourceLinks());
