@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1544109074608-9
-    author: vetemi (generated)
+    id: 0007.create_orgaimages_table
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: organisation_imagesPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
                 nullable: false
@@ -25,12 +25,12 @@ databaseChangeLog:
             type: datetime
         - column:
             name: caption
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         - column:
             constraints:
               nullable: false
             name: mime_type
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         - column:
             constraints:
               nullable: false
@@ -40,22 +40,21 @@ databaseChangeLog:
             constraints:
                 nullable: false
             name: organisation_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         tableName: organisation_images
-- changeSet:
-    id: 1544109074608-10
-    author: vetemi (generated)
-    changes:
+    - sql:
+            comment: Set char set for mysql
+            dbms: mysql
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: ALTER TABLE organisation_images CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+            stripComments: true
     - createIndex:
         columns:
         - column:
             name: organisation_id
         indexName: FK7g8ail9k3qemtckcvyfuykhci
         tableName: organisation_images
-- changeSet:
-    id: 1544109074608-11
-    author: vetemi (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: organisation_id
         baseTableName: organisation_images

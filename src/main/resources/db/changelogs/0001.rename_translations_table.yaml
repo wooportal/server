@@ -2,7 +2,7 @@
 databaseChangeLog:
 - changeSet:
     id: 0001.rename_translations_table
-    author: vetemi
+    author: codeschluss
     changes:
     - renameTable:
         newTableName: languages

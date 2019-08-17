@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1544973842957-13
-    author: vetemi (generated)
+    id: 0018.add_subscription_table
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: subscriptionsPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
@@ -27,15 +27,22 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: auth_secret
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         - column:
             constraints:
               nullable: false
             name: endpoint
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         - column:
             constraints:
               nullable: false
             name: public_key
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         tableName: subscriptions
+    - sql:
+        comment: Workaround for description collation and char set
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE subscriptions CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true

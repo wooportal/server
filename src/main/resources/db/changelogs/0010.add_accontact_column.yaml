@@ -1,31 +1,24 @@
 databaseChangeLog:
 - changeSet:
-    id: 1544653700468-11
-    author: vetemi (generated)
+    id: 0010.add_accontact_column
+    author: codeschluss
     changes:
     - addColumn:
         columns:
         - column:
             name: contact_name
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
-        tableName: activities
-- changeSet:
-    id: 1544653700468-12
-    author: vetemi (generated)
-    changes:
-    - addColumn:
-        columns:
+            type: VARCHAR(255)
         - column:
             name: mail
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
-        tableName: activities
-- changeSet:
-    id: 1544653700468-13
-    author: vetemi (generated)
-    changes:
-    - addColumn:
-        columns:
+            type: VARCHAR(255)
         - column:
             name: phone
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         tableName: activities
+    - sql:
+        comment: Set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE activities CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true

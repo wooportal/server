@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1544810018638-11
-    author: vetemi (generated)
+    id: 0017.add_blogging_domain
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: blog_translatablesPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
@@ -27,25 +27,28 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: content
-            type: TEXT CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: TEXT
         - column:
             constraints:
               nullable: false
             name: title
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         - column:
             name: language_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
             name: parent_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         tableName: blog_translatables
-- changeSet:
-    id: 1544810018638-12
-    author: vetemi (generated)
-    changes:
+    - sql:
+        comment: Workaround for description collation and char set
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE blog_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
     - createTable:
         columns:
         - column:
@@ -53,7 +56,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: bloggersPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
@@ -74,12 +77,15 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: user_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         tableName: bloggers
-- changeSet:
-    id: 1544810018638-13
-    author: vetemi (generated)
-    changes:
+    - sql:
+        comment: Workaround for description collation and char set
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE bloggers CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
     - createTable:
         columns:
         - column:
@@ -87,7 +93,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: blogsPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
@@ -107,27 +113,33 @@ databaseChangeLog:
             type: integer
         - column:
             name: activity_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
             name: blogger_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         tableName: blogs
-- changeSet:
-    id: 1544810018638-14
-    author: vetemi (generated)
-    changes:
+    - sql:
+        comment: Workaround for description collation and char set
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE blogs CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
     - addColumn:
         columns:
         - column:
             name: blogger_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         tableName: users
-- changeSet:
-    id: 1544810018638-19
-    author: vetemi (generated)
-    changes:
+    - sql:
+        comment: Workaround for description collation and char set
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE users CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: blogs
@@ -137,10 +149,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: activities
         validate: true
-- changeSet:
-    id: 1544810018638-20
-    author: vetemi (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: blog_translatables
@@ -150,10 +158,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: languages
         validate: true
-- changeSet:
-    id: 1544810018638-21
-    author: vetemi (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: user_id
         baseTableName: bloggers
@@ -163,10 +167,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: users
         validate: true
-- changeSet:
-    id: 1544810018638-22
-    author: vetemi (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: blogger_id
         baseTableName: users
@@ -176,10 +176,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: bloggers
         validate: true
-- changeSet:
-    id: 1544810018638-23
-    author: vetemi (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: blog_translatables

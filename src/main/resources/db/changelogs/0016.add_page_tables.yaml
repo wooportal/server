@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1544916065772-11
-    author: vetemi (generated)
+    id: 0016.add_page_tables
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: page_translatablesPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
@@ -25,32 +25,28 @@ databaseChangeLog:
             type: datetime
         - column:
             name: content
-            type: TEXT CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: TEXT
         - column:
             constraints:
               nullable: false
             name: title
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         - column:
             name: language_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
             name: parent_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         tableName: page_translatables
     - sql:
-            comment: Workaround for description collation and char set
-            dbms: mysql
-            endDelimiter: \nGO
-            splitStatements: true
-            sql: ALTER TABLE page_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
-            stripComments: true
-- changeSet:
-    id: 1544916065772-12
-    author: vetemi (generated)
-    changes:
+        comment: Workaround for description collation and char set
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE page_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
     - createTable:
         columns:
         - column:
@@ -58,7 +54,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: pagesPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
@@ -75,12 +71,15 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: topic_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         tableName: pages
-- changeSet:
-    id: 1544916065772-19
-    author: vetemi (generated)
-    changes:
+    - sql:
+        comment: Workaround for description collation and char set
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE pages CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: topic_id
         baseTableName: pages
@@ -90,10 +89,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: topics
         validate: true
-- changeSet:
-    id: 1544918591538-20
-    author: vetemi (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: page_translatables

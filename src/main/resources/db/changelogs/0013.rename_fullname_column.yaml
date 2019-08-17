@@ -1,10 +1,17 @@
 databaseChangeLog:
 - changeSet:
     id: 0013.rename_fullname_column
-    author: vetemi
+    author: codeschluss
     changes:
     - renameColumn:
         newColumnName: name
         oldColumnName: fullname
         tableName: users
-        columnDataType: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+        columnDataType: VARCHAR(255)
+    - sql:
+            comment: Set char set for mysql
+            dbms: mysql
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: ALTER TABLE users CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+            stripComments: true

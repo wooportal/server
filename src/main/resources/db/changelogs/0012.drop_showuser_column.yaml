@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1544653700468-26
-    author: vetemi (generated)
+    id: 0012.drop_showuser_column
+    author: codeschluss
     changes:
     - dropColumn:
         columnName: show_user

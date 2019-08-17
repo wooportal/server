@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1544734309522-11
-    author: vetemi (generated)
+    id: 0014.add_likes_column
+    author: codeschluss
     changes:
     - addColumn:
         columns:

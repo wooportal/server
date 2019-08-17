@@ -2,12 +2,19 @@
 databaseChangeLog:
 - changeSet:
     id: 0002.add_machinetranslated_column
-    author: vetemi
+    author: codeschluss
     changes:
     - addColumn:
         columns:
         - column:
             name: machine_translated
-            type: varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: varchar(255)
         tableName: languages
+    - sql:
+        comment: Set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE languages CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
 

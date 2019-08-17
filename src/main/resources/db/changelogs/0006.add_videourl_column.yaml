@@ -1,11 +1,19 @@
 databaseChangeLog:
 - changeSet:
     id: 0006.add_videourl_column
+    author: codeschluss
     author: vetemi
     changes:
     - addColumn:
         columns:
         - column:
             name: video_url
-            type: varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: varchar(255)
         tableName: organisations
+    - sql:
+            comment: Set char set for mysql
+            dbms: mysql
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: ALTER TABLE organisations CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+            stripComments: true

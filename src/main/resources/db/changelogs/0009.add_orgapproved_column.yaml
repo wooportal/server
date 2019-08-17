@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 0009.add_orgapproved_column_1
-    author: vetemi
+    id: 0009.add_orgapproved_column
+    author: codeschluss
     changes:
     - addColumn:
         columns:

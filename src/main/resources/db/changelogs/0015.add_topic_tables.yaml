@@ -1,7 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 1544916065772-13
-    author: vetemi (generated)
+    id: 0015.add_topic_tables
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: topic_translatablesPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
@@ -27,20 +27,23 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: name
-            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: VARCHAR(255)
         - column:
             name: language_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
             name: parent_id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         tableName: topic_translatables
-- changeSet:
-    id: 1544916065772-14
-    author: vetemi (generated)
-    changes:
+    - sql:
+        comment: Set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE topic_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
     - createTable:
         columns:
         - column:
@@ -48,7 +51,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: topicsPK
             name: id
-            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
+            type: CHAR(36)
         - column:
             constraints:
               nullable: false
@@ -62,10 +65,13 @@ databaseChangeLog:
             name: modified
             type: datetime
         tableName: topics
-- changeSet:
-    id: 1544916065772-17
-    author: vetemi (generated)
-    changes:
+    - sql:
+        comment: Set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE topics CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: topic_translatables
@@ -75,10 +81,6 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: topics
         validate: true
-- changeSet:
-    id: 1544916065772-22
-    author: vetemi (generated)
-    changes:
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: topic_translatables
