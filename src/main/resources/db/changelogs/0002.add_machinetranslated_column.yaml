@@ -8,6 +8,6 @@ databaseChangeLog:
         columns:
         - column:
             name: machine_translated
-            type: varchar(255)
+            type: varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: languages
 

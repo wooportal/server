@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: blog_translatablesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -27,20 +27,20 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: content
-            type: TEXT
+            type: TEXT CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: title
-            type: VARCHAR(36)(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             name: language_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: parent_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: blog_translatables
 - changeSet:
     id: 1544810018638-12
@@ -53,7 +53,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: bloggersPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -74,7 +74,7 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: user_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: bloggers
 - changeSet:
     id: 1544810018638-13
@@ -87,7 +87,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: blogsPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -107,12 +107,12 @@ databaseChangeLog:
             type: integer
         - column:
             name: activity_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: blogger_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: blogs
 - changeSet:
     id: 1544810018638-14
@@ -122,7 +122,7 @@ databaseChangeLog:
         columns:
         - column:
             name: blogger_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: users
 - changeSet:
     id: 1544810018638-19

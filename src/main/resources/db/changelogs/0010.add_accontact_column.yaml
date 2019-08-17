@@ -7,7 +7,7 @@ databaseChangeLog:
         columns:
         - column:
             name: contact_name
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: activities
 - changeSet:
     id: 1544653700468-12
@@ -17,7 +17,7 @@ databaseChangeLog:
         columns:
         - column:
             name: mail
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: activities
 - changeSet:
     id: 1544653700468-13
@@ -27,5 +27,5 @@ databaseChangeLog:
         columns:
         - column:
             name: phone
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: activities

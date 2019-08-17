@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: page_translatablesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -25,21 +25,28 @@ databaseChangeLog:
             type: datetime
         - column:
             name: content
-            type: TEXT
+            type: TEXT CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: title
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             name: language_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: parent_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: page_translatables
+    - sql:
+            comment: Workaround for description collation and char set
+            dbms: mysql
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: ALTER TABLE page_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+            stripComments: true
 - changeSet:
     id: 1544916065772-12
     author: vetemi (generated)
@@ -51,7 +58,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: pagesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -68,7 +75,7 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: topic_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: pages
 - changeSet:
     id: 1544916065772-19

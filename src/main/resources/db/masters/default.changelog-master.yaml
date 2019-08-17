@@ -1,7 +1,5 @@
 databaseChangeLog:
     - include:
-        file: classpath:db/changelogs/default.intialdb.yaml
-    - include:
         file: classpath:db/changelogs/0001.rename_translations_table.yaml
     - include:
         file: classpath:db/changelogs/0002.add_machinetranslated_column.yaml

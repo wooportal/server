@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: topic_translatablesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -27,15 +27,15 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: name
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             name: language_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: parent_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: topic_translatables
 - changeSet:
     id: 1544916065772-14
@@ -48,7 +48,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: topicsPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false

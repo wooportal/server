@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: subscriptionsPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -27,15 +27,15 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: auth_secret
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: endpoint
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: public_key
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: subscriptions

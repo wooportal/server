@@ -10,7 +10,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: organisation_imagesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
                 nullable: false
@@ -25,12 +25,12 @@ databaseChangeLog:
             type: datetime
         - column:
             name: caption
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: mime_type
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -40,7 +40,7 @@ databaseChangeLog:
             constraints:
                 nullable: false
             name: organisation_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: organisation_images
 - changeSet:
     id: 1544109074608-10

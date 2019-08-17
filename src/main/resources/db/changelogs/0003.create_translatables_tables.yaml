@@ -11,7 +11,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: activity_translatablesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -26,21 +26,28 @@ databaseChangeLog:
             type: datetime
         - column:
             name: description
-            type: TEXT
+            type: TEXT CHARACTER SET utf8 COLLATE utf8mb4_unicode_ci
         - column:
             constraints:
               nullable: false
             name: name
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             name: language_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
             name: parent_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: activity_translatables
+    - sql:
+            comment: Workaround for description collation and char set
+            dbms: mysql
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: ALTER TABLE activity_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+            stripComments: true
 - changeSet:
     id: 15440519568500-2
     author: vetemi (generated)
@@ -97,7 +104,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: category_translatablesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -114,15 +121,15 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: name
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             name: language_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
                 nullable: false
             name: parent_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: category_translatables
 - changeSet:
     id: 15440519568500-7
@@ -182,7 +189,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: organisation_translatablesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -196,19 +203,24 @@ databaseChangeLog:
             name: modified
             type: datetime
         - column:
-            constraints:
-              nullable: false
             name: description
-            type: TEXT
+            type: TEXT CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             name: language_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
                 nullable: false
             name: parent_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: organisation_translatables
+    - sql:
+            comment: Workaround for description collation and char set
+            dbms: mysql
+            endDelimiter: \nGO
+            splitStatements: true
+            sql: ALTER TABLE organisation_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+            stripComments: true
 - changeSet:
     id: 15440519568500-12
     author: vetemi (generated)
@@ -271,7 +283,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: tag_translatablesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -288,15 +300,15 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: name
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             name: language_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
                 nullable: false
             name: parent_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: tag_translatables
 - changeSet:
     id: 15440519568500-17
@@ -356,7 +368,7 @@ databaseChangeLog:
               primaryKey: true
               primaryKeyName: target_group_translatablesPK
             name: id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
               nullable: false
@@ -373,15 +385,15 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: name
-            type: VARCHAR(255)
+            type: VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             name: language_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         - column:
             constraints:
                 nullable: false
             name: parent_id
-            type: CHAR(36)
+            type: CHAR(36) CHARACTER SET utf8 COLLATE utf8_general_ci
         tableName: target_group_translatables
 - changeSet:
     id: 15440519568500-22
