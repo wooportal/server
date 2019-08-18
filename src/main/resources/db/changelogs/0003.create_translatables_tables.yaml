@@ -31,7 +31,7 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: name
-            type: VARCHAR(255)
+            type: VARCHAR(800)
         - column:
             name: language_id
             type: CHAR(36)
