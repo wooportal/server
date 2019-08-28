@@ -1,8 +1,7 @@
 databaseChangeLog:
 - changeSet:
-    id: 0006.add_videourl_column
+    id: 0007.add_column_organisations_videourl
     author: codeschluss
-    author: vetemi
     changes:
     - addColumn:
         columns:

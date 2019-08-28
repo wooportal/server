@@ -1,7 +1,7 @@
 
 databaseChangeLog:
 - changeSet:
-    id: 0002.add_machinetranslated_column
+    id: 0002.add_column_languages_machinetranslated
     author: codeschluss
     changes:
     - addColumn:

@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0012.drop_showuser_column
+    id: 0013.drop_column_activities_showuser
     author: codeschluss
     changes:
     - dropColumn:

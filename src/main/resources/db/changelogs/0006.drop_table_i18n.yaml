@@ -1,0 +1,7 @@
+databaseChangeLog:
+- changeSet:
+    id: 0006.drop_table_i18n
+    author: codeschluss
+    changes:
+    - dropTable:
+        tableName: i18n

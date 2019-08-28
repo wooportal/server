@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0005.drop_translatables_columns
+    id: 0005.drop_column_translatable-parents_translations
     author: codeschluss
     changes:
     - dropColumn:

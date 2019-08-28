@@ -1,4 +1,5 @@
 databaseChangeLog:
+- logicalFilePath: path_independent
 - changeSet:
     id: 1543419009409-1
     author: vetemi (generated)
@@ -548,6 +549,41 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: users
 - changeSet:
+    id: 1567001790061-7
+    author: valmir (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: CHAR(36)
+        - column:
+            constraints:
+              nullable: false
+            name: locale
+            type: VARCHAR(6)
+        - column:
+            constraints:
+              nullable: false
+            name: model
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: foreign_key
+            type: CHAR(36)
+        - column:
+            constraints:
+              nullable: false
+            name: field
+            type: VARCHAR(255)
+        - column:
+            name: content
+            type: TEXT
+        tableName: i18n
+- changeSet:
     id: 1543419009409-17
     author: vetemi (generated)
     changes:
@@ -864,3 +900,25 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: target_groups
         validate: true
+- changeSet:
+    id: 1567001790061-16
+    author: valmir (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: locale, model, foreign_key, field
+        constraintName: I18N_LOCALE_FIELD
+        tableName: i18n
+- changeSet:
+    id: 1567001790061-19
+    author: valmir (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: model
+        - column:
+            name: foreign_key
+        - column:
+            name: field
+        indexName: I18N_FIELD
+        tableName: i18n

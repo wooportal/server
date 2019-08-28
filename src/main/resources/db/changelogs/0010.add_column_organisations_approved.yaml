@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0009.add_orgapproved_column
+    id: 0010.add_column_organisations_approved
     author: codeschluss
     changes:
     - addColumn:

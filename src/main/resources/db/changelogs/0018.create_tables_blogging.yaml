@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0017.add_blogging_domain
+    id: 0018.create_tables_blogging
     author: codeschluss
     changes:
     - createTable:

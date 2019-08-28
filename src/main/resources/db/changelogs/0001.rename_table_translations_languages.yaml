@@ -1,7 +1,7 @@
 
 databaseChangeLog:
 - changeSet:
-    id: 0001.rename_translations_table
+    id: 0001.rename_table_translations_languages
     author: codeschluss
     changes:
     - renameTable:

@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 008.drop_orgaimages_column
+    id: 0009.drop_column_organisations_image
     author: codeschluss
     changes:
     - dropColumn:

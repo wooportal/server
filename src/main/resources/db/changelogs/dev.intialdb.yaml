@@ -505,20 +505,56 @@ databaseChangeLog:
         tableName: users
 - changeSet:
     id: 1543409395575-15
-    author: vetemi (generated)
+    author: valmir (generated)
     changes:
-    - addPrimaryKey:
-        columnNames: id
-        tableName: activities_tags
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: PRIMARY
+            name: id
+            type: CHAR(36)
+        - column:
+            constraints:
+              nullable: false
+            name: locale
+            type: VARCHAR(6)
+        - column:
+            constraints:
+              nullable: false
+            name: model
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: foreign_key
+            type: CHAR(36)
+        - column:
+            constraints:
+              nullable: false
+            name: field
+            type: VARCHAR(255)
+        - column:
+            name: content
+            type: CLOB
+        tableName: i18n
 - changeSet:
     id: 1543409395575-16
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
         columnNames: id
-        tableName: activities_target_groups
+        tableName: activities_tags
 - changeSet:
     id: 1543409395575-17
+    author: vetemi (generated)
+    changes:
+    - addPrimaryKey:
+        columnNames: id
+        tableName: activities_target_groups
+- changeSet:
+    id: 1543409395575-18
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -526,7 +562,7 @@ databaseChangeLog:
         constraintName: activitiesPK
         tableName: activities
 - changeSet:
-    id: 1543409395575-18
+    id: 1543409395575-19
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -534,7 +570,7 @@ databaseChangeLog:
         constraintName: addressesPK
         tableName: addresses
 - changeSet:
-    id: 1543409395575-19
+    id: 1543409395575-20
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -542,7 +578,7 @@ databaseChangeLog:
         constraintName: categoriesPK
         tableName: categories
 - changeSet:
-    id: 1543409395575-20
+    id: 1543409395575-21
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -550,7 +586,7 @@ databaseChangeLog:
         constraintName: configurationsPK
         tableName: configurations
 - changeSet:
-    id: 1543409395575-21
+    id: 1543409395575-22
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -558,7 +594,7 @@ databaseChangeLog:
         constraintName: organisationsPK
         tableName: organisations
 - changeSet:
-    id: 1543409395575-22
+    id: 1543409395575-23
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -566,7 +602,7 @@ databaseChangeLog:
         constraintName: providersPK
         tableName: providers
 - changeSet:
-    id: 1543409395575-23
+    id: 1543409395575-24
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -574,7 +610,7 @@ databaseChangeLog:
         constraintName: schedulesPK
         tableName: schedules
 - changeSet:
-    id: 1543409395575-24
+    id: 1543409395575-25
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -582,7 +618,7 @@ databaseChangeLog:
         constraintName: suburbsPK
         tableName: suburbs
 - changeSet:
-    id: 1543409395575-25
+    id: 1543409395575-26
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -590,7 +626,7 @@ databaseChangeLog:
         constraintName: tagsPK
         tableName: tags
 - changeSet:
-    id: 1543409395575-26
+    id: 1543409395575-27
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -598,7 +634,7 @@ databaseChangeLog:
         constraintName: target_groupsPK
         tableName: target_groups
 - changeSet:
-    id: 1543409395575-27
+    id: 1543409395575-28
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -606,7 +642,7 @@ databaseChangeLog:
         constraintName: translationsPK
         tableName: translations
 - changeSet:
-    id: 1543409395575-28
+    id: 1543409395575-29
     author: vetemi (generated)
     changes:
     - addPrimaryKey:
@@ -614,7 +650,7 @@ databaseChangeLog:
         constraintName: usersPK
         tableName: users
 - changeSet:
-    id: 1543409395575-29
+    id: 1543409395575-30
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -622,7 +658,7 @@ databaseChangeLog:
         constraintName: UC_CATEGORIESCOLOR_COL
         tableName: categories
 - changeSet:
-    id: 1543409395575-30
+    id: 1543409395575-31
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -630,7 +666,7 @@ databaseChangeLog:
         constraintName: UC_CATEGORIESNAME_COL
         tableName: categories
 - changeSet:
-    id: 1543409395575-31
+    id: 1543409395575-32
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -638,7 +674,7 @@ databaseChangeLog:
         constraintName: UC_ORGANISATIONSNAME_COL
         tableName: organisations
 - changeSet:
-    id: 1543409395575-32
+    id: 1543409395575-33
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -646,7 +682,7 @@ databaseChangeLog:
         constraintName: UC_SUBURBSNAME_COL
         tableName: suburbs
 - changeSet:
-    id: 1543409395575-33
+    id: 1543409395575-34
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -654,7 +690,7 @@ databaseChangeLog:
         constraintName: UC_TAGSNAME_COL
         tableName: tags
 - changeSet:
-    id: 1543409395575-34
+    id: 1543409395575-35
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -662,7 +698,7 @@ databaseChangeLog:
         constraintName: UC_TARGET_GROUPSNAME_COL
         tableName: target_groups
 - changeSet:
-    id: 1543409395575-35
+    id: 1543409395575-36
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -670,7 +706,7 @@ databaseChangeLog:
         constraintName: UC_TRANSLATIONSLOCALE_COL
         tableName: translations
 - changeSet:
-    id: 1543409395575-36
+    id: 1543409395575-37
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -678,7 +714,7 @@ databaseChangeLog:
         constraintName: UC_TRANSLATIONSNAME_COL
         tableName: translations
 - changeSet:
-    id: 1543409395575-37
+    id: 1543409395575-38
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -686,7 +722,7 @@ databaseChangeLog:
         constraintName: UC_USERSUSERNAME_COL
         tableName: users
 - changeSet:
-    id: 1543409395575-38
+    id: 1543409395575-39
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -694,7 +730,7 @@ databaseChangeLog:
         constraintName: UKkjqoui7f8ede4bs22fovg44e6
         tableName: activities_target_groups
 - changeSet:
-    id: 1543409395575-39
+    id: 1543409395575-40
     author: vetemi (generated)
     changes:
     - addUniqueConstraint:
@@ -702,7 +738,7 @@ databaseChangeLog:
         constraintName: UKsqhb71tj8rwi6riheq015cjcy
         tableName: activities_tags
 - changeSet:
-    id: 1543409395575-40
+    id: 1543409395575-41
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -716,7 +752,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: target_groups
 - changeSet:
-    id: 1543409395575-41
+    id: 1543409395575-42
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -730,7 +766,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: activities
 - changeSet:
-    id: 1543409395575-42
+    id: 1543409395575-43
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -744,7 +780,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: addresses
 - changeSet:
-    id: 1543409395575-43
+    id: 1543409395575-44
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -758,7 +794,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: providers
 - changeSet:
-    id: 1543409395575-44
+    id: 1543409395575-45
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -772,7 +808,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: users
 - changeSet:
-    id: 1543409395575-45
+    id: 1543409395575-46
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -786,7 +822,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: suburbs
 - changeSet:
-    id: 1543409395575-46
+    id: 1543409395575-47
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -800,7 +836,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: activities
 - changeSet:
-    id: 1543409395575-47
+    id: 1543409395575-48
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -814,7 +850,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: activities
 - changeSet:
-    id: 1543409395575-48
+    id: 1543409395575-49
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -828,7 +864,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: categories
 - changeSet:
-    id: 1543409395575-49
+    id: 1543409395575-50
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -842,7 +878,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: tags
 - changeSet:
-    id: 1543409395575-50
+    id: 1543409395575-51
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -856,7 +892,7 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: organisations
 - changeSet:
-    id: 1543409395575-51
+    id: 1543409395575-52
     author: vetemi (generated)
     changes:
     - addForeignKeyConstraint:
@@ -869,3 +905,25 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: addresses
+- changeSet:
+    id: 1543409395575-53
+    author: valmir (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: locale, model, foreign_key, field
+        constraintName: I18N_LOCALE_FIELD
+        tableName: i18n
+- changeSet:
+    id: 1543409395575-54
+    author: valmir (generated)
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: model
+        - column:
+            name: foreign_key
+        - column:
+            name: field
+        indexName: I18N_FIELD
+        tableName: i18n

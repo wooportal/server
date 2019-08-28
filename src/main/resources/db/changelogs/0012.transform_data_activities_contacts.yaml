@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0011.transfrom_activitycontact_data_1
+    id: 0012.transform_data_activities_contacts
     author: codeschluss
     changes:
     - sql:

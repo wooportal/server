@@ -1,7 +1,7 @@
 databaseChangeLog:
 ########## Activity ##########
 - changeSet:
-    id: 004.transform_translatable_data_1
+    id: 0004.transform_data_translatables_translations-activities
     author: codeschluss
     changes:
     - sql:
@@ -20,7 +20,7 @@ databaseChangeLog:
         splitStatements: true
         sql:
             /*!40101 SET character_set_client = utf8 */;
-            insert into activity_translatables (id, created, modified, description, name, language_id, parent_id)
+            insert into activity_translatables (id, created, modified, name, description, language_id, parent_id)
                 select uuid(), created, modified, t1.content, t2.content, t3.id, t1.foreign_key
                 from i18n t1
                 left join i18n t2 ON t2.foreign_key = t1.foreign_key and t2.locale = t1.locale and t2.field = 'description' and t2.model = 'Activities'
@@ -28,7 +28,7 @@ databaseChangeLog:
                 where t1.field = 'name' and t1.model = 'Activities' and t1.locale <> 'de'
 ########## Category ##########
 - changeSet:
-    id: 004.transform_translatable_data_2
+    id: 0004.transform_data_translatables_translations-categories
     author: codeschluss
     changes:
     - sql:
@@ -54,7 +54,7 @@ databaseChangeLog:
                 where t1.model = 'Categories' and t1.locale <> 'de'
 ########## Organisation ##########
 - changeSet:
-    id: 004.transform_translatable_data_3
+    id: 0004.transform_data_translatables_translations-organisations
     author: codeschluss
     changes:
     - sql:
@@ -80,7 +80,7 @@ databaseChangeLog:
                 where t1.model = 'Organisations' and t1.locale <> 'de'
 ########## Tag ##########
 - changeSet:
-    id: 004.transform_translatable_data_4
+    id: 0004.transform_data_translatables_translations-tags
     author: codeschluss
     changes:
     - sql:
@@ -106,7 +106,7 @@ databaseChangeLog:
                 where t1.model = 'Tags' and t1.locale <> 'de'
 ########## target Group ##########
 - changeSet:
-    id: 004.transform_translatable_data_5
+    id: 0004.transform_data_translatables_translations-targetgroups
     author: codeschluss
     changes:
     - sql:

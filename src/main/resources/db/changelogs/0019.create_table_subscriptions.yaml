@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0018.add_subscription_table
+    id: 0019.create_table_subscriptions
     author: codeschluss
     changes:
     - createTable:

@@ -1,7 +1,7 @@
 databaseChangeLog:
 ########## Activity ##########
 - changeSet:
-    id: 0003.create_translatables_tables-activities
+    id: 0003.create_tables_translatables-activities
     author: codeschluss
     changes:
     - createTable:
@@ -78,7 +78,7 @@ databaseChangeLog:
         referencedTableName: languages
 ########## Category ##########
 - changeSet:
-    id: 0003.create_translatables_tables-categories
+    id: 0003.create_tables_translatables-categories
     author: codeschluss
     changes:
     - createTable:
@@ -154,7 +154,7 @@ databaseChangeLog:
         validate: true
 ########## Organisation ##########
 - changeSet:
-    id: 0003.create_translatables_tables-organisations
+    id: 0003.create_tables_translatables-organisations
     author: codeschluss
     changes:
     - createTable:
@@ -232,7 +232,7 @@ databaseChangeLog:
         validate: true
 ########## Tag ##########
 - changeSet:
-    id: 0003.create_translatables_tables-tags
+    id: 0003.create_tables_translatables-tags
     author: codeschluss
     changes:
     - createTable:
@@ -308,7 +308,7 @@ databaseChangeLog:
         validate: true
 ########## TargetGroup ##########
 - changeSet:
-    id: 0003.create_translatables_tables-targetgroups
+    id: 0003.create_tables_translatables-targetgroups
     author: codeschluss
     changes:
     - createTable:

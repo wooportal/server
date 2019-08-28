@@ -1,43 +1,46 @@
+# Form of file names follow schema:
+#    <NUMBER>_<ACTION>_<TYPE(S)>_<TABLE>_<OPTIONAL_CONTEXT>
+
 databaseChangeLog:
     - include:
         file: classpath:db/changelogs/default.intialdb.yaml
     - include:
-        file: classpath:db/changelogs/0001.rename_translations_table.yaml
+        file: classpath:db/changelogs/0001.rename_table_translations_languages.yaml
     - include:
-        file: classpath:db/changelogs/0002.add_machinetranslated_column.yaml
+        file: classpath:db/changelogs/0002.add_column_languages_machinetranslated.yaml
     - include:
-        file: classpath:db/changelogs/0003.create_translatables_tables.yaml
+        file: classpath:db/changelogs/0003.create_tables_translatables.yaml
     - include:
-        file: classpath:db/changelogs/0004.transfrom_translatable_data.yaml
+        file: classpath:db/changelogs/0004.transform_data_translatables_translations.yaml
     - include:
-        file: classpath:db/changelogs/0005.drop_translatables_columns.yaml
+        file: classpath:db/changelogs/0005.drop_column_translatable-parents_translations.yaml
     - include:
-        file: classpath:db/changelogs/0006.add_videourl_column.yaml
+        file: classpath:db/changelogs/0006.drop_table_i18n.yaml
     - include:
-        file: classpath:db/changelogs/0007.create_orgaimages_table.yaml
+        file: classpath:db/changelogs/0007.add_column_organisations_videourl.yaml
     - include:
-        file: classpath:db/changelogs/0008.drop_orgaimages_column.yaml
+        file: classpath:db/changelogs/0008.create_table_organisationimages.yaml
     - include:
-        file: classpath:db/changelogs/0009.add_orgapproved_column.yaml
+        file: classpath:db/changelogs/0009.drop_column_organisations_image.yaml
     - include:
-        file: classpath:db/changelogs/0010.add_accontact_column.yaml
+        file: classpath:db/changelogs/0010.add_column_organisations_approved.yaml
     - include:
-        file: classpath:db/changelogs/0011.transfrom_activitycontact_data.yaml
+        file: classpath:db/changelogs/0011.add_columns_activities_contacts.yaml
     - include:
-        file: classpath:db/changelogs/0011.transfrom_activitycontact_data.yaml
+        file: classpath:db/changelogs/0012.transform_data_activities_contacts.yaml
     - include:
-        file: classpath:db/changelogs/0012.drop_showuser_column.yaml
+        file: classpath:db/changelogs/0013.drop_column_activities_showuser.yaml
     - include:
-        file: classpath:db/changelogs/0013.rename_fullname_column.yaml
+        file: classpath:db/changelogs/0014.rename_column_users_name.yaml
     - include:
-        file: classpath:db/changelogs/0014.add_likes_column.yaml
+        file: classpath:db/changelogs/0015.add_column_activities_likes.yaml
     - include:
-        file: classpath:db/changelogs/0015.add_topic_tables.yaml
+        file: classpath:db/changelogs/0016.create_tables_topics.yaml
     - include:
-        file: classpath:db/changelogs/0016.add_page_tables.yaml
+        file: classpath:db/changelogs/0017.create_tables_paging.yaml
     - include:
-        file: classpath:db/changelogs/0017.add_subscription_table.yaml
+        file: classpath:db/changelogs/0018.create_tables_blogging.yaml
     - include:
-        file: classpath:db/changelogs/0018.add_blogging_domain.yaml
+        file: classpath:db/changelogs/0019.create_table_subscriptions.yaml
     - include:
         file: classpath:db/changelogs/int.intialdata.yaml

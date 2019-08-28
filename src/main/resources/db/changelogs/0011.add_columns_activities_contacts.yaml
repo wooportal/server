@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0010.add_accontact_column
+    id: 0011.add_columns_activities_contacts
     author: codeschluss
     changes:
     - addColumn:

@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0014.add_likes_column
+    id: 0015.add_column_activities_likes
     author: codeschluss
     changes:
     - addColumn:

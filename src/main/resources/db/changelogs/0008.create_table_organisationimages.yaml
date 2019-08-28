@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 0007.create_orgaimages_table
+    id: 0008.create_table_organisationimages
     author: codeschluss
     changes:
     - createTable:
