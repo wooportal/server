@@ -1,24 +1,20 @@
 package de.codeschluss.wooportal.server.core.mail;
 
+import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
+import de.codeschluss.wooportal.server.components.user.UserEntity;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-
-import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
-import de.codeschluss.wooportal.server.components.user.UserEntity;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -72,9 +68,9 @@ public class MailService {
       model.put("portalName", mailConfig.getPortalName());
       Template t = freemarkerConfig.getTemplate("resetpassword.ftl");
       String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-      String subject = mailConfig.getPortalName() + " - Ihr Passwort wurde zurück gesetzt";
+      String subject = "Ihr Passwort wurde zurück gesetzt";
 
-      sendEmail(subject, content, true, user.getUsername());
+      sendEmail(subject, content, user.getUsername());
       return true;
     } catch (IOException | TemplateException | MessagingException e) {
       return false;
@@ -96,11 +92,11 @@ public class MailService {
       model.put("orgaName", applicationProvider.getOrganisation().getName());
       model.put("portalName", mailConfig.getPortalName());
       Template t = freemarkerConfig.getTemplate("applicationprovider.ftl");
-      String subject = mailConfig.getPortalName() + " - Neuer Anbieter für Organisation "
+      String subject = "Neuer Anbieter für Organisation "
           + applicationProvider.getOrganisation().getName();
       String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
 
-      sendEmail(subject, content, true, toMails.toArray(new String[0]));
+      sendEmail(subject, content, toMails.toArray(new String[0]));
       return true;
     } catch (IOException | TemplateException | MessagingException e) {
       return false;
@@ -121,10 +117,10 @@ public class MailService {
       model.put("portalName", mailConfig.getPortalName());
       Template t = freemarkerConfig.getTemplate("approvedprovider.ftl");
       String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-      String subject = mailConfig.getPortalName() + " - Freigabe als Anbieter für Organisation "
+      String subject = "Freigabe als Anbieter für Organisation "
           + approvedProvider.getOrganisation().getName();
 
-      sendEmail(subject, content, true, approvedProvider.getUser().getUsername());
+      sendEmail(subject, content, approvedProvider.getUser().getUsername());
       return true;
     } catch (IOException | TemplateException | MessagingException e) {
       return false;
@@ -136,13 +132,13 @@ public class MailService {
    *
    * @param subject the subject
    * @param content the content
-   * @param html the html
    * @param to the to
    * @throws MessagingException the messaging exception
    */
-  public void sendEmail(String subject, String content, boolean html, String... to)
+  public void sendEmail(String subject, String content, String... to)
       throws MessagingException {
-    sendEmail(mailConfig.getFromAddress(), subject, content, html, to);
+    sendEmail(mailConfig.getFromAddress(), subject, content, true, 
+        to.length == 0 ? new String[] {mailConfig.getToAddress()} : to);
   }
 
   /**
@@ -157,6 +153,7 @@ public class MailService {
    */
   public void sendEmail(String fromAddress, String subject, String content, boolean html,
       String... toAddresses) throws MessagingException {
+    subject = "[" + mailConfig.getPortalName() + "] - " + subject;
     MimeMessage message = sender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message);
     helper.setFrom(fromAddress);

@@ -17,6 +17,11 @@ import org.springframework.context.annotation.Configuration;
 public class MailConfiguration {
 
   private String fromAddress;
+  private String toAddress;
   private String templateLocation;
   private String portalName;
+  
+  public MailConfiguration() {
+    
+  }
 }
