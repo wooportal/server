@@ -75,7 +75,6 @@ public class MailService {
     } catch (IOException | TemplateException | MessagingException e) {
       return false;
     }
-
   }
 
   /**
@@ -138,7 +137,7 @@ public class MailService {
   public void sendEmail(String subject, String content, String... to)
       throws MessagingException {
     sendEmail(mailConfig.getFromAddress(), subject, content, true, 
-        to.length == 0 ? new String[] {mailConfig.getToAddress()} : to);
+        to == null || to.length == 0 ? new String[] {mailConfig.getToAddress()} : to);
   }
 
   /**
