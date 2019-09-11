@@ -1,4 +1,5 @@
 databaseChangeLog:
+- logicalFilePath: path_independent
 - changeSet:
     id: dev.initialdata
     author: vetemi

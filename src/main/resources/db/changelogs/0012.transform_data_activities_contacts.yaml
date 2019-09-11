@@ -1,4 +1,5 @@
 databaseChangeLog:
+- logicalFilePath: path_independent
 - changeSet:
     id: 0012.transform_data_activities_contacts
     author: codeschluss

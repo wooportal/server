@@ -1,5 +1,6 @@
 
 databaseChangeLog:
+- logicalFilePath: path_independent
 - changeSet:
     id: 0002.add_column_languages_machinetranslated
     author: codeschluss

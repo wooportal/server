@@ -1,4 +1,5 @@
 databaseChangeLog:
+- logicalFilePath: path_independent
 ########## Activity ##########
 - changeSet:
     id: 0003.create_tables_translatables-activities

@@ -1,4 +1,5 @@
 databaseChangeLog:
+- logicalFilePath: path_independent
 - changeSet:
     id: 0010.add_column_organisations_approved
     author: codeschluss

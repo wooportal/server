@@ -1,4 +1,5 @@
 databaseChangeLog:
+- logicalFilePath: path_independent
 - changeSet:
     id: 0011.add_columns_activities_contacts
     author: codeschluss

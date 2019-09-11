@@ -1,4 +1,5 @@
 databaseChangeLog:
+- logicalFilePath: path_independent
 ########## Activity ##########
 - changeSet:
     id: 0004.transform_data_translatables_translations-activities

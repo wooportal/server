@@ -1,4 +1,5 @@
 databaseChangeLog:
+- logicalFilePath: path_independent
 - changeSet:
     id: 0017.create_tables_paging
     author: codeschluss

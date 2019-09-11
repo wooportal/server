@@ -1,5 +1,6 @@
 
 databaseChangeLog:
+- logicalFilePath: path_independent
 - changeSet:
     id: 0001.rename_table_translations_languages
     author: codeschluss
