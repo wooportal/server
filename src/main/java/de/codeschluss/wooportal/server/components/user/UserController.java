@@ -273,6 +273,18 @@ public class UserController extends CrudController<UserEntity, UserService> {
   }
   
   /**
+   * Reset all passwords.
+   *
+   * @return the response entity
+   */
+  @PutMapping("/users/resetallpasswords")
+  @SuperUserPermission
+  public ResponseEntity<?> resetAllPasswords() {
+    service.resetAllPasswords();
+    return noContent().build();
+  }
+  
+  /**
    * Read bloggers.
    *
    * @param params the params

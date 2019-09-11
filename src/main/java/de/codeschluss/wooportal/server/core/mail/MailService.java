@@ -54,30 +54,6 @@ public class MailService {
   }
 
   /**
-   * Send reset password mail.
-   *
-   * @param user the user
-   * @param newPassword the new password
-   * @return true, if successful
-   */
-  public boolean sendResetPasswordMail(UserEntity user, String newPassword) {
-    try {
-      Map<String, Object> model = new HashMap<>();
-      model.put("name", user.getName());
-      model.put("newPwd", newPassword);
-      model.put("portalName", mailConfig.getPortalName());
-      Template t = freemarkerConfig.getTemplate("resetpassword.ftl");
-      String content = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-      String subject = "Ihr Passwort wurde zurück gesetzt";
-
-      sendEmail(subject, content, user.getUsername());
-      return true;
-    } catch (IOException | TemplateException | MessagingException e) {
-      return false;
-    }
-  }
-
-  /**
    * Send application user mail.
    *
    * @param applicationProvider the application provider
