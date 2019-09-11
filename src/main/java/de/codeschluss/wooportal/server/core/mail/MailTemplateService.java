@@ -18,7 +18,7 @@ public class MailTemplateService {
 
   /** The freemarker config. */
   private final Configuration freemarkerConfig;
-  
+
   /** The mail config. */
   private final MailConfiguration mailConfig;
 
@@ -28,9 +28,7 @@ public class MailTemplateService {
    * @param freemarkerConfig the freemarker config
    * @param mailConfig the mail config
    */
-  public MailTemplateService(
-      Configuration freemarkerConfig,
-      MailConfiguration mailConfig) {
+  public MailTemplateService(Configuration freemarkerConfig, MailConfiguration mailConfig) {
     this.freemarkerConfig = freemarkerConfig;
     this.mailConfig = mailConfig;
 
@@ -44,15 +42,13 @@ public class MailTemplateService {
    * @param templateName the template name
    * @param model the model
    * @return the string
-   * @throws Exception the exception
+   * @throws TemplateException the template exception
+   * @throws IOException Signals that an I/O exception has occurred.
    */
-  public String createMessage(String templateName, Map<String, Object> model) throws Exception {
-    try {
-      Template t = freemarkerConfig.getTemplate(templateName);
-      return FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
-    } catch (IOException | TemplateException e) {
-      throw new Exception("Template not existing or not readable");
-    }
+  public String createMessage(String templateName, Map<String, Object> model)
+      throws TemplateException, IOException {
+    Template t = freemarkerConfig.getTemplate(templateName);
+    return FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
   }
 
 }
