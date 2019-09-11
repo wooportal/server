@@ -2,6 +2,7 @@
 #    <NUMBER>_<ACTION>_<TYPE(S)>_<TABLE>_<OPTIONAL_CONTEXT>
 
 databaseChangeLog:
+    - logicalFilePath: path_independent
     - include:
         file: classpath:db/changelogs/default.intialdb.yaml
     - include:
