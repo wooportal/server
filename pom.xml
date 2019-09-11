@@ -248,6 +248,7 @@
 				<version>3.6.3</version>
 				<configuration>
 					<propertyFile>src/main/resources/application-${project.activeProfiles[0].id}.properties</propertyFile>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
 				</configuration>
 				<dependencies>
 					<dependency>
