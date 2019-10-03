@@ -8,35 +8,35 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: subscriptionsPK
+                primaryKey: true
+                primaryKeyName: subscriptionsPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: auth_secret
             type: VARCHAR(255)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: endpoint
             type: VARCHAR(255)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: public_key
             type: VARCHAR(255)
         tableName: subscriptions
@@ -45,5 +45,5 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE subscriptions CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true

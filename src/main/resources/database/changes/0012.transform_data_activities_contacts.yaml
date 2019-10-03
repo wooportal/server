@@ -31,4 +31,3 @@ databaseChangeLog:
                 activities.phone = organisations.phone,
                 activities.mail = organisations.mail
             where activities.show_user = 0;
-

@@ -28,7 +28,7 @@ public class LanguageControllerDeleteTest {
   @Test(expected = NotFoundException.class)
   @WithUserDetails("super@user")
   public void deleteSuperUserOk() throws URISyntaxException {
-    String languageId = "00000000-0000-0000-0013-300000000000";
+    String languageId = "00000000-0000-0000-0013-500000000000";
     assertThat(controller.readOne(languageId)).isNotNull();
 
     controller.delete(languageId);

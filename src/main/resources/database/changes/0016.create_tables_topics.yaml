@@ -8,25 +8,25 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: topic_translatablesPK
+                primaryKey: true
+                primaryKeyName: topic_translatablesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: name
             type: VARCHAR(255)
         - column:
@@ -34,7 +34,7 @@ databaseChangeLog:
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: parent_id
             type: CHAR(36)
         tableName: topic_translatables
@@ -43,25 +43,25 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE topic_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE topic_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createTable:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: topicsPK
+                primaryKey: true
+                primaryKeyName: topicsPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
@@ -71,12 +71,12 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE topics CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE topics CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: topic_translatables
-        constraintName: FK3lir8igjv14g30kyg0b346poc
+        constraintName: CONSTRAINT_8BDD7EAE
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -85,7 +85,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: topic_translatables
-        constraintName: FKoeps87mqs9gwdsj0gvuqc50g
+        constraintName: CONSTRAINT_ 13EAE27
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id

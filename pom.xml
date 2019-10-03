@@ -5,7 +5,7 @@
 
 	<groupId>de.codeschluss.wooportal</groupId>
 	<artifactId>server</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 	<packaging>jar</packaging>
 
 	<name>@wooportal/server</name>
@@ -35,30 +35,28 @@
 			</activation>
 		</profile>
 		<profile>
-			<id>dev</id>
-		</profile>
-		<profile>
-			<id>existing</id>
+			<id>development</id>
 		</profile>
 	</profiles>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <apt-maven.version>1.1.3</apt-maven.version>
+		<greenmail.version>1.5.5</greenmail.version>
+        <imgscalr.version>4.2</imgscalr.version>
+		<jacoco.version>0.8.3</jacoco.version>
 		<java.version>1.8</java.version>
+		<liquibase-hibernate.version>3.4.1</liquibase-hibernate.version>
+		<liquibase-maven.version>3.7.0</liquibase-maven.version>
 		<lombok.version>1.18.8</lombok.version>
+		<oauth.version>3.8.1</oauth.version>
 		<querydsl.version>4.2.1</querydsl.version>
 		<springfoxswagger.version>2.8.0</springfoxswagger.version>
-		<oauth.version>3.8.1</oauth.version>
-		<greenmail.version>1.5.5</greenmail.version>
+        <twelvemonkeys.imageio>3.3.2</twelvemonkeys.imageio>
 		<webpush.version>5.0.2</webpush.version>
 		<webpush-bouncycastle.version>1.54</webpush-bouncycastle.version>
-        <imgscalr.version>4.2</imgscalr.version>
-        <twelvemonkeys.imageio>3.3.2</twelvemonkeys.imageio>
-        <apt-maven.version>1.1.3</apt-maven.version>
-		<liquibase-maven.version>3.7.0</liquibase-maven.version>
-		<liquibase-hibernate.version>3.4.1</liquibase-hibernate.version>
-		<jacoco.version>0.8.3</jacoco.version>
 	</properties>
 
 	<parent>
@@ -247,7 +245,7 @@
 				<artifactId>liquibase-maven-plugin</artifactId>
 				<version>3.6.3</version>
 				<configuration>
-					<propertyFile>src/main/resources/application-${project.activeProfiles[0].id}.properties</propertyFile>
+					<propertyFile>target/classes/application-production.properties</propertyFile>
                     <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
 				</configuration>
 				<dependencies>
@@ -293,7 +291,6 @@
 							<goal>prepare-agent</goal>
 						</goals>
 					</execution>
-					<!-- attached to Maven test phase -->
 					<execution>
 						<id>report</id>
 						<phase>test</phase>

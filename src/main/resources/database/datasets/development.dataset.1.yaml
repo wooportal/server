@@ -1,16 +1,13 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: dev.initialdata
-    author: vetemi
+    id: development.dataset.1
     changes:
     - sqlFile:
         dbms: h2, mysql
         encoding: utf8
         endDelimiter: \nGO
-        path: ../data/before_mig.sql
+        path: development.dataset.1.sql
         relativeToChangelogFile: true
         splitStatements: true
         stripComments: true
-
-

@@ -8,8 +8,8 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: organisation_imagesPK
+                primaryKey: true
+                primaryKeyName: organisation_imagesPK
             name: id
             type: CHAR(36)
         - column:
@@ -29,12 +29,12 @@ databaseChangeLog:
             type: VARCHAR(255)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: mime_type
             type: VARCHAR(255)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: image
             type: MEDIUMBLOB
         - column:
@@ -48,18 +48,18 @@ databaseChangeLog:
             dbms: mysql
             endDelimiter: \nGO
             splitStatements: true
-            sql: ALTER TABLE organisation_images CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+            sql: ALTER TABLE organisation_images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
             stripComments: true
     - createIndex:
         columns:
         - column:
             name: organisation_id
-        indexName: FK7g8ail9k3qemtckcvyfuykhci
+        indexName: CONSTRAINT_FB8ACC9F
         tableName: organisation_images
     - addForeignKeyConstraint:
         baseColumnNames: organisation_id
         baseTableName: organisation_images
-        constraintName: FK7g8ail9k3qemtckcvyfuykhci
+        constraintName: CONSTRAINT_E342D7BE
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE

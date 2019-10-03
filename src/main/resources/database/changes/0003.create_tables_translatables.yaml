@@ -9,19 +9,19 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: activity_translatablesPK
+                primaryKey: true
+                primaryKeyName: activity_translatablesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
@@ -30,7 +30,7 @@ databaseChangeLog:
             type: TEXT
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: name
             type: VARCHAR(800)
         - column:
@@ -38,7 +38,7 @@ databaseChangeLog:
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: parent_id
             type: CHAR(36)
         tableName: activity_translatables
@@ -47,18 +47,18 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE activity_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE activity_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createIndex:
         columns:
         - column:
             name: parent_id
-        indexName: FKjrqq5gp8f15d5eo0pitvbr9fm
+        indexName: CONSTRAINT_2EE12C18
         tableName: activity_translatables
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: activity_translatables
-        constraintName: FKjrqq5gp8f15d5eo0pitvbr9fm
+        constraintName: CONSTRAINT_952C2A0C
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -67,12 +67,12 @@ databaseChangeLog:
         columns:
         - column:
             name: language_id
-        indexName: FKqry0yjjmu07i8j2c378h2cyh8
+        indexName: CONSTRAINT_8387B1B0
         tableName: activity_translatables
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: activity_translatables
-        constraintName: FKqry0yjjmu07i8j2c378h2cyh8
+        constraintName: CONSTRAINT_2EF8068E
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -86,25 +86,25 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: category_translatablesPK
+                primaryKey: true
+                primaryKeyName: category_translatablesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: name
             type: VARCHAR(255)
         - column:
@@ -121,18 +121,18 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE category_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE category_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createIndex:
         columns:
         - column:
             name: parent_id
-        indexName: FK41he71mee2alh2ga9dj9pqwty
+        indexName: CONSTRAINT_4949CA9D
         tableName: category_translatables
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: category_translatables
-        constraintName: FK41he71mee2alh2ga9dj9pqwty
+        constraintName: CONSTRAINT_AB741731
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -142,12 +142,12 @@ databaseChangeLog:
         columns:
         - column:
             name: language_id
-        indexName: FKqu9y5gk7jnppfwp5da6jne08p
+        indexName: CONSTRAINT_AD56822E
         tableName: category_translatables
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: category_translatables
-        constraintName: FKqu9y5gk7jnppfwp5da6jne08p
+        constraintName: CONSTRAINT_BEBD3988
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -162,19 +162,19 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: organisation_translatablesPK
+                primaryKey: true
+                primaryKeyName: organisation_translatablesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
@@ -195,18 +195,18 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE organisation_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE organisation_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createIndex:
         columns:
         - column:
             name: parent_id
-        indexName: FK83ixvh6hfy2r5mss5pwcbdjsy
+        indexName: CONSTRAINT_193F6231
         tableName: organisation_translatables
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: organisation_translatables
-        constraintName: FK83ixvh6hfy2r5mss5pwcbdjsy
+        constraintName: CONSTRAINT_5C00E973
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -218,12 +218,12 @@ databaseChangeLog:
         columns:
         - column:
             name: language_id
-        indexName: FKobhihw1sv00yktugiclc7lbdr
+        indexName: CONSTRAINT_493409AB
         tableName: organisation_translatables
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: organisation_translatables
-        constraintName: FKobhihw1sv00yktugiclc7lbdr
+        constraintName: CONSTRAINT_66DE2763
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -240,25 +240,25 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: tag_translatablesPK
+                primaryKey: true
+                primaryKeyName: tag_translatablesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: name
             type: VARCHAR(255)
         - column:
@@ -275,18 +275,18 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE tag_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE tag_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createIndex:
         columns:
         - column:
             name: parent_id
-        indexName: FK50sunqusfnj7qhvlspjtch788
+        indexName: CONSTRAINT_2E62AC92
         tableName: tag_translatables
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: tag_translatables
-        constraintName: FK50sunqusfnj7qhvlspjtch788
+        constraintName: CONSTRAINT_BA3E7983
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -296,12 +296,12 @@ databaseChangeLog:
         columns:
         - column:
             name: language_id
-        indexName: FKk6nh36ilxaj7tp64vlpmc68xj
+        indexName: CONSTRAINT_FA755EAF
         tableName: tag_translatables
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: tag_translatables
-        constraintName: FKk6nh36ilxaj7tp64vlpmc68xj
+        constraintName: CONSTRAINT_D9DF1077
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -316,25 +316,25 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: target_group_translatablesPK
+                primaryKey: true
+                primaryKeyName: target_group_translatablesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: name
             type: VARCHAR(255)
         - column:
@@ -351,18 +351,18 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE target_group_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE target_group_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createIndex:
         columns:
         - column:
             name: parent_id
-        indexName: FKidfmy43ne0pta21235adkeebf
+        indexName: CONSTRAINT_9FAEC943
         tableName: target_group_translatables
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: target_group_translatables
-        constraintName: FKidfmy43ne0pta21235adkeebf
+        constraintName: CONSTRAINT_D1DC2C8D
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -374,12 +374,12 @@ databaseChangeLog:
         columns:
         - column:
             name: language_id
-        indexName: FKjco53xf5a7o1gogivfult1plj
+        indexName: CONSTRAINT_4B750A2C
         tableName: target_group_translatables
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: target_group_translatables
-        constraintName: FKjco53xf5a7o1gogivfult1plj
+        constraintName: CONSTRAINT_4D0DAE96
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE

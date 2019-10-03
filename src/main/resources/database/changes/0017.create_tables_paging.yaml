@@ -8,19 +8,19 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: page_translatablesPK
+                primaryKey: true
+                primaryKeyName: page_translatablesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
@@ -29,7 +29,7 @@ databaseChangeLog:
             type: TEXT
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: title
             type: VARCHAR(255)
         - column:
@@ -37,7 +37,7 @@ databaseChangeLog:
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: parent_id
             type: CHAR(36)
         tableName: page_translatables
@@ -46,31 +46,31 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE page_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE page_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createTable:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: pagesPK
+                primaryKey: true
+                primaryKeyName: pagesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: topic_id
             type: CHAR(36)
         tableName: pages
@@ -79,12 +79,12 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE pages CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE pages CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: topic_id
         baseTableName: pages
-        constraintName: FKdx37x1vtwlydwqubctalhu7b7
+        constraintName: CONSTRAINT_A07CAC31
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -93,7 +93,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: page_translatables
-        constraintName: FKl5v43lvy6t5uq92k52x5vwuav
+        constraintName: CONSTRAINT_9D86D806
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id

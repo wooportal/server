@@ -15,5 +15,5 @@ databaseChangeLog:
             dbms: mysql
             endDelimiter: \nGO
             splitStatements: true
-            sql: ALTER TABLE organisations CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+            sql: ALTER TABLE organisations CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
             stripComments: true

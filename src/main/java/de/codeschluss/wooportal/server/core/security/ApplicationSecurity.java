@@ -86,7 +86,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
   }
   
   @Bean
-  @Profile("dev")
+  @Profile("development")
   CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration config = new CorsConfiguration();
 

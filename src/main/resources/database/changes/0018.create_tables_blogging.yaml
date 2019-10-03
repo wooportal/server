@@ -8,30 +8,30 @@ databaseChangeLog:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: blog_translatablesPK
+                primaryKey: true
+                primaryKeyName: blog_translatablesPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: content
             type: TEXT
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: title
             type: VARCHAR(255)
         - column:
@@ -39,7 +39,7 @@ databaseChangeLog:
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: parent_id
             type: CHAR(36)
         tableName: blog_translatables
@@ -48,25 +48,25 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE blog_translatables CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE blog_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createTable:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: bloggersPK
+                primaryKey: true
+                primaryKeyName: bloggersPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
@@ -76,7 +76,7 @@ databaseChangeLog:
             type: BIT(1)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: user_id
             type: CHAR(36)
         tableName: bloggers
@@ -85,31 +85,31 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE bloggers CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE bloggers CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - createTable:
         columns:
         - column:
             constraints:
-              primaryKey: true
-              primaryKeyName: blogsPK
+                primaryKey: true
+                primaryKeyName: blogsPK
             name: id
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: created
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: datetime
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: likes
             type: integer
         - column:
@@ -117,7 +117,7 @@ databaseChangeLog:
             type: CHAR(36)
         - column:
             constraints:
-              nullable: false
+                nullable: false
             name: blogger_id
             type: CHAR(36)
         tableName: blogs
@@ -126,7 +126,7 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE blogs CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE blogs CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - addColumn:
         columns:
@@ -139,12 +139,12 @@ databaseChangeLog:
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE users CONVERT TO CHARACTER SET utf8 COLLATE utf8_general_ci;
+        sql: ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
         stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: blogs
-        constraintName: FK7agx8fdl98pseepq3ojb83yoc
+        constraintName: CONSTRAINT_DEC74ED0
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -153,7 +153,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: blog_translatables
-        constraintName: FK9g9vxxwi0rhnc35g39ya1lw1
+        constraintName: CONSTRAINT_35871595
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -162,7 +162,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: user_id
         baseTableName: bloggers
-        constraintName: FK9oc3iov1rrm4suxik4p4kdo9x
+        constraintName: CONSTRAINT_B12E1C41
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -171,7 +171,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: blogger_id
         baseTableName: users
-        constraintName: FKpcyw1ikcp6ylbkbq2qi9bw836
+        constraintName: CONSTRAINT_FFFD621E
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id
@@ -180,7 +180,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: blog_translatables
-        constraintName: FKqbrimq1cjnagpioadb5523odo
+        constraintName: CONSTRAINT_A8DFD6F2
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id

@@ -1,8 +1,7 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 1543409395575-1
-    author: vetemi (generated)
+    id: development.seed.1
     changes:
     - createTable:
         columns:
@@ -52,8 +51,7 @@ databaseChangeLog:
             type: CHAR
         tableName: activities
 - changeSet:
-    id: 1543409395575-2
-    author: vetemi (generated)
+    id: development.seed.2
     changes:
     - createTable:
         columns:
@@ -74,8 +72,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: activities_tags
 - changeSet:
-    id: 1543409395575-3
-    author: vetemi (generated)
+    id: development.seed.3
     changes:
     - createTable:
         columns:
@@ -96,8 +93,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: activities_target_groups
 - changeSet:
-    id: 1543409395575-4
-    author: vetemi (generated)
+    id: development.seed.4
     changes:
     - createTable:
         columns:
@@ -141,8 +137,7 @@ databaseChangeLog:
             type: CHAR
         tableName: addresses
 - changeSet:
-    id: 1543409395575-5
-    author: vetemi (generated)
+    id: development.seed.5
     changes:
     - createTable:
         columns:
@@ -178,8 +173,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: categories
 - changeSet:
-    id: 1543409395575-6
-    author: vetemi (generated)
+    id: development.seed.6
     changes:
     - createTable:
         columns:
@@ -212,8 +206,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: configurations
 - changeSet:
-    id: 1543409395575-7
-    author: vetemi (generated)
+    id: development.seed.7
     changes:
     - createTable:
         columns:
@@ -259,8 +252,7 @@ databaseChangeLog:
             type: CHAR
         tableName: organisations
 - changeSet:
-    id: 1543409395575-8
-    author: vetemi (generated)
+    id: development.seed.8
     changes:
     - createTable:
         columns:
@@ -301,8 +293,7 @@ databaseChangeLog:
             type: CHAR
         tableName: providers
 - changeSet:
-    id: 1543409395575-9
-    author: vetemi (generated)
+    id: development.seed.9
     changes:
     - createTable:
         columns:
@@ -334,8 +325,7 @@ databaseChangeLog:
             type: CHAR
         tableName: schedules
 - changeSet:
-    id: 1543409395575-10
-    author: vetemi (generated)
+    id: development.seed.10
     changes:
     - createTable:
         columns:
@@ -363,8 +353,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: suburbs
 - changeSet:
-    id: 1543409395575-11
-    author: vetemi (generated)
+    id: development.seed.11
     changes:
     - createTable:
         columns:
@@ -395,8 +384,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: tags
 - changeSet:
-    id: 1543409395575-12
-    author: vetemi (generated)
+    id: development.seed.12
     changes:
     - createTable:
         columns:
@@ -427,8 +415,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: target_groups
 - changeSet:
-    id: 1543409395575-13
-    author: vetemi (generated)
+    id: development.seed.13
     changes:
     - createTable:
         columns:
@@ -461,8 +448,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: translations
 - changeSet:
-    id: 1543409395575-14
-    author: vetemi (generated)
+    id: development.seed.14
     changes:
     - createTable:
         columns:
@@ -505,8 +491,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: users
 - changeSet:
-    id: 1543409395575-15
-    author: valmir (generated)
+    id: development.seed.15
     changes:
     - createTable:
         columns:
@@ -541,211 +526,185 @@ databaseChangeLog:
             type: CLOB
         tableName: i18n
 - changeSet:
-    id: 1543409395575-16
-    author: vetemi (generated)
+    id: development.seed.16
     changes:
     - addPrimaryKey:
         columnNames: id
         tableName: activities_tags
 - changeSet:
-    id: 1543409395575-17
-    author: vetemi (generated)
+    id: development.seed.17
     changes:
     - addPrimaryKey:
         columnNames: id
         tableName: activities_target_groups
 - changeSet:
-    id: 1543409395575-18
-    author: vetemi (generated)
+    id: development.seed.18
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: activitiesPK
         tableName: activities
 - changeSet:
-    id: 1543409395575-19
-    author: vetemi (generated)
+    id: development.seed.19
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: addressesPK
         tableName: addresses
 - changeSet:
-    id: 1543409395575-20
-    author: vetemi (generated)
+    id: development.seed.20
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: categoriesPK
         tableName: categories
 - changeSet:
-    id: 1543409395575-21
-    author: vetemi (generated)
+    id: development.seed.21
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: configurationsPK
         tableName: configurations
 - changeSet:
-    id: 1543409395575-22
-    author: vetemi (generated)
+    id: development.seed.22
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: organisationsPK
         tableName: organisations
 - changeSet:
-    id: 1543409395575-23
-    author: vetemi (generated)
+    id: development.seed.23
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: providersPK
         tableName: providers
 - changeSet:
-    id: 1543409395575-24
-    author: vetemi (generated)
+    id: development.seed.24
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: schedulesPK
         tableName: schedules
 - changeSet:
-    id: 1543409395575-25
-    author: vetemi (generated)
+    id: development.seed.25
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: suburbsPK
         tableName: suburbs
 - changeSet:
-    id: 1543409395575-26
-    author: vetemi (generated)
+    id: development.seed.26
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: tagsPK
         tableName: tags
 - changeSet:
-    id: 1543409395575-27
-    author: vetemi (generated)
+    id: development.seed.27
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: target_groupsPK
         tableName: target_groups
 - changeSet:
-    id: 1543409395575-28
-    author: vetemi (generated)
+    id: development.seed.28
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: translationsPK
         tableName: translations
 - changeSet:
-    id: 1543409395575-29
-    author: vetemi (generated)
+    id: development.seed.29
     changes:
     - addPrimaryKey:
         columnNames: id
         constraintName: usersPK
         tableName: users
 - changeSet:
-    id: 1543409395575-30
-    author: vetemi (generated)
+    id: development.seed.30
     changes:
     - addUniqueConstraint:
         columnNames: color
         constraintName: UC_CATEGORIESCOLOR_COL
         tableName: categories
 - changeSet:
-    id: 1543409395575-31
-    author: vetemi (generated)
+    id: development.seed.31
     changes:
     - addUniqueConstraint:
         columnNames: name
         constraintName: UC_CATEGORIESNAME_COL
         tableName: categories
 - changeSet:
-    id: 1543409395575-32
-    author: vetemi (generated)
+    id: development.seed.32
     changes:
     - addUniqueConstraint:
         columnNames: name
         constraintName: UC_ORGANISATIONSNAME_COL
         tableName: organisations
 - changeSet:
-    id: 1543409395575-33
-    author: vetemi (generated)
+    id: development.seed.33
     changes:
     - addUniqueConstraint:
         columnNames: name
         constraintName: UC_SUBURBSNAME_COL
         tableName: suburbs
 - changeSet:
-    id: 1543409395575-34
-    author: vetemi (generated)
+    id: development.seed.34
     changes:
     - addUniqueConstraint:
         columnNames: name
         constraintName: UC_TAGSNAME_COL
         tableName: tags
 - changeSet:
-    id: 1543409395575-35
-    author: vetemi (generated)
+    id: development.seed.35
     changes:
     - addUniqueConstraint:
         columnNames: name
         constraintName: UC_TARGET_GROUPSNAME_COL
         tableName: target_groups
 - changeSet:
-    id: 1543409395575-36
-    author: vetemi (generated)
+    id: development.seed.36
     changes:
     - addUniqueConstraint:
         columnNames: locale
         constraintName: UC_TRANSLATIONSLOCALE_COL
         tableName: translations
 - changeSet:
-    id: 1543409395575-37
-    author: vetemi (generated)
+    id: development.seed.37
     changes:
     - addUniqueConstraint:
         columnNames: name
         constraintName: UC_TRANSLATIONSNAME_COL
         tableName: translations
 - changeSet:
-    id: 1543409395575-38
-    author: vetemi (generated)
+    id: development.seed.38
     changes:
     - addUniqueConstraint:
         columnNames: username
         constraintName: UC_USERSUSERNAME_COL
         tableName: users
 - changeSet:
-    id: 1543409395575-39
-    author: vetemi (generated)
+    id: development.seed.39
     changes:
     - addUniqueConstraint:
         columnNames: activity_id, target_group_id
-        constraintName: UKkjqoui7f8ede4bs22fovg44e6
+        constraintName: CONSTRAINT_7FBF1128
         tableName: activities_target_groups
 - changeSet:
-    id: 1543409395575-40
-    author: vetemi (generated)
+    id: development.seed.40
     changes:
     - addUniqueConstraint:
         columnNames: activity_id, tag_id
-        constraintName: UKsqhb71tj8rwi6riheq015cjcy
+        constraintName: CONSTRAINT_491FF84A
         tableName: activities_tags
 - changeSet:
-    id: 1543409395575-41
-    author: vetemi (generated)
+    id: development.seed.41
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: target_group_id
         baseTableName: activities_target_groups
-        constraintName: FK2ex96cup3o0g4rp41v2lyjcat
+        constraintName: CONSTRAINT_3B8DB87D
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -753,13 +712,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: target_groups
 - changeSet:
-    id: 1543409395575-42
-    author: vetemi (generated)
+    id: development.seed.42
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: schedules
-        constraintName: FK3tyc3usongts2dlum3e6c5in4
+        constraintName: CONSTRAINT_ 3E2AF0E
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -767,13 +725,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: activities
 - changeSet:
-    id: 1543409395575-43
-    author: vetemi (generated)
+    id: development.seed.43
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: address_id
         baseTableName: activities
-        constraintName: FKbkdf7cnl974utrinro7goxeon
+        constraintName: CONSTRAINT_1DA9391E
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
@@ -781,13 +738,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: addresses
 - changeSet:
-    id: 1543409395575-44
-    author: vetemi (generated)
+    id: development.seed.44
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: provider_id
         baseTableName: activities
-        constraintName: FKjk4bkojabyv3loiomnn73cyv3
+        constraintName: CONSTRAINT_4D669DF7
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -795,13 +751,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: providers
 - changeSet:
-    id: 1543409395575-45
-    author: vetemi (generated)
+    id: development.seed.45
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: user_id
         baseTableName: providers
-        constraintName: FKlymp42tvombik3t66um6ocsba
+        constraintName: CONSTRAINT_3D349852
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -809,13 +764,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: users
 - changeSet:
-    id: 1543409395575-46
-    author: vetemi (generated)
+    id: development.seed.46
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: suburb_id
         baseTableName: addresses
-        constraintName: FKmccpbd062822m6n7rw780svwy
+        constraintName: CONSTRAINT_141A4B42
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
@@ -823,13 +777,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: suburbs
 - changeSet:
-    id: 1543409395575-47
-    author: vetemi (generated)
+    id: development.seed.47
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: activities_tags
-        constraintName: FKnitbx3853ryroywn1j1g86aob
+        constraintName: CONSTRAINT_4C8DF36C
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -837,13 +790,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: activities
 - changeSet:
-    id: 1543409395575-48
-    author: vetemi (generated)
+    id: development.seed.48
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: activities_target_groups
-        constraintName: FKnp55lepyd48w0lxoqvh7nb3rf
+        constraintName: CONSTRAINT_A3513E81
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -851,13 +803,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: activities
 - changeSet:
-    id: 1543409395575-49
-    author: vetemi (generated)
+    id: development.seed.49
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: category_id
         baseTableName: activities
-        constraintName: FKop5fy6liunnty8edw5q842b2n
+        constraintName: CONSTRAINT_EC493636
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
@@ -865,13 +816,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: categories
 - changeSet:
-    id: 1543409395575-50
-    author: vetemi (generated)
+    id: development.seed.50
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: tag_id
         baseTableName: activities_tags
-        constraintName: FKpxtw6v5nck4pk6fc2wl4t283w
+        constraintName: CONSTRAINT_D648AD94
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -879,13 +829,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: tags
 - changeSet:
-    id: 1543409395575-51
-    author: vetemi (generated)
+    id: development.seed.51
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: organisation_id
         baseTableName: providers
-        constraintName: FKrcwb03wnd8qgt9a1a6e47afn7
+        constraintName: CONSTRAINT_406431B8
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -893,13 +842,12 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: organisations
 - changeSet:
-    id: 1543409395575-52
-    author: vetemi (generated)
+    id: development.seed.52
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: address_id
         baseTableName: organisations
-        constraintName: FKt1nrgbfbgcrtn7a5nbkm7f2y2
+        constraintName: CONSTRAINT_1C56E2EC
         deferrable: false
         initiallyDeferred: false
         onDelete: NO ACTION
@@ -907,16 +855,14 @@ databaseChangeLog:
         referencedColumnNames: id
         referencedTableName: addresses
 - changeSet:
-    id: 1543409395575-53
-    author: valmir (generated)
+    id: development.seed.53
     changes:
     - addUniqueConstraint:
         columnNames: locale, model, foreign_key, field
-        constraintName: I18N_LOCALE_FIELD
+        constraintName: CONSTRAINT_33DD4FA9
         tableName: i18n
 - changeSet:
-    id: 1543409395575-54
-    author: valmir (generated)
+    id: development.seed.54
     changes:
     - createIndex:
         columns:
@@ -926,5 +872,5 @@ databaseChangeLog:
             name: foreign_key
         - column:
             name: field
-        indexName: I18N_FIELD
+        indexName: CONSTRAINT_9B939BE7
         tableName: i18n

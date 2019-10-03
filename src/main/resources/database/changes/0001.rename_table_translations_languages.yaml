@@ -1,4 +1,3 @@
-
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
@@ -8,4 +7,3 @@ databaseChangeLog:
     - renameTable:
         newTableName: languages
         oldTableName: translations
-
