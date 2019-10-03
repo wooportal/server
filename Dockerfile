@@ -17,7 +17,6 @@ mvn -B install -DskipTests=true \
   -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn && \
 mkdir -p /opt/wooportal.server && \
 mv /tmp/wooportal.server/target/*.jar /opt/wooportal.server/server.jar && \
-ln -fs /conf/application-default.properties /opt/wooportal.server && \
 #
 # cleanup
 apk del --purge build && \
@@ -28,4 +27,4 @@ EXPOSE 8080
 WORKDIR /opt/wooportal.server
 CMD \
   nginx -c /conf/nginx.conf && \
-  java -jar server.jar
+  java -jar -Dspring.profiles.active=production server.jar
