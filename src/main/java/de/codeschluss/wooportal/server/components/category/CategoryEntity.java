@@ -64,6 +64,9 @@ public class CategoryEntity extends BaseResource {
   @Column(columnDefinition = "TEXT")
   private String description;
 
+  @Column(nullable = false)
+  private String icon;
+
   @JsonSerialize
   @JsonDeserialize
   @Transient

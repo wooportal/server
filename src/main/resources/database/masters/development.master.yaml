@@ -43,4 +43,6 @@ databaseChangeLog:
 - include:
     file: database/changes/0019.create_table_subscriptions.yaml
 - include:
+    file: database/changes/0020.add_column_categories_icon.yaml
+- include:
     file: database/datasets/development.dataset.1.yaml

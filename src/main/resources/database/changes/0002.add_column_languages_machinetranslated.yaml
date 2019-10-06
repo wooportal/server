@@ -11,9 +11,8 @@ databaseChangeLog:
             type: varchar(255)
         tableName: languages
     - sql:
-        comment: Set char set for mysql
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE languages CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true

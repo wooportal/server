@@ -44,12 +44,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: organisation_images
     - sql:
-            comment: Set char set for mysql
-            dbms: mysql
-            endDelimiter: \nGO
-            splitStatements: true
-            sql: ALTER TABLE organisation_images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-            stripComments: true
+        comment: set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE organisation_images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
     - createIndex:
         columns:
         - column:

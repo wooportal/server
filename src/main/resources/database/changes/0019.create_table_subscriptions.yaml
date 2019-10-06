@@ -41,9 +41,8 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: subscriptions
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true

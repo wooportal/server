@@ -12,9 +12,9 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into `activity_translatables` (`id`, `name`, `description`, `modified`, `created`, `language_id`, `parent_id`)
-                select UUID(), activities.name, activities.description, activities.modified, activities.created, languages.id, activities.id
-                from activities, languages
-                where languages.locale = 'de'
+            select UUID(), activities.name, activities.description, activities.modified, activities.created, languages.id, activities.id
+            from activities, languages
+            where languages.locale = 'de'
     - sql:
         comment: transfer i18n activity translations to new translatable table
         dbms: mysql, h2
@@ -22,11 +22,11 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into activity_translatables (id, created, modified, name, description, language_id, parent_id)
-                select uuid(), created, modified, t1.content, t2.content, t3.id, t1.foreign_key
-                from i18n t1
-                left join i18n t2 ON t2.foreign_key = t1.foreign_key and t2.locale = t1.locale and t2.field = 'description' and t2.model = 'Activities'
-                left join languages t3 on t3.locale = t1.locale
-                where t1.field = 'name' and t1.model = 'Activities' and t1.locale <> 'de'
+            select uuid(), created, modified, t1.content, t2.content, t3.id, t1.foreign_key
+            from i18n t1
+            left join i18n t2 ON t2.foreign_key = t1.foreign_key and t2.locale = t1.locale and t2.field = 'description' and t2.model = 'Activities'
+            left join languages t3 on t3.locale = t1.locale
+            where t1.field = 'name' and t1.model = 'Activities' and t1.locale <> 'de'
 ########## Category ##########
 - changeSet:
     id: 0004.transform_data_translatables_translations-categories
@@ -39,9 +39,9 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into `category_translatables` (`id`, `name`, `modified`, `created`, `language_id`, `parent_id`)
-                select UUID(), categories.name, categories.modified, categories.created, languages.id, categories.id
-                from categories, languages
-                where languages.locale = 'de'
+            select UUID(), categories.name, categories.modified, categories.created, languages.id, categories.id
+            from categories, languages
+            where languages.locale = 'de'
     - sql:
         comment: transfer i18n category translations to new translatable table
         dbms: mysql, h2
@@ -49,10 +49,10 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into category_translatables (id, created, modified, name, language_id, parent_id)
-                select uuid(), created, modified, t1.content, t2.id, t1.foreign_key
-                from i18n t1
-                inner join languages t2 on t2.locale = t1.locale
-                where t1.model = 'Categories' and t1.locale <> 'de'
+            select uuid(), created, modified, t1.content, t2.id, t1.foreign_key
+            from i18n t1
+            inner join languages t2 on t2.locale = t1.locale
+            where t1.model = 'Categories' and t1.locale <> 'de'
 ########## Organisation ##########
 - changeSet:
     id: 0004.transform_data_translatables_translations-organisations
@@ -75,10 +75,10 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into organisation_translatables (id, created, modified, description, language_id, parent_id)
-                select uuid(), created, modified, t1.field, t2.id, t1.foreign_key
-                from i18n t1
-                inner join languages t2 on t2.locale = t1.locale
-                where t1.model = 'Organisations' and t1.locale <> 'de'
+            select uuid(), created, modified, t1.field, t2.id, t1.foreign_key
+            from i18n t1
+            inner join languages t2 on t2.locale = t1.locale
+            where t1.model = 'Organisations' and t1.locale <> 'de'
 ########## Tag ##########
 - changeSet:
     id: 0004.transform_data_translatables_translations-tags
@@ -101,10 +101,10 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into tag_translatables (id, created, modified, name, language_id, parent_id)
-                select uuid(), created, modified, t1.field, t2.id, t1.foreign_key
-                from i18n t1
-                inner join languages t2 on t2.locale = t1.locale
-                where t1.model = 'Tags' and t1.locale <> 'de'
+            select uuid(), created, modified, t1.field, t2.id, t1.foreign_key
+            from i18n t1
+            inner join languages t2 on t2.locale = t1.locale
+            where t1.model = 'Tags' and t1.locale <> 'de'
 ########## target Group ##########
 - changeSet:
     id: 0004.transform_data_translatables_translations-targetgroups
@@ -127,7 +127,7 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into target_group_translatables (id, created, modified, name, language_id, parent_id)
-                select uuid(), created, modified, t1.field, t2.id, t1.foreign_key
-                from i18n t1
-                inner join languages t2 on t2.locale = t1.locale
-                where t1.model = 'TargetGroups' and t1.locale <> 'de'
+            select uuid(), created, modified, t1.field, t2.id, t1.foreign_key
+            from i18n t1
+            inner join languages t2 on t2.locale = t1.locale
+            where t1.model = 'TargetGroups' and t1.locale <> 'de'

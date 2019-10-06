@@ -123,19 +123,19 @@ INSERT INTO `addresses` (`id`, `latitude`, `longitude`, `street`, `house_number`
 ('edbd167f-2cd3-4fdd-9e8e-71328a628841',51.2704353333,7.1950840950,'Bernhard-Letterhaus-Straße','8','42275','Wuppertal','8c9c7379-e6f8-4949-afb2-d8ca1e76e03a','2018-01-30 12:49:52','2018-01-30 12:49:52'),
 ('eff7b6b0-ee69-4b8d-8247-ecc112a860f5',51.2365646362,7.0955810547,'Unten Vorm Steeg','1','42329','Wuppertal','1fed19c5-2d04-481c-aedc-5c9ed0a509b1','2018-09-21 09:37:58','2018-10-10 08:28:53');
 
-INSERT INTO `categories` (`id`, `description`, `color`) VALUES
-('44813d47-6f0f-468a-994a-29d4d46ee376', 'Sport', '#4C9FBA'),
-('96075110-64b9-4be5-ac5d-5175da09459a', 'Essen / Trinken', '#81A3FF'),
-('ffa5821b-4ecc-4525-a695-d2d1b174d150', 'Musik / Tanz', '#DD574A'),
-('f14f0c1a-fbcd-43c9-802e-d47a3b889e52', 'Kreativität', '#79A838'),
-('5129ca29-2edf-47ef-8c18-62acd25e5c3b', 'Gaming', '#D36396'),
-('08f14d83-e76a-4a6d-a033-1cadec1bdf5c', 'Unterwegs', '#7062BF'),
-('20059afe-a7ca-413e-9d78-70893137732d', 'Events', '#F2DE9E'),
-('679808eb-dece-4d29-888e-15bdc32e0641', 'Help me, please!', '#A83886'),
-('46ab1eb7-4cdd-4cfd-b13b-49f38765e11e', 'Chillen', '#EFCE63'),
-('005d164a-b215-40cb-91cf-9d100e471fe5', 'Politisch organisieren', '#6FC9A3'),
-('53711473-3649-4f2c-9b03-5feb6aaaf413', 'Ferien', '#FFA16F'),
-('3f01896f-4374-41f1-baa4-3bcc62513740', 'Religion', '#236E4E');
+INSERT INTO `categories` (`id`, `description`, `color`, `icon`) VALUES
+('44813d47-6f0f-468a-994a-29d4d46ee376', 'Sport', '#4C9FBA', 'futbol'),
+('96075110-64b9-4be5-ac5d-5175da09459a', 'Essen / Trinken', '#81A3FF', 'pizza-slice'),
+('ffa5821b-4ecc-4525-a695-d2d1b174d150', 'Musik / Tanz', '#DD574A', 'music'),
+('f14f0c1a-fbcd-43c9-802e-d47a3b889e52', 'Kreativität', '#79A838', 'theater-masks'),
+('5129ca29-2edf-47ef-8c18-62acd25e5c3b', 'Gaming', '#D36396', 'gamepad'),
+('08f14d83-e76a-4a6d-a033-1cadec1bdf5c', 'Unterwegs', '#7062BF', 'campground'),
+('20059afe-a7ca-413e-9d78-70893137732d', 'Events', '#F2DE9E', 'calendar-alt'),
+('679808eb-dece-4d29-888e-15bdc32e0641', 'Help me, please!', '#A83886', 'question'),
+('46ab1eb7-4cdd-4cfd-b13b-49f38765e11e', 'Chillen', '#EFCE63', 'couch'),
+('005d164a-b215-40cb-91cf-9d100e471fe5', 'Politisch organisieren', '#6FC9A3', 'landmark'),
+('53711473-3649-4f2c-9b03-5feb6aaaf413', 'Ferien', '#FFA16F', 'snowman'),
+('3f01896f-4374-41f1-baa4-3bcc62513740', 'Religion', '#236E4E', 'peace');
 
 INSERT INTO `category_translatables` (`id`, `name`, `language_id`, `parent_id`) VALUES
 ('7966e6ce-fb98-4d6a-bbf7-efefc74be045', 'Sport', 'b6baaee8-cb61-4921-b432-798b69525fde', '44813d47-6f0f-468a-994a-29d4d46ee376'),

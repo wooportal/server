@@ -1,0 +1,19 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0020.add_column_categories_icon
+    author: codeschluss
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            constraints:
+                nullable: false
+            name: icon
+            type: VARCHAR(255)
+        tableName: categories
+    - sql:
+        comment: set all category icons to an initial default value
+        dbms: mysql, h2
+        splitStatements: true
+        sql: UPDATE categories SET categories.icon = 'icons';

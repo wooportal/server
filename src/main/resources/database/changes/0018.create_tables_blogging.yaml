@@ -44,12 +44,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: blog_translatables
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE blog_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createTable:
         columns:
         - column:
@@ -81,12 +80,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: bloggers
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE bloggers CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createTable:
         columns:
         - column:
@@ -122,12 +120,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: blogs
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE blogs CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - addColumn:
         columns:
         - column:
@@ -135,12 +132,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: users
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE users CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: blogs

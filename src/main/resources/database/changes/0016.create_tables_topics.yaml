@@ -39,12 +39,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: topic_translatables
     - sql:
-        comment: Set char set for mysql
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE topic_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createTable:
         columns:
         - column:
@@ -67,12 +66,11 @@ databaseChangeLog:
             type: datetime
         tableName: topics
     - sql:
-        comment: Set char set for mysql
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE topics CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: topic_translatables

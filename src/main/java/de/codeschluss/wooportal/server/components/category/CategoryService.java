@@ -77,6 +77,7 @@ public class CategoryService extends ResourceDataService<CategoryEntity, Categor
       category.setName(newCategory.getName());
       category.setDescription(newCategory.getDescription());
       category.setColor(newCategory.getColor());
+      category.setIcon(newCategory.getIcon());
       return repo.save(category);
     }).orElseGet(() -> {
       newCategory.setId(id);

@@ -42,12 +42,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: page_translatables
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE page_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createTable:
         columns:
         - column:
@@ -75,12 +74,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: pages
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE pages CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - addForeignKeyConstraint:
         baseColumnNames: topic_id
         baseTableName: pages

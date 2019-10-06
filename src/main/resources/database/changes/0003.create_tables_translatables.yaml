@@ -43,12 +43,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: activity_translatables
     - sql:
-        comment: Set char set for mysql
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE activity_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createIndex:
         columns:
         - column:
@@ -117,12 +116,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: category_translatables
     - sql:
-        comment: Set char set for mysql
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE category_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createIndex:
         columns:
         - column:
@@ -191,12 +189,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: organisation_translatables
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE organisation_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createIndex:
         columns:
         - column:
@@ -271,12 +268,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: tag_translatables
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE tag_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createIndex:
         columns:
         - column:
@@ -347,12 +343,11 @@ databaseChangeLog:
             type: CHAR(36)
         tableName: target_group_translatables
     - sql:
-        comment: Workaround for description collation and char set
+        comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
         sql: ALTER TABLE target_group_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-        stripComments: true
     - createIndex:
         columns:
         - column:
