@@ -27,4 +27,4 @@ EXPOSE 8080
 WORKDIR /opt/wooportal.server
 CMD \
   nginx -c /conf/nginx.conf && \
-  java -jar -Dspring.profiles.active=production server.jar
+  java -jar server.jar
