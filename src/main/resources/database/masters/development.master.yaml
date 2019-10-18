@@ -45,4 +45,6 @@ databaseChangeLog:
 - include:
     file: database/changes/0020.add_column_categories_icon.yaml
 - include:
+    file: database/changes/0021.normalize_cascading.yaml
+- include:
     file: database/datasets/development.dataset.1.yaml

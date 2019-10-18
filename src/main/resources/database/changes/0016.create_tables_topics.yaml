@@ -83,7 +83,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: topic_translatables
-        constraintName: CONSTRAINT_ 13EAE27
+        constraintName: CONSTRAINT_C13EAE27
         deferrable: false
         initiallyDeferred: false
         referencedColumnNames: id

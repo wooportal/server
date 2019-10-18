@@ -1,0 +1,228 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+########## Activity Translatables ##########
+- changeSet:
+    id: 0021.normalize_cascading-activity_translatables
+    author: codeschluss
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: activity_translatables
+        constraintName: CONSTRAINT_2EF8068E
+    - addForeignKeyConstraint:
+        baseColumnNames: language_id
+        baseTableName: activity_translatables
+        constraintName: CONSTRAINT_2EF8068E
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: languages
+    - dropForeignKeyConstraint:
+        baseTableName: activity_translatables
+        constraintName: CONSTRAINT_952C2A0C
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_id
+        baseTableName: activity_translatables
+        constraintName: CONSTRAINT_952C2A0C
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: activities
+########## Blog ##########
+- changeSet:
+    id: 0021.normalize_cascading-blog
+    author: codeschluss
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: blogs
+        constraintName: CONSTRAINT_DEC74ED0
+    - addForeignKeyConstraint:
+        baseColumnNames: activity_id
+        baseTableName: blogs
+        constraintName: CONSTRAINT_DEC74ED0
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: SET NULL
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: activities
+        validate: true
+    - dropForeignKeyConstraint:
+        baseTableName: bloggers
+        constraintName: CONSTRAINT_B12E1C41
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: bloggers
+        constraintName: CONSTRAINT_B12E1C41
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: users
+        validate: true
+########## Blog Translatables ##########
+- changeSet:
+    id: 0021.normalize_cascading-blog_translatables
+    author: codeschluss
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: blog_translatables
+        constraintName: CONSTRAINT_35871595
+    - addForeignKeyConstraint:
+        baseColumnNames: language_id
+        baseTableName: blog_translatables
+        constraintName: CONSTRAINT_35871595
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: languages
+        validate: true
+    - dropForeignKeyConstraint:
+        baseTableName: blog_translatables
+        constraintName: CONSTRAINT_A8DFD6F2
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_id
+        baseTableName: blog_translatables
+        constraintName: CONSTRAINT_A8DFD6F2
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: blogs
+        validate: true
+########## Category Translatables ##########
+- changeSet:
+    id: 0021.normalize_cascading-category_translatables
+    author: codeschluss
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: category_translatables
+        constraintName: CONSTRAINT_BEBD3988
+    - addForeignKeyConstraint:
+        baseColumnNames: language_id
+        baseTableName: category_translatables
+        constraintName: CONSTRAINT_BEBD3988
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: languages
+        validate: true
+    - dropForeignKeyConstraint:
+        baseTableName: category_translatables
+        constraintName: CONSTRAINT_AB741731
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_id
+        baseTableName: category_translatables
+        constraintName: CONSTRAINT_AB741731
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: categories
+        validate: true
+########## Page Translatables ##########
+- changeSet:
+    id: 0021.normalize_cascading-page_translatables
+    author: codeschluss
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: page_translatables
+        constraintName: CONSTRAINT_9D86D806
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_id
+        baseTableName: page_translatables
+        constraintName: CONSTRAINT_9D86D806
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: pages
+        validate: true
+    - addForeignKeyConstraint:
+        baseColumnNames: language_id
+        baseTableName: page_translatables
+        constraintName: CONSTRAINT_FDA54BAC
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: languages
+        validate: true
+########## Tag Translatables ##########
+- changeSet:
+    id: 0021.normalize_cascading-tag_translatables
+    author: codeschluss
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: tag_translatables
+        constraintName: CONSTRAINT_BA3E7983
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_id
+        baseTableName: tag_translatables
+        constraintName: CONSTRAINT_BA3E7983
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: tags
+        validate: true
+    - dropForeignKeyConstraint:
+        baseTableName: tag_translatables
+        constraintName: CONSTRAINT_D9DF1077
+    - addForeignKeyConstraint:
+        baseColumnNames: language_id
+        baseTableName: tag_translatables
+        constraintName: CONSTRAINT_D9DF1077
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: languages
+        validate: true
+########## Topic Translatables ##########
+- changeSet:
+    id: 0021.normalize_cascading-topic_translatables
+    author: codeschluss
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: topic_translatables
+        constraintName: CONSTRAINT_8BDD7EAE
+    - addForeignKeyConstraint:
+        baseColumnNames: parent_id
+        baseTableName: topic_translatables
+        constraintName: CONSTRAINT_8BDD7EAE
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: topics
+        validate: true
+    - dropForeignKeyConstraint:
+        baseTableName: topic_translatables
+        constraintName: CONSTRAINT_C13EAE27
+    - addForeignKeyConstraint:
+        baseColumnNames: language_id
+        baseTableName: topic_translatables
+        constraintName: CONSTRAINT_C13EAE27
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: languages
+        validate: true
