@@ -1,6 +1,8 @@
 <html>
 	<body>	
-		<p><b>Error Data:</b><br>
-		${error}</p>
+		<p>
+			<b>Error Data:</b><br>
+			<pre>${error}</pre>
+		</p>
 	</body>
 </html>
