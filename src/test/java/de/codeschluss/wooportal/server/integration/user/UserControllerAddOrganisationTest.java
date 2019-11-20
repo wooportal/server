@@ -7,13 +7,10 @@ import de.codeschluss.wooportal.server.components.user.UserController;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import de.codeschluss.wooportal.server.integration.SmtpServerRule;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.mail.MessagingException;
-
 import org.assertj.core.api.Condition;
 import org.junit.Rule;
 import org.junit.Test;

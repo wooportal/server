@@ -2,6 +2,8 @@ package de.codeschluss.wooportal.server.integration.organisation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationQueryParam;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,6 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resources;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationQueryParam;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

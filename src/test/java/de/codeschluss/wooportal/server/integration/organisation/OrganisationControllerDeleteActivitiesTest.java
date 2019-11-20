@@ -2,6 +2,9 @@ package de.codeschluss.wooportal.server.integration.organisation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,10 +17,6 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

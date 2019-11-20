@@ -1,18 +1,15 @@
 package de.codeschluss.wooportal.server.core.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.naming.ServiceUnavailableException;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.naming.ServiceUnavailableException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -2,8 +2,9 @@ package de.codeschluss.wooportal.server.integration.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.user.UserController;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import java.net.URISyntaxException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,6 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import de.codeschluss.wooportal.server.components.user.UserController;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

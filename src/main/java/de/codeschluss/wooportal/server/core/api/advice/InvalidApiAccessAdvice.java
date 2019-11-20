@@ -1,5 +1,7 @@
 package de.codeschluss.wooportal.server.core.api.advice;
 
+import de.codeschluss.wooportal.server.core.api.dto.ApiError;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
@@ -7,9 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import de.codeschluss.wooportal.server.core.api.dto.ApiError;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 
 /**
  * The Class InvalidApiAccessAdvice.

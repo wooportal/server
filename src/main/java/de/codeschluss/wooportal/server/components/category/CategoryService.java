@@ -1,11 +1,10 @@
 package de.codeschluss.wooportal.server.components.category;
 
-import org.springframework.hateoas.Resource;
-import org.springframework.stereotype.Service;
-
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import org.springframework.hateoas.Resource;
+import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc
 /**

@@ -1,18 +1,16 @@
 package de.codeschluss.wooportal.server.core.i18n;
 
+import de.codeschluss.wooportal.server.core.entity.BaseEntity;
+import de.codeschluss.wooportal.server.core.i18n.translation.TranslationHelper;
+import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import java.util.List;
 import java.util.Optional;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import de.codeschluss.wooportal.server.core.entity.BaseEntity;
-import de.codeschluss.wooportal.server.core.i18n.translation.TranslationHelper;
-import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -28,19 +26,23 @@ public class TranslationInterceptor {
   private void save() {
   }
 
-  @Pointcut("execution(public * de.codeschluss.wooportal.server.core.repository.DataRepository+.findOne(..))")
+  @Pointcut(
+      "execution(public * de.codeschluss.wooportal.server.core.repository.DataRepository+.findOne(..))")
   private void findOne() {
   }
   
-  @Pointcut("execution(* de.codeschluss.wooportal.server.core.repository.DataRepository+.findAll(..))")
+  @Pointcut(
+      "execution(* de.codeschluss.wooportal.server.core.repository.DataRepository+.findAll(..))")
   private void findAll() {
   }
 
-  @Pointcut("execution(public * de.codeschluss.wooportal.server.core.api.AssemblerHelper.toResource(..))")
+  @Pointcut(
+      "execution(public * de.codeschluss.wooportal.server.core.api.AssemblerHelper.toResource(..))")
   private void toResource() {
   }
   
-  @Pointcut("execution(public * de.codeschluss.wooportal.server.core.api.AssemblerHelper.resourceWithEmbeddable(..))")
+  @Pointcut(
+      "execution(public * de.codeschluss.wooportal.server.core.api.AssemblerHelper.resourceWithEmbeddable(..))")
   private void resourceWithEmbeddable() {
   }
 

@@ -2,8 +2,11 @@ package de.codeschluss.wooportal.server.integration.activity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.activity.ActivityController;
+import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
+import de.codeschluss.wooportal.server.components.activity.ActivityQueryParam;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import java.net.URISyntaxException;
-
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,11 +18,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.components.activity.ActivityController;
-import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
-import de.codeschluss.wooportal.server.components.activity.ActivityQueryParam;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

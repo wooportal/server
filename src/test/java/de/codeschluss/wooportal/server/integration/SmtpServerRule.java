@@ -2,9 +2,7 @@ package de.codeschluss.wooportal.server.integration;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;
-
 import javax.mail.internet.MimeMessage;
-
 import org.junit.rules.ExternalResource;
 
 public class SmtpServerRule extends ExternalResource {

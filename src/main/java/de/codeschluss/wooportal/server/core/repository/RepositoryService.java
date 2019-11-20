@@ -1,5 +1,6 @@
 package de.codeschluss.wooportal.server.core.repository;
 
+import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -7,8 +8,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 
 /**
  * Repository Service to retrieve repositories based on given entity types.

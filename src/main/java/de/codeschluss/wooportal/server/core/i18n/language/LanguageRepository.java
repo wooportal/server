@@ -1,8 +1,7 @@
 package de.codeschluss.wooportal.server.core.i18n.language;
 
-import org.springframework.stereotype.Repository;
-
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * The Interface getWriteLocale.

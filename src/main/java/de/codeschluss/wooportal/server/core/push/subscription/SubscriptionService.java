@@ -1,10 +1,8 @@
 package de.codeschluss.wooportal.server.core.push.subscription;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import de.codeschluss.wooportal.server.core.service.DataService;
+import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  * The Class SubscriptionService.

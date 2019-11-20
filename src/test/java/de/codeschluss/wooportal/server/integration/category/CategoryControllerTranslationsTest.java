@@ -2,6 +2,9 @@ package de.codeschluss.wooportal.server.integration.category;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.category.CategoryController;
+import de.codeschluss.wooportal.server.components.category.translations.CategoryTranslatablesEntity;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.components.category.CategoryController;
-import de.codeschluss.wooportal.server.components.category.translations.CategoryTranslatablesEntity;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

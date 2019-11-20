@@ -2,10 +2,11 @@ package de.codeschluss.wooportal.server.integration.activity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.activity.ActivityController;
+import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,9 +20,6 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import de.codeschluss.wooportal.server.components.activity.ActivityController;
-import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

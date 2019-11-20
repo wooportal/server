@@ -2,8 +2,11 @@ package de.codeschluss.wooportal.server.integration.language;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
+import de.codeschluss.wooportal.server.core.i18n.language.LanguageController;
+import de.codeschluss.wooportal.server.core.i18n.language.LanguageEntity;
 import java.net.URISyntaxException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +17,6 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
-import de.codeschluss.wooportal.server.core.i18n.language.LanguageController;
-import de.codeschluss.wooportal.server.core.i18n.language.LanguageEntity;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

@@ -1,5 +1,13 @@
 package de.codeschluss.wooportal.server.components.user;
 
+import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
+import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.mail.MailConfiguration;
+import de.codeschluss.wooportal.server.core.mail.MailService;
+import de.codeschluss.wooportal.server.core.mail.MailTemplateService;
+import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -12,16 +20,6 @@ import org.springframework.hateoas.Resources;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
-import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.mail.MailConfiguration;
-import de.codeschluss.wooportal.server.core.mail.MailService;
-import de.codeschluss.wooportal.server.core.mail.MailTemplateService;
-import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
 
 // TODO: Auto-generated Javadoc
 /**

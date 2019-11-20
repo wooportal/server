@@ -3,11 +3,14 @@ package de.codeschluss.wooportal.server.integration.organisation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
+import de.codeschluss.wooportal.server.components.images.organisation.OrganisationImageEntity;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.image.ImageService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -21,11 +24,6 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.Base64Utils;
-
-import de.codeschluss.wooportal.server.components.images.organisation.OrganisationImageEntity;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.image.ImageService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

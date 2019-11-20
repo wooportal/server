@@ -2,20 +2,6 @@ package de.codeschluss.wooportal.server.components.page;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.TopicService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
@@ -25,6 +11,18 @@ import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
+import org.springframework.hateoas.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * The Class PageController.

@@ -2,6 +2,8 @@ package de.codeschluss.wooportal.server.integration.address;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.address.AddressController;
+import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,6 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resources;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.components.address.AddressController;
-import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

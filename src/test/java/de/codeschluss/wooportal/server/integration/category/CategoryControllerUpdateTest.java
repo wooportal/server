@@ -6,9 +6,7 @@ import de.codeschluss.wooportal.server.components.category.CategoryController;
 import de.codeschluss.wooportal.server.components.category.CategoryEntity;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
-
 import java.net.URISyntaxException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

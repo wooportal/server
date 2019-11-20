@@ -1,10 +1,9 @@
 package de.codeschluss.wooportal.server.core.push.subscription;
 
+import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,6 @@
 package de.codeschluss.wooportal.server.core.mail;
 
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
-import de.codeschluss.wooportal.server.components.user.UserEntity;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

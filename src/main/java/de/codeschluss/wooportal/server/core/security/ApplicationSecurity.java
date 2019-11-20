@@ -1,5 +1,9 @@
 package de.codeschluss.wooportal.server.core.security;
 
+import de.codeschluss.wooportal.server.core.security.jwt.JwtAuthenticationFilter;
+import de.codeschluss.wooportal.server.core.security.jwt.JwtAuthorizationFilter;
+import de.codeschluss.wooportal.server.core.security.services.JwtTokenService;
+import de.codeschluss.wooportal.server.core.security.services.JwtUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,11 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import de.codeschluss.wooportal.server.core.security.jwt.JwtAuthenticationFilter;
-import de.codeschluss.wooportal.server.core.security.jwt.JwtAuthorizationFilter;
-import de.codeschluss.wooportal.server.core.security.services.JwtTokenService;
-import de.codeschluss.wooportal.server.core.security.services.JwtUserDetailsService;
 
 // TODO: Auto-generated Javadoc
 /**

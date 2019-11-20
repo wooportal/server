@@ -3,25 +3,21 @@ package de.codeschluss.wooportal.server.components.targetgroup.translations;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupController;
+import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
+import de.codeschluss.wooportal.server.core.i18n.entities.TranslatableEntity;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.core.Relation;
-
-import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupController;
-import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
-import de.codeschluss.wooportal.server.core.i18n.entities.TranslatableEntity;
 
 /**
  * The persistent class for the tag translatables database table.

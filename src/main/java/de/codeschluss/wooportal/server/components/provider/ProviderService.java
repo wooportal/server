@@ -1,13 +1,5 @@
 package de.codeschluss.wooportal.server.components.provider;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
@@ -16,6 +8,12 @@ import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.mail.MailService;
 import de.codeschluss.wooportal.server.core.service.DataService;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 // TODO: Auto-generated Javadoc
 /**

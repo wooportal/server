@@ -2,6 +2,8 @@ package de.codeschluss.wooportal.server.integration.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
+import de.codeschluss.wooportal.server.components.user.UserController;
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,9 +17,6 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
-import de.codeschluss.wooportal.server.components.user.UserController;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

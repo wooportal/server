@@ -1,13 +1,10 @@
 package de.codeschluss.wooportal.server.core.security.jwt;
 
+import de.codeschluss.wooportal.server.components.user.UserEntity;
 import java.util.Collections;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import org.springframework.security.core.userdetails.User;
-
-import de.codeschluss.wooportal.server.components.user.UserEntity;
 
 // TODO: Auto-generated Javadoc
 /**

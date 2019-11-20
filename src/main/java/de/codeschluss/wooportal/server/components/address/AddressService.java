@@ -1,14 +1,13 @@
 package de.codeschluss.wooportal.server.components.address;
 
-import javax.naming.ServiceUnavailableException;
-import org.springframework.hateoas.Resource;
-import org.springframework.stereotype.Service;
-
 import de.codeschluss.wooportal.server.components.address.bingmaps.MapService;
 import de.codeschluss.wooportal.server.components.suburb.SuburbEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import javax.naming.ServiceUnavailableException;
+import org.springframework.hateoas.Resource;
+import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc
 /**

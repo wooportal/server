@@ -1,18 +1,5 @@
 package de.codeschluss.wooportal.server.components.blogger;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.apache.commons.lang3.NotImplementedException;
-import org.springframework.data.domain.Page;
-import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.stereotype.Service;
-
 import de.codeschluss.wooportal.server.components.user.UserEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
@@ -20,6 +7,17 @@ import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.apache.commons.lang3.NotImplementedException;
+import org.springframework.data.domain.Page;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.stereotype.Service;
 
 /**
  * The Class BloggerService.

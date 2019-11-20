@@ -1,8 +1,7 @@
 package de.codeschluss.wooportal.server.components.activity;
 
-import java.util.List;
-
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

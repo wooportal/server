@@ -4,21 +4,19 @@ import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.SortPaginate;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.springframework.hateoas.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 // TODO: Auto-generated Javadoc
 /**

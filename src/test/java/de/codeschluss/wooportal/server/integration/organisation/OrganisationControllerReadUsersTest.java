@@ -2,6 +2,8 @@ package de.codeschluss.wooportal.server.integration.organisation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +13,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

@@ -10,12 +10,10 @@ import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import de.codeschluss.wooportal.server.integration.SmtpServerRule;
-
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.assertj.core.api.Condition;
 import org.junit.Rule;
 import org.junit.Test;

@@ -2,8 +2,12 @@ package de.codeschluss.wooportal.server.integration.organisation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationQueryParam;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
+import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
 import java.net.URISyntaxException;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +21,6 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationQueryParam;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
-import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

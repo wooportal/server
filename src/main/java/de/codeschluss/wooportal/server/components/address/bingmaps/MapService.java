@@ -1,18 +1,14 @@
-/**
- * 
- */
 package de.codeschluss.wooportal.server.components.address.bingmaps;
 
+import de.codeschluss.wooportal.server.components.address.AddressConfiguration;
+import de.codeschluss.wooportal.server.components.address.AddressEntity;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import java.net.URI;
 import javax.naming.ServiceUnavailableException;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import de.codeschluss.wooportal.server.components.address.AddressConfiguration;
-import de.codeschluss.wooportal.server.components.address.AddressEntity;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 
 /**
  * The Class MapService.

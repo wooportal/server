@@ -8,9 +8,7 @@ import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.integration.SmtpServerRule;
-
 import javax.mail.MessagingException;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;

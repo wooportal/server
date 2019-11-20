@@ -4,17 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import de.codeschluss.wooportal.server.components.activity.ActivityController;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.activity.ActivityQueryParam;
 import de.codeschluss.wooportal.server.core.api.dto.EmbeddedGraph;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;

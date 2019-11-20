@@ -1,11 +1,5 @@
 package de.codeschluss.wooportal.server.core.security.services;
 
-import java.util.List;
-
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
-
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
@@ -17,6 +11,10 @@ import de.codeschluss.wooportal.server.components.user.UserEntity;
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.security.jwt.JwtUserDetails;
+import java.util.List;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc
 /**

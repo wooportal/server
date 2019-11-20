@@ -1,8 +1,7 @@
 package de.codeschluss.wooportal.server.components.blog;
 
-import org.springframework.stereotype.Repository;
-
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * The Interface BlogRepository.

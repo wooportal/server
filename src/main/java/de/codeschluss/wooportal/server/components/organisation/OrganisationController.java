@@ -4,24 +4,6 @@ import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.address.AddressService;
 import de.codeschluss.wooportal.server.components.images.organisation.OrganisationImageEntity;
@@ -40,6 +22,22 @@ import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
 import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 // TODO: Auto-generated Javadoc
 /**

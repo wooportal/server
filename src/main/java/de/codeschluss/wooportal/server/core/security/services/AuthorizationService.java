@@ -1,17 +1,15 @@
 package de.codeschluss.wooportal.server.core.security.services;
 
-import java.util.Arrays;
-
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.security.jwt.JwtUserDetails;
+import java.util.Arrays;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc
 /**

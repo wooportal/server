@@ -2,6 +2,10 @@ package de.codeschluss.wooportal.server.integration.address;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.address.AddressController;
+import de.codeschluss.wooportal.server.components.address.AddressService;
+import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +15,6 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.components.address.AddressController;
-import de.codeschluss.wooportal.server.components.address.AddressService;
-import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

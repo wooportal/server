@@ -1,18 +1,16 @@
 package de.codeschluss.wooportal.server.core.i18n.translation;
 
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.i18n.entities.TranslationResult;
+import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
+import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.core.i18n.entities.TranslationResult;
-import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
-import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
 
 /**
  * Controller for translation specific tasks. 

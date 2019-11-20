@@ -1,12 +1,11 @@
 package de.codeschluss.wooportal.server.core.api.advice;
 
+import de.codeschluss.wooportal.server.core.api.dto.ApiError;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;
-
-import de.codeschluss.wooportal.server.core.api.dto.ApiError;
 
 /**
  * The Class MultiPartErrorAdvice.

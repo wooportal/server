@@ -2,16 +2,15 @@ package de.codeschluss.wooportal.server.integration.targetgroup;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupController;
+import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.hateoas.Resource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupController;
-import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
