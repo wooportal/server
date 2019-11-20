@@ -124,7 +124,7 @@ public class OrganisationController
     }
     
     Resource<OrganisationEntity> resource = service.addResource(newOrga);
-    providerService.addAdmin(resource.getContent(), authService.getCurrentUser());
+    providerService.addAdminAndSendMail(resource.getContent(), authService.getCurrentUser());
     return created(new URI(resource.getId().expand().getHref())).body(resource);
   }
   

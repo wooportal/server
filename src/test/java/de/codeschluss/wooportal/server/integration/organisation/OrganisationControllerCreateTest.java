@@ -7,7 +7,9 @@ import de.codeschluss.wooportal.server.components.organisation.OrganisationEntit
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.integration.SmtpServerRule;
 import org.assertj.core.api.Condition;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class OrganisationControllerCreateTest {
 
   @Autowired
   private ProviderService providerService;
+  
+  @Rule
+  public SmtpServerRule smtpServerRule = new SmtpServerRule(2525);
 
   @Test
   @WithUserDetails("super@user")
@@ -42,6 +47,8 @@ public class OrganisationControllerCreateTest {
     controller.create(organisation);
 
     assertThat(service.existsByName(organisation.getName())).isTrue();
+    
+    assertThat(smtpServerRule.getMessages()).isNotEmpty();
   }
 
   @Test
@@ -60,6 +67,8 @@ public class OrganisationControllerCreateTest {
 
     assertThat(providerService.getProvidersByOrganisation(savedOrga.getId())).haveAtLeastOne(
         new Condition<>(p -> p.getUser().getUsername().equals("createorga@user"), "user exists"));
+    
+    assertThat(smtpServerRule.getMessages()).isNotEmpty();
   }
 
   @Test(expected = BadParamsException.class)
