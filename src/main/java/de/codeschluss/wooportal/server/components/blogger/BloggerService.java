@@ -166,6 +166,23 @@ public class BloggerService extends ResourceDataService<BloggerEntity, BloggerQu
     BloggerEntity blogger = getByUser(userId);
     blogger.setApproved(true);
     repo.save(blogger);
+    this.sendApprovedMail(blogger);
+  }
+
+  private boolean sendApprovedMail(BloggerEntity blogger) {
+    try {
+      Map<String, Object> model = new HashMap<>();
+      model.put("portalName", mailConfig.getPortalName());
+      String subject = "Als Blogger freigegeben";
+
+      mailService.sendEmail(
+          subject, 
+          templateService.createMessage("approvedblogger.ftl", model), 
+          blogger.getUser().getUsername());
+      return true;
+    } catch (IOException | TemplateException | MessagingException e) {
+      return false;
+    }
   }
 
   /**

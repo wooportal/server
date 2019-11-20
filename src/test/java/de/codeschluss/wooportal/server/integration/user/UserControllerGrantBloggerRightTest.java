@@ -7,6 +7,9 @@ import de.codeschluss.wooportal.server.components.user.UserController;
 import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.integration.SmtpServerRule;
+import javax.mail.MessagingException;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class UserControllerGrantBloggerRightTest {
   @Autowired
   private BloggerService bloggerService;
   
+  @Rule
+  public SmtpServerRule smtpServerRule = new SmtpServerRule(2525);
+  
   @Test
   @WithUserDetails("super@user")
   public void grantBloggerOk() {
@@ -39,6 +45,14 @@ public class UserControllerGrantBloggerRightTest {
 
     assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     assertThat(bloggerService.getByUser(userId).isApproved()).isTrue();
+    assertThat(smtpServerRule.getMessages()).anyMatch(message -> {
+      try {
+        return message.getSubject().contains("Als Blogger freigegeben");
+      } catch (MessagingException e) {
+        e.printStackTrace();
+      }
+      return false;
+    });
   }
 
   @Test
