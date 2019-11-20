@@ -424,12 +424,34 @@ public class ProviderService extends DataService<ProviderEntity, ProviderQueryBu
    * @param orga the orga
    * @param currentUser the current user
    */
-  public void addAdmin(OrganisationEntity orga, UserEntity currentUser) {
+  public void addAdminAndSendMail(OrganisationEntity orga, UserEntity currentUser) {
+    this.addAdmin(orga, currentUser);
+    this.sendNewOrgaMail(orga);
+  }
+
+  private void addAdmin(OrganisationEntity orga, UserEntity currentUser) {
     ProviderEntity admin = new ProviderEntity();
     admin.setApproved(true);
     admin.setAdmin(true);
     admin.setOrganisation(orga);
     admin.setUser(currentUser);
     repo.save(admin);
+  }
+  
+  private boolean sendNewOrgaMail(OrganisationEntity orga) {
+    try {
+      Map<String, Object> model = new HashMap<>();
+      model.put("name", orga.getName());
+      model.put("portalName", mailConfig.getPortalName());
+      String subject = "Neue Organisation";
+
+      mailService.sendEmail(
+          subject, 
+          templateService.createMessage("neworga.ftl", model), 
+          userService.getSuperUserMails().toArray(new String[0]));
+      return true;
+    } catch (IOException | TemplateException | MessagingException e) {
+      return false;
+    }
   }
 }
