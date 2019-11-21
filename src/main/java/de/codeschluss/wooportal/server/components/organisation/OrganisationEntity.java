@@ -84,6 +84,9 @@ public class OrganisationEntity extends BaseResource {
   @JsonIgnore
   @ToString.Exclude
   private List<OrganisationImageEntity> images;
+  
+  @JsonProperty(access = Access.READ_ONLY)
+  private int likes;
 
   private String mail;
 

@@ -405,4 +405,20 @@ public class OrganisationController
       throw new BadParamsException("Given Organisation does not exist");
     }
   }
+  
+  /**
+   * Increase like.
+   *
+   * @param organisationId the organisation id
+   * @return the response entity
+   */
+  @PutMapping("/organisations/{organisationId}/like")
+  public ResponseEntity<?> increaseLike(@PathVariable String organisationId) {
+    try {
+      service.increaseLike(organisationId);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Organisation does not exist");
+    }
+  }
 }
