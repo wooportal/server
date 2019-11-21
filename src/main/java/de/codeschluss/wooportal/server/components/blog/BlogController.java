@@ -164,7 +164,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       service.increaseLike(blogId);
       return noContent().build();
     } catch (NotFoundException e) {
-      throw new BadParamsException("Given Activity does not exist");
+      throw new BadParamsException("Given Blog does not exist");
     }
   }
 }

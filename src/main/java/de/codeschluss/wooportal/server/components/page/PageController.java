@@ -1,5 +1,6 @@
 package de.codeschluss.wooportal.server.components.page;
 
+import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
@@ -140,6 +141,22 @@ public class PageController extends CrudController<PageEntity, PageService> {
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
       throw new RuntimeException(e.getMessage());
+    }
+  }
+  
+  /**
+   * Increase like.
+   *
+   * @param pageId the page id
+   * @return the response entity
+   */
+  @PutMapping("/pages/{pageId}/like")
+  public ResponseEntity<?> increaseLike(@PathVariable String pageId) {
+    try {
+      service.increaseLike(pageId);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Page does not exist");
     }
   }
 }
