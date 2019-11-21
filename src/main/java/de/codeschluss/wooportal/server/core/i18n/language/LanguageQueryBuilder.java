@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 public class LanguageQueryBuilder extends QueryBuilder<QLanguageEntity> {
 
   public LanguageQueryBuilder() {
-    super(QLanguageEntity.languageEntity);
+    super(QLanguageEntity.languageEntity, "name");
   }
 
 

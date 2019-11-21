@@ -24,9 +24,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LanguageService extends ResourceDataService<LanguageEntity, LanguageQueryBuilder> {
-
-  /** The default sort prop. */
-  protected final String defaultSortProp = "name";
   
   /** The request. */
   protected HttpServletRequest request;
