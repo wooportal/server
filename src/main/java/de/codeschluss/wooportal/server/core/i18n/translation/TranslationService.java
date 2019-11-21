@@ -2,7 +2,8 @@ package de.codeschluss.wooportal.server.core.i18n.translation;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import de.codeschluss.wooportal.server.core.i18n.TranslationsConfiguration;
@@ -12,7 +13,6 @@ import de.codeschluss.wooportal.server.core.i18n.language.LanguageEntity;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import de.codeschluss.wooportal.server.core.repository.RepositoryService;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.aspectj.lang.annotation.Around;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
@@ -298,10 +297,13 @@ public class TranslationService {
    * @return the string
    */
   public String translate(String target, String source, String text) {
-    String response = translationClient.method(HttpMethod.GET).uri(createUri(target, source, text))
-        .header("Ocp-Apim-Subscription-Key", config.getServiceSubscriptionKey()).retrieve()
+    return translationClient.method(HttpMethod.POST).uri(createUri(target, source))
+        .syncBody(createBody(text))
+        .header("Ocp-Apim-Subscription-Key", config.getServiceSubscriptionKey())
+        .header("Content-Type", "application/json")
+        .header("accept", "text/plain")
+        .retrieve()
         .bodyToMono(String.class).block();
-    return prepareReponse(response, target);
   }
 
   /**
@@ -311,27 +313,19 @@ public class TranslationService {
    *          the target
    * @param source
    *          the source
-   * @param text
-   *          the text
    * @return the uri
    */
-  private URI createUri(String target, String source, String text) {
+  private URI createUri(String target, String source) {
     return UriComponentsBuilder.fromUriString(config.getServiceUrl()).queryParam("to", target)
-        .queryParam("from", source).queryParam("text", text).build().encode().toUri();
+        .queryParam("from", source).build().encode().toUri();
   }
-
-  /**
-   * Prepare reponse.
-   *
-   * @param response
-   *          the response
-   * @return the string
-   */
-  private String prepareReponse(String response, String targetLang) {
-    // TODO: Workaround. Not able to properly extract result.
-    return response
-        .replace("<string xmlns=\"http://schemas.microsoft.com/2003/10/Serialization/\">", "")
-        .replace("</string>", "");
+  
+  private String createBody(String text) {
+    JsonObject textObj = new JsonObject();
+    textObj.addProperty("text", text);
+    JsonArray body = new JsonArray();
+    body.add(textObj);
+    return body.toString();
   }
 
   /**
