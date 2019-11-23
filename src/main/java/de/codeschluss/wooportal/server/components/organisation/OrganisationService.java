@@ -3,7 +3,6 @@ package de.codeschluss.wooportal.server.components.organisation;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.querydsl.core.types.Predicate;
-
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.address.AddressService;
 import de.codeschluss.wooportal.server.components.images.organisation.OrganisationImageEntity;
@@ -13,13 +12,11 @@ import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
@@ -236,5 +233,16 @@ public class OrganisationService
    */
   public List<OrganisationEntity> getForAdminProvider(UserEntity user) {
     return repo.findAll(entities.forOrgaAdmin(user.getId()));
+  }
+
+  /**
+   * Increase like.
+   *
+   * @param organisationId the activity id
+   */
+  public void increaseLike(String organisationId) {
+    OrganisationEntity organisation = getById(organisationId);
+    organisation.setLikes(organisation.getLikes() + 1);
+    repo.save(organisation);
   }
 }

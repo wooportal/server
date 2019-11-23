@@ -45,4 +45,8 @@ databaseChangeLog:
 - include:
     file: database/changes/0021.normalize_cascading.yaml
 - include:
+    file: database/changes/0022.add_column_organisations_likes.yaml
+- include:
+    file: database/changes/0023.add_column_pages_likes.yaml
+- include:
     file: database/datasets/staging.dataset.yaml

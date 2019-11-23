@@ -18,7 +18,7 @@ public class ActivityControllerIncreaseLike {
   private ActivityController controller;
 
   @Test
-  public void findOneOk() {
+  public void increaseLikeOk() {
     String activityId = "00000000-0000-0000-0010-100000000000";
     int likesCount = controller.readOne(activityId).getContent().getLikes();
     
@@ -28,7 +28,7 @@ public class ActivityControllerIncreaseLike {
   }
 
   @Test(expected = BadParamsException.class)
-  public void findOneNotFound() {
+  public void increaseLikeNotFound() {
     String activityId = "00000000-0000-0000-0010-XX0000000000";
 
     controller.increaseLike(activityId);

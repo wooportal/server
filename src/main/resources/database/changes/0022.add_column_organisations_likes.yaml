@@ -1,0 +1,14 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0022.add_column_organisations_likes
+    author: codeschluss
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            constraints:
+                nullable: false
+            name: likes
+            type: integer
+        tableName: organisations

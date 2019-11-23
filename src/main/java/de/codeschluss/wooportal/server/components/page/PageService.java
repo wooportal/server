@@ -2,16 +2,13 @@ package de.codeschluss.wooportal.server.components.page;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-
 import java.io.IOException;
 import java.util.List;
-
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
@@ -111,5 +108,17 @@ public class PageService extends ResourceDataService<PageEntity, PageQueryBuilde
     PageEntity page = getById(pageId);
     page.setTopic(topic);
     return assembler.toResource(repo.save(page));
+  }
+  
+  /**
+   * Increase like.
+   *
+   * @param pageId
+   *          the page id
+   */
+  public void increaseLike(String pageId) {
+    PageEntity page = getById(pageId);
+    page.setLikes(page.getLikes() + 1);
+    repo.save(page);
   }
 }

@@ -1,0 +1,14 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0023.add_column_pages_likes
+    author: codeschluss
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            constraints:
+                nullable: false
+            name: likes
+            type: integer
+        tableName: pages

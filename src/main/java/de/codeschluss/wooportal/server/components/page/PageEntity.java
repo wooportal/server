@@ -4,6 +4,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -67,6 +69,9 @@ public class PageEntity extends BaseResource {
   @JsonDeserialize
   @Transient
   private String content;
+  
+  @JsonProperty(access = Access.READ_ONLY)
+  private int likes;
 
   @JsonSerialize
   @JsonDeserialize
