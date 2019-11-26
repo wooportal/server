@@ -7,6 +7,8 @@ import static org.springframework.http.ResponseEntity.ok;
 import de.codeschluss.wooportal.server.components.address.AddressService;
 import de.codeschluss.wooportal.server.components.blog.BlogService;
 import de.codeschluss.wooportal.server.components.category.CategoryService;
+import de.codeschluss.wooportal.server.components.images.activities.ActivityImageEntity;
+import de.codeschluss.wooportal.server.components.images.activities.ActivityImageService;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
@@ -22,6 +24,7 @@ import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnActivityPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnOrOrgaActivityOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.ProviderPermission;
@@ -56,6 +59,9 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
 
   /** The address service. */
   private final AddressService addressService;
+  
+  /** The address service. */
+  private final ActivityImageService activityImageService;
 
   /** The category service. */
   private final CategoryService categoryService;
@@ -114,7 +120,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       CategoryService categoryService, ProviderService providerService, UserService userService,
       TagService tagService, TargetGroupService targetGroupService, ScheduleService scheduleService,
       OrganisationService organisationService, BlogService blogService, 
-      TranslationService translationService, AuthorizationService authService) {
+      TranslationService translationService, AuthorizationService authService,
+      ActivityImageService activityImageService) {
     super(service);
     this.addressService = addressService;
     this.categoryService = categoryService;
@@ -126,6 +133,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     this.blogService = blogService;
     this.translationService = translationService;
     this.authService = authService;
+    this.activityImageService = activityImageService;
   }
 
   /**
@@ -507,6 +515,69 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       return ok(blogService.getResourceByActivity(activityId, params));
     } catch (IOException e) {
       throw new RuntimeException(e.getMessage());
+    }
+  }
+  
+  /**
+   * Read images.
+   *
+   * @param activityId
+   *          the activity id
+   * @return the response entity
+   */
+  @GetMapping("/activities/{activityId}/images")
+  public ResponseEntity<?> readImages(@PathVariable String activityId) {
+    try {
+      return ok(activityImageService.getResourcesByActivity(activityId));
+    } catch (IOException e) {
+      throw new RuntimeException(e.getMessage());
+    }
+  }
+  
+  /**
+   * Adds the image.
+   *
+   * @param activityId the activity id
+   * @param image the image
+   * @return the response entity
+   */
+  @PostMapping("/activities/{activityId}/images")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> addImage(@PathVariable String activityId,
+      @RequestBody List<ActivityImageEntity> image) {
+    if (image == null || image.isEmpty()) {
+      throw new BadParamsException("Image File must not be null");
+    }
+    
+    try {
+      Resources<?> saved = activityImageService.addResources(
+          service.getById(activityId),
+          image);
+      return ok(saved);
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Activity does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
+    }
+  }
+
+
+  /**
+   * Delete images.
+   *
+   * @param activityId the activity id
+   * @param imageIds the image ids
+   * @return the response entity
+   */
+  @DeleteMapping("/activities/{activityId}/images")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> deleteImages(@PathVariable String activityId,
+      @RequestParam(value = "imageIds", required = true) List<String> imageIds) {
+    try {
+      activityImageService.deleteAll(imageIds);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Activity does not exist");
     }
   }
 

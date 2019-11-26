@@ -8,22 +8,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import de.codeschluss.wooportal.server.components.activity.translations.ActivityTranslatablesEntity;
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.category.CategoryEntity;
+import de.codeschluss.wooportal.server.components.images.activities.ActivityImageEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.tag.TagEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,14 +34,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -89,6 +85,11 @@ public class ActivityEntity extends BaseResource {
   @Transient
   @JsonDeserialize
   private String categoryId;
+  
+  @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  @JsonIgnore
+  @ToString.Exclude
+  private List<ActivityImageEntity> images;
 
   @ManyToOne
   @ToString.Exclude

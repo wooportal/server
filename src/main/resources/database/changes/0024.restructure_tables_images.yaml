@@ -1,0 +1,68 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0024.create_table_activityimages
+    author: codeschluss
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+                primaryKey: true
+                primaryKeyName: activity_imagesPK
+            name: id
+            type: CHAR(36)
+        - column:
+            constraints:
+                nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: created
+            type: datetime
+        - column:
+            constraints:
+                nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: modified
+            type: datetime
+        - column:
+            name: caption
+            type: VARCHAR(255)
+        - column:
+            constraints:
+                nullable: false
+            name: mime_type
+            type: VARCHAR(255)
+        - column:
+            constraints:
+                nullable: false
+            name: image
+            type: MEDIUMBLOB
+        - column:
+            constraints:
+                nullable: false
+            name: activity_id
+            type: CHAR(36)
+        tableName: activity_images
+    - sql:
+        comment: set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE activity_images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    - createIndex:
+        columns:
+        - column:
+            name: activity_id
+        indexName: CONSTRAINT_FB8ACC9F
+        tableName: activity_images
+    - addForeignKeyConstraint:
+        baseColumnNames: activity_id
+        baseTableName: activity_images
+        constraintName: CONSTRAINT_E342D7BE
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: activities
+        validate: true
