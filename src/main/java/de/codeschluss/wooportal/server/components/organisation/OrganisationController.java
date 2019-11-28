@@ -4,10 +4,25 @@ import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+
+import org.springframework.hateoas.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.address.AddressService;
-import de.codeschluss.wooportal.server.components.images.organisation.OrganisationImageEntity;
-import de.codeschluss.wooportal.server.components.images.organisation.OrganisationImageService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
 import de.codeschluss.wooportal.server.components.user.UserService;
@@ -18,26 +33,12 @@ import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
+import de.codeschluss.wooportal.server.core.image.ImageService;
 import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
 import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -66,7 +67,7 @@ public class OrganisationController
   private final TranslationService translationService;
   
   /** The image service. */
-  private final OrganisationImageService organisationImageService;
+  private final ImageService imageService;
   
   /** The authorization service. */
   private final AuthorizationService authService;
@@ -87,7 +88,7 @@ public class OrganisationController
    */
   public OrganisationController(OrganisationService service, ProviderService providerService,
       UserService userService, AddressService addressService, ActivityService activityService,
-      TranslationService translationService, OrganisationImageService organisationImageService,
+      TranslationService translationService, ImageService imageService,
       AuthorizationService authService) {
     super(service);
     this.providerService = providerService;
@@ -95,7 +96,7 @@ public class OrganisationController
     this.addressService = addressService;
     this.activityService = activityService;
     this.translationService = translationService;
-    this.organisationImageService = organisationImageService;
+    this.imageService = imageService;
     this.authService = authService;
   }
 
@@ -352,37 +353,39 @@ public class OrganisationController
    */
   @GetMapping("/organisations/{organisationId}/images")
   public ResponseEntity<?> readImages(@PathVariable String organisationId) {
-    try {
-      return ok(organisationImageService.getResourcesByOrganisation(organisationId));
-    } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
-    }
+    return ok(service.getImages(organisationId));
   }
   
   /**
    * Adds the image.
    *
    * @param organisationId the organisation id
-   * @param image the image
+   * @param images the image
    * @return the response entity
    */
   @PostMapping("/organisations/{organisationId}/images")
   @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> addImage(@PathVariable String organisationId,
-      @RequestBody List<OrganisationImageEntity> image) {
-    if (image == null || image.isEmpty()) {
-      throw new BadParamsException("Image File must not be null");
-    }
-    
+      @RequestBody List<ImageEntity> images) {
+    validateImages(images);
     try {
-      Resources<?> saved = organisationImageService.addResources(
-          service.getById(organisationId),
-          image);
+      List<ImageEntity> saved = service.addImages(organisationId, imageService.addAll(images));
       return ok(saved);
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
     } catch (IOException e) {
       throw new BadParamsException("Image Upload not possible");
+    }
+  }
+  
+  private void validateImages(List<ImageEntity> images) {
+    if (images == null || images.isEmpty()) {
+      throw new BadParamsException("Image File must not be null");
+    }
+    for (ImageEntity image : images) {
+      if (!imageService.validCreateFieldConstraints(image)) {
+        throw new BadParamsException("Image or Mime Type with correct form required");
+      }
     }
   }
 
@@ -399,7 +402,7 @@ public class OrganisationController
   public ResponseEntity<?> deleteImages(@PathVariable String organisationId,
       @RequestParam(value = "imageIds", required = true) List<String> imageIds) {
     try {
-      organisationImageService.deleteAll(imageIds);
+      imageService.deleteAll(imageIds);
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");

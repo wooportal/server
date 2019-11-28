@@ -12,13 +12,13 @@ import de.codeschluss.wooportal.server.components.activity.translations.Activity
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.category.CategoryEntity;
-import de.codeschluss.wooportal.server.components.images.activities.ActivityImageEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.tag.TagEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -86,10 +86,22 @@ public class ActivityEntity extends BaseResource {
   @JsonDeserialize
   private String categoryId;
   
-  @OneToMany(mappedBy = "activity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-  @JsonIgnore
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @ToString.Exclude
-  private List<ActivityImageEntity> images;
+  @JsonIgnore
+  @JoinTable(
+      name = "activities_images",
+      joinColumns = @JoinColumn(name = "activity_id"),
+      inverseJoinColumns = @JoinColumn(name = "image_id"),
+      uniqueConstraints = {
+          @UniqueConstraint(columnNames = { "activity_id", "image_id" })
+      })
+  @CollectionId(
+      columns = @Column(name = "id"),
+      type = @Type(type = "uuid-char"),
+      generator = "UUID"
+  )
+  private List<ImageEntity> images;
 
   @ManyToOne
   @ToString.Exclude

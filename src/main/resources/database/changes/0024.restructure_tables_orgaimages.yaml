@@ -1,0 +1,104 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0024.restructure_tables_orgaimages.1
+    author: codeschluss
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+                primaryKey: true
+                primaryKeyName: imagesPK
+            name: id
+            type: CHAR(36)
+        - column:
+            constraints:
+                nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: created
+            type: datetime
+        - column:
+            constraints:
+                nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: modified
+            type: datetime
+        - column:
+            name: caption
+            type: VARCHAR(255)
+        - column:
+            constraints:
+                nullable: false
+            name: mime_type
+            type: VARCHAR(255)
+        - column:
+            constraints:
+                nullable: false
+            name: image
+            type: MEDIUMBLOB
+        tableName: images
+    - sql:
+        comment: set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    - addColumn:
+        columns:
+        - column:
+            name: image_id
+            type: CHAR(36)
+        tableName: organisation_images
+    - addForeignKeyConstraint:
+        baseColumnNames: image_id
+        baseTableName: organisation_images
+        constraintName: CONSTRAINT_FKORGANISATIONSIMAGESIMAGES
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: images
+        validate: true
+- changeSet:
+    id: 0024.restructure_tables_orgaimages.2
+    author: codeschluss
+    changes:
+    - sql:
+        comment: generate key for all images
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            update organisation_images set image_id = uuid();
+    - sql:
+        comment: transfer all images into image table
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into images (id, created, modified, caption, mime_type, image)
+            select t1.image_id, t1.created, t1.modified, t1.caption, t1.mime_type, t1.image
+            from organisation_images t1;
+- changeSet:
+    id: 0024.restructure_tables_orgaimages.3
+    author: codeschluss
+    changes:
+    - dropColumn:
+        columnName: image
+        tableName: organisation_images
+- changeSet:
+    id: 0024.restructure_tables_orgaimages.4
+    author: codeschluss
+    changes:
+    - dropColumn:
+        columnName: caption
+        tableName: organisation_images
+- changeSet:
+    id: 0024.restructure_tables_orgaimages.5
+    author: codeschluss
+    changes:
+    - dropColumn:
+        columnName: mime_type
+        tableName: organisation_images

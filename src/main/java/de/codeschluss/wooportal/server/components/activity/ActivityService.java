@@ -1,5 +1,12 @@
 package de.codeschluss.wooportal.server.components.activity;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.querydsl.core.types.Predicate;
@@ -13,14 +20,8 @@ import de.codeschluss.wooportal.server.components.user.UserEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-
-import java.io.IOException;
-import java.util.List;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -290,5 +291,25 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     ActivityEntity activity = getById(activityId);
     activity.setLikes(activity.getLikes() + 1);
     repo.save(activity);
+  }
+  
+  public List<ImageEntity> addImages(
+      String id,
+      List<ImageEntity> images) throws IOException {
+    ActivityEntity savedEntity = null;
+    for (ImageEntity image : images) {
+      savedEntity = addImage(id, image);
+    }
+    return savedEntity.getImages();
+  }
+
+  public ActivityEntity addImage(String id, ImageEntity image) throws IOException {
+    ActivityEntity organisation = getById(id);
+    organisation.getImages().add(image);
+    return repo.save(organisation);
+  }
+
+  public List<ImageEntity> getImages(String id) {
+    return getById(id).getImages();
   }
 }

@@ -51,4 +51,8 @@ databaseChangeLog:
 - include:
     file: database/changes/0023.add_column_pages_likes.yaml
 - include:
+    file: database/changes/0024.restructure_tables_orgaimages.yaml
+- include:
+    file: database/changes/0025.create_table_activityimages.yaml
+- include:
     file: database/datasets/development.dataset.1.yaml
