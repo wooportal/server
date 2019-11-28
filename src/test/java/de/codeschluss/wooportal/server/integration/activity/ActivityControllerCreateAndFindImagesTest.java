@@ -1,8 +1,8 @@
-package de.codeschluss.wooportal.server.integration.organisation;
+package de.codeschluss.wooportal.server.integration.activity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.components.activity.ActivityController;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
@@ -21,10 +21,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class OrganisationControllerCreateAndFindImagesTest {
+public class ActivityControllerCreateAndFindImagesTest {
 
   @Autowired
-  private OrganisationController controller;
+  private ActivityController controller;
 
   @Autowired
   private ImageReader imageReader;
@@ -34,15 +34,15 @@ public class OrganisationControllerCreateAndFindImagesTest {
   @WithUserDetails("super@user")
   public void addAndFindImagesSuperUserOk() throws IOException {
     
+    String activityId = "00000000-0000-0000-0010-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
-    
+    controller.addImage(activityId, imageInput);
     List<ImageEntity> result = (List<ImageEntity>) controller
-        .readImages("00000000-0000-0000-0008-100000000000").getBody();
+        .readImages(activityId).getBody();
 
     assertThat(result).isNotEmpty();
   }
@@ -52,15 +52,16 @@ public class OrganisationControllerCreateAndFindImagesTest {
   @WithUserDetails("admin@user")
   public void addAndFindImagesOwnOrgaOk() throws IOException {
     
+    String activityId = "00000000-0000-0000-0010-200000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(activityId, imageInput);
 
     List<ImageEntity> result = (List<ImageEntity>) controller
-        .readImages("00000000-0000-0000-0008-100000000000").getBody();
+        .readImages(activityId).getBody();
 
     assertThat(result).isNotEmpty();
   }
@@ -69,64 +70,73 @@ public class OrganisationControllerCreateAndFindImagesTest {
   @WithUserDetails("admin@user")
   public void addNotValidImageDenied() throws IOException {
     
+    String activityId = "00000000-0000-0000-0010-200000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         null,
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(activityId, imageInput);
   }
   
   @Test(expected = BadParamsException.class)
   @WithUserDetails("admin@user")
   public void addNullMimeTypeDenied() throws IOException {
     
+    String activityId = "00000000-0000-0000-0010-200000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         null));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(activityId, imageInput);
   }
   
   @Test(expected = BadParamsException.class)
   @WithUserDetails("admin@user")
   public void addNotValidMimeTypeDenied() throws IOException {
     
+    String activityId = "00000000-0000-0000-0010-200000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         "notvalid"));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(activityId, imageInput);
   }
   
   @Test(expected = AccessDeniedException.class)
   @WithUserDetails("provider1@user")
   public void addAndFindImagesOtherOrgaDenied() throws IOException {
+    
+    String activityId = "00000000-0000-0000-0010-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(activityId, imageInput);
   }
   
   @Test(expected = AuthenticationCredentialsNotFoundException.class)
   public void addAndFindImagesNotRegisteredDenied() throws IOException {
+    
+    String activityId = "00000000-0000-0000-0010-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(activityId, imageInput);
   }
 
   @SuppressWarnings("unchecked")
   @Test(expected = NotFoundException.class)
-  public void findImagesByOrganisationNotFound() {
+  public void findImagesByActivityNotFound() {
+    
+    String activityId = "00000000-0000-0000-0010-XX0000000000";
     List<ImageEntity> result = (List<ImageEntity>) controller
-        .readImages("00000000-0000-0000-0008-XX0000000000").getBody();
+        .readImages(activityId).getBody();
 
     assertThat(result).isNotEmpty();
   }

@@ -1,16 +1,8 @@
 package de.codeschluss.wooportal.server.components.activity;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.stereotype.Service;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.querydsl.core.types.Predicate;
-
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.category.CategoryEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
@@ -22,6 +14,11 @@ import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.io.IOException;
+import java.util.List;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -293,6 +290,14 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     repo.save(activity);
   }
   
+  /**
+   * Adds the images.
+   *
+   * @param id the id
+   * @param images the images
+   * @return the list
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public List<ImageEntity> addImages(
       String id,
       List<ImageEntity> images) throws IOException {
@@ -303,13 +308,31 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     return savedEntity.getImages();
   }
 
+  /**
+   * Adds the image.
+   *
+   * @param id the id
+   * @param image the image
+   * @return the activity entity
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public ActivityEntity addImage(String id, ImageEntity image) throws IOException {
     ActivityEntity organisation = getById(id);
     organisation.getImages().add(image);
     return repo.save(organisation);
   }
 
+  /**
+   * Gets the images.
+   *
+   * @param id the id
+   * @return the images
+   */
   public List<ImageEntity> getImages(String id) {
-    return getById(id).getImages();
+    List<ImageEntity> result = getById(id).getImages();
+    if (result == null || result.isEmpty()) {
+      throw new NotFoundException("No images found");
+    }
+    return result;
   }
 }

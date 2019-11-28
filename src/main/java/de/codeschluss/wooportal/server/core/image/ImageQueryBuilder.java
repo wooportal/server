@@ -1,11 +1,9 @@
 package de.codeschluss.wooportal.server.core.image;
 
-import org.springframework.stereotype.Service;
-
 import com.querydsl.core.types.Predicate;
-
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ImageQueryBuilder extends QueryBuilder<QImageEntity> {

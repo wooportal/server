@@ -1,20 +1,8 @@
 package de.codeschluss.wooportal.server.components.organisation;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.querydsl.core.types.Predicate;
-
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
@@ -23,6 +11,15 @@ import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -43,8 +40,6 @@ public class OrganisationService
    *          the repo
    * @param assembler
    *          the assembler
-   * @param addressService
-   *          the address service
    */
   public OrganisationService(
       OrganisationRepository repo, 
@@ -220,6 +215,14 @@ public class OrganisationService
     repo.save(organisation);
   }
   
+  /**
+   * Adds the images.
+   *
+   * @param id the id
+   * @param images the images
+   * @return the list
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public List<ImageEntity> addImages(
       String id,
       List<ImageEntity> images) throws IOException {
@@ -230,13 +233,31 @@ public class OrganisationService
     return savedEntity.getImages();
   }
 
+  /**
+   * Adds the image.
+   *
+   * @param id the id
+   * @param image the image
+   * @return the organisation entity
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public OrganisationEntity addImage(String id, ImageEntity image) throws IOException {
     OrganisationEntity organisation = getById(id);
     organisation.getImages().add(image);
     return repo.save(organisation);
   }
 
+  /**
+   * Gets the images.
+   *
+   * @param id the id
+   * @return the images
+   */
   public List<ImageEntity> getImages(String id) {
-    return getById(id).getImages();
+    List<ImageEntity> result = getById(id).getImages();
+    if (result == null || result.isEmpty()) {
+      throw new NotFoundException("No images found");
+    }
+    return result;
   }
 }

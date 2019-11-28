@@ -1,18 +1,15 @@
 package de.codeschluss.wooportal.server.core.image;
 
+import de.codeschluss.wooportal.server.core.service.DataService;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Method;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
-
-import de.codeschluss.wooportal.server.core.service.DataService;
 
 /**
  * The Class ImageService.
@@ -48,7 +45,13 @@ public class ImageService extends DataService<ImageEntity, ImageQueryBuilder>  {
     return validFields(newOrgaImage);
   }
 
-  private boolean validFields(ImageEntity image) {
+  /**
+   * Valid fields.
+   *
+   * @param image the image
+   * @return true, if successful
+   */
+  public boolean validFields(ImageEntity image) {
     return image.getImageData() != null && !image.getImageData().isEmpty()
         && image.getMimeType() != null && !image.getMimeType().isEmpty()
         && image.getMimeType().contains("/");
@@ -86,7 +89,6 @@ public class ImageService extends DataService<ImageEntity, ImageQueryBuilder>  {
    * Resize.
    *
    * @param image the image
-   * @param formatType the format type
    * @return the byte[]
    * @throws IOException Signals that an I/O exception has occurred.
    */
