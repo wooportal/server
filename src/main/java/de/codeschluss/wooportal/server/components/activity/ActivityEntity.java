@@ -205,7 +205,9 @@ public class ActivityEntity extends BaseResource {
         .readBlogs(id, null)).withRel("blogs"));
     links.add(linkTo(methodOn(ActivityController.class)
         .readTranslations(id)).withRel("translations"));
-
+    links.add(linkTo(methodOn(ActivityController.class)
+        .readImages(id)).withRel("images"));
+    
     return links;
   }
 }

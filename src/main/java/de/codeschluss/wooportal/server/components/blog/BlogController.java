@@ -12,12 +12,15 @@ import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
+import de.codeschluss.wooportal.server.core.image.ImageService;
 import de.codeschluss.wooportal.server.core.security.permissions.BloggerPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnBlogOrSuperuserPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.util.List;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -48,6 +52,9 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   
   /** The auth service. */
   private final AuthorizationService authService;
+  
+  /** The image service. */
+  private final ImageService imageService;
 
   /**
    * Instantiates a new blog controller.
@@ -59,12 +66,14 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       BloggerService bloggerService,
       ActivityService activityService,
       TranslationService translationService,
-      AuthorizationService authService) {
+      AuthorizationService authService,
+      ImageService imageService) {
     super(service);
     this.bloggerService = bloggerService;
     this.activityService = activityService;
     this.translationService = translationService;
     this.authService = authService;
+    this.imageService = imageService;
   }
   
   @Override
@@ -132,6 +141,70 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       return ok(service.updateActivity(blogId, activityService.getById(activityId.getValue())));
     } else {
       throw new BadParamsException("Blog or Activity with given ID do not exist!");
+    }
+  }
+  
+  /**
+   * Read images.
+   *
+   * @param blogId the blog id
+   * @return the response entity
+   */
+  @GetMapping("/blogs/{blogId}/images")
+  public ResponseEntity<?> readImages(@PathVariable String blogId) {
+    return ok(service.getImages(blogId));
+  }
+  
+
+  /**
+   * Adds the image.
+   *
+   * @param blogId the blog id
+   * @param images the images
+   * @return the response entity
+   */
+  @PostMapping("/blogs/{blogId}/images")
+  @OwnBlogOrSuperuserPermission
+  public ResponseEntity<?> addImage(@PathVariable String blogId,
+      @RequestBody List<ImageEntity> images) {
+    validateImages(images);
+    try {
+      List<ImageEntity> saved = service.addImages(blogId, imageService.addAll(images));
+      return ok(saved);
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Blog does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
+    }
+  }
+  
+  private void validateImages(List<ImageEntity> images) {
+    if (images == null || images.isEmpty()) {
+      throw new BadParamsException("Image File must not be null");
+    }
+    for (ImageEntity image : images) {
+      if (!imageService.validCreateFieldConstraints(image)) {
+        throw new BadParamsException("Image or Mime Type with correct form required");
+      }
+    }
+  }
+
+  /**
+   * Delete images.
+   *
+   * @param blogId the activity id
+   * @param imageIds the image ids
+   * @return the response entity
+   */
+  @DeleteMapping("/blogs/{blogId}/images")
+  @OwnBlogOrSuperuserPermission
+  public ResponseEntity<?> deleteImages(@PathVariable String blogId,
+      @RequestParam(value = "imageIds", required = true) List<String> imageIds) {
+    try {
+      imageService.deleteAll(imageIds);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Organisation does not exist");
     }
   }
   

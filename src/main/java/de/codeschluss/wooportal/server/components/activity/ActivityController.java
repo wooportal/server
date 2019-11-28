@@ -545,7 +545,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       List<ImageEntity> saved = service.addImages(activityId, imageService.addAll(images));
       return ok(saved);
     } catch (NotFoundException e) {
-      throw new BadParamsException("Given Organisation does not exist");
+      throw new BadParamsException("Given Activity does not exist");
     } catch (IOException e) {
       throw new BadParamsException("Image Upload not possible");
     }
@@ -577,7 +577,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       imageService.deleteAll(imageIds);
       return noContent().build();
     } catch (NotFoundException e) {
-      throw new BadParamsException("Given Organisation does not exist");
+      throw new BadParamsException("Given Activity does not exist");
     }
   }
 

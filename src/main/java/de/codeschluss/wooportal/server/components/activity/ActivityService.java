@@ -291,6 +291,20 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   }
   
   /**
+   * Gets the images.
+   *
+   * @param id the id
+   * @return the images
+   */
+  public List<ImageEntity> getImages(String id) {
+    List<ImageEntity> result = getById(id).getImages();
+    if (result == null || result.isEmpty()) {
+      throw new NotFoundException("No images found");
+    }
+    return result;
+  }
+  
+  /**
    * Adds the images.
    *
    * @param id the id
@@ -317,22 +331,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
    * @throws IOException Signals that an I/O exception has occurred.
    */
   public ActivityEntity addImage(String id, ImageEntity image) throws IOException {
-    ActivityEntity organisation = getById(id);
-    organisation.getImages().add(image);
-    return repo.save(organisation);
-  }
-
-  /**
-   * Gets the images.
-   *
-   * @param id the id
-   * @return the images
-   */
-  public List<ImageEntity> getImages(String id) {
-    List<ImageEntity> result = getById(id).getImages();
-    if (result == null || result.isEmpty()) {
-      throw new NotFoundException("No images found");
-    }
-    return result;
+    ActivityEntity blog = getById(id);
+    blog.getImages().add(image);
+    return repo.save(blog);
   }
 }
