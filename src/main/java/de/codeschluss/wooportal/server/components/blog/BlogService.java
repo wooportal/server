@@ -9,6 +9,7 @@ import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 
@@ -229,5 +230,51 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
       throw new NotFoundException(activityId);
     }
     return assembler.entitiesToResources(result, params);
+  }
+  
+  /**
+   * Gets the images.
+   *
+   * @param id the id
+   * @return the images
+   */
+  public List<ImageEntity> getImages(String id) {
+    List<ImageEntity> result = getById(id).getImages();
+    if (result == null || result.isEmpty()) {
+      throw new NotFoundException("No images found");
+    }
+    return result;
+  }
+  
+  /**
+   * Adds the images.
+   *
+   * @param id the id
+   * @param images the images
+   * @return the list
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
+  public List<ImageEntity> addImages(
+      String id,
+      List<ImageEntity> images) throws IOException {
+    BlogEntity savedEntity = null;
+    for (ImageEntity image : images) {
+      savedEntity = addImage(id, image);
+    }
+    return savedEntity.getImages();
+  }
+
+  /**
+   * Adds the image.
+   *
+   * @param id the id
+   * @param image the image
+   * @return the activity entity
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
+  public BlogEntity addImage(String id, ImageEntity image) throws IOException {
+    BlogEntity blog = getById(id);
+    blog.getImages().add(image);
+    return repo.save(blog);
   }
 }

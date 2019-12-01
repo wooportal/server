@@ -22,6 +22,8 @@ import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
+import de.codeschluss.wooportal.server.core.image.ImageService;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnActivityPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnOrOrgaActivityOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.ProviderPermission;
@@ -56,6 +58,9 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
 
   /** The address service. */
   private final AddressService addressService;
+  
+  /** The image service. */
+  private final ImageService imageService;
 
   /** The category service. */
   private final CategoryService categoryService;
@@ -114,7 +119,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       CategoryService categoryService, ProviderService providerService, UserService userService,
       TagService tagService, TargetGroupService targetGroupService, ScheduleService scheduleService,
       OrganisationService organisationService, BlogService blogService, 
-      TranslationService translationService, AuthorizationService authService) {
+      TranslationService translationService, AuthorizationService authService,
+      ImageService imageService) {
     super(service);
     this.addressService = addressService;
     this.categoryService = categoryService;
@@ -126,6 +132,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     this.blogService = blogService;
     this.translationService = translationService;
     this.authService = authService;
+    this.imageService = imageService;
   }
 
   /**
@@ -507,6 +514,70 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       return ok(blogService.getResourceByActivity(activityId, params));
     } catch (IOException e) {
       throw new RuntimeException(e.getMessage());
+    }
+  }
+  
+  /**
+   * Read images.
+   *
+   * @param activityId
+   *          the activity id
+   * @return the response entity
+   */
+  @GetMapping("/activities/{activityId}/images")
+  public ResponseEntity<?> readImages(@PathVariable String activityId) {
+    return ok(service.getImages(activityId));
+  }
+  
+  /**
+   * Adds the image.
+   *
+   * @param activityId the activity id
+   * @param images the image
+   * @return the response entity
+   */
+  @PostMapping("/activities/{activityId}/images")
+  @OwnOrOrgaActivityOrSuperUserPermission
+  public ResponseEntity<?> addImage(@PathVariable String activityId,
+      @RequestBody List<ImageEntity> images) {
+    validateImages(images);
+    try {
+      List<ImageEntity> saved = service.addImages(activityId, imageService.addAll(images));
+      return ok(saved);
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Activity does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
+    }
+  }
+  
+  private void validateImages(List<ImageEntity> images) {
+    if (images == null || images.isEmpty()) {
+      throw new BadParamsException("Image File must not be null");
+    }
+    for (ImageEntity image : images) {
+      if (!imageService.validCreateFieldConstraints(image)) {
+        throw new BadParamsException("Image or Mime Type with correct form required");
+      }
+    }
+  }
+
+  /**
+   * Delete images.
+   *
+   * @param activityId the activity id
+   * @param imageIds the image ids
+   * @return the response entity
+   */
+  @DeleteMapping("/activities/{activityId}/images")
+  @OwnOrOrgaActivityOrSuperUserPermission
+  public ResponseEntity<?> deleteImages(@PathVariable String activityId,
+      @RequestParam(value = "imageIds", required = true) List<String> imageIds) {
+    try {
+      imageService.deleteAll(imageIds);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Activity does not exist");
     }
   }
 

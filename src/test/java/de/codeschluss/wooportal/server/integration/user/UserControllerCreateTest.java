@@ -9,7 +9,7 @@ import de.codeschluss.wooportal.server.components.user.UserEntity;
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
-import de.codeschluss.wooportal.server.integration.SmtpServerRule;
+import de.codeschluss.wooportal.server.integration.helper.SmtpServerRule;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;

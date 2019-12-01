@@ -6,7 +6,7 @@ import de.codeschluss.wooportal.server.components.organisation.OrganisationEntit
 import de.codeschluss.wooportal.server.components.user.UserController;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
-import de.codeschluss.wooportal.server.integration.SmtpServerRule;
+import de.codeschluss.wooportal.server.integration.helper.SmtpServerRule;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

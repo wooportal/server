@@ -1,0 +1,88 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0025.create_table_blogimages.1
+    author: codeschluss
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+                nullable: false
+            name: blog_id
+            type: CHAR(36)
+        - column:
+            constraints:
+                nullable: false
+            name: image_id
+            type: CHAR(36)
+        - column:
+            constraints:
+                primaryKey: true
+            name: id
+            type: CHAR(36)
+        tableName: blogs_images
+    - sql:
+        comment: set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE blogs_images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+- changeSet:
+    id: 0025.create_table_blogimages.2
+    author: codeschluss
+    changes:
+    - addUniqueConstraint:
+        columnNames: blog_id, image_id
+        constraintName: CONSTRAINT_UNQBLOGIMAGEID
+        tableName: blogs_images
+- changeSet:
+    id: 0025.create_table_blogimages.3
+    author: codeschluss
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: image_id
+        indexName: CONSTRAINT_IDXBLOGIMAGEIMAGEID
+        tableName: blogs_images
+- changeSet:
+    id: 0025.create_table_blogimages.4
+    author: codeschluss
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: blog_id
+        indexName: CONSTRAINT_IDXBLOGIMAGEblogID
+        tableName: blogs_images
+- changeSet:
+    id: 0025.create_table_blogimages.5
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: blog_id
+        baseTableName: blogs_images
+        constraintName: CONSTRAINT_FKBLOGIMAGESblogID
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: blogs
+        validate: true
+- changeSet:
+    id: 0025.create_table_blogimages.6
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: image_id
+        baseTableName: blogs_images
+        constraintName: CONSTRAINT_FKBLOGIMAGESIMAGEID
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: images
+        validate: true

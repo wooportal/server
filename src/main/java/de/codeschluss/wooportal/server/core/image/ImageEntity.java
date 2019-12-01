@@ -1,20 +1,12 @@
-package de.codeschluss.wooportal.server.components.images.organisation;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+package de.codeschluss.wooportal.server.core.image;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
-import de.codeschluss.wooportal.server.core.entity.BaseResource;
-import java.util.ArrayList;
-import java.util.List;
+import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.AccessLevel;
@@ -22,12 +14,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.core.Relation;
 import org.springframework.util.Base64Utils;
 
 /**
- * The persistent class for the organisation_images database table.
+ * The persistent class for the images database table.
  * 
  * @author Valmir Etemi
  *
@@ -37,9 +28,9 @@ import org.springframework.util.Base64Utils;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Entity
-@Table(name = "organisation_images")
+@Table(name = "images")
 @Relation(collectionRelation = "data")
-public class OrganisationImageEntity extends BaseResource {
+public class ImageEntity extends BaseEntity {
 
   private static final long serialVersionUID = 1L;
 
@@ -58,20 +49,6 @@ public class OrganisationImageEntity extends BaseResource {
   @Column(name = "mime_type", nullable = false)
   private String mimeType;
 
-  @ManyToOne
-  @JsonIgnore
-  private OrganisationEntity organisation;
-
-  @Override
-  public List<Link> createResourceLinks() {
-    List<Link> links = new ArrayList<Link>();
-
-    links.add(linkTo(methodOn(OrganisationController.class).readImages(getOrganisation().getId()))
-        .withSelfRel());
-
-    return links;
-  }
-
   /**
    * Gets the image data.
    *
@@ -86,5 +63,4 @@ public class OrganisationImageEntity extends BaseResource {
     }
     return null;
   }
-
 }

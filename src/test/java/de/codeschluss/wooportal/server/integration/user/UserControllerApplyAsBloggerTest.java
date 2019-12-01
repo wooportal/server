@@ -3,7 +3,7 @@ package de.codeschluss.wooportal.server.integration.user;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.codeschluss.wooportal.server.components.user.UserController;
-import de.codeschluss.wooportal.server.integration.SmtpServerRule;
+import de.codeschluss.wooportal.server.integration.helper.SmtpServerRule;
 import javax.mail.MessagingException;
 import org.junit.Rule;
 import org.junit.Test;

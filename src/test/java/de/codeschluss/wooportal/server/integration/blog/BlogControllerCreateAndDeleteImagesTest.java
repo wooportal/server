@@ -1,8 +1,8 @@
-package de.codeschluss.wooportal.server.integration.organisation;
+package de.codeschluss.wooportal.server.integration.blog;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.components.blog.BlogController;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.integration.helper.ImageReader;
@@ -21,10 +21,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class OrganisationControllerCreateAndDeleteImagesTest {
+public class BlogControllerCreateAndDeleteImagesTest {
 
   @Autowired
-  private OrganisationController controller;
+  private BlogController controller;
   
   @Autowired
   private ImageReader imageReader;
@@ -34,19 +34,19 @@ public class OrganisationControllerCreateAndDeleteImagesTest {
   @SuppressWarnings("unchecked")
   public void addAndDeleteImagesSuperUserOk() throws IOException {
     
-    String organisationId = "00000000-0000-0000-0008-100000000000";
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity());
     
     List<ImageEntity> result = 
         ((List<ImageEntity>) controller
-            .addImage(organisationId, imageInput).getBody());
+            .addImage(blogId, imageInput).getBody());
    
-    controller.deleteImages(organisationId, result.stream().map(
+    controller.deleteImages(blogId, result.stream().map(
         imageRes -> imageRes.getId()).collect(Collectors.toList()));
     
     try {
-      controller.readImages(organisationId);
+      controller.readImages(blogId);
       assertThat(false).isTrue();
     } catch (NotFoundException e) {
       assertThat(true).isTrue();
@@ -54,23 +54,23 @@ public class OrganisationControllerCreateAndDeleteImagesTest {
   }
 
   @Test
-  @WithUserDetails("admin@user")
+  @WithUserDetails("blog1@user")
   @SuppressWarnings("unchecked")
-  public void addAndDeleteImagesOwnOrgaOk() throws IOException {
+  public void addAndDeleteImagesOwnBloggerOk() throws IOException {
     
-    String organisationId = "00000000-0000-0000-0008-100000000000";
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity());
     
     List<ImageEntity> result = 
         ((List<ImageEntity>) controller
-            .addImage(organisationId, imageInput).getBody());
+            .addImage(blogId, imageInput).getBody());
    
-    controller.deleteImages(organisationId, result.stream().map(
+    controller.deleteImages(blogId, result.stream().map(
         imageRes -> imageRes.getId()).collect(Collectors.toList()));
     
     try {
-      controller.readImages(organisationId);
+      controller.readImages(blogId);
       assertThat(false).isTrue();
     } catch (NotFoundException e) {
       assertThat(true).isTrue();
@@ -78,19 +78,19 @@ public class OrganisationControllerCreateAndDeleteImagesTest {
   }
   
   @Test(expected = AccessDeniedException.class)
-  @WithUserDetails("provider1@user")
+  @WithUserDetails("blog2@user")
   @SuppressWarnings("unchecked")
-  public void addAndFindImagesOtherOrgaDenied() throws IOException {
+  public void addAndFindImagesOtherBloggerDenied() throws IOException {
     
-    String organisationId = "00000000-0000-0000-0008-100000000000";
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity());
     
     List<ImageEntity> result = 
         ((List<ImageEntity>) controller
-            .addImage(organisationId, imageInput).getBody());
+            .addImage(blogId, imageInput).getBody());
    
-    controller.deleteImages(organisationId, result.stream().map(
+    controller.deleteImages(blogId, result.stream().map(
         imageRes -> imageRes.getId()).collect(Collectors.toList()));
   }
   
@@ -98,15 +98,15 @@ public class OrganisationControllerCreateAndDeleteImagesTest {
   @SuppressWarnings("unchecked")
   public void addAndFindImagesNotRegisteredDenied() throws IOException {
     
-    String organisationId = "00000000-0000-0000-0008-100000000000";
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity());
     
     List<ImageEntity> result = 
         ((List<ImageEntity>) controller
-            .addImage(organisationId, imageInput).getBody());
+            .addImage(blogId, imageInput).getBody());
    
-    controller.deleteImages(organisationId, result.stream().map(
+    controller.deleteImages(blogId, result.stream().map(
         imageRes -> imageRes.getId()).collect(Collectors.toList()));
   }
   

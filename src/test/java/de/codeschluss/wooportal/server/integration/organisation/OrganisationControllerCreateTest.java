@@ -7,7 +7,7 @@ import de.codeschluss.wooportal.server.components.organisation.OrganisationEntit
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.integration.SmtpServerRule;
+import de.codeschluss.wooportal.server.integration.helper.SmtpServerRule;
 import org.assertj.core.api.Condition;
 import org.junit.Rule;
 import org.junit.Test;

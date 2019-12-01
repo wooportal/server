@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.querydsl.core.types.Predicate;
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
-import de.codeschluss.wooportal.server.components.address.AddressService;
-import de.codeschluss.wooportal.server.components.images.organisation.OrganisationImageEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.io.IOException;
 import java.util.HashMap;
@@ -41,11 +40,11 @@ public class OrganisationService
    *          the repo
    * @param assembler
    *          the assembler
-   * @param addressService
-   *          the address service
    */
-  public OrganisationService(OrganisationRepository repo, OrganisationQueryBuilder entities,
-      PagingAndSortingAssembler assembler, AddressService addressService) {
+  public OrganisationService(
+      OrganisationRepository repo, 
+      OrganisationQueryBuilder entities,
+      PagingAndSortingAssembler assembler) {
     super(repo, entities, assembler);
   }
 
@@ -170,36 +169,6 @@ public class OrganisationService
   }
 
   /**
-   * Adds the image.
-   *
-   * @param organisationId
-   *          the organisation id
-   * @param image
-   *          the image
-   * @return the list
-   */
-  public List<OrganisationImageEntity> addImage(String organisationId,
-      OrganisationImageEntity image) {
-    OrganisationEntity organisation = getById(organisationId);
-    organisation.getImages().add(image);
-    return repo.save(organisation).getImages();
-  }
-
-  /**
-   * Delete images.
-   *
-   * @param organisationId
-   *          the organisation id
-   * @param imagesIds
-   *          the images ids
-   */
-  public void deleteImages(String organisationId, List<String> imagesIds) {
-    OrganisationEntity organisation = getById(organisationId);
-    organisation.getImages().removeIf(image -> imagesIds.contains(image.getId()));
-    repo.save(organisation);
-  }
-
-  /**
    * Sets the approval.
    *
    * @param organisationId
@@ -244,5 +213,51 @@ public class OrganisationService
     OrganisationEntity organisation = getById(organisationId);
     organisation.setLikes(organisation.getLikes() + 1);
     repo.save(organisation);
+  }
+  
+  /**
+   * Adds the images.
+   *
+   * @param id the id
+   * @param images the images
+   * @return the list
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
+  public List<ImageEntity> addImages(
+      String id,
+      List<ImageEntity> images) throws IOException {
+    OrganisationEntity savedEntity = null;
+    for (ImageEntity image : images) {
+      savedEntity = addImage(id, image);
+    }
+    return savedEntity.getImages();
+  }
+
+  /**
+   * Adds the image.
+   *
+   * @param id the id
+   * @param image the image
+   * @return the organisation entity
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
+  public OrganisationEntity addImage(String id, ImageEntity image) throws IOException {
+    OrganisationEntity organisation = getById(id);
+    organisation.getImages().add(image);
+    return repo.save(organisation);
+  }
+
+  /**
+   * Gets the images.
+   *
+   * @param id the id
+   * @return the images
+   */
+  public List<ImageEntity> getImages(String id) {
+    List<ImageEntity> result = getById(id).getImages();
+    if (result == null || result.isEmpty()) {
+      throw new NotFoundException("No images found");
+    }
+    return result;
   }
 }

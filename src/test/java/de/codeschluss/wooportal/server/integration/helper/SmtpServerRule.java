@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.integration;
+package de.codeschluss.wooportal.server.integration.helper;
 
 import com.icegreen.greenmail.util.GreenMail;
 import com.icegreen.greenmail.util.ServerSetup;

@@ -106,6 +106,23 @@ public abstract class DataService<E extends BaseEntity, B extends QueryBuilder<?
   }
 
   /**
+   * Adds the all.
+   *
+   * @param newEntities
+   *          the new entities
+   * @return the list<
+   */
+  public List<E> addAll(List<E> newEntities) {
+    return newEntities.stream().map(entity -> {
+      try {
+        return add(entity);
+      } catch (ServiceUnavailableException e) {
+        return null;
+      }
+    }).collect(Collectors.toList());
+  }
+  
+  /**
    * Adds the.
    *
    * @param newEntity the new entity
@@ -115,20 +132,6 @@ public abstract class DataService<E extends BaseEntity, B extends QueryBuilder<?
   public E add(E newEntity) throws ServiceUnavailableException {
     E duplicate = getExisting(newEntity);
     return duplicate != null ? duplicate : repo.save(newEntity);
-  }
-
-  /**
-   * Adds the all.
-   *
-   * @param newEntities
-   *          the new entities
-   * @return the list<
-   */
-  public List<E> addAll(List<E> newEntities) {
-    return newEntities.stream().map(entity -> {
-      E duplicate = getExisting(entity);
-      return duplicate != null ? duplicate : repo.save(entity);
-    }).collect(Collectors.toList());
   }
 
   /**

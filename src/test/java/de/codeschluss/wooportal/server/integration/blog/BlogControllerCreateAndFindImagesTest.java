@@ -1,8 +1,8 @@
-package de.codeschluss.wooportal.server.integration.organisation;
+package de.codeschluss.wooportal.server.integration.blog;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.components.blog.BlogController;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
@@ -21,10 +21,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class OrganisationControllerCreateAndFindImagesTest {
+public class BlogControllerCreateAndFindImagesTest {
 
   @Autowired
-  private OrganisationController controller;
+  private BlogController controller;
 
   @Autowired
   private ImageReader imageReader;
@@ -34,99 +34,110 @@ public class OrganisationControllerCreateAndFindImagesTest {
   @WithUserDetails("super@user")
   public void addAndFindImagesSuperUserOk() throws IOException {
     
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(blogId, imageInput);
     
     List<ImageEntity> result = (List<ImageEntity>) controller
-        .readImages("00000000-0000-0000-0008-100000000000").getBody();
+        .readImages(blogId).getBody();
 
     assertThat(result).isNotEmpty();
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  @WithUserDetails("admin@user")
-  public void addAndFindImagesOwnOrgaOk() throws IOException {
+  @WithUserDetails("blog1@user")
+  public void addAndFindImagesOwnBloggerOk() throws IOException {
     
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(blogId, imageInput);
 
     List<ImageEntity> result = (List<ImageEntity>) controller
-        .readImages("00000000-0000-0000-0008-100000000000").getBody();
+        .readImages(blogId).getBody();
 
     assertThat(result).isNotEmpty();
   }
   
   @Test(expected = BadParamsException.class)
-  @WithUserDetails("admin@user")
+  @WithUserDetails("blog1@user")
   public void addNotValidImageDenied() throws IOException {
     
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         null,
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(blogId, imageInput);
   }
   
   @Test(expected = BadParamsException.class)
-  @WithUserDetails("admin@user")
+  @WithUserDetails("blog1@user")
   public void addNullMimeTypeDenied() throws IOException {
     
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         null));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(blogId, imageInput);
   }
   
   @Test(expected = BadParamsException.class)
-  @WithUserDetails("admin@user")
+  @WithUserDetails("blog1@user")
   public void addNotValidMimeTypeDenied() throws IOException {
     
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         "notvalid"));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(blogId, imageInput);
   }
   
   @Test(expected = AccessDeniedException.class)
-  @WithUserDetails("provider1@user")
+  @WithUserDetails("blog2@user")
   public void addAndFindImagesOtherOrgaDenied() throws IOException {
+    
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(blogId, imageInput);
   }
   
   @Test(expected = AuthenticationCredentialsNotFoundException.class)
   public void addAndFindImagesNotRegisteredDenied() throws IOException {
+    
+    String blogId = "00000000-0000-0000-0016-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity(
         imageReader.getBase64Picture(),
         imageReader.getMimeType()));
     
-    controller.addImage("00000000-0000-0000-0008-100000000000", imageInput);
+    controller.addImage(blogId, imageInput);
   }
 
   @SuppressWarnings("unchecked")
   @Test(expected = NotFoundException.class)
-  public void findImagesByOrganisationNotFound() {
+  public void findImagesByBlogNotFound() {
+    
+    String blogId = "00000000-0000-0000-0016-XX0000000000";
     List<ImageEntity> result = (List<ImageEntity>) controller
-        .readImages("00000000-0000-0000-0008-XX0000000000").getBody();
+        .readImages(blogId).getBody();
 
     assertThat(result).isNotEmpty();
   }

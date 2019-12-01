@@ -10,11 +10,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
-import de.codeschluss.wooportal.server.components.images.organisation.OrganisationImageEntity;
 import de.codeschluss.wooportal.server.components.organisation.translations.OrganisationTranslatablesEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +24,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -36,7 +40,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.core.Relation;
 
@@ -80,10 +86,22 @@ public class OrganisationEntity extends BaseResource {
   @Transient
   private String description;
   
-  @OneToMany(mappedBy = "organisation", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-  @JsonIgnore
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @ToString.Exclude
-  private List<OrganisationImageEntity> images;
+  @JsonIgnore
+  @JoinTable(
+      name = "organisation_images",
+      joinColumns = @JoinColumn(name = "organisation_id"),
+      inverseJoinColumns = @JoinColumn(name = "image_id"),
+      uniqueConstraints = {
+          @UniqueConstraint(columnNames = { "organisation_id", "image_id" })
+      })
+  @CollectionId(
+      columns = @Column(name = "id"),
+      type = @Type(type = "uuid-char"),
+      generator = "UUID"
+  )
+  private List<ImageEntity> images;
   
   @JsonProperty(access = Access.READ_ONLY)
   private int likes;
@@ -124,6 +142,8 @@ public class OrganisationEntity extends BaseResource {
         .readAddress(id)).withRel("address"));
     links.add(linkTo(methodOn(OrganisationController.class)
         .readTranslations(id)).withRel("translations"));
+    links.add(linkTo(methodOn(OrganisationController.class)
+        .readImages(id)).withRel("images"));
 
     return links;
   }

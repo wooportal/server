@@ -1,8 +1,8 @@
-package de.codeschluss.wooportal.server.integration.organisation;
+package de.codeschluss.wooportal.server.integration.activity;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.components.activity.ActivityController;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.integration.helper.ImageReader;
@@ -21,10 +21,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class OrganisationControllerCreateAndDeleteImagesTest {
+public class ActivityControllerCreateAndDeleteImagesTest {
 
   @Autowired
-  private OrganisationController controller;
+  private ActivityController controller;
   
   @Autowired
   private ImageReader imageReader;
@@ -34,19 +34,19 @@ public class OrganisationControllerCreateAndDeleteImagesTest {
   @SuppressWarnings("unchecked")
   public void addAndDeleteImagesSuperUserOk() throws IOException {
     
-    String organisationId = "00000000-0000-0000-0008-100000000000";
+    String activityId = "00000000-0000-0000-0010-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity());
     
     List<ImageEntity> result = 
         ((List<ImageEntity>) controller
-            .addImage(organisationId, imageInput).getBody());
+            .addImage(activityId, imageInput).getBody());
    
-    controller.deleteImages(organisationId, result.stream().map(
+    controller.deleteImages(activityId, result.stream().map(
         imageRes -> imageRes.getId()).collect(Collectors.toList()));
     
     try {
-      controller.readImages(organisationId);
+      controller.readImages(activityId);
       assertThat(false).isTrue();
     } catch (NotFoundException e) {
       assertThat(true).isTrue();
@@ -58,19 +58,19 @@ public class OrganisationControllerCreateAndDeleteImagesTest {
   @SuppressWarnings("unchecked")
   public void addAndDeleteImagesOwnOrgaOk() throws IOException {
     
-    String organisationId = "00000000-0000-0000-0008-100000000000";
+    String activityId = "00000000-0000-0000-0010-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity());
     
     List<ImageEntity> result = 
         ((List<ImageEntity>) controller
-            .addImage(organisationId, imageInput).getBody());
+            .addImage(activityId, imageInput).getBody());
    
-    controller.deleteImages(organisationId, result.stream().map(
+    controller.deleteImages(activityId, result.stream().map(
         imageRes -> imageRes.getId()).collect(Collectors.toList()));
     
     try {
-      controller.readImages(organisationId);
+      controller.readImages(activityId);
       assertThat(false).isTrue();
     } catch (NotFoundException e) {
       assertThat(true).isTrue();
@@ -82,15 +82,15 @@ public class OrganisationControllerCreateAndDeleteImagesTest {
   @SuppressWarnings("unchecked")
   public void addAndFindImagesOtherOrgaDenied() throws IOException {
     
-    String organisationId = "00000000-0000-0000-0008-100000000000";
+    String activityId = "00000000-0000-0000-0010-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity());
     
     List<ImageEntity> result = 
         ((List<ImageEntity>) controller
-            .addImage(organisationId, imageInput).getBody());
+            .addImage(activityId, imageInput).getBody());
    
-    controller.deleteImages(organisationId, result.stream().map(
+    controller.deleteImages(activityId, result.stream().map(
         imageRes -> imageRes.getId()).collect(Collectors.toList()));
   }
   
@@ -98,15 +98,15 @@ public class OrganisationControllerCreateAndDeleteImagesTest {
   @SuppressWarnings("unchecked")
   public void addAndFindImagesNotRegisteredDenied() throws IOException {
     
-    String organisationId = "00000000-0000-0000-0008-100000000000";
+    String activityId = "00000000-0000-0000-0010-100000000000";
     List<ImageEntity> imageInput = new ArrayList<>();
     imageInput.add(newImageEntity());
     
     List<ImageEntity> result = 
         ((List<ImageEntity>) controller
-            .addImage(organisationId, imageInput).getBody());
+            .addImage(activityId, imageInput).getBody());
    
-    controller.deleteImages(organisationId, result.stream().map(
+    controller.deleteImages(activityId, result.stream().map(
         imageRes -> imageRes.getId()).collect(Collectors.toList()));
   }
   
