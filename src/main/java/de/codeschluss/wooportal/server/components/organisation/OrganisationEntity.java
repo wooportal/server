@@ -90,7 +90,7 @@ public class OrganisationEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "organisation_images",
+      name = "organisations_images",
       joinColumns = @JoinColumn(name = "organisation_id"),
       inverseJoinColumns = @JoinColumn(name = "image_id"),
       uniqueConstraints = {

@@ -49,8 +49,12 @@ databaseChangeLog:
 - include:
     file: database/changes/0023.add_column_pages_likes.yaml
 - include:
-    file: database/changes/0024.restructure_tables_orgaimages.yaml
+    file: database/changes/0024.create_table_images.yaml
 - include:
     file: database/changes/0025.create_table_activityimages.yaml
 - include:
     file: database/changes/0026.create_table_blogimages.yaml
+- include:
+    file: database/changes/0027.create_table_orgaimages.yaml
+- include:
+    file: database/changes/0028.transform_data_orgaimages.yaml

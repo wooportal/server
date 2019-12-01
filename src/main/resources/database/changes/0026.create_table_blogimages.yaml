@@ -34,7 +34,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: blog_id, image_id
-        constraintName: CONSTRAINT_UNQBLOGIMAGEID
+        constraintName: CONSTRAINT_4ADD91F5
         tableName: blogs_images
 - changeSet:
     id: 0025.create_table_blogimages.3
@@ -44,7 +44,7 @@ databaseChangeLog:
         columns:
         - column:
             name: image_id
-        indexName: CONSTRAINT_IDXBLOGIMAGEIMAGEID
+        indexName: CONSTRAINT_443A075C
         tableName: blogs_images
 - changeSet:
     id: 0025.create_table_blogimages.4
@@ -54,7 +54,7 @@ databaseChangeLog:
         columns:
         - column:
             name: blog_id
-        indexName: CONSTRAINT_IDXBLOGIMAGEblogID
+        indexName: CONSTRAINT_83DFCA14
         tableName: blogs_images
 - changeSet:
     id: 0025.create_table_blogimages.5
@@ -63,7 +63,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: blog_id
         baseTableName: blogs_images
-        constraintName: CONSTRAINT_FKBLOGIMAGESblogID
+        constraintName: CONSTRAINT_D872AC9B
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -78,7 +78,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: image_id
         baseTableName: blogs_images
-        constraintName: CONSTRAINT_FKBLOGIMAGESIMAGEID
+        constraintName: CONSTRAINT_0B395AC7
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE

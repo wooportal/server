@@ -18,6 +18,7 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: languages
+        validate: true
     - dropForeignKeyConstraint:
         baseTableName: activity_translatables
         constraintName: CONSTRAINT_952C2A0C
@@ -31,6 +32,7 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: activities
+        validate: true
 ########## Blog ##########
 - changeSet:
     id: 0021.normalize_cascading-blog

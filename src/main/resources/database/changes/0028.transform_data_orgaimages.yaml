@@ -1,0 +1,30 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0024.transform_data_orgaimages.1
+    author: codeschluss
+    changes:
+    - sql:
+        comment: transfer all organisation images into image table
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into images (id, created, modified, caption, mime_type, image)
+            select t1.id, t1.created, t1.modified, t1.caption, t1.mime_type, t1.image
+            from organisation_images t1;
+    - sql:
+        comment: link organisations to transferred images
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into organisations_images (id, organisation_id, image_id)
+            select uuid(), t1.organisation_id, t1.id
+            from organisation_images t1;
+- changeSet:
+    id: 0024.transform_data_orgaimages.2
+    author: codeschluss
+    changes:
+    - dropTable:
+        tableName: organisation_images
