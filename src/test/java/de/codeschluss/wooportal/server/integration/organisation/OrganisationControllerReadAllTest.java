@@ -1,12 +1,12 @@
 package de.codeschluss.wooportal.server.integration.organisation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationQueryParam;
 import de.codeschluss.wooportal.server.core.api.dto.EmbeddedGraph;
-import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
