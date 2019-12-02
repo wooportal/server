@@ -1,6 +1,7 @@
 package de.codeschluss.wooportal.server.core.image;
 
-import de.codeschluss.wooportal.server.core.service.DataService;
+import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
+import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,15 +19,16 @@ import org.springframework.util.Base64Utils;
  *
  */
 @Service
-public class ImageService extends DataService<ImageEntity, ImageQueryBuilder>  {
+public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBuilder>  {
 
   private final ImageConfiguration config;
 
   public ImageService(
       ImageConfiguration config,
       ImageRepository repo,
-      ImageQueryBuilder entities) {
-    super(repo, entities);
+      ImageQueryBuilder entities,
+      PagingAndSortingAssembler assembler) {
+    super(repo, entities, assembler);
     this.config = config;
   }
   

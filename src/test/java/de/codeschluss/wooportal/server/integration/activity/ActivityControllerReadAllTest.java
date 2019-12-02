@@ -167,7 +167,6 @@ public class ActivityControllerReadAllTest {
     Resources<Resource<ActivityEntity>> result = act(params);
     
     assertThat(result.getContent()).isNotEmpty();
-    
   }
 
   private String createBase64Embeddings() throws JsonProcessingException {
@@ -192,6 +191,9 @@ public class ActivityControllerReadAllTest {
     EmbeddedGraph schedules = new EmbeddedGraph();
     schedules.setName("schedules");
     
+    EmbeddedGraph images = new EmbeddedGraph();
+    images.setName("images");
+    
     EmbeddedGraph user = new EmbeddedGraph();
     user.setName("user");
     
@@ -208,6 +210,7 @@ public class ActivityControllerReadAllTest {
     activityList.add(provider);
     activityList.add(tags);
     activityList.add(schedules);
+    activityList.add(images);
     
     ObjectMapper mapper = new ObjectMapper();
     return Base64Utils.encodeToString(mapper.writeValueAsString(activityList).getBytes());

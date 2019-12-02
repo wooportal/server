@@ -3,7 +3,9 @@ package de.codeschluss.wooportal.server.core.image;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.codeschluss.wooportal.server.core.entity.BaseEntity;
+import de.codeschluss.wooportal.server.core.entity.BaseResource;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.core.Relation;
 import org.springframework.util.Base64Utils;
 
@@ -30,7 +33,7 @@ import org.springframework.util.Base64Utils;
 @Entity
 @Table(name = "images")
 @Relation(collectionRelation = "data")
-public class ImageEntity extends BaseEntity {
+public class ImageEntity extends BaseResource {
 
   private static final long serialVersionUID = 1L;
 
@@ -62,5 +65,10 @@ public class ImageEntity extends BaseEntity {
       return Base64Utils.encodeToString(image);
     }
     return null;
+  }
+
+  @Override
+  public List<Link> createResourceLinks() {
+    return new ArrayList<Link>();
   }
 }
