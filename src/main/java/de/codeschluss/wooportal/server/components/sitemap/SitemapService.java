@@ -5,8 +5,10 @@ import de.codeschluss.wooportal.server.components.blog.BlogService;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.page.PageService;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -79,7 +81,7 @@ public class SitemapService {
    */
   public <D extends ResourceDataService<? extends BaseEntity,?>> 
       List<SitemapUrl> getEntityUrls(D service, String path) {
-    return service.getSortedList(null).stream().map(entity -> {
+    return service.getAll().stream().map(entity -> {
       StringBuilder urlBuilder = new StringBuilder();
       urlBuilder.append(config.getBaseUrl());
       urlBuilder.append(path);
