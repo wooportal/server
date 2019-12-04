@@ -174,7 +174,7 @@ public abstract class DataService<E extends BaseEntity, B extends QueryBuilder<?
    */
   public <P extends FilterSortPaginate> List<E> getSortedList(P params) {
     Sort sort = entities.createSort(params);
-    List<E> result = params.isEmptyQuery() && !entities.localized()
+    List<E> result = params == null || (params.isEmptyQuery() && !entities.localized())
         ? repo.findAll(sort)
         : repo.findAll(entities.search(params), sort);
     
