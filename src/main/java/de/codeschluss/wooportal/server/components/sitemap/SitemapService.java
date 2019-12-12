@@ -6,6 +6,7 @@ import de.codeschluss.wooportal.server.components.organisation.OrganisationServi
 import de.codeschluss.wooportal.server.components.page.PageService;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,41 +49,66 @@ public class SitemapService {
   
   /**
    * Generate sitemap.
+   * @param requestUrl 
    *
    * @return the object
    */
-  public Sitemap generateSitemap() {
+  public Sitemap generateSitemap(URL requestUrl) {
+    StringBuilder baseUrlBuilder = getBaseUrlBuilder(requestUrl);
     Sitemap map = new Sitemap();
-    map.addUrls(getStaticUrls());
-    map.addUrls(getEntityUrls(activityService, "/activities/"));
-    map.addUrls(getEntityUrls(blogService, "/blogposts/"));
-    map.addUrls(getEntityUrls(orgaService, "/organisations/"));
-    map.addUrls(getEntityUrls(pageService, "/infopages/"));
+    
+    map.addUrls(getStaticUrls(baseUrlBuilder));
+    map.addUrls(getEntityUrls(activityService, baseUrlBuilder, "activities"));
+    map.addUrls(getEntityUrls(blogService, baseUrlBuilder, "blogposts"));
+    map.addUrls(getEntityUrls(orgaService, baseUrlBuilder, "organisations"));
+    map.addUrls(getEntityUrls(pageService, baseUrlBuilder, "infopages"));
     return map;
   }
 
-  private List<SitemapUrl> getStaticUrls() {
+  private StringBuilder getBaseUrlBuilder(URL requestUrl) {
+    StringBuilder builder = new StringBuilder();
+    builder.append(requestUrl.getProtocol());
+    builder.append("://");
+    builder.append(requestUrl.getAuthority());
+    builder.append("/");
+    return builder;
+  }
+
+  /**
+   * Gets the static urls.
+   *
+   * @param baseUrlBuilder the base url builder
+   * @return the static urls
+   */
+  private List<SitemapUrl> getStaticUrls(StringBuilder baseUrlBuilder) {
     return config.getStaticUrls().stream().map(url -> {
       return new SitemapUrl(
-          url,
+          new StringBuilder(baseUrlBuilder).append(url).toString(),
           null
       );
     }).collect(Collectors.toList());
   }
 
   /**
-   * Gets the entity urls.
+   * gets the entity urls.
    *
+   * @param <D> the generic type
    * @param service the service
-   * @param path the path
+   * @param baseUrlBuilder the base url builder
+   * @param resource the resource
    * @return the entity urls
    */
-  public <D extends ResourceDataService<? extends BaseEntity,?>> 
-      List<SitemapUrl> getEntityUrls(D service, String path) {
+  public <D extends ResourceDataService<? extends BaseEntity,?>> List<SitemapUrl> getEntityUrls(
+      D service, 
+      StringBuilder baseUrlBuilder, 
+      String resource) {
+    
+    StringBuilder resourceUrlBuilder = new StringBuilder(baseUrlBuilder);
+    resourceUrlBuilder.append(resource);
+    resourceUrlBuilder.append("/");
+    
     return service.getAll().stream().map(entity -> {
-      StringBuilder urlBuilder = new StringBuilder();
-      urlBuilder.append(config.getBaseUrl());
-      urlBuilder.append(path);
+      StringBuilder urlBuilder = new StringBuilder(resourceUrlBuilder);
       urlBuilder.append(entity.getId());
       return new SitemapUrl(
           urlBuilder.toString(), 

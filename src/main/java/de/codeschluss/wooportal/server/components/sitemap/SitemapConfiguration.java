@@ -10,6 +10,5 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "sitemap")
 public class SitemapConfiguration {
   
-  private String baseUrl;
   private List<String> staticUrls;
 }
