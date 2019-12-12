@@ -57,6 +57,7 @@ public class SitemapService {
     StringBuilder baseUrlBuilder = getBaseUrlBuilder(requestUrl);
     Sitemap map = new Sitemap();
     
+    map.addUrl(new SitemapUrl(baseUrlBuilder.toString(), null));
     map.addUrls(getStaticUrls(baseUrlBuilder));
     map.addUrls(getEntityUrls(activityService, baseUrlBuilder, "activities"));
     map.addUrls(getEntityUrls(blogService, baseUrlBuilder, "blogposts"));
