@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.organisation.translations.OrganisationTranslatablesEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
+import de.codeschluss.wooportal.server.components.video.VideoEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
@@ -123,8 +124,7 @@ public class OrganisationEntity extends BaseResource {
   @ToString.Exclude
   protected Set<OrganisationTranslatablesEntity> translatables;
   
-  @Column(name = "video_url")
-  private String videoUrl;
+  private List<VideoEntity> videos;
 
   private String website;
 

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package de.codeschluss.wooportal.server.components.organisation;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -6,6 +9,7 @@ import com.querydsl.core.types.Predicate;
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
+import de.codeschluss.wooportal.server.components.video.VideoEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
@@ -92,7 +96,6 @@ public class OrganisationService
       orga.setMail(newOrga.getMail());
       orga.setName(newOrga.getName());
       orga.setPhone(newOrga.getPhone());
-      orga.setVideoUrl(newOrga.getVideoUrl());
       orga.setWebsite(newOrga.getWebsite());
       return repo.save(orga);
     }).orElseGet(() -> {
@@ -259,5 +262,51 @@ public class OrganisationService
       throw new NotFoundException("No images found");
     }
     return result;
+  }
+  
+  /**
+   * Gets the videos.
+   *
+   * @param id the id
+   * @return the videos
+   */
+  public List<VideoEntity> getVideos(String id) {
+    List<VideoEntity> result = getById(id).getVideos();
+    if (result == null || result.isEmpty()) {
+      throw new NotFoundException("No videos found");
+    }
+    return result;
+  }
+
+  /**
+   * Adds the videos.
+   *
+   * @param id the id
+   * @param videos the videos
+   * @return the list
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
+  public List<VideoEntity> addVideos(
+      String id,
+      List<VideoEntity> videos) {
+    OrganisationEntity savedEntity = null;
+    for (VideoEntity image : videos) {
+      savedEntity = addVideo(id, image);
+    }
+    return savedEntity.getVideos();
+  }
+
+  /**
+   * Adds the video.
+   *
+   * @param id the id
+   * @param image the image
+   * @return the organisation entity
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
+  public OrganisationEntity addVideo(String id, VideoEntity image) {
+    OrganisationEntity organisation = getById(id);
+    organisation.getVideos().add(image);
+    return repo.save(organisation);
   }
 }

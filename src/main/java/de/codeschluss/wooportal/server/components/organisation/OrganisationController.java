@@ -9,6 +9,8 @@ import de.codeschluss.wooportal.server.components.address.AddressService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
 import de.codeschluss.wooportal.server.components.user.UserService;
+import de.codeschluss.wooportal.server.components.video.VideoEntity;
+import de.codeschluss.wooportal.server.components.video.VideoService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
@@ -67,6 +69,9 @@ public class OrganisationController
   /** The image service. */
   private final ImageService imageService;
   
+  /** The video service. */
+  private final VideoService videoService;
+  
   /** The authorization service. */
   private final AuthorizationService authService;
 
@@ -86,7 +91,7 @@ public class OrganisationController
    */
   public OrganisationController(OrganisationService service, ProviderService providerService,
       UserService userService, AddressService addressService, ActivityService activityService,
-      TranslationService translationService, ImageService imageService,
+      TranslationService translationService, ImageService imageService, VideoService videoService,
       AuthorizationService authService) {
     super(service);
     this.providerService = providerService;
@@ -95,6 +100,7 @@ public class OrganisationController
     this.activityService = activityService;
     this.translationService = translationService;
     this.imageService = imageService;
+    this.videoService = videoService;
     this.authService = authService;
   }
 
@@ -342,6 +348,11 @@ public class OrganisationController
     }
   }
   
+  @GetMapping("/organisations/{organisationId}/videos")
+  public ResponseEntity<?> readVideos(@PathVariable String organisationId) {
+    return ok(this.service.getVideos(organisationId));
+  }
+  
   /**
    * Read images.
    *
@@ -351,8 +362,7 @@ public class OrganisationController
    */
   @GetMapping("/organisations/{organisationId}/images")
   public ResponseEntity<?> readImages(@PathVariable String organisationId) {
-    List<ImageEntity> test = service.getImages(organisationId);
-    return ok(test);
+    return ok(service.getImages(organisationId));
   }
   
   /**
@@ -368,8 +378,7 @@ public class OrganisationController
       @RequestBody List<ImageEntity> images) {
     validateImages(images);
     try {
-      List<ImageEntity> saved = service.addImages(organisationId, imageService.addAll(images));
-      return ok(saved);
+      return ok(service.addImages(organisationId, imageService.addAll(images)));
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
     } catch (IOException e) {
@@ -407,6 +416,56 @@ public class OrganisationController
       throw new BadParamsException("Given Organisation does not exist");
     }
   }
+  
+  /**
+   * Adds the videos.
+   *
+   * @param organisationId the organisation id
+   * @param videos the videos
+   * @return the response entity
+   */
+  @PostMapping("/organisations/{organisationId}/videos")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> addVideos(@PathVariable String organisationId,
+      @RequestBody List<VideoEntity> videos) {
+    validateVideos(videos);
+    try {
+      return ok(service.addVideos(organisationId, videoService.addAll(videos)));
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Organisation does not exist");
+    }
+  }
+  
+  private void validateVideos(List<VideoEntity> videos) {
+    if (videos == null || videos.isEmpty()) {
+      throw new BadParamsException("Video must not be null");
+    }
+    for (VideoEntity image : videos) {
+      if (!videoService.validCreateFieldConstraints(image)) {
+        throw new BadParamsException("Video is missing field");
+      }
+    }
+  }
+  
+  /**
+   * Delete videos.
+   *
+   * @param organisationId the organisation id
+   * @param videoIds the video ids
+   * @return the response entity
+   */
+  @DeleteMapping("/organisations/{organisationId}/videos")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> deleteVideos(@PathVariable String organisationId,
+      @RequestParam(value = "videoIds", required = true) List<String> videoIds) {
+    try {
+      videoService.deleteAll(videoIds);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Organisation does not exist");
+    }
+  }
+  
   
   /**
    * Increase like.
