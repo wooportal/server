@@ -29,6 +29,9 @@ databaseChangeLog:
             name: url
             type: VARCHAR(255)
         - column:
+            name: platform
+            type: VARCHAR(255)
+        - column:
             constraints:
               nullable: false
             name: organisation_id

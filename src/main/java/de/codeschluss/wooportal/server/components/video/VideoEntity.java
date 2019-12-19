@@ -32,6 +32,8 @@ public class VideoEntity extends BaseResource {
 
   private static final long serialVersionUID = 1L;
 
+  private String platform;
+  
   private String url;
   
   @ManyToOne
