@@ -12,4 +12,4 @@ databaseChangeLog:
             /*!40101 SET character_set_client = utf8 */;
             insert into videos (id, created, modified, url, organisation_id)
             select uuid(), t1.created, t1.modified, t1.video_url, t1.id
-            from organisation t1 where t1.video_url is not null;
+            from organisations t1 where t1.video_url is not null and t1.video_url <> '';

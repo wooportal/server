@@ -65,6 +65,7 @@ databaseChangeLog:
 - include:
     file: database/changes/0031.transform_data_videourls.yaml
 - include:
+<<<<<<< 0107_internal
     file: database/changes/0033.create_tables_subscriptions.yaml
 - include:
     file: database/changes/0034.drop_column_subscriptions_endpoint-key.yaml
@@ -72,3 +73,6 @@ databaseChangeLog:
     file: database/changes/0035.add_column_subscriptions_language.yaml
 - include:
     file: database/changes/0036.add_data_subscriptiontypes.yaml
+=======
+    file: database/changes/0032.drop_column_organisations_video_url.yaml
+>>>>>>> migrations done
