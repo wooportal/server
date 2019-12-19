@@ -430,7 +430,8 @@ public class OrganisationController
       @RequestBody List<VideoEntity> videos) {
     validateVideos(videos);
     try {
-      return ok(service.addVideos(organisationId, videoService.addAll(videos)));
+      
+      return ok(videoService.addAll(videos, service.getById(organisationId)));
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
     }
@@ -459,8 +460,12 @@ public class OrganisationController
   public ResponseEntity<?> deleteVideos(@PathVariable String organisationId,
       @RequestParam(value = "videoIds", required = true) List<String> videoIds) {
     try {
-      videoService.deleteAll(videoIds);
-      return noContent().build();
+      if (videoService.areOrgaVideos(organisationId, videoIds)) {
+        videoService.deleteAll(videoIds);
+        return noContent().build();
+      } else {
+        throw new BadParamsException("Videos do not belong to Organisation");
+      }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
     }

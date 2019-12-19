@@ -1,8 +1,8 @@
 package de.codeschluss.wooportal.server.components.video;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
-import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -27,7 +27,6 @@ import org.springframework.hateoas.Link;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Entity
-@Localized
 @Table(name = "videos")
 public class VideoEntity extends BaseResource {
 
@@ -37,6 +36,7 @@ public class VideoEntity extends BaseResource {
   
   @ManyToOne
   @ToString.Exclude
+  @JsonIgnore
   @JoinColumn(nullable = false)
   private OrganisationEntity organisation;
 

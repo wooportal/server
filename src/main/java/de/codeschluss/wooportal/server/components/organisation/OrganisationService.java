@@ -274,36 +274,4 @@ public class OrganisationService
     }
     return result;
   }
-
-  /**
-   * Adds the videos.
-   *
-   * @param id the id
-   * @param videos the videos
-   * @return the list
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  public List<VideoEntity> addVideos(
-      String id,
-      List<VideoEntity> videos) {
-    OrganisationEntity savedEntity = null;
-    for (VideoEntity image : videos) {
-      savedEntity = addVideo(id, image);
-    }
-    return savedEntity.getVideos();
-  }
-
-  /**
-   * Adds the video.
-   *
-   * @param id the id
-   * @param image the image
-   * @return the organisation entity
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  public OrganisationEntity addVideo(String id, VideoEntity image) {
-    OrganisationEntity organisation = getById(id);
-    organisation.getVideos().add(image);
-    return repo.save(organisation);
-  }
 }

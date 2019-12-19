@@ -26,4 +26,8 @@ public class VideoQueryBuilder extends QueryBuilder<QVideoEntity> {
     String filter = prepareFilter(params.getFilter());
     return query.url.likeIgnoreCase(filter);
   }
+
+  public Predicate withIdAndOrgaId(String id, String organisationId) {
+    return query.id.eq(id).and(query.organisation.id.eq(organisationId));
+  }
 }
