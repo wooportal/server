@@ -1,6 +1,3 @@
-/*
- * 
- */
 package de.codeschluss.wooportal.server.components.organisation;
 
 import com.fasterxml.jackson.core.JsonParseException;

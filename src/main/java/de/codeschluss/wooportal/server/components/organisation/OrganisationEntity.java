@@ -124,6 +124,7 @@ public class OrganisationEntity extends BaseResource {
   @ToString.Exclude
   protected Set<OrganisationTranslatablesEntity> translatables;
   
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation", cascade = CascadeType.REMOVE)
   private List<VideoEntity> videos;
 
   private String website;

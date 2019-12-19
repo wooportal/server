@@ -1,16 +1,20 @@
 package de.codeschluss.wooportal.server.components.video;
 
+import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.hateoas.Link;
 
 /**
@@ -30,6 +34,11 @@ public class VideoEntity extends BaseResource {
   private static final long serialVersionUID = 1L;
 
   private String url;
+  
+  @ManyToOne
+  @ToString.Exclude
+  @JoinColumn(nullable = false)
+  private OrganisationEntity organisation;
 
   @Override
   public List<Link> createResourceLinks() {

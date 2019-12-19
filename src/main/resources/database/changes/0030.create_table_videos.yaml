@@ -1,0 +1,48 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 1576682464202-15
+    author: codeschluss
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: videosPK
+            name: id
+            type: CHAR(36)
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: created
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: modified
+            type: datetime
+        - column:
+            name: url
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: organisation_id
+            type: CHAR(36)
+        tableName: videos
+- changeSet:
+    id: 1576682464202-26
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: organisation_id
+        baseTableName: videos
+        constraintName: FKt2u1ooahskl39gwbrop85yiqf
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: organisations
+        validate: true

@@ -61,6 +61,10 @@ databaseChangeLog:
 - include:
     file: database/changes/0029.transform_data_richtext.yaml
 - include:
+    file: database/changes/0030.create_table_videos.yaml
+- include:
+    file: database/changes/0031.transform_data_videourls.yaml
+- include:
     file: database/changes/0033.create_tables_subscriptions.yaml
 - include:
     file: database/changes/0034.drop_column_subscriptions_endpoint-key.yaml

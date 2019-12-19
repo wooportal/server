@@ -1,0 +1,391 @@
+databaseChangeLog:
+- changeSet:
+    id: 1576682464202-11
+    author: valmir (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: activity_id
+            type: CHAR
+        - column:
+            constraints:
+              nullable: false
+            name: image_id
+            type: CHAR
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: VARCHAR(255)
+        tableName: activities_images
+- changeSet:
+    id: 1576682464202-12
+    author: valmir (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: blog_id
+            type: CHAR
+        - column:
+            constraints:
+              nullable: false
+            name: image_id
+            type: CHAR
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: VARCHAR(255)
+        tableName: blogs_images
+- changeSet:
+    id: 1576682464202-13
+    author: valmir (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: imagesPK
+            name: id
+            type: CHAR
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: created
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: modified
+            type: datetime
+        - column:
+            name: caption
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: image
+            type: MEDIUMBLOB
+        - column:
+            constraints:
+              nullable: false
+            name: mime_type
+            type: VARCHAR(255)
+        tableName: images
+- changeSet:
+    id: 1576682464202-14
+    author: valmir (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+            name: organisation_id
+            type: CHAR
+        - column:
+            constraints:
+              nullable: false
+            name: image_id
+            type: CHAR
+        - column:
+            constraints:
+              primaryKey: true
+            name: id
+            type: VARCHAR(255)
+        tableName: organisations_images
+- changeSet:
+    id: 1576682464202-15
+    author: valmir (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+              primaryKeyName: videosPK
+            name: id
+            type: CHAR
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: created
+            type: datetime
+        - column:
+            constraints:
+              nullable: false
+            defaultValueComputed: CURRENT_TIMESTAMP
+            name: modified
+            type: datetime
+        - column:
+            name: url
+            type: VARCHAR(255)
+        - column:
+            constraints:
+              nullable: false
+            name: organisation_id
+            type: CHAR
+        tableName: videos
+- changeSet:
+    id: 1576682464202-16
+    author: valmir (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: blog_id, image_id
+        constraintName: UKfdlcxtga4a0eketdqww8uxpw2
+        tableName: blogs_images
+- changeSet:
+    id: 1576682464202-17
+    author: valmir (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: activity_id, image_id
+        constraintName: UKqykxvr33g1nbrxo656qosi0ht
+        tableName: activities_images
+- changeSet:
+    id: 1576682464202-18
+    author: valmir (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: organisation_id, image_id
+        constraintName: UKt57j8ii2hwqnuk4xbveuv6jhs
+        tableName: organisations_images
+- changeSet:
+    id: 1576682464202-19
+    author: valmir (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: blog_id
+        baseTableName: blogs_images
+        constraintName: FK3lh1baubbkiqo3039dtu4mcx9
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: blogs
+        validate: true
+- changeSet:
+    id: 1576682464202-20
+    author: valmir (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: blogger_id
+        baseTableName: blogs
+        constraintName: FK47vr5itqq8cq5k7c7nhpjc3f9
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: bloggers
+        validate: true
+- changeSet:
+    id: 1576682464202-21
+    author: valmir (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: activity_id
+        baseTableName: activities_images
+        constraintName: FK5hvbkcsla2fs1e7v5nkhivfc1
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: activities
+        validate: true
+- changeSet:
+    id: 1576682464202-22
+    author: valmir (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: image_id
+        baseTableName: activities_images
+        constraintName: FKahpkn7k88cfwhnqa64eggigjb
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: images
+        validate: true
+- changeSet:
+    id: 1576682464202-23
+    author: valmir (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: image_id
+        baseTableName: organisations_images
+        constraintName: FKdsa4ywytfrt1r8y4br6bbyowi
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: images
+        validate: true
+- changeSet:
+    id: 1576682464202-24
+    author: valmir (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: organisation_id
+        baseTableName: organisations_images
+        constraintName: FKe8ntvkc7xdpoetwdbyjqasjy
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: organisations
+        validate: true
+- changeSet:
+    id: 1576682464202-25
+    author: valmir (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: image_id
+        baseTableName: blogs_images
+        constraintName: FKjvmoiwkmp0fn3s8ndhfkii2gg
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: images
+        validate: true
+- changeSet:
+    id: 1576682464202-26
+    author: valmir (generated)
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: organisation_id
+        baseTableName: videos
+        constraintName: FKt2u1ooahskl39gwbrop85yiqf
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: organisations
+        validate: true
+- changeSet:
+    id: 1576682464202-27
+    author: valmir (generated)
+    changes:
+    - dropForeignKeyConstraint:
+        baseTableName: organisation_images
+        constraintName: CONSTRAINT_E342D7BE
+- changeSet:
+    id: 1576682464202-28
+    author: valmir (generated)
+    changes:
+    - dropTable:
+        tableName: organisation_images
+- changeSet:
+    id: 1576682464202-29
+    author: valmir (generated)
+    changes:
+    - dropColumn:
+        columnName: video_url
+        tableName: organisations
+- changeSet:
+    id: 1576682464202-1
+    author: valmir (generated)
+    changes:
+    - dropNotNullConstraint:
+        columnDataType: boolean
+        columnName: approved
+        tableName: organisations
+- changeSet:
+    id: 1576682464202-2
+    author: valmir (generated)
+    changes:
+    - addNotNullConstraint:
+        columnDataType: clob
+        columnName: description
+        tableName: organisation_translatables
+- changeSet:
+    id: 1576682464202-3
+    author: valmir (generated)
+    changes:
+    - dropUniqueConstraint:
+        constraintName: UC_CATEGORIESCOLOR_COL
+        tableName: categories
+    - addUniqueConstraint:
+        columnNames: color
+        constraintName: UC_CATEGORIESCOLOR_COL
+        tableName: categories
+- changeSet:
+    id: 1576682464202-4
+    author: valmir (generated)
+    changes:
+    - dropUniqueConstraint:
+        constraintName: UC_LANGUAGESLOCALE_COL
+        tableName: languages
+    - addUniqueConstraint:
+        columnNames: locale
+        constraintName: UC_LANGUAGESLOCALE_COL
+        tableName: languages
+- changeSet:
+    id: 1576682464202-5
+    author: valmir (generated)
+    changes:
+    - dropUniqueConstraint:
+        constraintName: UC_LANGUAGESNAME_COL
+        tableName: languages
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_LANGUAGESNAME_COL
+        tableName: languages
+- changeSet:
+    id: 1576682464202-6
+    author: valmir (generated)
+    changes:
+    - dropUniqueConstraint:
+        constraintName: UC_ORGANISATIONSNAME_COL
+        tableName: organisations
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_ORGANISATIONSNAME_COL
+        tableName: organisations
+- changeSet:
+    id: 1576682464202-7
+    author: valmir (generated)
+    changes:
+    - dropUniqueConstraint:
+        constraintName: UC_SUBURBSNAME_COL
+        tableName: suburbs
+    - addUniqueConstraint:
+        columnNames: name
+        constraintName: UC_SUBURBSNAME_COL
+        tableName: suburbs
+- changeSet:
+    id: 1576682464202-8
+    author: valmir (generated)
+    changes:
+    - dropUniqueConstraint:
+        constraintName: UC_USERSUSERNAME_COL
+        tableName: users
+    - addUniqueConstraint:
+        columnNames: username
+        constraintName: UC_USERSUSERNAME_COL
+        tableName: users
+- changeSet:
+    id: 1576682464202-9
+    author: valmir (generated)
+    changes:
+    - dropUniqueConstraint:
+        constraintName: UKkjqoui7f8ede4bs22fovg44e6
+        tableName: activities_target_groups
+    - addUniqueConstraint:
+        columnNames: activity_id, target_group_id
+        constraintName: UKkjqoui7f8ede4bs22fovg44e6
+        tableName: activities_target_groups
+- changeSet:
+    id: 1576682464202-10
+    author: valmir (generated)
+    changes:
+    - dropUniqueConstraint:
+        constraintName: UKsqhb71tj8rwi6riheq015cjcy
+        tableName: activities_tags
+    - addUniqueConstraint:
+        columnNames: activity_id, tag_id
+        constraintName: UKsqhb71tj8rwi6riheq015cjcy
+        tableName: activities_tags
+

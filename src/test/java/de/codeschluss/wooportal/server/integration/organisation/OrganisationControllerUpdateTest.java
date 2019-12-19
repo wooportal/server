@@ -105,7 +105,6 @@ public class OrganisationControllerUpdateTest {
     organisation.setMail(mail);
     organisation.setName(name);
     organisation.setPhone(phone);
-    organisation.setVideoUrl(videoUrl);
     organisation.setWebsite(website);
     organisation.setAddressId(addressId);
 
