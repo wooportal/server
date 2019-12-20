@@ -27,7 +27,7 @@ databaseChangeLog:
             type: datetime
         - column:
             name: url
-            type: VARCHAR(255)
+            type: VARCHAR(512)
         - column:
             name: platform
             type: VARCHAR(255)
