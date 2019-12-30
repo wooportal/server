@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.organisation.translations;
+package de.codeschluss.wooportal.server.core.push.subscriptiontype.translations;
 
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationRepository;
 import org.springframework.stereotype.Repository;
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  *
  */
 @Repository
-public interface OrganisationTranslatablesRepository 
-    extends TranslationRepository<OrganisationTranslatablesEntity> {
+public interface SubscriptionTypeTranslatablesRepository 
+    extends TranslationRepository<SubscriptionTypeTranslatablesEntity> {
 }

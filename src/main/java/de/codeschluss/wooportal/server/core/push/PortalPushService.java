@@ -1,11 +1,9 @@
 package de.codeschluss.wooportal.server.core.push;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import de.codeschluss.wooportal.server.components.subscription.SubscriptionEntity;
+import de.codeschluss.wooportal.server.components.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.core.exception.ThirdPartyServiceException;
-import de.codeschluss.wooportal.server.core.push.subscription.SubscriptionEntity;
-import de.codeschluss.wooportal.server.core.push.subscription.SubscriptionService;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;

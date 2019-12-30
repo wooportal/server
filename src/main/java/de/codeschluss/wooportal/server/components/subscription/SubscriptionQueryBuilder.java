@@ -1,15 +1,12 @@
-package de.codeschluss.wooportal.server.core.push.subscription;
+package de.codeschluss.wooportal.server.components.subscription;
 
 import com.querydsl.core.types.Predicate;
-
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
-import de.codeschluss.wooportal.server.core.push.subscription.QSubscriptionEntity;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
-
 import org.springframework.stereotype.Service;
 
 /**
- * The Class SubscriptionQueryBuilder.
+ * The Class SubscriptionTypeQueryBuilder.
  * 
  * @author Valmir Etemi
  *

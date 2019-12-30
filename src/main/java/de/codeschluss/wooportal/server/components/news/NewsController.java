@@ -2,10 +2,9 @@ package de.codeschluss.wooportal.server.components.news;
 
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
-
+import de.codeschluss.wooportal.server.components.subscription.SubscriptionEntity;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.push.PortalPushService;
-import de.codeschluss.wooportal.server.core.push.subscription.SubscriptionEntity;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import javax.naming.ServiceUnavailableException;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +54,7 @@ public class NewsController {
   }
   
   @PostMapping("/news/push")
-  @SuperUserPermission
+//  @SuperUserPermission
   public ResponseEntity<?> pushNews(@RequestBody News news) {
     pushService.push(news);
     return noContent().build();

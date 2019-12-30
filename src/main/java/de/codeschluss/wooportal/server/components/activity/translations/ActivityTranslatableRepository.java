@@ -4,7 +4,7 @@ import de.codeschluss.wooportal.server.core.i18n.translation.TranslationReposito
 import org.springframework.stereotype.Repository;
 
 /**
- * The Interface OrganisationTranslatablesRepository.
+ * The Interface SubscriptionTypeTranslatablesRepository.
  * 
  * @author Valmir Etemi
  *

@@ -1,9 +1,9 @@
-package de.codeschluss.wooportal.server.core.push.subscription;
+package de.codeschluss.wooportal.server.components.subscription;
 
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 
 /**
- * The Interface SubscriptionRepository.
+ * The Interface SubscriptionTypeRepository.
  * 
  * @author Valmir Etemi
  *
