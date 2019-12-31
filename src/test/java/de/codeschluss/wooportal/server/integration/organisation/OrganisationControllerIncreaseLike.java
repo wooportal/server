@@ -22,7 +22,7 @@ public class OrganisationControllerIncreaseLike {
     String organisationId = "00000001-0000-0000-0008-000000000000";
     int likesCount = controller.readOne(organisationId).getContent().getLikes();
     
-    controller.increaseLike(organisationId);
+    controller.increaseLike(organisationId, null);
     
     assertThat(
         controller.readOne(organisationId).getContent().getLikes()).isEqualTo(likesCount + 1); 
@@ -32,7 +32,7 @@ public class OrganisationControllerIncreaseLike {
   public void increaseLikeNotFound() {
     String organisationId = "00000000-0000-0000-0008-XX0000000000";
 
-    controller.increaseLike(organisationId);
+    controller.increaseLike(organisationId, null);
   }
 
 }

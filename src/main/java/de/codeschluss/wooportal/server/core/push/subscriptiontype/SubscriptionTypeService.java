@@ -23,7 +23,7 @@ public class SubscriptionTypeService
 
   @Override
   public SubscriptionTypeEntity getExisting(SubscriptionTypeEntity newSubscriptionType) {
-    return repo.findOne(entities.withAllSet(newSubscriptionType)).orElse(null);
+    return repo.findById(newSubscriptionType.getId()).orElse(null);
   }
 
   @Override

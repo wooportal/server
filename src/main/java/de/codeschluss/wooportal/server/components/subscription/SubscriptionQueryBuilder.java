@@ -20,9 +20,9 @@ public class SubscriptionQueryBuilder extends QueryBuilder<QSubscriptionEntity> 
 
   @Override
   public <P extends FilterSortPaginate> Predicate search(P params) {
-    return query.authSecret.eq(params.getFilter())
-        .or(query.publicKey.eq(params.getFilter()))
-        .or(query.endpoint.eq(params.getFilter()));
+    return query.authSecret.in(params.getFilter())
+        .or(query.publicKey.in(params.getFilter()))
+        .or(query.endpoint.in(params.getFilter()));
   }
 
   /**

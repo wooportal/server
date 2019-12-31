@@ -1,5 +1,8 @@
 package de.codeschluss.wooportal.server.components.subscription;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
@@ -145,7 +148,14 @@ public class SubscriptionEntity extends BaseResource {
 
   @Override
   public List<Link> createResourceLinks() {
-    return new ArrayList<Link>();
+    List<Link> links = new ArrayList<Link>();
+    
+    links.add(linkTo(methodOn(SubscriptionController.class)
+        .readOne(id)).withSelfRel());
+    links.add(linkTo(methodOn(SubscriptionController.class)
+        .readSubscribedTypes(id)).withRel("subscribedtypes"));
+    
+    return links;
   }
 
 }

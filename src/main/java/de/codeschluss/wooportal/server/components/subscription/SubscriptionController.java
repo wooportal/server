@@ -4,7 +4,6 @@ import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
 import de.codeschluss.wooportal.server.core.api.CrudController;
-import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
@@ -89,13 +88,11 @@ public class SubscriptionController
    * Read subscribed types.
    *
    * @param subscriptionId the subscription id
-   * @param params the params
    * @return the response entity
    */
   @GetMapping("/subscriptions/{subscriptionId}/subscribedtypes")
   public ResponseEntity<?> readSubscribedTypes(
-      @PathVariable String subscriptionId,
-      BaseParams params) {
+      @PathVariable String subscriptionId) {
     return ok(service.getSubsribedTypes(subscriptionId));
   }
 

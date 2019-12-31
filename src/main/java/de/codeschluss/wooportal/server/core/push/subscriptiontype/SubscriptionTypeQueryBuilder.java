@@ -20,13 +20,8 @@ public class SubscriptionTypeQueryBuilder extends QueryBuilder<QSubscriptionType
 
   @Override
   public <P extends FilterSortPaginate> Predicate search(P params) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public Predicate withAllSet(SubscriptionTypeEntity newSubscriptionType) {
-    // TODO Auto-generated method stub
-    return null;
+    return query.translatables.any().name.in(params.getFilter())
+        .or(query.translatables.any().description.in(params.getFilter()));
   }
 
 }
