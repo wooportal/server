@@ -61,4 +61,6 @@ databaseChangeLog:
 - include:
     file: database/changes/0028.transform_data_orgaimages.yaml
 - include:
+    file: database/changes/0029.transform_data_richtext.yaml
+- include:
     file: database/datasets/development.dataset.1.yaml

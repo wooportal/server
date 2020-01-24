@@ -58,3 +58,5 @@ databaseChangeLog:
     file: database/changes/0027.create_table_orgaimages.yaml
 - include:
     file: database/changes/0028.transform_data_orgaimages.yaml
+- include:
+    file: database/changes/0029.transform_data_richtext.yaml

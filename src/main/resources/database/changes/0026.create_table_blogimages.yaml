@@ -1,7 +1,7 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 0025.create_table_blogimages.1
+    id: 0026.create_table_blogimages.1
     author: codeschluss
     changes:
     - createTable:
@@ -29,7 +29,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE blogs_images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0025.create_table_blogimages.2
+    id: 0026.create_table_blogimages.2
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -37,7 +37,7 @@ databaseChangeLog:
         constraintName: CONSTRAINT_4ADD91F5
         tableName: blogs_images
 - changeSet:
-    id: 0025.create_table_blogimages.3
+    id: 0026.create_table_blogimages.3
     author: codeschluss
     changes:
     - createIndex:
@@ -47,7 +47,7 @@ databaseChangeLog:
         indexName: CONSTRAINT_443A075C
         tableName: blogs_images
 - changeSet:
-    id: 0025.create_table_blogimages.4
+    id: 0026.create_table_blogimages.4
     author: codeschluss
     changes:
     - createIndex:
@@ -57,7 +57,7 @@ databaseChangeLog:
         indexName: CONSTRAINT_83DFCA14
         tableName: blogs_images
 - changeSet:
-    id: 0025.create_table_blogimages.5
+    id: 0026.create_table_blogimages.5
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -72,7 +72,7 @@ databaseChangeLog:
         referencedTableName: blogs
         validate: true
 - changeSet:
-    id: 0025.create_table_blogimages.6
+    id: 0026.create_table_blogimages.6
     author: codeschluss
     changes:
     - addForeignKeyConstraint:

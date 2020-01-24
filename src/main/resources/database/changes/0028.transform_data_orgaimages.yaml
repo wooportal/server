@@ -1,7 +1,7 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 0024.transform_data_orgaimages.1
+    id: 0028.transform_data_orgaimages.1
     author: codeschluss
     changes:
     - sql:
@@ -23,7 +23,7 @@ databaseChangeLog:
             select uuid(), t1.organisation_id, t1.id
             from organisation_images t1;
 - changeSet:
-    id: 0024.transform_data_orgaimages.2
+    id: 0028.transform_data_orgaimages.2
     author: codeschluss
     changes:
     - dropTable:

@@ -1,0 +1,38 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0029.transform_data_richtext
+    author: codeschluss
+    changes:
+    - sql:
+        comment: markup activity_translatables.description
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            UPDATE activity_translatables SET description = CONCAT('<p>', description, '</p>');
+            UPDATE activity_translatables SET description = REPLACE(description, '\n', '</p><p>');
+    - sql:
+        comment: markup blog_translatables.content
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            UPDATE blog_translatables SET content = CONCAT('<p>', content, '</p>');
+            UPDATE blog_translatables SET content = REPLACE(content, '\n', '</p><p>');
+    - sql:
+        comment: markup organisation_translatables.description
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            UPDATE organisation_translatables SET description = CONCAT('<p>', description, '</p>');
+            UPDATE organisation_translatables SET description = REPLACE(description, '\n', '</p><p>');
+    - sql:
+        comment: markup page_translatables.content
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            UPDATE page_translatables SET content = CONCAT('<p>', content, '</p>');
+            UPDATE page_translatables SET content = REPLACE(content, '\n', '</p><p>');

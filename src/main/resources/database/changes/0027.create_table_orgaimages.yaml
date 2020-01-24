@@ -1,7 +1,7 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 0025.create_table_orgaimages.1
+    id: 0027.create_table_orgaimages.1
     author: codeschluss
     changes:
     - createTable:
@@ -29,7 +29,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE organisations_images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0025.create_table_orgaimages.2
+    id: 0027.create_table_orgaimages.2
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -37,7 +37,7 @@ databaseChangeLog:
         constraintName: CONSTRAINT_DF663B58
         tableName: organisations_images
 - changeSet:
-    id: 0025.create_table_orgaimages.3
+    id: 0027.create_table_orgaimages.3
     author: codeschluss
     changes:
     - createIndex:
@@ -47,7 +47,7 @@ databaseChangeLog:
         indexName: CONSTRAINT_03DF84C1
         tableName: organisations_images
 - changeSet:
-    id: 0025.create_table_orgaimages.4
+    id: 0027.create_table_orgaimages.4
     author: codeschluss
     changes:
     - createIndex:
@@ -57,7 +57,7 @@ databaseChangeLog:
         indexName: CONSTRAINT_933BA8DC
         tableName: organisations_images
 - changeSet:
-    id: 0025.create_table_orgaimages.5
+    id: 0027.create_table_orgaimages.5
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -72,7 +72,7 @@ databaseChangeLog:
         referencedTableName: organisations
         validate: true
 - changeSet:
-    id: 0025.create_table_orgaimages.6
+    id: 0027.create_table_orgaimages.6
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
