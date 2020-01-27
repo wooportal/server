@@ -1,8 +1,7 @@
 databaseChangeLog:
-
 - logicalFilePath: path_independent
 - changeSet:
-    id: 1576682464202-15
+    id: 0030.create_table_videos.1
     author: codeschluss
     changes:
     - createTable:
@@ -10,7 +9,6 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-              primaryKeyName: videosPK
             name: id
             type: CHAR(36)
         - column:
@@ -44,23 +42,23 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE videos CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 1576682464202-26
+    id: 0030.create_table_videos.2
     author: codeschluss
     changes:
     - createIndex:
         columns:
         - column:
             name: organisation_id
-        indexName: CONSTRAINT_VIDEOORGAIDX
+        indexName: CONSTRAINT_FAA5F299
         tableName: videos
     - addForeignKeyConstraint:
         baseColumnNames: organisation_id
         baseTableName: videos
-        constraintName: FKt2u1ooahskl39gwbrop85yiqf
-        onDelete: CASCADE
-        onUpdate: CASCADE
+        constraintName: CONSTRAINT_B8401F1A
         deferrable: false
         initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: organisations
         validate: true

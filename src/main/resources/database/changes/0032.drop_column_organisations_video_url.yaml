@@ -1,7 +1,7 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 0031.drop_column_organisations_video_url
+    id: 0032.drop_column_organisations_video_url
     author: codeschluss
     changes:
     - dropColumn:
