@@ -9,7 +9,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: imagesPK
             name: id
             type: CHAR(36)
         - column:

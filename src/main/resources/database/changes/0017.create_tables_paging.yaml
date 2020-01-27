@@ -9,7 +9,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: page_translatablesPK
             name: id
             type: CHAR(36)
         - column:
@@ -52,7 +51,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: pagesPK
             name: id
             type: CHAR(36)
         - column:

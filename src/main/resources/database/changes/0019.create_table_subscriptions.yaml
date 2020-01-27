@@ -9,7 +9,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: subscriptionsPK
             name: id
             type: CHAR(36)
         - column:

@@ -10,7 +10,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: activity_translatablesPK
             name: id
             type: CHAR(36)
         - column:
@@ -62,6 +61,7 @@ databaseChangeLog:
         initiallyDeferred: false
         referencedColumnNames: id
         referencedTableName: activities
+        validate: true
     - createIndex:
         columns:
         - column:
@@ -76,6 +76,7 @@ databaseChangeLog:
         initiallyDeferred: false
         referencedColumnNames: id
         referencedTableName: languages
+        validate: true
 ########## Category ##########
 - changeSet:
     id: 0003.create_tables_translatables-categories
@@ -86,7 +87,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: category_translatablesPK
             name: id
             type: CHAR(36)
         - column:
@@ -161,7 +161,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: organisation_translatablesPK
             name: id
             type: CHAR(36)
         - column:
@@ -238,7 +237,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: tag_translatablesPK
             name: id
             type: CHAR(36)
         - column:
@@ -313,7 +311,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: target_group_translatablesPK
             name: id
             type: CHAR(36)
         - column:

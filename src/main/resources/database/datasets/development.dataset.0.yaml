@@ -2,6 +2,7 @@ databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
     id: development.dataset.0
+    author: codeschluss
     changes:
     - sqlFile:
         dbms: h2, mysql

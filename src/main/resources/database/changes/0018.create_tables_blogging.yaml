@@ -9,7 +9,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: blog_translatablesPK
             name: id
             type: CHAR(36)
         - column:
@@ -54,7 +53,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: bloggersPK
             name: id
             type: CHAR(36)
         - column:
@@ -90,7 +88,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: blogsPK
             name: id
             type: CHAR(36)
         - column:

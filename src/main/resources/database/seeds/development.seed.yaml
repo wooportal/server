@@ -2,6 +2,7 @@ databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
     id: development.seed.1
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -52,6 +53,7 @@ databaseChangeLog:
         tableName: activities
 - changeSet:
     id: development.seed.2
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -73,6 +75,7 @@ databaseChangeLog:
         tableName: activities_tags
 - changeSet:
     id: development.seed.3
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -94,6 +97,7 @@ databaseChangeLog:
         tableName: activities_target_groups
 - changeSet:
     id: development.seed.4
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -138,6 +142,7 @@ databaseChangeLog:
         tableName: addresses
 - changeSet:
     id: development.seed.5
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -174,6 +179,7 @@ databaseChangeLog:
         tableName: categories
 - changeSet:
     id: development.seed.6
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -207,6 +213,7 @@ databaseChangeLog:
         tableName: configurations
 - changeSet:
     id: development.seed.7
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -253,6 +260,7 @@ databaseChangeLog:
         tableName: organisations
 - changeSet:
     id: development.seed.8
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -294,6 +302,7 @@ databaseChangeLog:
         tableName: providers
 - changeSet:
     id: development.seed.9
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -326,6 +335,7 @@ databaseChangeLog:
         tableName: schedules
 - changeSet:
     id: development.seed.10
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -354,6 +364,7 @@ databaseChangeLog:
         tableName: suburbs
 - changeSet:
     id: development.seed.11
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -385,6 +396,7 @@ databaseChangeLog:
         tableName: tags
 - changeSet:
     id: development.seed.12
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -416,6 +428,7 @@ databaseChangeLog:
         tableName: target_groups
 - changeSet:
     id: development.seed.13
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -449,6 +462,7 @@ databaseChangeLog:
         tableName: translations
 - changeSet:
     id: development.seed.14
+    author: codeschluss
     changes:
     - createTable:
         columns:
@@ -492,13 +506,13 @@ databaseChangeLog:
         tableName: users
 - changeSet:
     id: development.seed.15
+    author: codeschluss
     changes:
     - createTable:
         columns:
         - column:
             constraints:
               primaryKey: true
-              primaryKeyName: PRIMARY
             name: id
             type: CHAR(36)
         - column:
@@ -527,165 +541,189 @@ databaseChangeLog:
         tableName: i18n
 - changeSet:
     id: development.seed.16
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
         tableName: activities_tags
 - changeSet:
     id: development.seed.17
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
         tableName: activities_target_groups
 - changeSet:
     id: development.seed.18
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: activitiesPK
+        constraintName: CONSTRAINT_D75F1DB7
         tableName: activities
 - changeSet:
     id: development.seed.19
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: addressesPK
+        constraintName: CONSTRAINT_D6A6AC2C
         tableName: addresses
 - changeSet:
     id: development.seed.20
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: categoriesPK
+        constraintName: CONSTRAINT_46F2B51E
         tableName: categories
 - changeSet:
     id: development.seed.21
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: configurationsPK
+        constraintName: CONSTRAINT_EE7F9FD8
         tableName: configurations
 - changeSet:
     id: development.seed.22
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: organisationsPK
+        constraintName: CONSTRAINT_1DC8D35D
         tableName: organisations
 - changeSet:
     id: development.seed.23
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: providersPK
+        constraintName: CONSTRAINT_79D74F19
         tableName: providers
 - changeSet:
     id: development.seed.24
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: schedulesPK
+        constraintName: CONSTRAINT_E463E007
         tableName: schedules
 - changeSet:
     id: development.seed.25
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: suburbsPK
+        constraintName: CONSTRAINT_0AB3DF71
         tableName: suburbs
 - changeSet:
     id: development.seed.26
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: tagsPK
+        constraintName: CONSTRAINT_7F1E2F02
         tableName: tags
 - changeSet:
     id: development.seed.27
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: target_groupsPK
+        constraintName: CONSTRAINT_5468951E
         tableName: target_groups
 - changeSet:
     id: development.seed.28
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: translationsPK
+        constraintName: CONSTRAINT_ACAD2575
         tableName: translations
 - changeSet:
     id: development.seed.29
+    author: codeschluss
     changes:
     - addPrimaryKey:
         columnNames: id
-        constraintName: usersPK
+        constraintName: CONSTRAINT_C45C6E85
         tableName: users
 - changeSet:
     id: development.seed.30
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: color
-        constraintName: UC_CATEGORIESCOLOR_COL
+        constraintName: CONSTRAINT_D14E8DFA
         tableName: categories
 - changeSet:
     id: development.seed.31
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: name
-        constraintName: UC_CATEGORIESNAME_COL
+        constraintName: CONSTRAINT_9744F848
         tableName: categories
 - changeSet:
     id: development.seed.32
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: name
-        constraintName: UC_ORGANISATIONSNAME_COL
+        constraintName: CONSTRAINT_19277C88
         tableName: organisations
 - changeSet:
     id: development.seed.33
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: name
-        constraintName: UC_SUBURBSNAME_COL
+        constraintName: CONSTRAINT_0E6D746C
         tableName: suburbs
 - changeSet:
     id: development.seed.34
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: name
-        constraintName: UC_TAGSNAME_COL
+        constraintName: CONSTRAINT_0496180C
         tableName: tags
 - changeSet:
     id: development.seed.35
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: name
-        constraintName: UC_TARGET_GROUPSNAME_COL
+        constraintName: CONSTRAINT_325225DB
         tableName: target_groups
 - changeSet:
     id: development.seed.36
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: locale
-        constraintName: UC_TRANSLATIONSLOCALE_COL
+        constraintName: CONSTRAINT_F9A2243E
         tableName: translations
 - changeSet:
     id: development.seed.37
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: name
-        constraintName: UC_TRANSLATIONSNAME_COL
+        constraintName: CONSTRAINT_6E08E73B
         tableName: translations
 - changeSet:
     id: development.seed.38
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: username
-        constraintName: UC_USERSUSERNAME_COL
+        constraintName: CONSTRAINT_A88106A1
         tableName: users
 - changeSet:
     id: development.seed.39
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: activity_id, target_group_id
@@ -693,6 +731,7 @@ databaseChangeLog:
         tableName: activities_target_groups
 - changeSet:
     id: development.seed.40
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: activity_id, tag_id
@@ -700,6 +739,7 @@ databaseChangeLog:
         tableName: activities_tags
 - changeSet:
     id: development.seed.41
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: target_group_id
@@ -711,21 +751,25 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: target_groups
+        validate: true
 - changeSet:
     id: development.seed.42
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: schedules
-        constraintName: CONSTRAINT_ 3E2AF0E
+        constraintName: CONSTRAINT_A3E2AF0E
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: activities
+        validate: true
 - changeSet:
     id: development.seed.43
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: address_id
@@ -733,12 +777,13 @@ databaseChangeLog:
         constraintName: CONSTRAINT_1DA9391E
         deferrable: false
         initiallyDeferred: false
-        onDelete: NO ACTION
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: addresses
+        validate: true
 - changeSet:
     id: development.seed.44
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: provider_id
@@ -750,8 +795,10 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: providers
+        validate: true
 - changeSet:
     id: development.seed.45
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: user_id
@@ -763,8 +810,10 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: users
+        validate: true
 - changeSet:
     id: development.seed.46
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: suburb_id
@@ -772,12 +821,13 @@ databaseChangeLog:
         constraintName: CONSTRAINT_141A4B42
         deferrable: false
         initiallyDeferred: false
-        onDelete: NO ACTION
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: suburbs
+        validate: true
 - changeSet:
     id: development.seed.47
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
@@ -789,8 +839,10 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: activities
+        validate: true
 - changeSet:
     id: development.seed.48
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
@@ -802,8 +854,10 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: activities
+        validate: true
 - changeSet:
     id: development.seed.49
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: category_id
@@ -811,12 +865,13 @@ databaseChangeLog:
         constraintName: CONSTRAINT_EC493636
         deferrable: false
         initiallyDeferred: false
-        onDelete: NO ACTION
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: categories
+        validate: true
 - changeSet:
     id: development.seed.50
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: tag_id
@@ -828,8 +883,10 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: tags
+        validate: true
 - changeSet:
     id: development.seed.51
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: organisation_id
@@ -841,8 +898,10 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: organisations
+        validate: true
 - changeSet:
     id: development.seed.52
+    author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: address_id
@@ -850,12 +909,13 @@ databaseChangeLog:
         constraintName: CONSTRAINT_1C56E2EC
         deferrable: false
         initiallyDeferred: false
-        onDelete: NO ACTION
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: addresses
+        validate: true
 - changeSet:
     id: development.seed.53
+    author: codeschluss
     changes:
     - addUniqueConstraint:
         columnNames: locale, model, foreign_key, field
@@ -863,6 +923,7 @@ databaseChangeLog:
         tableName: i18n
 - changeSet:
     id: development.seed.54
+    author: codeschluss
     changes:
     - createIndex:
         columns:

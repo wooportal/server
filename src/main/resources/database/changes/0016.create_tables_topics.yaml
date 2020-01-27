@@ -9,7 +9,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: topic_translatablesPK
             name: id
             type: CHAR(36)
         - column:
@@ -49,7 +48,6 @@ databaseChangeLog:
         - column:
             constraints:
                 primaryKey: true
-                primaryKeyName: topicsPK
             name: id
             type: CHAR(36)
         - column:
