@@ -1,3 +1,4 @@
 /.git
 /.settings
+/src/main/resources/database/output
 /target
