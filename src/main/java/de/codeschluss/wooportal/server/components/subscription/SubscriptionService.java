@@ -43,17 +43,13 @@ public class SubscriptionService
   }
 
   private boolean validFields(SubscriptionEntity newSubscription) {
-    return newSubscription.getAuthSecret() != null && !newSubscription.getAuthSecret().isEmpty()
-        && newSubscription.getPublicKey() != null && !newSubscription.getPublicKey().isEmpty()
-        && newSubscription.getEndpoint() != null && !newSubscription.getEndpoint().isEmpty();
+    return newSubscription.getAuthSecret() != null && !newSubscription.getAuthSecret().isEmpty();
   }
 
   @Override
   public SubscriptionEntity update(String id, SubscriptionEntity newSubscription) {
     return repo.findById(id).map(subscription -> {
       subscription.setAuthSecret(newSubscription.getAuthSecret());
-      subscription.setEndpoint(newSubscription.getEndpoint());
-      subscription.setPublicKey(newSubscription.getPublicKey());
       return repo.save(subscription);
     }).orElseGet(() -> {
       newSubscription.setId(id);

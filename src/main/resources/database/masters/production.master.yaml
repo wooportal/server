@@ -60,3 +60,7 @@ databaseChangeLog:
     file: database/changes/0028.transform_data_orgaimages.yaml
 - include:
     file: database/changes/0029.transform_data_richtext.yaml
+- include:
+    file: database/changes/0030.create_tables_subscriptions.yaml
+- include:
+    file: database/changes/0031.drop_column_subscriptions_endpoint-key.yaml

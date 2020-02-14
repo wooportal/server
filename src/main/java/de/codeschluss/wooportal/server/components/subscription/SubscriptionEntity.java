@@ -55,17 +55,11 @@ public class SubscriptionEntity extends BaseResource {
   @Column(name = "auth_secret", nullable = false)
   private String authSecret;
   
-  @Column(nullable = false)
-  private String endpoint;
-  
-  @Column(nullable = false)
-  private String publicKey;
-  
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "activities_likes",
+      name = "subscription_activities_likes",
       joinColumns = @JoinColumn(name = "subscription_id"),
       inverseJoinColumns = @JoinColumn(name = "activity_id"),
       uniqueConstraints = {
@@ -82,7 +76,7 @@ public class SubscriptionEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "blog_likes",
+      name = "subscription_blog_likes",
       joinColumns = @JoinColumn(name = "subscription_id"),
       inverseJoinColumns = @JoinColumn(name = "blog_id"),
       uniqueConstraints = {
@@ -99,7 +93,7 @@ public class SubscriptionEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "organisation_likes",
+      name = "subscription_organisation_likes",
       joinColumns = @JoinColumn(name = "subscription_id"),
       inverseJoinColumns = @JoinColumn(name = "organisation_id"),
       uniqueConstraints = {
@@ -116,7 +110,7 @@ public class SubscriptionEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "page_likes",
+      name = "subscription_page_likes",
       joinColumns = @JoinColumn(name = "subscription_id"),
       inverseJoinColumns = @JoinColumn(name = "page_id"),
       uniqueConstraints = {

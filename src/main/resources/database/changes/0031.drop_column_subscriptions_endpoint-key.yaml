@@ -1,0 +1,12 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0031.drop_column_subscriptions_endpoint-key
+    author: codeschluss
+    changes:
+    - dropColumn:
+        columnName: endpoint
+        tableName: subscriptions
+    - dropColumn:
+        columnName: public_key
+        tableName: subscriptions

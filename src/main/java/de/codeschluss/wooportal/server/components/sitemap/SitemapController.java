@@ -22,7 +22,7 @@ public class SitemapController {
     this.sitemapService = service;
   }
   
-  @GetMapping
+  @GetMapping("/sitemap")
   public ResponseEntity<Sitemap> getSitemap(HttpServletRequest request) 
       throws MalformedURLException {
     return ok(sitemapService.generateSitemap(new URL(request.getRequestURL().toString())));

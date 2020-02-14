@@ -20,9 +20,7 @@ public class SubscriptionQueryBuilder extends QueryBuilder<QSubscriptionEntity> 
 
   @Override
   public <P extends FilterSortPaginate> Predicate search(P params) {
-    return query.authSecret.in(params.getFilter())
-        .or(query.publicKey.in(params.getFilter()))
-        .or(query.endpoint.in(params.getFilter()));
+    return query.authSecret.in(params.getFilter());
   }
 
   /**
@@ -32,9 +30,7 @@ public class SubscriptionQueryBuilder extends QueryBuilder<QSubscriptionEntity> 
    * @return the predicate
    */
   public Predicate withAllSet(SubscriptionEntity subscription) {
-    return query.authSecret.eq(subscription.getAuthSecret())
-        .and(query.publicKey.eq(subscription.getPublicKey()))
-        .and(query.endpoint.eq(subscription.getEndpoint()));
+    return query.authSecret.eq(subscription.getAuthSecret());
   }
 
 }

@@ -1,19 +1,15 @@
 package de.codeschluss.wooportal.server.core.i18n.language;
 
 import com.google.common.net.HttpHeaders;
-
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.TranslationsConfiguration;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
 
 /**

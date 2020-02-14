@@ -19,4 +19,5 @@ public class PortalPushConfig {
   private String subject;
   private String privateKey;
   private String publicKey;
+  private String firebaseConfigFile;
 }
