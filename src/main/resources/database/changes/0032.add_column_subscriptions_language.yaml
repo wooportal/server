@@ -1,0 +1,14 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0032.add_column_subscriptions_language
+    author: codeschluss
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            constraints:
+                nullable: true
+            name: language
+            type: VARCHAR(255)
+        tableName: subscriptions

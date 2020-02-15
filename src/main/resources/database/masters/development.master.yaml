@@ -67,4 +67,6 @@ databaseChangeLog:
 - include:
     file: database/changes/0031.drop_column_subscriptions_endpoint-key.yaml
 - include:
+    file: database/changes/0032.add_column_subscriptions_language.yaml
+- include:
     file: database/datasets/development.dataset.1.yaml

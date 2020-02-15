@@ -54,6 +54,7 @@ public class SubscriptionService
   public SubscriptionEntity update(String id, SubscriptionEntity newSubscription) {
     return repo.findById(id).map(subscription -> {
       subscription.setAuthSecret(newSubscription.getAuthSecret());
+      subscription.setLanguage(newSubscription.getLanguage());
       return repo.save(subscription);
     }).orElseGet(() -> {
       newSubscription.setId(id);

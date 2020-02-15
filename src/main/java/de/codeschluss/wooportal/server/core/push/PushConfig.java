@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * The Class PortalPushConfig.
+ * The Class PushConfig.
  * 
  * @author Valmir Etemi
  *
@@ -14,10 +14,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "push")
-public class PortalPushConfig {
+public class PushConfig {
   
-  private String subject;
-  private String privateKey;
-  private String publicKey;
   private String firebaseConfigFile;
 }
