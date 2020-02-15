@@ -61,10 +61,10 @@ databaseChangeLog:
 - include:
     file: database/changes/0029.transform_data_richtext.yaml
 - include:
-    file: database/changes/0030.create_tables_subscriptions.yaml
+    file: database/changes/0033.create_tables_subscriptions.yaml
 - include:
-    file: database/changes/0031.drop_column_subscriptions_endpoint-key.yaml
+    file: database/changes/0034.drop_column_subscriptions_endpoint-key.yaml
 - include:
-    file: database/changes/0032.add_column_subscriptions_language.yaml
+    file: database/changes/0035.add_column_subscriptions_language.yaml
 - include:
     file: database/datasets/staging.dataset.yaml
