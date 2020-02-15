@@ -99,7 +99,7 @@ public class TopicController extends CrudController<TopicEntity, TopicService> {
     try {
       return ok(pageService.getResourcesByTopic(topicId, params));
     } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
   
@@ -115,7 +115,7 @@ public class TopicController extends CrudController<TopicEntity, TopicService> {
       return ok(translationService.getAllTranslations(service.getById(topicId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 }

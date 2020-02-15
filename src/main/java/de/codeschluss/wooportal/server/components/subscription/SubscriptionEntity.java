@@ -52,7 +52,7 @@ public class SubscriptionEntity extends BaseResource {
   
   private static final long serialVersionUID = 1L;
 
-  @Column(name = "auth_secret", nullable = false)
+  @Column(name = "auth_secret", nullable = false, unique = true)
   private String authSecret;
   
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)

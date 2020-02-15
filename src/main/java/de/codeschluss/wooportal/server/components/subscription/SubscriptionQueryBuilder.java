@@ -26,11 +26,11 @@ public class SubscriptionQueryBuilder extends QueryBuilder<QSubscriptionEntity> 
   /**
    * With all set.
    *
-   * @param subscription the subscription
+   * @param authSecret the subscription
    * @return the predicate
    */
-  public Predicate withAllSet(SubscriptionEntity subscription) {
-    return query.authSecret.eq(subscription.getAuthSecret());
+  public Predicate withAuthSecret(String authSecret) {
+    return query.authSecret.eq(authSecret);
   }
 
 }

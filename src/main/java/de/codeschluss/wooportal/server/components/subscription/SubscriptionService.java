@@ -1,5 +1,7 @@
 package de.codeschluss.wooportal.server.components.subscription;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
@@ -7,7 +9,9 @@ import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.io.IOException;
 import java.util.List;
+import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 
 /**
@@ -29,7 +33,7 @@ public class SubscriptionService
 
   @Override
   public SubscriptionEntity getExisting(SubscriptionEntity newSubscription) {
-    return repo.findOne(entities.withAllSet(newSubscription)).orElse(null);
+    return repo.findOne(entities.withAuthSecret(newSubscription.getAuthSecret())).orElse(null);
   }
 
   @Override
@@ -61,8 +65,9 @@ public class SubscriptionService
     return repo.findAll();
   }
 
-  public List<SubscriptionTypeEntity> getSubsribedTypes(String subscriptionId) {
-    return getById(subscriptionId).getSubscribedTypes();
+  public Resources<?> getSubscribedTypes(String subscriptionId) 
+      throws JsonParseException, JsonMappingException, IOException {
+    return assembler.entitiesToResources(getById(subscriptionId).getSubscribedTypes(), null);
   }
 
   /**

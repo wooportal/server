@@ -3,10 +3,9 @@ package de.codeschluss.wooportal.server.core.push.subscriptiontype.translations;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionEntity;
-import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import de.codeschluss.wooportal.server.core.i18n.entities.TranslatableEntity;
 import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeController;
+import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -32,10 +31,10 @@ import org.springframework.hateoas.core.Relation;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Entity
-@Localized
-@Table(name = "subscription_types_translatables")
+@Table(name = "subscription_type_translatables")
 @Relation(collectionRelation = "data")
-public class SubscriptionTypeTranslatablesEntity extends TranslatableEntity<SubscriptionEntity> {
+public class SubscriptionTypeTranslatablesEntity 
+    extends TranslatableEntity<SubscriptionTypeEntity> {
 
   private static final long serialVersionUID = 1L;
   

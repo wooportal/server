@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
+import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import de.codeschluss.wooportal.server.core.push.subscriptiontype.translations.SubscriptionTypeTranslatablesEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ import org.springframework.hateoas.Link;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
+@Localized
 @Entity
 @Table(name = "subscription_types")
 public class SubscriptionTypeEntity extends BaseResource {

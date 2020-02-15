@@ -85,7 +85,7 @@ public class CategoryController extends CrudController<CategoryEntity, CategoryS
       return ok(translationService.getAllTranslations(service.getById(categoryId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 }

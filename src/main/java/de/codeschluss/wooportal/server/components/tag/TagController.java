@@ -85,7 +85,7 @@ public class TagController extends CrudController<TagEntity, TagService> {
       return ok(translationService.getAllTranslations(service.getById(tagId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 }

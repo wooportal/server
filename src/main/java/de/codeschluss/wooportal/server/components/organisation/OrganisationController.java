@@ -218,7 +218,7 @@ public class OrganisationController
     try {
       return ok(activityService.getResourcesByProviders(providers, params));
     } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 
@@ -342,7 +342,7 @@ public class OrganisationController
       return ok(translationService.getAllTranslations(service.getById(organisationId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
   

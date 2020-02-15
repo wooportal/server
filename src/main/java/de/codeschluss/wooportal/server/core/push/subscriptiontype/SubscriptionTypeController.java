@@ -90,7 +90,7 @@ public class SubscriptionTypeController
       return ok(translationService.getAllTranslations(service.getById(organisationId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
   

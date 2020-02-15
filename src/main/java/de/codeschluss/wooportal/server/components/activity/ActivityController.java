@@ -304,7 +304,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     try {
       return ok(tagService.getResourcesByActivity(activityId, params));
     } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 
@@ -375,7 +375,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     try {
       return ok(targetGroupService.getResourceByActivity(activityId, params));
     } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 
@@ -433,7 +433,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     try {
       return ok(scheduleService.getResourceByActivity(activityId, params));
     } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 
@@ -517,7 +517,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     try {
       return ok(blogService.getResourceByActivity(activityId, params));
     } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
   
@@ -598,7 +598,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       return ok(translationService.getAllTranslations(service.getById(activityId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
   

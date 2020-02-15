@@ -226,7 +226,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       return ok(translationService.getAllTranslations(service.getById(blogId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
   

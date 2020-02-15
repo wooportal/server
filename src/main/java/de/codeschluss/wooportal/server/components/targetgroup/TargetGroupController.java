@@ -86,7 +86,7 @@ public class TargetGroupController extends CrudController<TargetGroupEntity, Tar
       return ok(translationService.getAllTranslations(service.getById(targetGroupId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 }

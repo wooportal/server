@@ -227,7 +227,7 @@ public class UserController extends CrudController<UserEntity, UserService> {
     try {
       return ok(activityService.getResourcesByProviders(providers, params));
     } catch (IOException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new RuntimeException(e);
     }
   }
 

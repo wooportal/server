@@ -180,7 +180,7 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-              primaryKeyName: subscription_types_translatablesPK
+              primaryKeyName: subscription_type_translatablesPK
             name: id
             type: CHAR(36)
         - column:
@@ -199,7 +199,7 @@ databaseChangeLog:
             constraints:
               nullable: false
             name: description
-            type: CLOB
+            type: TEXT
         - column:
             constraints:
               nullable: false
@@ -213,13 +213,13 @@ databaseChangeLog:
               nullable: false
             name: parent_id
             type: CHAR(36)
-        tableName: subscription_types_translatables
+        tableName: subscription_type_translatables
     - sql:
         comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE subscription_types_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        sql: ALTER TABLE subscription_type_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
     id: 0030.create_tables_subscriptions.8
     author: codeschluss
@@ -264,6 +264,14 @@ databaseChangeLog:
     id: 0030.create_tables_subscriptions.13
     author: codeschluss
     changes:
+    - addUniqueConstraint:
+        columnNames: auth_secret
+        constraintName: UKdd3kn2x6sguglkjev163xvowu
+        tableName: subscriptions
+- changeSet:
+    id: 0030.create_tables_subscriptions.14
+    author: codeschluss
+    changes:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: subscribed_types
@@ -276,7 +284,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.14
+    id: 0030.create_tables_subscriptions.15
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -291,22 +299,22 @@ databaseChangeLog:
         referencedTableName: pages
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.15
+    id: 0030.create_tables_subscriptions.16
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
-        baseTableName: subscription_types_translatables
+        baseTableName: subscription_type_translatables
         constraintName: FKflx8hcwhngoqv5b6r3d50dxym
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
         onUpdate: CASCADE
         referencedColumnNames: id
-        referencedTableName: subscriptions
+        referencedTableName: subscription_types
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.16
+    id: 0030.create_tables_subscriptions.17
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -321,7 +329,7 @@ databaseChangeLog:
         referencedTableName: organisations
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.17
+    id: 0030.create_tables_subscriptions.18
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -336,7 +344,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.18
+    id: 0030.create_tables_subscriptions.19
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -351,7 +359,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.19
+    id: 0030.create_tables_subscriptions.20
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -366,7 +374,7 @@ databaseChangeLog:
         referencedTableName: activities
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.20
+    id: 0030.create_tables_subscriptions.21
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -381,7 +389,7 @@ databaseChangeLog:
         referencedTableName: blogs
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.21
+    id: 0030.create_tables_subscriptions.22
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -396,12 +404,12 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.22
+    id: 0030.create_tables_subscriptions.23
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: language_id
-        baseTableName: subscription_types_translatables
+        baseTableName: subscription_type_translatables
         constraintName: FKsisbg5i0k7pmlnroc7e02enom
         deferrable: false
         initiallyDeferred: false
@@ -411,7 +419,7 @@ databaseChangeLog:
         referencedTableName: languages
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.23
+    id: 0030.create_tables_subscriptions.24
     author: codeschluss
     changes:
     - addForeignKeyConstraint:

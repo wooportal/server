@@ -9,6 +9,7 @@ import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeService;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,11 +94,15 @@ public class SubscriptionController
   @GetMapping("/subscriptions/{subscriptionId}/subscribedtypes")
   public ResponseEntity<?> readSubscribedTypes(
       @PathVariable String subscriptionId) {
-    return ok(service.getSubsribedTypes(subscriptionId));
+    try {
+      return ok(service.getSubscribedTypes(subscriptionId));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
-   * Adds the target groups.
+   * Adds subscribed types.
    *
    * @param subscriptionId
    *          the activity id
@@ -109,14 +114,14 @@ public class SubscriptionController
   public ResponseEntity<?> addSubscriptionType(@PathVariable String subscriptionId,
       @RequestBody List<String> subscriptionTypeIds) {
     try {
-      List<String> distinctTargetGroups = subscriptionTypeIds.stream().distinct()
+      List<String> distinctSubscriptionTypes = subscriptionTypeIds.stream().distinct()
           .collect(Collectors.toList());
       return ok(
           service.addSubscribedTypes(
               subscriptionId, 
-              subscriptionTypeService.getByIds(distinctTargetGroups)));
+              subscriptionTypeService.getByIds(distinctSubscriptionTypes)));
     } catch (NotFoundException e) {
-      throw new BadParamsException("Given Target Group or Activity do not exist");
+      throw new BadParamsException("Given Subscription or Subscription Type do not exist");
     }
   }
 
@@ -139,6 +144,5 @@ public class SubscriptionController
       throw new BadParamsException("Given Subscription does not exist");
     }
   }
-  
   
 }
