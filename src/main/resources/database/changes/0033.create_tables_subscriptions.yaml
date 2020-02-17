@@ -164,6 +164,11 @@ databaseChangeLog:
             defaultValueComputed: CURRENT_TIMESTAMP
             name: modified
             type: TIMESTAMP
+        - column:
+            constraints:
+                nullable: false
+            name: config_type
+            type: VARCHAR(255)
         tableName: subscription_types
     - sql:
         comment: set char set for mysql

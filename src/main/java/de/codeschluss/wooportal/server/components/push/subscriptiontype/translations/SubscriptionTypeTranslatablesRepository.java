@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.core.push.subscriptiontype.translations;
+package de.codeschluss.wooportal.server.components.push.subscriptiontype.translations;
 
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationRepository;
 import org.springframework.stereotype.Repository;

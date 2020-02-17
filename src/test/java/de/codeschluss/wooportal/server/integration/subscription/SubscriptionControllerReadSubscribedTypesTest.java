@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionController;
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionEntity;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionController;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionEntity;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import java.io.IOException;
 import org.junit.Test;

@@ -1,11 +1,11 @@
-package de.codeschluss.wooportal.server.core.push.subscriptiontype.translations;
+package de.codeschluss.wooportal.server.components.push.subscriptiontype.translations;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeController;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
 import de.codeschluss.wooportal.server.core.i18n.entities.TranslatableEntity;
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeController;
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;

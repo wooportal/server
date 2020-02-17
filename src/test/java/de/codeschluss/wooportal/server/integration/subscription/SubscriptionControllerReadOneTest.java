@@ -1,9 +1,8 @@
 package de.codeschluss.wooportal.server.integration.subscription;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionController;
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionEntity;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionController;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionEntity;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,0 +1,57 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0036.add_data_subscriptiontypes
+    author: codeschluss
+    changes:
+    - sql:
+        comment: add subscription types
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into subscription_types(id, config_type) values
+            (uuid(), 'NEWS'),
+            (uuid(), 'SINGLE_CONTENT'),
+            (uuid(), 'NEW_CONTENT'),
+            (uuid(), 'FOLLOW_ACTIVITY');
+    - sql:
+        comment: add news subscription type translatables for German
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into subscription_type_translatables (id, parent_id, language_id, name, description)
+            select uuid(), p.id, l.id, 'Benachrichtige mich bei Neuigkeiten', 'Sobald es Neuigkeiten über das Portal gibt, wirst du darüber informiert.'
+            from subscription_types p, languages l
+            WHERE p.config_type = 'NEWS' and l.locale = 'de';
+    - sql:
+        comment: add single content subscription type translatables for German
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into subscription_type_translatables (id, parent_id, language_id, name, description)
+            select uuid(), p.id, l.id, 'Benachrichtige mich bei neuen Inhalten des Trägers', 'Träger können dich über neue Inhalten direkt informieren.'
+            from subscription_types p, languages l
+            WHERE p.config_type = 'SINGLE_CONTENT' and l.locale = 'de';
+    - sql:
+        comment: add new content subscription type translatables for German
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into subscription_type_translatables (id, parent_id, language_id, name, description)
+            select uuid(), p.id, l.id, 'Benachrichtige mich bei interessanten Veranstaltungen', 'Sobald es neue Veranstaltungen gibt, die dich interessieren könntent, wirst du darüber informiert.'
+            from subscription_types p, languages l
+            WHERE p.config_type = 'NEW_CONTENT' and l.locale = 'de';
+    - sql:
+        comment: add follow activity subscription type translatables for German
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into subscription_type_translatables (id, parent_id, language_id, name, description)
+            select uuid(), p.id, l.id, 'Erinnere mich an Veranstaltungen', 'Du wirst über Veranstaltungen erinnert, die du mit einem Like markiert hast.'
+            from subscription_types p, languages l
+            WHERE p.config_type = 'FOLLOW_ACTIVITY' and l.locale = 'de';

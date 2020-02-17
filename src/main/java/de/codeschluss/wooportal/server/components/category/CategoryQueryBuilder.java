@@ -48,7 +48,7 @@ public class CategoryQueryBuilder extends QueryBuilder<QCategoryEntity> {
   
   @Override
   public Predicate search(FilterSortPaginate params) {
-    List<String> locales = languageService.getCurrentReadLocales();
+    List<String> locales = languageService.getCurrentRequestLocales();
     BooleanBuilder search = new BooleanBuilder(withLocalized(locales));
     return params.isEmptyQuery()
         ? search.getValue()
@@ -111,6 +111,6 @@ public class CategoryQueryBuilder extends QueryBuilder<QCategoryEntity> {
    */
   private BooleanExpression likeName(String filter) {
     return query.translatables.any().name.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentReadLocales()));
+        .and(query.translatables.any().language.locale.in(languageService.getCurrentRequestLocales()));
   }
 }

@@ -48,7 +48,7 @@ public class TopicQueryBuilder extends QueryBuilder<QTopicEntity> {
   
   @Override
   public Predicate search(FilterSortPaginate params) {
-    List<String> locales = languageService.getCurrentReadLocales();
+    List<String> locales = languageService.getCurrentRequestLocales();
     BooleanBuilder search = new BooleanBuilder(withLocalized(locales));
     return params.isEmptyQuery()
         ? search.getValue()
@@ -88,7 +88,8 @@ public class TopicQueryBuilder extends QueryBuilder<QTopicEntity> {
    * @return the boolean expression
    */
   public BooleanExpression withName(String name) {
-    return query.translatables.any().language.locale.in(languageService.getCurrentReadLocales())
+    return query.translatables.any().language.locale.in(
+        languageService.getCurrentRequestLocales())
         .and(query.translatables.any().name.eq(name));
   }
 
@@ -100,7 +101,8 @@ public class TopicQueryBuilder extends QueryBuilder<QTopicEntity> {
    */
   private BooleanExpression likeName(String filter) {
     return query.translatables.any().name.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentReadLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
 
   /**

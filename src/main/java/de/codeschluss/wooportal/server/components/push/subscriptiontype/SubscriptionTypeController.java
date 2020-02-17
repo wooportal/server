@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.core.push.subscriptiontype;
+package de.codeschluss.wooportal.server.components.push.subscriptiontype;
 
 import static org.springframework.http.ResponseEntity.ok;
 

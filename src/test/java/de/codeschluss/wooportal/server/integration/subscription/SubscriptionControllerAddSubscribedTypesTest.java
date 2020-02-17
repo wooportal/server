@@ -1,10 +1,9 @@
 package de.codeschluss.wooportal.server.integration.subscription;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionController;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionController;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeEntity;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;

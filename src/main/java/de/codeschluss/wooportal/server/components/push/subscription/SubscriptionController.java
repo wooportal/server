@@ -1,13 +1,13 @@
-package de.codeschluss.wooportal.server.components.subscription;
+package de.codeschluss.wooportal.server.components.push.subscription;
 
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeService;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import java.io.IOException;
 import java.net.URISyntaxException;

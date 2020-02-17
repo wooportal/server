@@ -187,8 +187,7 @@ public class ActivityEntity extends BaseResource {
   public List<Link> createResourceLinks() {
     List<Link> links = new ArrayList<Link>();
 
-    links.add(linkTo(methodOn(ActivityController.class)
-        .readOne(id)).withSelfRel());
+    links.add(selfLink());
     links.add(linkTo(methodOn(ActivityController.class)
         .readOrganisation(id)).withRel("organisation"));
     links.add(linkTo(methodOn(ActivityController.class)
@@ -209,5 +208,10 @@ public class ActivityEntity extends BaseResource {
         .readImages(id)).withRel("images"));
     
     return links;
+  }
+
+  private Link selfLink() {
+    return linkTo(methodOn(ActivityController.class)
+        .readOne(id)).withSelfRel();
   }
 }

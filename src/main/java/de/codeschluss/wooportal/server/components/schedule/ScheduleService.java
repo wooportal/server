@@ -3,18 +3,17 @@ package de.codeschluss.wooportal.server.components.schedule;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.querydsl.core.types.Predicate;
-
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 
@@ -120,5 +119,17 @@ public class ScheduleService extends ResourceDataService<ScheduleEntity, Schedul
     }).collect(Collectors.toList());
     
     return assembler.entitiesToResources(result, null);
+  }
+
+  /**
+   * Gets the next by activity id.
+   *
+   * @param activityId the activity id
+   * @return the next by activity id
+   */
+  public List<ScheduleEntity> getNextByActivityId(String activityId) {
+    return repo.findAll(
+        entities.forActivityAndNext(activityId), 
+        Sort.by(Direction.ASC, "startDate"));
   }
 }

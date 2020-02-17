@@ -81,14 +81,14 @@ public class TranslationService {
    *          the list
    */
   public void localizeList(List<?> list) throws Throwable {
-    List<String> locales = languageService.getCurrentReadLocales();
+    List<String> locales = languageService.getCurrentRequestLocales();
     for (Object entity : list) {
       localizeEntity(entity, locales);
     }
   }
 
   public void localizeSingle(Object entity) throws Throwable {
-    localizeEntity(entity, languageService.getCurrentReadLocales());
+    localizeEntity(entity, languageService.getCurrentRequestLocales());
   }
 
   /**

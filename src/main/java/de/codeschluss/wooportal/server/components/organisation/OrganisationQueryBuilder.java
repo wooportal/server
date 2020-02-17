@@ -82,7 +82,7 @@ public class OrganisationQueryBuilder extends QueryBuilder<QOrganisationEntity> 
   @Override
   public Predicate search(FilterSortPaginate p) {
     OrganisationQueryParam params = validateParams(p);
-    List<String> locales = languageService.getCurrentReadLocales();
+    List<String> locales = languageService.getCurrentRequestLocales();
     BooleanBuilder search = new BooleanBuilder(withLocalized(locales));
     return params.isEmptyQuery()
         ? search.getValue()
@@ -150,7 +150,7 @@ public class OrganisationQueryBuilder extends QueryBuilder<QOrganisationEntity> 
   private BooleanExpression likeDescription(String filter) {
     return 
         query.translatables.any().description.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentReadLocales()));
+        .and(query.translatables.any().language.locale.in(languageService.getCurrentRequestLocales()));
   }
 
   public BooleanExpression forActivity(String activityId) {

@@ -1,13 +1,14 @@
-package de.codeschluss.wooportal.server.components.subscription;
+package de.codeschluss.wooportal.server.components.push.subscription;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
+import de.codeschluss.wooportal.server.components.push.PushConfig;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.io.IOException;
 import java.util.List;
@@ -24,11 +25,15 @@ import org.springframework.stereotype.Service;
 public class SubscriptionService 
     extends ResourceDataService<SubscriptionEntity, SubscriptionQueryBuilder> {
 
+  private final PushConfig config;
+  
   public SubscriptionService(
       SubscriptionRepository repo,
       SubscriptionQueryBuilder entities,
-      PagingAndSortingAssembler assembler) {
+      PagingAndSortingAssembler assembler,
+      PushConfig config) {
     super(repo, entities, assembler);
+    this.config = config;
   }
 
   @Override
@@ -64,6 +69,26 @@ public class SubscriptionService
 
   public List<SubscriptionEntity> getAll() {
     return repo.findAll();
+  }
+  
+  public List<SubscriptionEntity> getByActivityFollowSub() {
+    return getBySubscribedType(config.getTypeFollowActivity());
+  }
+  
+  public List<SubscriptionEntity> getByNewsSub() {
+    return getBySubscribedType(config.getTypeNews());
+  }
+  
+  public List<SubscriptionEntity> getByNewContentSub() {
+    return getBySubscribedType(config.getTypeNewContent());
+  }
+  
+  public List<SubscriptionEntity> getBySingleContentSub() {
+    return getBySubscribedType(config.getTypeSingleContent());
+  }
+  
+  private List<SubscriptionEntity> getBySubscribedType(String type) {
+    return repo.findAll(entities.withSubscribedType(type));
   }
 
   public Resources<?> getSubscribedTypes(String subscriptionId) 

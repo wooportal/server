@@ -1,9 +1,8 @@
 package de.codeschluss.wooportal.server.integration.subscription;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionController;
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionEntity;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionController;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionEntity;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import org.assertj.core.api.Condition;

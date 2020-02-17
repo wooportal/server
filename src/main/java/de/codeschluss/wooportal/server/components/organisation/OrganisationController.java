@@ -8,7 +8,7 @@ import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.address.AddressService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionService;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;

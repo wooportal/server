@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.core.push;
+package de.codeschluss.wooportal.server.components.push;
 
 import lombok.Data;
 
@@ -17,4 +17,12 @@ import org.springframework.context.annotation.Configuration;
 public class PushConfig {
   
   private String firebaseConfigFile;
+  
+  private String typeNews;
+  
+  private String typeSingleContent;
+  
+  private String typeNewContent;
+  
+  private String typeFollowActivity;
 }

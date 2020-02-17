@@ -48,7 +48,7 @@ public class ActivityQueryBuilder extends QueryBuilder<QActivityEntity> {
   @Override
   public Predicate search(FilterSortPaginate p) {
     ActivityQueryParam params = validateParams(p);
-    List<String> locales = languageService.getCurrentReadLocales();
+    List<String> locales = languageService.getCurrentRequestLocales();
     BooleanBuilder search = new BooleanBuilder(withLocalized(locales));
     
     return params.isEmptyQuery()

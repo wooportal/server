@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.core.push.subscriptiontype;
+package de.codeschluss.wooportal.server.components.push.subscriptiontype;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -6,13 +6,14 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.translations.SubscriptionTypeTranslatablesEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.translations.SubscriptionTypeTranslatablesEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -52,6 +53,10 @@ public class SubscriptionTypeEntity extends BaseResource {
   @JsonDeserialize
   @Transient
   private String description;
+  
+  @Column(name = "config_type", nullable = false)
+  @JsonIgnore
+  private String configType;
   
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", cascade = CascadeType.REMOVE)
   @ToString.Exclude

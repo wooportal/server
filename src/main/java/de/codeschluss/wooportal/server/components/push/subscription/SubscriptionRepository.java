@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.subscription;
+package de.codeschluss.wooportal.server.components.push.subscription;
 
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 

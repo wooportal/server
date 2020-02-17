@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.core.push.subscriptiontype;
+package de.codeschluss.wooportal.server.components.push.subscriptiontype;
 
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;

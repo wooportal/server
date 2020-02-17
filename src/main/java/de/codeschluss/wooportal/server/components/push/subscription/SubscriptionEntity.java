@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.subscription;
+package de.codeschluss.wooportal.server.components.push.subscription;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -8,8 +8,8 @@ import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.components.page.PageEntity;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;

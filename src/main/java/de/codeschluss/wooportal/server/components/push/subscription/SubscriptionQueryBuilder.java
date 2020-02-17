@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.subscription;
+package de.codeschluss.wooportal.server.components.push.subscription;
 
 import com.querydsl.core.types.Predicate;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
@@ -31,6 +31,10 @@ public class SubscriptionQueryBuilder extends QueryBuilder<QSubscriptionEntity> 
    */
   public Predicate withAuthSecret(String authSecret) {
     return query.authSecret.eq(authSecret);
+  }
+
+  public Predicate withSubscribedType(String type) {
+    return query.subscribedTypes.any().configType.equalsIgnoreCase(type);
   }
 
 }

@@ -6,7 +6,7 @@ import static org.springframework.http.ResponseEntity.ok;
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerService;
-import de.codeschluss.wooportal.server.components.subscription.SubscriptionService;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;

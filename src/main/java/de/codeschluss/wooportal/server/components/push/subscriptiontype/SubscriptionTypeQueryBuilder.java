@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.core.push.subscriptiontype;
+package de.codeschluss.wooportal.server.components.push.subscriptiontype;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
@@ -35,7 +35,7 @@ public class SubscriptionTypeQueryBuilder extends QueryBuilder<QSubscriptionType
   
   @Override
   public Predicate search(FilterSortPaginate params) {
-    List<String> locales = languageService.getCurrentReadLocales();
+    List<String> locales = languageService.getCurrentRequestLocales();
     BooleanBuilder search = new BooleanBuilder(withLocalized(locales));
     return params.isEmptyQuery()
         ? search.getValue()
@@ -71,12 +71,14 @@ public class SubscriptionTypeQueryBuilder extends QueryBuilder<QSubscriptionType
   
   private BooleanExpression likeName(String filter) {
     return query.translatables.any().name.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentReadLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
   
   private BooleanExpression likeDescription(String filter) {
     return query.translatables.any().description.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentReadLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
 
 }

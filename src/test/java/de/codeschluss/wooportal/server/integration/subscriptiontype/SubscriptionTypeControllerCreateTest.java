@@ -1,9 +1,8 @@
 package de.codeschluss.wooportal.server.integration.subscriptiontype;
 
 import static org.junit.Assert.assertEquals;
-
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeController;
-import de.codeschluss.wooportal.server.core.push.subscriptiontype.SubscriptionTypeEntity;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeController;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;

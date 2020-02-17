@@ -48,7 +48,7 @@ public class TagQueryBuilder extends QueryBuilder<QTagEntity> {
   
   @Override
   public Predicate search(FilterSortPaginate params) {
-    List<String> locales = languageService.getCurrentReadLocales();
+    List<String> locales = languageService.getCurrentRequestLocales();
     BooleanBuilder search = new BooleanBuilder(withLocalized(locales));
     return params.isEmptyQuery()
         ? search.getValue()
@@ -84,7 +84,8 @@ public class TagQueryBuilder extends QueryBuilder<QTagEntity> {
   
   private BooleanExpression likeName(String filter) {
     return query.translatables.any().name.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentReadLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
   
   /**
@@ -94,7 +95,7 @@ public class TagQueryBuilder extends QueryBuilder<QTagEntity> {
    * @return the boolean expression
    */
   public BooleanExpression withName(String name) {
-    return query.translatables.any().language.locale.in(languageService.getCurrentReadLocales())
+    return query.translatables.any().language.locale.in(languageService.getCurrentRequestLocales())
         .and(query.translatables.any().name.eq(name));
   }
 
