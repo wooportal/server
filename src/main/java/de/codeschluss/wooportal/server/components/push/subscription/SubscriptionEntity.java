@@ -5,10 +5,10 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
-import de.codeschluss.wooportal.server.components.blog.BlogEntity;
+import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
-import de.codeschluss.wooportal.server.components.page.PageEntity;
 import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
+import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +61,7 @@ public class SubscriptionEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "subscription_activities_likes",
+      name = "activity_subscriptions",
       joinColumns = @JoinColumn(name = "subscription_id"),
       inverseJoinColumns = @JoinColumn(name = "activity_id"),
       uniqueConstraints = {
@@ -72,30 +72,30 @@ public class SubscriptionEntity extends BaseResource {
       type = @Type(type = "uuid-char"),
       generator = "UUID"
   )
-  private List<ActivityEntity> activityLikes;
+  private List<ActivityEntity> activitySubscriptions;
   
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "subscription_blog_likes",
+      name = "blogger_subscriptions",
       joinColumns = @JoinColumn(name = "subscription_id"),
-      inverseJoinColumns = @JoinColumn(name = "blog_id"),
+      inverseJoinColumns = @JoinColumn(name = "blogger_id"),
       uniqueConstraints = {
-          @UniqueConstraint(columnNames = { "subscription_id", "blog_id" })
+          @UniqueConstraint(columnNames = { "subscription_id", "blogger_id" })
       })
   @CollectionId(
       columns = @Column(name = "id"),
       type = @Type(type = "uuid-char"),
       generator = "UUID"
   )
-  private List<BlogEntity> blogLikes;
+  private List<BloggerEntity> bloggerSubscriptions;
   
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "subscription_organisation_likes",
+      name = "organisation_subscriptions",
       joinColumns = @JoinColumn(name = "subscription_id"),
       inverseJoinColumns = @JoinColumn(name = "organisation_id"),
       uniqueConstraints = {
@@ -106,24 +106,7 @@ public class SubscriptionEntity extends BaseResource {
       type = @Type(type = "uuid-char"),
       generator = "UUID"
   )
-  private List<OrganisationEntity> organisationLikes;
-  
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-  @ToString.Exclude
-  @JsonIgnore
-  @JoinTable(
-      name = "subscription_page_likes",
-      joinColumns = @JoinColumn(name = "subscription_id"),
-      inverseJoinColumns = @JoinColumn(name = "page_id"),
-      uniqueConstraints = {
-          @UniqueConstraint(columnNames = { "subscription_id", "page_id" })
-      })
-  @CollectionId(
-      columns = @Column(name = "id"),
-      type = @Type(type = "uuid-char"),
-      generator = "UUID"
-  )
-  private List<PageEntity> pageLikes;
+  private List<OrganisationEntity> organisationSubscriptions;
   
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @ToString.Exclude
@@ -141,6 +124,23 @@ public class SubscriptionEntity extends BaseResource {
       generator = "UUID"
   )
   private List<SubscriptionTypeEntity> subscribedTypes;
+  
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ToString.Exclude
+  @JsonIgnore
+  @JoinTable(
+      name = "topic_subscriptions",
+      joinColumns = @JoinColumn(name = "subscription_id"),
+      inverseJoinColumns = @JoinColumn(name = "topic_id"),
+      uniqueConstraints = {
+          @UniqueConstraint(columnNames = { "subscription_id", "topic_id" })
+      })
+  @CollectionId(
+      columns = @Column(name = "id"),
+      type = @Type(type = "uuid-char"),
+      generator = "UUID"
+  )
+  private List<TopicEntity> topicSubscriptions;
 
   @Override
   public List<Link> createResourceLinks() {
@@ -149,7 +149,15 @@ public class SubscriptionEntity extends BaseResource {
     links.add(linkTo(methodOn(SubscriptionController.class)
         .readOne(id)).withSelfRel());
     links.add(linkTo(methodOn(SubscriptionController.class)
+        .readActivitySubscriptions(id)).withRel("activities"));
+    links.add(linkTo(methodOn(SubscriptionController.class)
+        .readBloggerSubscriptions(id)).withRel("bloggers"));
+    links.add(linkTo(methodOn(SubscriptionController.class)
+        .readOrganisationSubscriptions(id)).withRel("organisations"));
+    links.add(linkTo(methodOn(SubscriptionController.class)
         .readSubscribedTypes(id)).withRel("subscribedtypes"));
+    links.add(linkTo(methodOn(SubscriptionController.class)
+        .readTopicSubscriptions(id)).withRel("topics"));
     
     return links;
   }

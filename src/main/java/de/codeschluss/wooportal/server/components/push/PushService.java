@@ -1,15 +1,20 @@
 package de.codeschluss.wooportal.server.components.push;
 
 import com.google.firebase.messaging.FirebaseMessagingException;
+import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
+import de.codeschluss.wooportal.server.components.activity.translations.ActivityTranslatablesEntity;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionEntity;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
+import de.codeschluss.wooportal.server.core.i18n.TranslationsConfiguration;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,6 +25,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PushService {
+  
+  /** The pushConfig. */
+  private final PushConfig pushConfig;
+  
+  private final TranslationsConfiguration translationConfig;
 
   /** The push service. */
   private final FirebasePushService firebasePushService;
@@ -36,7 +46,7 @@ public class PushService {
   /** The schedule service. */
   private final ScheduleService scheduleService;
   
-  private Map<String, Map<String,String>> translatedMessages;
+  private final SimpleDateFormat dateFormatter;
   
   /**
    * Instantiates a new push service.
@@ -46,18 +56,22 @@ public class PushService {
    * @param languageService the language service
    */
   public PushService(
+      PushConfig pushConfig,
+      TranslationsConfiguration translationConfig,
       FirebasePushService firebasePushService,
       SubscriptionService subscriptionService,
       LanguageService languageService,
       TranslationService translationService,
       ScheduleService scheduleService) {
+    this.pushConfig = pushConfig;
+    this.translationConfig = translationConfig;
     this.firebasePushService = firebasePushService;
     this.subscriptionService = subscriptionService;
     this.languageService = languageService;
     this.translationService = translationService;
     this.scheduleService = scheduleService;
     
-    this.translatedMessages = new HashMap<>();
+    this.dateFormatter = new SimpleDateFormat("HH:mm");
   }
 
   /**
@@ -69,8 +83,9 @@ public class PushService {
   public void pushNews(MessageDto message) {
     List<SubscriptionEntity> subscriptions = subscriptionService.getByNewsSub();
     if (subscriptions != null && !subscriptions.isEmpty()) {
+      Map<String, Map<String, String>> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
-        translateAndPush(subscription, message, null);
+        translateAndPush(subscription, message, null, translatedMessages);
       }
     }
   }
@@ -81,13 +96,14 @@ public class PushService {
    * @param message the message
    * @param link the link
    */
-  public void pushContent(MessageDto message, String link) {
+  public void pushSingleContent(MessageDto message, String link) {
     List<SubscriptionEntity> subscriptions = subscriptionService.getBySingleContentSub();
     if (subscriptions != null && !subscriptions.isEmpty()) {
+      Map<String, Map<String, String>> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
         Map<String, String> data = new HashMap<>();
         data.put("link", link);
-        translateAndPush(subscription, message, data);
+        translateAndPush(subscription, message, data, translatedMessages);
       }
     }
   }
@@ -95,16 +111,20 @@ public class PushService {
   private void translateAndPush(
       SubscriptionEntity subscription, 
       MessageDto message,
-      Map<String, String> additionalData) {
+      Map<String, String> additionalData,
+      Map<String, Map<String, String>> translatedMessages) {
     String messageLang = languageService.getCurrentRequestLocales().get(0);
     if (!subscription.getLanguage().equalsIgnoreCase(messageLang)) {
-      translateMessage(subscription, messageLang, message);
+      translateMessage(subscription, messageLang, message, translatedMessages);
     }
     firebasePushService.sendPush(subscription, message, additionalData);
   }
 
-  private void translateMessage(SubscriptionEntity subscription, String messageLang,
-      MessageDto message) {
+  private void translateMessage(
+      SubscriptionEntity subscription, 
+      String messageLang,
+      MessageDto message,
+      Map<String, Map<String, String>> translatedMessages) {
     Map<String, String> translations = translatedMessages.get(subscription.getLanguage());
     if (translations != null) {
       message.setTitle(translations.get("title"));
@@ -133,17 +153,61 @@ public class PushService {
    * Push activity reminders.
    */
   public void pushActivityReminders() {
-    List<SubscriptionEntity> subscriptions = subscriptionService.getByActivityFollowSub();
+    List<SubscriptionEntity> subscriptions = subscriptionService.getByActivityTypeSub();
     if (subscriptions != null && !subscriptions.isEmpty()) {
       for (SubscriptionEntity subscription : subscriptions) {
-        subscription.getActivityLikes().stream().forEach(activity -> {
+        Map<String, String> data = new HashMap<>();
+        
+        MessageDto message = new MessageDto();
+        message.setTitle(pushConfig.getTypeActivityTitle());
+        String messageContent = null;
+        for (ActivityEntity activity : subscription.getActivitySubscriptions()) {
           List<ScheduleEntity> schedules = scheduleService.getNextByActivityId(activity.getId());
           if (schedules != null && !schedules.isEmpty()) {
-            //TODO
+            if (messageContent == null) {
+              messageContent = "";
+              data.put("link", activity.selfLink().toString());
+            } else {
+              messageContent = ", " + messageContent;  
+            }
+            
+            String activityTitle = getActivityTitle(activity, subscription.getLanguage());
+            String time = dateFormatter.format(schedules.get(0));
+            messageContent = messageContent + activityTitle + ": " + time;
           }
-        });
-        translateAndPush(subscription, null, null);
+        }
+        
+        if (messageContent != null && !messageContent.isEmpty()) {
+          message.setContent(messageContent);
+          firebasePushService.sendPush(subscription, message, data); 
+        }
       }
     }
+  }
+
+  private String getActivityTitle(ActivityEntity activity, String language) {
+    Optional<ActivityTranslatablesEntity> translatable = 
+        getOptionalTranslatable(activity, language);
+    
+    if (translatable.isPresent()) {
+      if (language.equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+        return translatable.get().getName();
+      }
+      return translatable.get().getName().replaceFirst("\\(.*?\\)","");
+    } else {
+      translatable = getOptionalTranslatable(activity, translationConfig.getDefaultLocale());
+      if (translatable.isPresent()) {
+        return translatable.get().getName();
+      }
+    }
+    return null;
+  }
+
+  private Optional<ActivityTranslatablesEntity> getOptionalTranslatable(
+      ActivityEntity activity, String language) {
+    return activity.getTranslatables().stream()
+        .filter(t -> 
+            t.getLanguage().getLocale().equalsIgnoreCase(language))
+        .findFirst();
   }
 }

@@ -23,45 +23,45 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 @Transactional
 @Rollback
-public class SubscriptionControllerDeleteSubscribedTypesTest {
+public class SubscriptionControllerDeleteOrganisationSubscriptionsTest {
 
   @Autowired
   private SubscriptionController controller;
 
   @Test
   @WithUserDetails("super@user")
-  public void deleteSubscriptionTypes() throws URISyntaxException {
-    List<String> subscribtionTypeId = new ArrayList<>();
-    subscribtionTypeId.add("00000000-0000-0000-0021-200000000000");
+  public void deleteOrganisationSubscriptions() throws URISyntaxException {
+    List<String> organisationId = new ArrayList<>();
+    organisationId.add("00000000-0000-0000-0008-200000000000");
     String subscriptionId = "00000000-0000-0000-0020-100000000000";
 
-    assertContaining(subscriptionId, subscribtionTypeId);
+    assertContaining(subscriptionId, organisationId);
 
-    controller.deleteSubscriptionTypes(subscriptionId, subscribtionTypeId);
+    controller.deleteOrganisationSubscriptions(subscriptionId, organisationId);
 
-    assertNotContaining(subscriptionId, subscribtionTypeId);
+    assertNotContaining(subscriptionId, organisationId);
   }
   
   @Test(expected = BadParamsException.class)
-  public void deleteSubscriptionTypesNotFound() throws URISyntaxException {
-    List<String> subscribtionTypeId = new ArrayList<>();
-    subscribtionTypeId.add("00000000-0000-0000-0021-100000000000");
+  public void deleteOrganisationSubscriptionsNotFound() throws URISyntaxException {
+    List<String> organisationId = new ArrayList<>();
+    organisationId.add("00000000-0000-0000-0008-100000000000");
     String subscriptionId = "00000000-0000-0000-0020-xx0000000000";
 
-    controller.deleteSubscriptionTypes(subscriptionId, subscribtionTypeId);
+    controller.deleteOrganisationSubscriptions(subscriptionId, organisationId);
   }
 
-  private void assertContaining(String subscriptionId, List<String> subscribtionTypeIds) {
+  private void assertContaining(String subscriptionId, List<String> organisationIds) {
     Resource<SubscriptionEntity> result = (Resource<SubscriptionEntity>)
         controller.readOne(subscriptionId);
-    assertThat(result.getContent().getSubscribedTypes()).haveAtLeastOne(
-        new Condition<>(t -> subscribtionTypeIds.contains(t.getId()), "subscribtionType exists"));
+    assertThat(result.getContent().getOrganisationSubscriptions()).haveAtLeastOne(
+        new Condition<>(t -> organisationIds.contains(t.getId()), "organisation exists"));
   }
 
-  private void assertNotContaining(String subscriptionId, List<String> subscribtionTypeIds) {
+  private void assertNotContaining(String subscriptionId, List<String> organisationIds) {
     Resource<SubscriptionEntity> result = (Resource<SubscriptionEntity>)
         controller.readOne(subscriptionId);
-    assertThat(result.getContent().getSubscribedTypes())
-        .noneMatch(t -> subscribtionTypeIds.contains(t.getId()));
+    assertThat(result.getContent().getOrganisationSubscriptions())
+        .noneMatch(t -> organisationIds.contains(t.getId()));
   }
 }

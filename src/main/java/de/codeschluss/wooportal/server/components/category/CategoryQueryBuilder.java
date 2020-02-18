@@ -111,6 +111,7 @@ public class CategoryQueryBuilder extends QueryBuilder<QCategoryEntity> {
    */
   private BooleanExpression likeName(String filter) {
     return query.translatables.any().name.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentRequestLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
 }

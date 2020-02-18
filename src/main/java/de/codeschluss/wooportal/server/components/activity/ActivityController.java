@@ -10,7 +10,6 @@ import de.codeschluss.wooportal.server.components.category.CategoryService;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
-import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
 import de.codeschluss.wooportal.server.components.tag.TagEntity;
@@ -86,8 +85,6 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
 
   /** The translation service. */
   private final TranslationService translationService;
-  
-  private final SubscriptionService subscriptionService;
 
   /** The auth service. */
   private final AuthorizationService authService;
@@ -123,7 +120,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       TagService tagService, TargetGroupService targetGroupService, ScheduleService scheduleService,
       OrganisationService organisationService, BlogService blogService, 
       TranslationService translationService, AuthorizationService authService,
-      ImageService imageService, SubscriptionService subscriptionService) {
+      ImageService imageService) {
     super(service);
     this.addressService = addressService;
     this.categoryService = categoryService;
@@ -136,7 +133,6 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     this.translationService = translationService;
     this.authService = authService;
     this.imageService = imageService;
-    this.subscriptionService = subscriptionService;
   }
 
   /**
@@ -609,16 +605,10 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
    * @return the response entity
    */
   @PutMapping("/activities/{activityId}/like")
-  public ResponseEntity<?> increaseLike(
-      @PathVariable String activityId,
-      @RequestBody(required = false) StringPrimitive subscriptionId) {
+  public ResponseEntity<?> increaseLike(@PathVariable String activityId) {
     try {
       service.increaseLike(activityId);
-      if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
-        subscriptionService.addLikedActivity(
-            subscriptionId.getValue(), 
-            service.getById(activityId));
-      }
+      
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");

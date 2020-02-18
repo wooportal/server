@@ -210,7 +210,7 @@ public class ActivityEntity extends BaseResource {
     return links;
   }
 
-  private Link selfLink() {
+  public Link selfLink() {
     return linkTo(methodOn(ActivityController.class)
         .readOne(id)).withSelfRel();
   }

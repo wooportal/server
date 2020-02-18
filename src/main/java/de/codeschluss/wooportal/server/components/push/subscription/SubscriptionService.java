@@ -3,12 +3,12 @@ package de.codeschluss.wooportal.server.components.push.subscription;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
-import de.codeschluss.wooportal.server.components.blog.BlogEntity;
+import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.components.push.PushConfig;
 import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
+import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.io.IOException;
 import java.util.List;
@@ -71,8 +71,8 @@ public class SubscriptionService
     return repo.findAll();
   }
   
-  public List<SubscriptionEntity> getByActivityFollowSub() {
-    return getBySubscribedType(config.getTypeFollowActivity());
+  public List<SubscriptionEntity> getByActivityTypeSub() {
+    return getBySubscribedType(config.getTypeActivity());
   }
   
   public List<SubscriptionEntity> getByNewsSub() {
@@ -90,7 +90,115 @@ public class SubscriptionService
   private List<SubscriptionEntity> getBySubscribedType(String type) {
     return repo.findAll(entities.withSubscribedType(type));
   }
+  
+  public Resources<?> getSubscribedActivities(String subscriptionId)
+      throws JsonParseException, JsonMappingException, IOException {
+    return assembler.entitiesToResources(getById(subscriptionId).getActivitySubscriptions(), null);
+  }
 
+  /**
+   * Adds the activity subscription.
+   *
+   * @param subscriptionId the subscription id
+   * @param activityToSubscribe the activity to subscribe
+   * @return the subscription entity
+   */
+  public List<ActivityEntity> addActivitySubscription(
+      String subscriptionId, ActivityEntity activityToSubscribe) {
+    SubscriptionEntity subscription = getById(subscriptionId);
+    if (subscription.getActivitySubscriptions().stream().noneMatch(activity -> 
+        activity.getId().equals(activityToSubscribe.getId()))) {
+      subscription.getActivitySubscriptions().add(activityToSubscribe);
+    }
+    return repo.save(subscription).getActivitySubscriptions();
+  }
+  
+  /**
+   * Delete activity subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @param activityIds the activity ids
+   */
+  public void deleteActivitySubscriptions(String subscriptionId, List<String> activityIds) {
+    SubscriptionEntity subscription = getById(subscriptionId);
+    subscription.getActivitySubscriptions()   
+        .removeIf(activitySubscription -> activityIds.contains(activitySubscription.getId()));
+    
+    repo.save(subscription); 
+  }
+
+  public Resources<?> getSubscribedBloggers(String subscriptionId)
+      throws JsonParseException, JsonMappingException, IOException {
+    return assembler.entitiesToResources(getById(subscriptionId).getBloggerSubscriptions(), null);
+  }
+  
+  /**
+   * Adds the blogger subscription.
+   *
+   * @param subscriptionId the subscription id
+   * @param bloggerToSubscribe the blogger to subscribe
+   * @return the subscription entity
+   */
+  public List<BloggerEntity> addBloggerSubscription(
+      String subscriptionId, BloggerEntity bloggerToSubscribe) {
+    SubscriptionEntity subscription = getById(subscriptionId);
+    if (subscription.getBloggerSubscriptions().stream().noneMatch(blog -> 
+        blog.getId().equals(bloggerToSubscribe.getId()))) {
+      subscription.getBloggerSubscriptions().add(bloggerToSubscribe);
+    }
+    return repo.save(subscription).getBloggerSubscriptions();
+  }
+  
+  /**
+   * Delete blogger subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @param bloggerIds the blogger ids
+   */
+  public void deleteBloggerSubscriptions(String subscriptionId, List<String> bloggerIds) {
+    SubscriptionEntity subscription = getById(subscriptionId);
+    subscription.getBloggerSubscriptions()
+        .removeIf(orgaSubscription -> bloggerIds.contains(orgaSubscription.getId()));
+    
+    repo.save(subscription); 
+  }
+  
+  public Resources<?> getSubscribedOrganisations(String subscriptionId) 
+      throws JsonParseException, JsonMappingException, IOException {
+    return assembler.entitiesToResources(
+        getById(subscriptionId).getOrganisationSubscriptions(), null);
+  }
+
+  /**
+   * Adds the organisation subscription.
+   *
+   * @param subscriptionId the subscription id
+   * @param organisationLikeToSubscribe the organisation like to subscribe
+   */
+  public List<OrganisationEntity> addOrganisationSubscription(
+      String subscriptionId, OrganisationEntity organisationLikeToSubscribe) {
+    SubscriptionEntity subscription = getById(subscriptionId);
+    if (subscription.getOrganisationSubscriptions().stream().noneMatch(organisation -> 
+        organisation.getId().equals(organisationLikeToSubscribe.getId()))) {
+      subscription.getOrganisationSubscriptions().add(organisationLikeToSubscribe);
+    }
+    return repo.save(subscription).getOrganisationSubscriptions();
+  }
+
+  /**
+   * Delete organisation subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @param orgaIds the orga ids
+   */
+  public void deleteOrganisationSubscriptions(String subscriptionId, List<String> orgaIds) {
+    SubscriptionEntity subscription = getById(subscriptionId);
+    subscription.getOrganisationSubscriptions()
+        .removeIf(orgaSubscription -> orgaIds.contains(orgaSubscription.getId()));
+    
+    repo.save(subscription); 
+  }
+  
   public Resources<?> getSubscribedTypes(String subscriptionId) 
       throws JsonParseException, JsonMappingException, IOException {
     return assembler.entitiesToResources(getById(subscriptionId).getSubscribedTypes(), null);
@@ -127,69 +235,42 @@ public class SubscriptionService
     subscription.getSubscribedTypes()   
         .removeIf(subscriptionType -> subscriptionTypeIds.contains(subscriptionType.getId()));
     
-    if (subscription.getSubscribedTypes() == null || subscription.getSubscribedTypes().isEmpty()) {
-      repo.delete(subscription);
-    } else {
-      repo.save(subscription); 
-    }
+    repo.save(subscription); 
+  }
+
+  public Resources<?> getSubscribedTopics(String subscriptionId) 
+      throws JsonParseException, JsonMappingException, IOException {
+    return assembler.entitiesToResources(getById(subscriptionId).getTopicSubscriptions(), null);
   }
 
   /**
-   * Adds the liked activity.
+   * Adds the topic subscription.
    *
    * @param subscriptionId the subscription id
-   * @param activityLikeToAdd the activity to add
+   * @param topicToSubscribe the topic to subscribe
+   * @return the list
    */
-  public void addLikedActivity(String subscriptionId, ActivityEntity activityLikeToAdd) {
-    try {
-      SubscriptionEntity subscription = getById(subscriptionId);
-      if (subscription.getActivityLikes().stream().noneMatch(activity -> 
-          activity.getId().equals(activityLikeToAdd.getId()))) {
-        subscription.getActivityLikes().add(activityLikeToAdd);
-      }
-      repo.save(subscription);
-    } catch (NotFoundException e) {
-      return;
+  public List<TopicEntity> addTopicSubscription(
+      String subscriptionId, TopicEntity topicToSubscribe) {
+    SubscriptionEntity subscription = getById(subscriptionId);
+    if (subscription.getTopicSubscriptions().stream().noneMatch(topic -> 
+        topic.getId().equals(topicToSubscribe.getId()))) {
+      subscription.getTopicSubscriptions().add(topicToSubscribe);
     }
+    return repo.save(subscription).getTopicSubscriptions();
   }
 
   /**
-   * Adds the liked blog.
+   * Delete topic subscriptions.
    *
    * @param subscriptionId the subscription id
-   * @param blogLikeToAdd the blog like to add
+   * @param topicIds the topic ids
    */
-  public void addLikedBlog(String subscriptionId, BlogEntity blogLikeToAdd) {
-    try {
-      SubscriptionEntity subscription = getById(subscriptionId);
-      if (subscription.getBlogLikes().stream().noneMatch(blog -> 
-          blog.getId().equals(blogLikeToAdd.getId()))) {
-        subscription.getBlogLikes().add(blogLikeToAdd);
-      }
-      repo.save(subscription);
-    } catch (NotFoundException e) {
-      return;
-    }
-  }
-
-  /**
-   * Adds the liked organisation.
-   *
-   * @param subscriptionId the subscription id
-   * @param organisationLikeToAdd the organisation like to add
-   */
-  public void addLikedOrganisation(
-      String subscriptionId, 
-      OrganisationEntity organisationLikeToAdd) {
-    try {
-      SubscriptionEntity subscription = getById(subscriptionId);
-      if (subscription.getOrganisationLikes().stream().noneMatch(organisation -> 
-          organisation.getId().equals(organisationLikeToAdd.getId()))) {
-        subscription.getOrganisationLikes().add(organisationLikeToAdd);
-      }
-      repo.save(subscription);
-    } catch (NotFoundException e) {
-      return;
-    }
+  public void deleteTopicSubscriptions(String subscriptionId, List<String> topicIds) {
+    SubscriptionEntity subscription = getById(subscriptionId);
+    subscription.getTopicSubscriptions()
+        .removeIf(orgaSubscription -> topicIds.contains(orgaSubscription.getId()));
+    
+    repo.save(subscription); 
   }
 }

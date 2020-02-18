@@ -3,9 +3,14 @@ package de.codeschluss.wooportal.server.components.push.subscription;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
+import de.codeschluss.wooportal.server.components.activity.ActivityService;
+import de.codeschluss.wooportal.server.components.blogger.BloggerService;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeService;
+import de.codeschluss.wooportal.server.components.topic.TopicService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
@@ -35,7 +40,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class SubscriptionController 
     extends CrudController<SubscriptionEntity, SubscriptionService> {
   
+  /** The subscription type service. */
   private final SubscriptionTypeService subscriptionTypeService;
+  
+  /** The activity service. */
+  private final ActivityService activityService;
+  
+  /** The orga service. */
+  private final OrganisationService orgaService;
+  
+  /** The blogger service. */
+  private final BloggerService bloggerService;
+  
+  private final TopicService topicService;
 
   /**
    * Instantiates a new subscription controller.
@@ -45,10 +62,18 @@ public class SubscriptionController
    */
   public SubscriptionController(
       SubscriptionService service,
-      SubscriptionTypeService subscriptionTypeService) {
+      SubscriptionTypeService subscriptionTypeService,
+      ActivityService activityService,
+      OrganisationService orgaService,
+      BloggerService bloggerService,
+      TopicService topicService) {
     super(service);
     
     this.subscriptionTypeService = subscriptionTypeService;
+    this.activityService = activityService;
+    this.orgaService = orgaService;
+    this.bloggerService = bloggerService;
+    this.topicService = topicService;
   }
 
   @Override
@@ -86,12 +111,174 @@ public class SubscriptionController
   }
   
   /**
+   * Read subscribed activities.
+   *
+   * @param subscriptionId the subscription id
+   * @return the response entity
+   */
+  @GetMapping("/subscriptions/{subscriptionId}/activities")
+  public ResponseEntity<?> readActivitySubscriptions(
+      @PathVariable String subscriptionId) {
+    try {
+      return ok(service.getSubscribedActivities(subscriptionId));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Adds the activity subscription.
+   *
+   * @param subscriptionId the subscription id
+   * @param activityId the activity id
+   * @return the response entity
+   */
+  @PostMapping("/subscriptions/{subscriptionId}/activities")
+  public ResponseEntity<?> addActivitySubscription(@PathVariable String subscriptionId,
+      @RequestBody StringPrimitive activityId) {
+    try {
+      return ok(service.addActivitySubscription(
+          subscriptionId, activityService.getById(activityId.getValue())));
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Subscription or Activity do not exist");
+    }
+  }
+
+  /**
+   * Delete activity subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @param activityIds the activity ids
+   * @return the response entity
+   */
+  @DeleteMapping("/subscriptions/{subscriptionId}/activities")
+  public ResponseEntity<?> deleteActivitySubscriptions(
+      @PathVariable String subscriptionId,
+      @RequestParam(value = "activityIds", required = true) 
+        List<String> activityIds) {
+    try {
+      service.deleteActivitySubscriptions(subscriptionId, activityIds);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Subscription does not exist");
+    }
+  }
+  
+  /**
+   * Read blogger subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @return the response entity
+   */
+  @GetMapping("/subscriptions/{subscriptionId}/bloggers")
+  public ResponseEntity<?> readBloggerSubscriptions(
+      @PathVariable String subscriptionId) {
+    try {
+      return ok(service.getSubscribedBloggers(subscriptionId));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Adds the blogger subscription.
+   *
+   * @param subscriptionId the subscription id
+   * @param bloggerId the blogger id
+   * @return the response entity
+   */
+  @PostMapping("/subscriptions/{subscriptionId}/bloggers")
+  public ResponseEntity<?> addBloggerSubscription(@PathVariable String subscriptionId,
+      @RequestBody StringPrimitive bloggerId) {
+    try {
+      return ok(service.addBloggerSubscription(
+          subscriptionId, bloggerService.getById(bloggerId.getValue())));
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Subscription or Blogger do not exist");
+    }
+  }
+
+  /**
+   * Delete blogger subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @param bloggerIds the blogger ids
+   * @return the response entity
+   */
+  @DeleteMapping("/subscriptions/{subscriptionId}/bloggers")
+  public ResponseEntity<?> deleteBloggerSubscriptions(
+      @PathVariable String subscriptionId,
+      @RequestParam(value = "bloggerIds", required = true) 
+        List<String> bloggerIds) {
+    try {
+      service.deleteBloggerSubscriptions(subscriptionId, bloggerIds);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Subscription does not exist");
+    }
+  }
+  
+  /**
+   * Read organisation subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @return the response entity
+   */
+  @GetMapping("/subscriptions/{subscriptionId}/organisations")
+  public ResponseEntity<?> readOrganisationSubscriptions(
+      @PathVariable String subscriptionId) {
+    try {
+      return ok(service.getSubscribedOrganisations(subscriptionId));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Adds the organisation subscription.
+   *
+   * @param subscriptionId the subscription id
+   * @param organisationId the organisation id
+   * @return the response entity
+   */
+  @PostMapping("/subscriptions/{subscriptionId}/organisations")
+  public ResponseEntity<?> addOrganisationSubscription(@PathVariable String subscriptionId,
+      @RequestBody StringPrimitive organisationId) {
+    try {
+      return ok(service.addOrganisationSubscription(
+          subscriptionId, orgaService.getById(organisationId.getValue())));
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Subscription or Organisation do not exist");
+    }
+  }
+
+  /**
+   * Delete organisation subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @param organisationIds the organisation ids
+   * @return the response entity
+   */
+  @DeleteMapping("/subscriptions/{subscriptionId}/organisations")
+  public ResponseEntity<?> deleteOrganisationSubscriptions(
+      @PathVariable String subscriptionId,
+      @RequestParam(value = "organisationIds", required = true) 
+        List<String> organisationIds) {
+    try {
+      service.deleteOrganisationSubscriptions(subscriptionId, organisationIds);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Subscription does not exist");
+    }
+  }
+  
+  /**
    * Read subscribed types.
    *
    * @param subscriptionId the subscription id
    * @return the response entity
    */
-  @GetMapping("/subscriptions/{subscriptionId}/subscribedtypes")
+  @GetMapping("/subscriptions/{subscriptionId}/types")
   public ResponseEntity<?> readSubscribedTypes(
       @PathVariable String subscriptionId) {
     try {
@@ -110,7 +297,7 @@ public class SubscriptionController
    *          the target group ids
    * @return the response entity
    */
-  @PostMapping("/subscriptions/{subscriptionId}/subscribedtypes")
+  @PostMapping("/subscriptions/{subscriptionId}/types")
   public ResponseEntity<?> addSubscriptionType(@PathVariable String subscriptionId,
       @RequestBody List<String> subscriptionTypeIds) {
     try {
@@ -132,13 +319,67 @@ public class SubscriptionController
    * @param subscriptionTypeIds the subscription type ids
    * @return the response entity
    */
-  @DeleteMapping("/subscriptions/{subscriptionId}/subscribedtypes")
+  @DeleteMapping("/subscriptions/{subscriptionId}/types")
   public ResponseEntity<?> deleteSubscriptionTypes(
       @PathVariable String subscriptionId,
       @RequestParam(value = "subscriptionTypeIds", required = true) 
         List<String> subscriptionTypeIds) {
     try {
       service.deleteSubscriptionType(subscriptionId, subscriptionTypeIds);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Subscription does not exist");
+    }
+  }
+  
+  /**
+   * Read topic subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @return the response entity
+   */
+  @GetMapping("/subscriptions/{subscriptionId}/topics")
+  public ResponseEntity<?> readTopicSubscriptions(
+      @PathVariable String subscriptionId) {
+    try {
+      return ok(service.getSubscribedTopics(subscriptionId));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Adds the topic subscription.
+   *
+   * @param subscriptionId the subscription id
+   * @param topicId the topic id
+   * @return the response entity
+   */
+  @PostMapping("/subscriptions/{subscriptionId}/topics")
+  public ResponseEntity<?> addTopicSubscription(@PathVariable String subscriptionId,
+      @RequestBody StringPrimitive topicId) {
+    try {
+      return ok(service.addTopicSubscription(
+          subscriptionId, topicService.getById(topicId.getValue())));
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Subscription or Blogger do not exist");
+    }
+  }
+
+  /**
+   * Delete topic subscriptions.
+   *
+   * @param subscriptionId the subscription id
+   * @param topicIds the topic ids
+   * @return the response entity
+   */
+  @DeleteMapping("/subscriptions/{subscriptionId}/topics")
+  public ResponseEntity<?> deleteTopicSubscriptions(
+      @PathVariable String subscriptionId,
+      @RequestParam(value = "topicIds", required = true) 
+        List<String> topicIds) {
+    try {
+      service.deleteTopicSubscriptions(subscriptionId, topicIds);
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Subscription does not exist");

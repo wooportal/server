@@ -22,7 +22,7 @@ public class BlogControllerIncreaseLike {
     String blogId = "00000000-0000-0000-0016-100000000000";
     int likesCount = controller.readOne(blogId).getContent().getLikes();
     
-    controller.increaseLike(blogId, null);
+    controller.increaseLike(blogId);
     
     assertThat(controller.readOne(blogId).getContent().getLikes()).isEqualTo(likesCount + 1); 
   }
@@ -31,7 +31,7 @@ public class BlogControllerIncreaseLike {
   public void findOneNotFound() {
     String blogId = "00000000-0000-0000-0016-XX0000000000";
 
-    controller.increaseLike(blogId, null);
+    controller.increaseLike(blogId);
   }
 
 }

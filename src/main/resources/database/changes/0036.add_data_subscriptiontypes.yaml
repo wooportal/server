@@ -14,7 +14,7 @@ databaseChangeLog:
             (uuid(), 'NEWS'),
             (uuid(), 'SINGLE_CONTENT'),
             (uuid(), 'NEW_CONTENT'),
-            (uuid(), 'FOLLOW_ACTIVITY');
+            (uuid(), 'ACTIVITY');
     - sql:
         comment: add news subscription type translatables for German
         dbms: mysql, h2
@@ -32,7 +32,7 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into subscription_type_translatables (id, parent_id, language_id, name, description)
-            select uuid(), p.id, l.id, 'Benachrichtige mich bei neuen Inhalten des Trägers', 'Träger können dich über neue Inhalten direkt informieren.'
+            select uuid(), p.id, l.id, 'Benachrichtige mich bei neuen Inhalten des Trägers', 'Träger können dich über neue Inhalte direkt informieren.'
             from subscription_types p, languages l
             WHERE p.config_type = 'SINGLE_CONTENT' and l.locale = 'de';
     - sql:
@@ -42,16 +42,16 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into subscription_type_translatables (id, parent_id, language_id, name, description)
-            select uuid(), p.id, l.id, 'Benachrichtige mich bei interessanten Veranstaltungen', 'Sobald es neue Veranstaltungen gibt, die dich interessieren könntent, wirst du darüber informiert.'
+            select uuid(), p.id, l.id, 'Benachrichtige mich bei gefolgten Inhalten', 'Sobald es neue Inhalte von dir gefolgten Organisationen, Themen oder Bloggern gibt, wirst du darüber informiert.'
             from subscription_types p, languages l
             WHERE p.config_type = 'NEW_CONTENT' and l.locale = 'de';
     - sql:
-        comment: add follow activity subscription type translatables for German
+        comment: add activity subscription type translatables for German
         dbms: mysql, h2
         splitStatements: true
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into subscription_type_translatables (id, parent_id, language_id, name, description)
-            select uuid(), p.id, l.id, 'Erinnere mich an Veranstaltungen', 'Du wirst über Veranstaltungen erinnert, die du mit einem Like markiert hast.'
+            select uuid(), p.id, l.id, 'Erinnere mich an Veranstaltungen', 'Du wirst an von dir gefolgten Veranstaltungen erinnert,'
             from subscription_types p, languages l
-            WHERE p.config_type = 'FOLLOW_ACTIVITY' and l.locale = 'de';
+            WHERE p.config_type = 'ACTIVITY' and l.locale = 'de';

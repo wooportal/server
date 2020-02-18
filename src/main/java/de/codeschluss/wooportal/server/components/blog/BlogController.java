@@ -6,7 +6,6 @@ import static org.springframework.http.ResponseEntity.ok;
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerService;
-import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
@@ -56,8 +55,6 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   
   /** The image service. */
   private final ImageService imageService;
-  
-  private final SubscriptionService subscriptionService;
 
   /**
    * Instantiates a new blog controller.
@@ -70,15 +67,13 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       ActivityService activityService,
       TranslationService translationService,
       AuthorizationService authService,
-      ImageService imageService,
-      SubscriptionService subscriptionService) {
+      ImageService imageService) {
     super(service);
     this.bloggerService = bloggerService;
     this.activityService = activityService;
     this.translationService = translationService;
     this.authService = authService;
     this.imageService = imageService;
-    this.subscriptionService = subscriptionService;
   }
   
   @Override
@@ -237,16 +232,9 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
    * @return the response entity
    */
   @PutMapping("/blogs/{blogId}/like")
-  public ResponseEntity<?> increaseLike(
-      @PathVariable String blogId,
-      @RequestBody(required = false) StringPrimitive subscriptionId) {
+  public ResponseEntity<?> increaseLike(@PathVariable String blogId) {
     try {
       service.increaseLike(blogId);
-      if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
-        subscriptionService.addLikedBlog(
-            subscriptionId.getValue(), 
-            service.getById(blogId));
-      }
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Blog does not exist");

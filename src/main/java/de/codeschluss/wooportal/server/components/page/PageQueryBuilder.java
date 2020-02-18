@@ -91,7 +91,8 @@ public class PageQueryBuilder extends QueryBuilder<QPageEntity> {
    */
   private BooleanExpression likeContent(String filter) {
     return query.translatables.any().content.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentRequestLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
   
   /**
@@ -102,7 +103,8 @@ public class PageQueryBuilder extends QueryBuilder<QPageEntity> {
    */
   private BooleanExpression likeTitle(String filter) {
     return query.translatables.any().title.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentRequestLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
   
   /**
@@ -113,7 +115,8 @@ public class PageQueryBuilder extends QueryBuilder<QPageEntity> {
    */
   private Predicate likeTopic(String filter) {
     return query.topic.translatables.any().name.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentRequestLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
 
   /**

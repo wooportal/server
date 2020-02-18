@@ -49,13 +49,13 @@ databaseChangeLog:
               primaryKey: true
             name: id
             type: VARCHAR(255)
-        tableName: subscription_activities_likes
+        tableName: activity_subscriptions
     - sql:
         comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE subscription_activities_likes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        sql: ALTER TABLE activity_subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
     id: 0030.create_tables_subscriptions.3
     author: codeschluss
@@ -70,20 +70,20 @@ databaseChangeLog:
         - column:
             constraints:
               nullable: false
-            name: blog_id
+            name: blogger_id
             type: CHAR(36)
         - column:
             constraints:
               primaryKey: true
             name: id
             type: VARCHAR(255)
-        tableName: subscription_blog_likes
+        tableName: blogger_subscriptions
     - sql:
         comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE subscription_blog_likes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        sql: ALTER TABLE blogger_subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
     id: 0030.create_tables_subscriptions.4
     author: codeschluss
@@ -105,13 +105,13 @@ databaseChangeLog:
               primaryKey: true
             name: id
             type: VARCHAR(255)
-        tableName: subscription_organisation_likes
+        tableName: organisation_subscriptions
     - sql:
         comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE subscription_organisation_likes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        sql: ALTER TABLE organisation_subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
     id: 0030.create_tables_subscriptions.5
     author: codeschluss
@@ -126,20 +126,20 @@ databaseChangeLog:
         - column:
             constraints:
               nullable: false
-            name: page_id
+            name: topic_id
             type: CHAR(36)
         - column:
             constraints:
               primaryKey: true
             name: id
             type: VARCHAR(255)
-        tableName: subscription_page_likes
+        tableName: topic_subscriptions
     - sql:
         comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE subscription_page_likes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        sql: ALTER TABLE topic_subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
     id: 0030.create_tables_subscriptions.6
     author: codeschluss
@@ -238,9 +238,9 @@ databaseChangeLog:
     author: codeschluss
     changes:
     - addUniqueConstraint:
-        columnNames: subscription_id, page_id
+        columnNames: subscription_id, topic_id
         constraintName: UK6mulsm75q63xuabkxrdpuoh0r
-        tableName: subscription_page_likes
+        tableName: topic_subscriptions
 - changeSet:
     id: 0030.create_tables_subscriptions.10
     author: codeschluss
@@ -248,15 +248,15 @@ databaseChangeLog:
     - addUniqueConstraint:
         columnNames: subscription_id, organisation_id
         constraintName: UKcnxg7d1cica7adv8eerq3yon
-        tableName: subscription_organisation_likes
+        tableName: organisation_subscriptions
 - changeSet:
     id: 0030.create_tables_subscriptions.11
     author: codeschluss
     changes:
     - addUniqueConstraint:
-        columnNames: subscription_id, blog_id
+        columnNames: subscription_id, blogger_id
         constraintName: UKdd3kn2x6sguglkjng5t2d46db
-        tableName: subscription_blog_likes
+        tableName: blogger_subscriptions
 - changeSet:
     id: 0030.create_tables_subscriptions.12
     author: codeschluss
@@ -264,7 +264,7 @@ databaseChangeLog:
     - addUniqueConstraint:
         columnNames: subscription_id, activity_id
         constraintName: UKq5idwlg57g63wo5ev163xvowu
-        tableName: subscription_activities_likes
+        tableName: activity_subscriptions
 - changeSet:
     id: 0030.create_tables_subscriptions.13
     author: codeschluss
@@ -293,15 +293,15 @@ databaseChangeLog:
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: page_id
-        baseTableName: subscription_page_likes
+        baseColumnNames: topic_id
+        baseTableName: topic_subscriptions
         constraintName: FKd6dua6o9elgacf6k087ql03sv
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
         onUpdate: CASCADE
         referencedColumnNames: id
-        referencedTableName: pages
+        referencedTableName: topics
         validate: true
 - changeSet:
     id: 0030.create_tables_subscriptions.16
@@ -324,7 +324,7 @@ databaseChangeLog:
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: organisation_id
-        baseTableName: subscription_organisation_likes
+        baseTableName: organisation_subscriptions
         constraintName: FKikp5kkbijxvdeh7m84bslfi8s
         deferrable: false
         initiallyDeferred: false
@@ -339,7 +339,7 @@ databaseChangeLog:
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
-        baseTableName: subscription_page_likes
+        baseTableName: topic_subscriptions
         constraintName: FKl2k4uqdvg9oebkpiwjuo0ay4o
         deferrable: false
         initiallyDeferred: false
@@ -354,7 +354,7 @@ databaseChangeLog:
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
-        baseTableName: subscription_organisation_likes
+        baseTableName: organisation_subscriptions
         constraintName: FKqmc2t2pnkxdvwuvu9t0ep0sqe
         deferrable: false
         initiallyDeferred: false
@@ -369,7 +369,7 @@ databaseChangeLog:
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
-        baseTableName: subscription_activities_likes
+        baseTableName: activity_subscriptions
         constraintName: FKr9bqnuqoh3lohidt2m0dx44pc
         deferrable: false
         initiallyDeferred: false
@@ -383,15 +383,15 @@ databaseChangeLog:
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
-        baseColumnNames: blog_id
-        baseTableName: subscription_blog_likes
+        baseColumnNames: blogger_id
+        baseTableName: blogger_subscriptions
         constraintName: FKrr8poc339fiw5mtot7son23li
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
         onUpdate: CASCADE
         referencedColumnNames: id
-        referencedTableName: blogs
+        referencedTableName: bloggers
         validate: true
 - changeSet:
     id: 0030.create_tables_subscriptions.22
@@ -399,7 +399,7 @@ databaseChangeLog:
     changes:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
-        baseTableName: subscription_blog_likes
+        baseTableName: blogger_subscriptions
         constraintName: FKs6om7betkwpkuxfirka3g6oun
         deferrable: false
         initiallyDeferred: false

@@ -150,7 +150,8 @@ public class OrganisationQueryBuilder extends QueryBuilder<QOrganisationEntity> 
   private BooleanExpression likeDescription(String filter) {
     return 
         query.translatables.any().description.likeIgnoreCase(filter)
-        .and(query.translatables.any().language.locale.in(languageService.getCurrentRequestLocales()));
+        .and(query.translatables.any().language.locale.in(
+            languageService.getCurrentRequestLocales()));
   }
 
   public BooleanExpression forActivity(String activityId) {

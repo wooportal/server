@@ -28,12 +28,12 @@ public class ScheduleQueryBuilder extends QueryBuilder<QScheduleEntity> {
  
   public BooleanExpression forActivityAndNext(String activityId) {
     return withActivity(activityId)
-        .and(query.startDate.between(getHoursEarlier(2), new Date()));
+        .and(query.startDate.between(new Date(), hoursLater(12)));
   }
   
-  private Date getHoursEarlier(int hours) {
+  private Date hoursLater(int hours) {
     Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.HOUR, -hours);
+    cal.add(Calendar.HOUR, hours);
     return cal.getTime();
   }
 

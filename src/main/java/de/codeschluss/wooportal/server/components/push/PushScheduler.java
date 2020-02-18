@@ -12,13 +12,8 @@ public class PushScheduler {
     this.pushService = pushService;
   }
   
-  
-  @Scheduled(cron = "30 18 * * *")  
-  public void pushOncePerDay() {
-  }
-  
-  @Scheduled(cron = "0 */2 * * *")  
-  public void pushEveryTwoHour() {
+  @Scheduled(cron = "0 30 9 * * ?")  
+  public void pushMorning() {
     pushService.pushActivityReminders();
   }
 

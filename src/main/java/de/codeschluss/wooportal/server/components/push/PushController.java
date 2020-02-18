@@ -2,8 +2,6 @@ package de.codeschluss.wooportal.server.components.push;
 
 import static org.springframework.http.ResponseEntity.noContent;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
-import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +35,7 @@ public class PushController {
   public ResponseEntity<?> pushContent(
       @RequestBody(required = true) MessageDto message,
       @RequestBody(required = true) String link) {
-    pushService.pushContent(message, link);
+    pushService.pushSingleContent(message, link);
     return noContent().build();
   }
 }

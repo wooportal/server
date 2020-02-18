@@ -24,5 +24,7 @@ public class PushConfig {
   
   private String typeNewContent;
   
-  private String typeFollowActivity;
+  private String typeActivity;
+  
+  private String typeActivityTitle;
 }
