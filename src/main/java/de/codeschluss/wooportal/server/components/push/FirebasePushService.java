@@ -113,10 +113,6 @@ public class FirebasePushService {
       System.out.println(response);
     } catch (InterruptedException | ExecutionException e) {
       subscriptionService.delete(subscription.getId());
-      errorService.sendErrorMail("Push error for subscription: " 
-          + subscription.getAuthSecret()
-          + " with error: " 
-          + e.getStackTrace());
     }
   }
 }
