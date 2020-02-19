@@ -122,13 +122,17 @@ public class BlogEntity extends BaseResource {
   public List<Link> createResourceLinks() {
     List<Link> links = new ArrayList<Link>();
 
-    links.add(linkTo(methodOn(BlogController.class)
-        .readOne(id)).withSelfRel());
+    links.add(selfLink());
     links.add(linkTo(methodOn(BlogController.class)
         .readActivity(id)).withRel("activity"));
     links.add(linkTo(methodOn(BlogController.class)
         .readImages(id)).withRel("images"));
     
     return links;
+  }
+  
+  public Link selfLink() {
+    return linkTo(methodOn(BlogController.class)
+        .readOne(id)).withSelfRel();
   }
 }

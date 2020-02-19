@@ -87,14 +87,18 @@ public class PageEntity extends BaseResource {
   public List<Link> createResourceLinks() {
     List<Link> links = new ArrayList<Link>();
 
-    links.add(linkTo(methodOn(PageController.class)
-        .readOne(id)).withSelfRel());
+    links.add(selfLink());
     links.add(linkTo(methodOn(PageController.class)
         .readTopic(id)).withSelfRel());
     links.add(linkTo(methodOn(PageController.class)
         .readTranslations(id)).withRel("translations"));
 
     return links;
+  }
+
+  public Link selfLink() {
+    return linkTo(methodOn(PageController.class)
+        .readOne(id)).withSelfRel();
   }
 
 }

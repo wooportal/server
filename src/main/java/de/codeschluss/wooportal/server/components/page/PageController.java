@@ -3,6 +3,7 @@ package de.codeschluss.wooportal.server.components.page;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
+import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.TopicService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
@@ -39,6 +40,8 @@ public class PageController extends CrudController<PageEntity, PageService> {
   
   /** The translation service. */
   private final TranslationService translationService;
+  
+  private final PushService pushService;
 
   /**
    * Instantiates a new page controller.
@@ -50,10 +53,12 @@ public class PageController extends CrudController<PageEntity, PageService> {
   public PageController(
       PageService service,
       TopicService topicService,
-      TranslationService translationService) {
+      TranslationService translationService,
+      PushService pushService) {
     super(service);
     this.topicService = topicService;
     this.translationService = translationService;
+    this.pushService = pushService;
   }
 
   @Override
@@ -76,7 +81,9 @@ public class PageController extends CrudController<PageEntity, PageService> {
     try {
       TopicEntity topic = topicService.getById(newPage.getTopicId());
       newPage.setTopic(topic);
-      return super.create(newPage);
+      ResponseEntity<?> result = super.create(newPage);
+      pushService.pushNewPage(newPage, topic);
+      return result;
     } catch (NotFoundException e) {
       throw new BadParamsException("Given topic does not exist");
     }

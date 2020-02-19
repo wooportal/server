@@ -6,6 +6,7 @@ import static org.springframework.http.ResponseEntity.ok;
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerService;
+import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
@@ -55,6 +56,9 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   
   /** The image service. */
   private final ImageService imageService;
+  
+  /** The push service. */
+  private final PushService pushService;
 
   /**
    * Instantiates a new blog controller.
@@ -67,13 +71,15 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       ActivityService activityService,
       TranslationService translationService,
       AuthorizationService authService,
-      ImageService imageService) {
+      ImageService imageService,
+      PushService pushService) {
     super(service);
     this.bloggerService = bloggerService;
     this.activityService = activityService;
     this.translationService = translationService;
     this.authService = authService;
     this.imageService = imageService;
+    this.pushService = pushService;
   }
   
   @Override
@@ -92,8 +98,11 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   @PostMapping("/blogs")
   @BloggerPermission
   public ResponseEntity<?> create(@RequestBody BlogEntity newBlog) throws Exception {
-    newBlog.setBlogger(getBlogger());
-    return super.create(newBlog);
+    BloggerEntity blogger = getBlogger();
+    newBlog.setBlogger(blogger);
+    ResponseEntity<?> result = super.create(newBlog);
+    pushService.pushNewBlog(newBlog, blogger.getId());
+    return result;
   }
   
   private BloggerEntity getBlogger() {

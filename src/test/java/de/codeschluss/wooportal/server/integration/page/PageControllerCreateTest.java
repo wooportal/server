@@ -1,17 +1,22 @@
 package de.codeschluss.wooportal.server.integration.page;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.willDoNothing;
 
 import de.codeschluss.wooportal.server.components.page.PageController;
 import de.codeschluss.wooportal.server.components.page.PageEntity;
+import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import org.assertj.core.api.Condition;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.security.access.AccessDeniedException;
@@ -25,6 +30,15 @@ public class PageControllerCreateTest {
 
   @Autowired
   private PageController controller;
+  
+  @MockBean
+  private PushService pushService;
+  
+  @Before
+  public void setUp() {
+    willDoNothing().given(
+        pushService).pushNewPage(Mockito.any(), Mockito.any());
+  }
 
   @Test
   @WithUserDetails("super@user")

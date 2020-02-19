@@ -14,7 +14,7 @@ databaseChangeLog:
             (uuid(), 'NEWS'),
             (uuid(), 'SINGLE_CONTENT'),
             (uuid(), 'NEW_CONTENT'),
-            (uuid(), 'ACTIVITY');
+            (uuid(), 'ACTIVITY_REMINDER');
     - sql:
         comment: add news subscription type translatables for German
         dbms: mysql, h2
@@ -54,4 +54,4 @@ databaseChangeLog:
             insert into subscription_type_translatables (id, parent_id, language_id, name, description)
             select uuid(), p.id, l.id, 'Erinnere mich an Veranstaltungen', 'Du wirst an von dir gefolgten Veranstaltungen erinnert,'
             from subscription_types p, languages l
-            WHERE p.config_type = 'ACTIVITY' and l.locale = 'de';
+            WHERE p.config_type = 'ACTIVITY_REMINDER' and l.locale = 'de';

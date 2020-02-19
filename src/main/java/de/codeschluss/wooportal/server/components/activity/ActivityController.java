@@ -10,6 +10,7 @@ import de.codeschluss.wooportal.server.components.category.CategoryService;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
+import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
 import de.codeschluss.wooportal.server.components.tag.TagEntity;
@@ -88,6 +89,9 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
 
   /** The auth service. */
   private final AuthorizationService authService;
+  
+  /** The push service. */
+  private final PushService pushService;
 
   /**
    * Instantiates a new activity controller.
@@ -120,7 +124,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       TagService tagService, TargetGroupService targetGroupService, ScheduleService scheduleService,
       OrganisationService organisationService, BlogService blogService, 
       TranslationService translationService, AuthorizationService authService,
-      ImageService imageService) {
+      ImageService imageService, PushService pushService) {
     super(service);
     this.addressService = addressService;
     this.categoryService = categoryService;
@@ -133,6 +137,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     this.translationService = translationService;
     this.authService = authService;
     this.imageService = imageService;
+    this.pushService = pushService;
   }
 
   /**
@@ -169,6 +174,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     }
 
     Resource<ActivityEntity> resource = service.addResource(newActivity);
+    pushService.pushNewActivity(newActivity);
     return created(new URI(resource.getId().expand().getHref())).body(resource);
   }
 

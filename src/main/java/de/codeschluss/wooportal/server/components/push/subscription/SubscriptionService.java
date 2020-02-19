@@ -71,8 +71,8 @@ public class SubscriptionService
     return repo.findAll();
   }
   
-  public List<SubscriptionEntity> getByActivityTypeSub() {
-    return getBySubscribedType(config.getTypeActivity());
+  public List<SubscriptionEntity> getByActivityReminderTypeSub() {
+    return getBySubscribedType(config.getTypeActivityReminder());
   }
   
   public List<SubscriptionEntity> getByNewsSub() {
@@ -81,6 +81,26 @@ public class SubscriptionService
   
   public List<SubscriptionEntity> getByNewContentSub() {
     return getBySubscribedType(config.getTypeNewContent());
+  }
+  
+  public List<SubscriptionEntity> getByNewContentAndActivitySub() {
+    return repo.findAll(
+        entities.withNewContentTypeAndHasActivity(config.getTypeNewContent()));
+  }
+  
+  public List<SubscriptionEntity> getByNewContentAndOrgaSub(String organisationId) {
+    return repo.findAll(
+        entities.withNewContentTypeAndOrga(config.getTypeNewContent(), organisationId));
+  }
+  
+  public List<SubscriptionEntity> getByNewContentAndBloggerSub(String bloggerId) {
+    return repo.findAll(
+        entities.withNewContentTypeAndBlogger(config.getTypeNewContent(), bloggerId));
+  }
+  
+  public List<SubscriptionEntity> getByNewContentAndTopicSub(String topicId) {
+    return repo.findAll(
+        entities.withNewContentTypeAndTopic(config.getTypeNewContent(), topicId));
   }
   
   public List<SubscriptionEntity> getBySingleContentSub() {

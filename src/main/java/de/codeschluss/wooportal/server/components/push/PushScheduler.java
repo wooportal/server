@@ -12,8 +12,13 @@ public class PushScheduler {
     this.pushService = pushService;
   }
   
-  @Scheduled(cron = "0 30 9 * * ?")  
-  public void pushMorning() {
+  @Scheduled(cron = "0 0 12 * * ?")  
+  public void pushNoon() {
+    pushService.pushActivityReminders();
+  }
+  
+  @Scheduled(cron = "0 0 16 * * ?")  
+  public void pushAfternoon() {
     pushService.pushActivityReminders();
   }
 
