@@ -20,7 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PushServicePushNewsTest {
+public class PushServicePushSingleContentTest {
   
   @Autowired
   private PushService pushService;
@@ -32,21 +32,23 @@ public class PushServicePushNewsTest {
   private TranslationService translationService;
   
   @Test
-  public void pushNewsOk() throws Exception {
+  public void pushSingleContentOk() throws Exception {
     String title = "test";
     String content = "test";
     MessageDto message = new MessageDto(title, content);
     String translation = "translation";
     String subscriptionId = "00000000-0000-0000-0020-400000000000";
+    String link = "url";
     
     prepareMocks(translation);
     
-    pushService.pushNews(message);
+    pushService.pushSingleContent(message, link);
     
-    assertWithNoTranslation(subscriptionId, title, content);
+    assertWithNoTranslation(subscriptionId, title, content, link);
   }
   
-  private void assertWithNoTranslation(String subscriptionId, String title, String content) {
+  private void assertWithNoTranslation(
+      String subscriptionId, String title, String content, String link) {
     then(this.firebasePushService)
         .should(new AtLeast(1))
         .sendPush(
@@ -56,7 +58,8 @@ public class PushServicePushNewsTest {
                 messageParam.getTitle().equals(title)
                 && messageParam.getContent().equals(content)),
             ArgumentMatchers.argThat(dataParam -> 
-                dataParam == null));
+                dataParam.entrySet().stream().anyMatch(d -> 
+                    d.getKey().equals("link") && d.getValue().equals(link))));
   }
   
   @Test
@@ -66,15 +69,17 @@ public class PushServicePushNewsTest {
     MessageDto message = new MessageDto(title, content);
     String translation = "translation";
     String subscriptionId = "00000000-0000-0000-0020-100000000000";
+    String link = "url";
     
     prepareMocks(translation);
     
-    pushService.pushNews(message);
+    pushService.pushSingleContent(message, link);
     
-    assertWithTranslation(subscriptionId, translation);
+    assertWithTranslation(subscriptionId, translation, link);
   }
   
-  private void assertWithTranslation(String subscriptionId, String translation) {
+  private void assertWithTranslation(
+      String subscriptionId, String translation, String link) {
     then(this.firebasePushService)
         .should(new AtLeast(1))
         .sendPush(
@@ -84,7 +89,8 @@ public class PushServicePushNewsTest {
                 messageParam.getTitle().equals(translation)
                 && messageParam.getContent().equals(translation)),
             ArgumentMatchers.argThat(dataParam -> 
-                dataParam == null));
+            dataParam.entrySet().stream().anyMatch(d -> 
+                d.getKey().equals("link") && d.getValue().equals(link))));
   }
 
   private void prepareMocks(String translation) {

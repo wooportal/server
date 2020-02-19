@@ -60,6 +60,18 @@ public class PushService {
   /** The date formatter. */
   private final SimpleDateFormat dateFormatter;
   
+  public static final String messageContentNewActivityOrgaSub =
+      "Hat eine neue Veranstaltung erstellt";
+  
+  public static final String messageContentNewActivitySimilar =
+      "Eine Veranstaltung könnte dir gefallen";
+  
+  public static final String messageContentNewBlog =
+      "Hat einen neuen Blog geschrieben";
+  
+  public static final String messageContentNewPage =
+      "Es gibt einen neuen Beitrag zu diesem Thema";
+  
   /**
    * Instantiates a new push service.
    *
@@ -187,7 +199,7 @@ public class PushService {
           if (schedules != null && !schedules.isEmpty()) {
             if (messageContent == null) {
               messageContent = "";
-              data.put("link", activity.selfLink().toString());
+              data.put("link", activity.selfLink().getHref());
             } else {
               messageContent = ", " + messageContent;  
             }
@@ -256,18 +268,17 @@ public class PushService {
       ActivityEntity newActivity) {
     if (orgaSubscriptions != null && !orgaSubscriptions.isEmpty()) {
       Map<String, String> translatedMessages = new HashMap<>();
-      String messageContent = "Hat eine neue Veranstaltung erstellt!";
       for (SubscriptionEntity subscription : orgaSubscriptions) {
-        String messageContentToSend = messageContent;
+        String messageContentToSend = messageContentNewActivityOrgaSub;
         if (!subscription.getLanguage().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
               translationConfig.getDefaultLocale(), 
-              messageContent, 
+              messageContentToSend, 
               translatedMessages);
         }
         Map<String, String> data = new HashMap<>();
-        data.put("link", newActivity.selfLink().toString());
+        data.put("link", newActivity.selfLink().getHref());
         
         OrganisationEntity orga = orgaService.getById(newActivity.getOrganisationId());
         MessageDto message = new MessageDto(
@@ -283,23 +294,22 @@ public class PushService {
       ActivityEntity newActivity) {
     if (activitySubscriptions != null && !activitySubscriptions.isEmpty()) {
       Map<String, String> translatedMessages = new HashMap<>();
-      String messageContent = "Eine Veranstaltung könnte dir gefallen!";
       for (SubscriptionEntity subscription : activitySubscriptions) {
         List<ActivityEntity> subscribedActivities = subscription.getActivitySubscriptions();
         if (subscribedActivities != null && !subscribedActivities.isEmpty()) {
           for (ActivityEntity activity : subscribedActivities) {
             if (similar(activity, newActivity)) {
-              String messageContentToSend = messageContent;
+              String messageContentToSend = messageContentNewActivitySimilar;
               if (!subscription.getLanguage().equalsIgnoreCase(
                   translationConfig.getDefaultLocale())) {
                 messageContentToSend = translateSingle(
                     subscription, 
                     translationConfig.getDefaultLocale(), 
-                    messageContent, 
+                    messageContentToSend, 
                     translatedMessages);
               }
               Map<String, String> data = new HashMap<>();
-              data.put("link", newActivity.selfLink().toString());
+              data.put("link", newActivity.selfLink().getHref());
               
               OrganisationEntity orga = orgaService.getById(newActivity.getOrganisationId());
               MessageDto message = new MessageDto(
@@ -336,18 +346,17 @@ public class PushService {
         subscriptionService.getByNewContentAndBloggerSub(bloggerId);
     if (subscriptions != null && !subscriptions.isEmpty()) {
       Map<String, String> translatedMessages = new HashMap<>();
-      String messageContent = "Hat einen neuen Blog geschrieben!";
       for (SubscriptionEntity subscription : subscriptions) {
-        String messageContentToSend = messageContent;
+        String messageContentToSend = messageContentNewBlog;
         if (!subscription.getLanguage().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
               translationConfig.getDefaultLocale(), 
-              messageContent, 
+              messageContentToSend, 
               translatedMessages);
         }
         Map<String, String> data = new HashMap<>();
-        data.put("link", newBlog.selfLink().toString());
+        data.put("link", newBlog.selfLink().getHref());
        
         MessageDto message = new MessageDto(
             newBlog.getAuthor(), messageContentToSend);
@@ -369,18 +378,17 @@ public class PushService {
         subscriptionService.getByNewContentAndTopicSub(topic.getId());
     if (subscriptions != null && !subscriptions.isEmpty()) {
       Map<String, String> translatedMessages = new HashMap<>();
-      String messageContent = "Es gibt einen neuen Beitrag zu diesem Thema";
       for (SubscriptionEntity subscription : subscriptions) {
-        String messageContentToSend = messageContent;
+        String messageContentToSend = messageContentNewPage;
         if (!subscription.getLanguage().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
               translationConfig.getDefaultLocale(), 
-              messageContent, 
+              messageContentToSend, 
               translatedMessages);
         }
         Map<String, String> data = new HashMap<>();
-        data.put("link", newPage.selfLink().toString());
+        data.put("link", newPage.selfLink().getHref());
        
         MessageDto message = new MessageDto(
             getTopicName(topic, subscription.getLanguage()), messageContentToSend);
@@ -428,6 +436,6 @@ public class PushService {
         messageLang, 
         messageContent);    
     translatedMessages.put(subscription.getLanguage(), currentTranslation);
-    return translation;
+    return currentTranslation;
   }
 }
