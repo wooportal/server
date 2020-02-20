@@ -17,6 +17,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.AtLeast;
 import org.mockito.internal.verification.Times;
+import org.mockito.verification.VerificationMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -62,25 +63,12 @@ public class PushServicePushNewActivityTest {
     
     pushService.pushNewActivity(newActivity);
     
-    assertPushForOrgaSub(subscriptionId, newActivity, orga);
-  }
-  
-  private void assertPushForOrgaSub(
-      String subscriptionId, 
-      ActivityEntity newActivity,
-      OrganisationEntity orga) {
-    then(this.firebasePushService)
-        .should(new AtLeast(1))
-        .sendPush(
-            ArgumentMatchers.argThat(subscriptionParam -> 
-                subscriptionParam.getId().equals(subscriptionId)),
-            ArgumentMatchers.argThat(messageParam ->
-                messageParam.getTitle().equals(orga.getName())
-                && messageParam.getContent().equals(PushService.messageContentNewActivityOrgaSub)),
-            ArgumentMatchers.argThat(dataParam -> 
-            dataParam.entrySet().stream().anyMatch(d -> 
-                d.getKey().equals("link") && d.getValue().equals(
-                    newActivity.selfLink().getHref()))));
+    assertArugments(
+        new AtLeast(1),
+        subscriptionId, 
+        orga.getName(),
+        PushService.messageContentNewActivityOrgaSub,
+        newActivity.selfLink().getHref());
   }
   
   @Test
@@ -94,25 +82,12 @@ public class PushServicePushNewActivityTest {
     
     pushService.pushNewActivity(newActivity);
     
-    assertPushForOrgaSubWithTranslation(subscriptionId, newActivity, orga);
-  }
-  
-  private void assertPushForOrgaSubWithTranslation(
-      String subscriptionId, 
-      ActivityEntity newActivity,
-      OrganisationEntity orga) {
-    then(this.firebasePushService)
-        .should(new AtLeast(1))
-        .sendPush(
-            ArgumentMatchers.argThat(subscriptionParam -> 
-                subscriptionParam.getId().equals(subscriptionId)),
-            ArgumentMatchers.argThat(messageParam ->
-                messageParam.getTitle().equals(orga.getName())
-                && messageParam.getContent().equals(translationString)),
-            ArgumentMatchers.argThat(dataParam -> 
-            dataParam.entrySet().stream().anyMatch(d -> 
-                d.getKey().equals("link") && d.getValue().equals(
-                    newActivity.selfLink().getHref()))));
+    assertArugments(
+        new AtLeast(1),
+        subscriptionId, 
+        orga.getName(),
+        translationString,
+        newActivity.selfLink().getHref());
   }
   
   @Test
@@ -126,25 +101,12 @@ public class PushServicePushNewActivityTest {
     
     pushService.pushNewActivity(newActivity);
     
-    assertPushForActivitySub(subscriptionId, newActivity, orga);
-  }
-  
-  private void assertPushForActivitySub(
-      String subscriptionId, 
-      ActivityEntity newActivity,
-      OrganisationEntity orga) {
-    then(this.firebasePushService)
-        .should(new AtLeast(1))
-        .sendPush(
-            ArgumentMatchers.argThat(subscriptionParam -> 
-                subscriptionParam.getId().equals(subscriptionId)),
-            ArgumentMatchers.argThat(messageParam ->
-                messageParam.getTitle().equals(orga.getName())
-                && messageParam.getContent().equals(PushService.messageContentNewActivitySimilar)),
-            ArgumentMatchers.argThat(dataParam -> 
-            dataParam.entrySet().stream().anyMatch(d -> 
-                d.getKey().equals("link") && d.getValue().equals(
-                    newActivity.selfLink().getHref()))));
+    assertArugments(
+        new AtLeast(1),
+        subscriptionId, 
+        orga.getName(),
+        PushService.messageContentNewActivitySimilar,
+        newActivity.selfLink().getHref());
   }
   
   @Test
@@ -158,25 +120,12 @@ public class PushServicePushNewActivityTest {
     
     pushService.pushNewActivity(newActivity);
     
-    assertDuplicateCheckOk(subscriptionId, newActivity, orga);
-  }
-  
-  private void assertDuplicateCheckOk(
-      String subscriptionId, 
-      ActivityEntity newActivity,
-      OrganisationEntity orga) {
-    then(this.firebasePushService)
-        .should(new Times(1))
-        .sendPush(
-            ArgumentMatchers.argThat(subscriptionParam -> 
-                subscriptionParam.getId().equals(subscriptionId)),
-            ArgumentMatchers.argThat(messageParam ->
-                messageParam.getTitle().equals(orga.getName())
-                && messageParam.getContent().equals(PushService.messageContentNewActivityOrgaSub)),
-            ArgumentMatchers.argThat(dataParam -> 
-            dataParam.entrySet().stream().anyMatch(d -> 
-                d.getKey().equals("link") && d.getValue().equals(
-                    newActivity.selfLink().getHref()))));
+    assertArugments(
+        new Times(1),
+        subscriptionId, 
+        orga.getName(),
+        PushService.messageContentNewActivityOrgaSub,
+        newActivity.selfLink().getHref());
   }
 
   private ActivityEntity createActivity(
@@ -195,6 +144,26 @@ public class PushServicePushNewActivityTest {
     activity.setOrganisationId(organisationId);
     
     return activity;
+  }
+  
+  private void assertArugments(
+      VerificationMode mode,
+      String subscriptionId, 
+      String title,
+      String content,
+      String link) {
+    then(this.firebasePushService)
+        .should()
+        .sendPush(
+            ArgumentMatchers.argThat(subscriptionParam -> 
+                subscriptionParam.getId().equals(subscriptionId)),
+            ArgumentMatchers.argThat(messageParam ->
+                messageParam.getTitle().equals(title)
+                && messageParam.getContent().equals(content)),
+            ArgumentMatchers.argThat(dataParam -> 
+            dataParam.entrySet().stream().anyMatch(d -> 
+                d.getKey().equals("link") && d.getValue().equals(
+                    link))));
   }
 
 }

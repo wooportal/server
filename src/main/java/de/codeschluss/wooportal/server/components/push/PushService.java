@@ -338,12 +338,11 @@ public class PushService {
    * Push new blog.
    *
    * @param newBlog the new blog
-   * @param bloggerId the blogger id
    */
   @Async
-  public void pushNewBlog(BlogEntity newBlog, String bloggerId) {
+  public void pushNewBlog(BlogEntity newBlog) {
     List<SubscriptionEntity> subscriptions = 
-        subscriptionService.getByNewContentAndBloggerSub(bloggerId);
+        subscriptionService.getByNewContentAndBloggerSub(newBlog.getBlogger().getId());
     if (subscriptions != null && !subscriptions.isEmpty()) {
       Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
@@ -370,12 +369,11 @@ public class PushService {
    * Push new page.
    *
    * @param newPage the new page
-   * @param topic the topic
    */
   @Async
-  public void pushNewPage(PageEntity newPage, TopicEntity topic) {
+  public void pushNewPage(PageEntity newPage) {
     List<SubscriptionEntity> subscriptions = 
-        subscriptionService.getByNewContentAndTopicSub(topic.getId());
+        subscriptionService.getByNewContentAndTopicSub(newPage.getTopic().getId());
     if (subscriptions != null && !subscriptions.isEmpty()) {
       Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
@@ -391,7 +389,7 @@ public class PushService {
         data.put("link", newPage.selfLink().getHref());
        
         MessageDto message = new MessageDto(
-            getTopicName(topic, subscription.getLanguage()), messageContentToSend);
+            getTopicName(newPage.getTopic(), subscription.getLanguage()), messageContentToSend);
         
         firebasePushService.sendPush(subscription, message, data);
       }
@@ -406,7 +404,7 @@ public class PushService {
       if (language.equalsIgnoreCase(translationConfig.getDefaultLocale())) {
         return translatable.get().getName();
       }
-      return translatable.get().getName().replaceFirst("\\(.*?\\)","");
+      return translatable.get().getName().replaceFirst("\\(.*?\\)","").trim();
     } else {
       translatable = getOptionalTopicTranslatable(topic, translationConfig.getDefaultLocale());
       if (translatable.isPresent()) {

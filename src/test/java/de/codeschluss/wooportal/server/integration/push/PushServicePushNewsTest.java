@@ -43,20 +43,10 @@ public class PushServicePushNewsTest {
     
     pushService.pushNews(message);
     
-    assertWithNoTranslation(subscriptionId, title, content);
-  }
-  
-  private void assertWithNoTranslation(String subscriptionId, String title, String content) {
-    then(this.firebasePushService)
-        .should(new AtLeast(1))
-        .sendPush(
-            ArgumentMatchers.argThat(subscriptionParam -> 
-                subscriptionParam.getId().equals(subscriptionId)),
-            ArgumentMatchers.argThat(messageParam -> 
-                messageParam.getTitle().equals(title)
-                && messageParam.getContent().equals(content)),
-            ArgumentMatchers.argThat(dataParam -> 
-                dataParam == null));
+    assertArguments(
+        subscriptionId, 
+        title, 
+        content);
   }
   
   @Test
@@ -71,27 +61,33 @@ public class PushServicePushNewsTest {
     
     pushService.pushNews(message);
     
-    assertWithTranslation(subscriptionId, translation);
+    assertArguments(
+        subscriptionId, 
+        translation, 
+        translation);
   }
   
-  private void assertWithTranslation(String subscriptionId, String translation) {
+  private void prepareMocks(String translation) {
+    willDoNothing().given(
+        this.firebasePushService).sendPush(Mockito.any(), Mockito.any(), Mockito.any());
+    given(this.translationService.translate(Mockito.any(), Mockito.any(), Mockito.any()))
+        .willReturn(translation);
+  }
+  
+  private void assertArguments(
+      String subscriptionId, 
+      String title, 
+      String content) {
     then(this.firebasePushService)
         .should(new AtLeast(1))
         .sendPush(
             ArgumentMatchers.argThat(subscriptionParam -> 
                 subscriptionParam.getId().equals(subscriptionId)),
             ArgumentMatchers.argThat(messageParam -> 
-                messageParam.getTitle().equals(translation)
-                && messageParam.getContent().equals(translation)),
+                messageParam.getTitle().equals(title)
+                && messageParam.getContent().equals(content)),
             ArgumentMatchers.argThat(dataParam -> 
                 dataParam == null));
-  }
-
-  private void prepareMocks(String translation) {
-    willDoNothing().given(
-        this.firebasePushService).sendPush(Mockito.any(), Mockito.any(), Mockito.any());
-    given(this.translationService.translate(Mockito.any(), Mockito.any(), Mockito.any()))
-        .willReturn(translation);
   }
 
 }

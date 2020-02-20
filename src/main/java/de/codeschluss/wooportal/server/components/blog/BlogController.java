@@ -101,7 +101,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
     BloggerEntity blogger = getBlogger();
     newBlog.setBlogger(blogger);
     ResponseEntity<?> result = super.create(newBlog);
-    pushService.pushNewBlog(newBlog, blogger.getId());
+    pushService.pushNewBlog(newBlog);
     return result;
   }
   

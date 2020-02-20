@@ -82,7 +82,7 @@ public class PageController extends CrudController<PageEntity, PageService> {
       TopicEntity topic = topicService.getById(newPage.getTopicId());
       newPage.setTopic(topic);
       ResponseEntity<?> result = super.create(newPage);
-      pushService.pushNewPage(newPage, topic);
+      pushService.pushNewPage(newPage);
       return result;
     } catch (NotFoundException e) {
       throw new BadParamsException("Given topic does not exist");

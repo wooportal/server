@@ -37,7 +37,7 @@ public class PageControllerCreateTest {
   @Before
   public void setUp() {
     willDoNothing().given(
-        pushService).pushNewPage(Mockito.any(), Mockito.any());
+        pushService).pushNewPage(Mockito.any());
   }
 
   @Test

@@ -44,22 +44,11 @@ public class PushServicePushSingleContentTest {
     
     pushService.pushSingleContent(message, link);
     
-    assertWithNoTranslation(subscriptionId, title, content, link);
-  }
-  
-  private void assertWithNoTranslation(
-      String subscriptionId, String title, String content, String link) {
-    then(this.firebasePushService)
-        .should(new AtLeast(1))
-        .sendPush(
-            ArgumentMatchers.argThat(subscriptionParam -> 
-                subscriptionParam.getId().equals(subscriptionId)),
-            ArgumentMatchers.argThat(messageParam -> 
-                messageParam.getTitle().equals(title)
-                && messageParam.getContent().equals(content)),
-            ArgumentMatchers.argThat(dataParam -> 
-                dataParam.entrySet().stream().anyMatch(d -> 
-                    d.getKey().equals("link") && d.getValue().equals(link))));
+    assertArguments(
+        subscriptionId, 
+        title, 
+        content, 
+        link);
   }
   
   @Test
@@ -75,22 +64,11 @@ public class PushServicePushSingleContentTest {
     
     pushService.pushSingleContent(message, link);
     
-    assertWithTranslation(subscriptionId, translation, link);
-  }
-  
-  private void assertWithTranslation(
-      String subscriptionId, String translation, String link) {
-    then(this.firebasePushService)
-        .should(new AtLeast(1))
-        .sendPush(
-            ArgumentMatchers.argThat(subscriptionParam -> 
-                subscriptionParam.getId().equals(subscriptionId)),
-            ArgumentMatchers.argThat(messageParam -> 
-                messageParam.getTitle().equals(translation)
-                && messageParam.getContent().equals(translation)),
-            ArgumentMatchers.argThat(dataParam -> 
-            dataParam.entrySet().stream().anyMatch(d -> 
-                d.getKey().equals("link") && d.getValue().equals(link))));
+    assertArguments(
+        subscriptionId, 
+        translation, 
+        translation, 
+        link);
   }
 
   private void prepareMocks(String translation) {
@@ -98,6 +76,24 @@ public class PushServicePushSingleContentTest {
         this.firebasePushService).sendPush(Mockito.any(), Mockito.any(), Mockito.any());
     given(this.translationService.translate(Mockito.any(), Mockito.any(), Mockito.any()))
         .willReturn(translation);
+  }
+  
+  private void assertArguments(
+      String subscriptionId, 
+      String title, 
+      String content, 
+      String link) {
+    then(this.firebasePushService)
+        .should(new AtLeast(1))
+        .sendPush(
+            ArgumentMatchers.argThat(subscriptionParam -> 
+                subscriptionParam.getId().equals(subscriptionId)),
+            ArgumentMatchers.argThat(messageParam -> 
+                messageParam.getTitle().equals(title)
+                && messageParam.getContent().equals(content)),
+            ArgumentMatchers.argThat(dataParam -> 
+                dataParam.entrySet().stream().anyMatch(d -> 
+                    d.getKey().equals("link") && d.getValue().equals(link))));
   }
 
 }

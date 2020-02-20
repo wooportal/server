@@ -36,7 +36,7 @@ public class BlogControllerCreateTest {
   @Before
   public void setUp() {
     willDoNothing().given(
-        pushService).pushNewBlog(Mockito.any(), Mockito.any());
+        pushService).pushNewBlog(Mockito.any());
   }
 
   @Test
