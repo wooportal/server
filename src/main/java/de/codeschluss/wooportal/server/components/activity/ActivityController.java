@@ -11,6 +11,7 @@ import de.codeschluss.wooportal.server.components.organisation.OrganisationServi
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
 import de.codeschluss.wooportal.server.components.push.PushService;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
 import de.codeschluss.wooportal.server.components.tag.TagEntity;
@@ -92,6 +93,9 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   
   /** The push service. */
   private final PushService pushService;
+  
+  /** The subscription service. */
+  private final SubscriptionService subscriptionService;
 
   /**
    * Instantiates a new activity controller.
@@ -124,7 +128,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       TagService tagService, TargetGroupService targetGroupService, ScheduleService scheduleService,
       OrganisationService organisationService, BlogService blogService, 
       TranslationService translationService, AuthorizationService authService,
-      ImageService imageService, PushService pushService) {
+      ImageService imageService, PushService pushService, SubscriptionService subscriptionService) {
     super(service);
     this.addressService = addressService;
     this.categoryService = categoryService;
@@ -138,6 +142,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     this.authService = authService;
     this.imageService = imageService;
     this.pushService = pushService;
+    this.subscriptionService = subscriptionService;
   }
 
   /**
