@@ -41,9 +41,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class TranslationService {
 
   /** The repo service. */
+  @Autowired
   private final RepositoryService repoService;
 
   /** The language service. */
+  @Autowired
   private LanguageService languageService;
 
   /** The assembler. */

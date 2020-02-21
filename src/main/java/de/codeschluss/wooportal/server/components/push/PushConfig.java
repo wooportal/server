@@ -25,6 +25,4 @@ public class PushConfig {
   private String typeNewContent;
   
   private String typeActivityReminder;
-  
-  private String typeActivityReminderTitle;
 }

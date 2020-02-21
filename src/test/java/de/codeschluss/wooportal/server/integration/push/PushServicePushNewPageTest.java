@@ -10,6 +10,7 @@ import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.TopicService;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,13 +59,13 @@ public class PushServicePushNewPageTest {
     PageEntity newPage = 
         createPage(topic);
     
-    pushService.pushNewPage(newPage);
+    CompletableFuture<String> result = pushService.pushNewPage(newPage);
+    result.get();
     
     assertArugments(
         subscriptionId, 
         getTopicTitle(topic, "de"),
-        PushService.messageContentNewPage,
-        newPage.selfLink().getHref());
+        PushService.messageContentNewPage);
   }
   
   @Test
@@ -75,13 +76,13 @@ public class PushServicePushNewPageTest {
     PageEntity newPage = 
         createPage(topic);
     
-    pushService.pushNewPage(newPage);
+    CompletableFuture<String> result = pushService.pushNewPage(newPage);
+    result.get();
     
     assertArugments(
         subscriptionId, 
         getTopicTitle(topic, "de"),
-        translationString,
-        newPage.selfLink().getHref());
+        translationString);
   }
   
   private String getTopicTitle(TopicEntity topic, String lang) {
@@ -103,11 +104,13 @@ public class PushServicePushNewPageTest {
     
     pushService.pushNewPage(newPage);
     
+    CompletableFuture<String> result = pushService.pushNewPage(newPage);
+    result.get();
+    
     assertArugments(
         subscriptionId, 
         "pagePushTest",
-        translationString,
-        newPage.selfLink().getHref());
+        translationString);
   }
 
   private PageEntity createPage(
@@ -122,8 +125,7 @@ public class PushServicePushNewPageTest {
   private void assertArugments(
       String subscriptionId, 
       String title,
-      String content,
-      String link) {
+      String content) {
     then(this.firebasePushService)
         .should(new AtLeast(1))
         .sendPush(
@@ -132,10 +134,7 @@ public class PushServicePushNewPageTest {
             ArgumentMatchers.argThat(messageParam ->
                 messageParam.getTitle().equals(title)
                 && messageParam.getContent().equals(content)),
-            ArgumentMatchers.argThat(dataParam -> 
-            dataParam.entrySet().stream().anyMatch(d -> 
-                d.getKey().equals("link") && d.getValue().equals(
-                    link))));
+            Mockito.any());
   }
 
 }

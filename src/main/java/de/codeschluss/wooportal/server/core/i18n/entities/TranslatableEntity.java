@@ -36,5 +36,13 @@ public abstract class TranslatableEntity<P extends BaseResource> extends BaseRes
   public LanguageEntity getLanguage() {
     return this.language;
   }
+  
+  public void setLanguage(LanguageEntity language) {
+    this.language = language;
+  }
+  
+  public void setParent(P parent) {
+    this.parent = parent;
+  }
 
 }

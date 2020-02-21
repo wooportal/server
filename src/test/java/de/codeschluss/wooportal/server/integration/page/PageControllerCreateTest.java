@@ -1,7 +1,7 @@
 package de.codeschluss.wooportal.server.integration.page;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willReturn;
 
 import de.codeschluss.wooportal.server.components.page.PageController;
 import de.codeschluss.wooportal.server.components.page.PageEntity;
@@ -36,8 +36,8 @@ public class PageControllerCreateTest {
   
   @Before
   public void setUp() {
-    willDoNothing().given(
-        pushService).pushNewPage(Mockito.any());
+    willReturn(null).given(
+        pushService).pushNewActivity(Mockito.any());
   }
 
   @Test

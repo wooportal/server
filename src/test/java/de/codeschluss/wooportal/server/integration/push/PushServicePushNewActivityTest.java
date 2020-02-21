@@ -10,6 +10,7 @@ import de.codeschluss.wooportal.server.components.organisation.OrganisationServi
 import de.codeschluss.wooportal.server.components.push.FirebasePushService;
 import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -61,14 +62,14 @@ public class PushServicePushNewActivityTest {
     ActivityEntity newActivity = 
         createActivity(name, categoryId, orga.getId());
     
-    pushService.pushNewActivity(newActivity);
+    CompletableFuture<String> result = pushService.pushNewActivity(newActivity);
+    result.get();
     
     assertArugments(
         new AtLeast(1),
         subscriptionId, 
         orga.getName(),
-        PushService.messageContentNewActivityOrgaSub,
-        newActivity.selfLink().getHref());
+        PushService.messageContentNewActivityOrgaSub);
   }
   
   @Test
@@ -80,14 +81,14 @@ public class PushServicePushNewActivityTest {
     ActivityEntity newActivity = 
         createActivity(name, categoryId, orga.getId());
     
-    pushService.pushNewActivity(newActivity);
+    CompletableFuture<String> result = pushService.pushNewActivity(newActivity);
+    result.get();
     
     assertArugments(
         new AtLeast(1),
         subscriptionId, 
         orga.getName(),
-        translationString,
-        newActivity.selfLink().getHref());
+        translationString);
   }
   
   @Test
@@ -99,14 +100,14 @@ public class PushServicePushNewActivityTest {
     ActivityEntity newActivity = 
         createActivity(name, categoryId, orga.getId());
     
-    pushService.pushNewActivity(newActivity);
+    CompletableFuture<String> result = pushService.pushNewActivity(newActivity);
+    result.get();
     
     assertArugments(
         new AtLeast(1),
         subscriptionId, 
         orga.getName(),
-        PushService.messageContentNewActivitySimilar,
-        newActivity.selfLink().getHref());
+        PushService.messageContentNewActivitySimilar);
   }
   
   @Test
@@ -118,14 +119,14 @@ public class PushServicePushNewActivityTest {
     ActivityEntity newActivity = 
         createActivity(name, categoryId, orga.getId());
     
-    pushService.pushNewActivity(newActivity);
+    CompletableFuture<String> result = pushService.pushNewActivity(newActivity);
+    result.get();
     
     assertArugments(
         new Times(1),
         subscriptionId, 
         orga.getName(),
-        PushService.messageContentNewActivityOrgaSub,
-        newActivity.selfLink().getHref());
+        PushService.messageContentNewActivityOrgaSub);
   }
 
   private ActivityEntity createActivity(
@@ -150,8 +151,7 @@ public class PushServicePushNewActivityTest {
       VerificationMode mode,
       String subscriptionId, 
       String title,
-      String content,
-      String link) {
+      String content) {
     then(this.firebasePushService)
         .should()
         .sendPush(
@@ -160,10 +160,7 @@ public class PushServicePushNewActivityTest {
             ArgumentMatchers.argThat(messageParam ->
                 messageParam.getTitle().equals(title)
                 && messageParam.getContent().equals(content)),
-            ArgumentMatchers.argThat(dataParam -> 
-            dataParam.entrySet().stream().anyMatch(d -> 
-                d.getKey().equals("link") && d.getValue().equals(
-                    link))));
+            Mockito.any());
   }
 
 }

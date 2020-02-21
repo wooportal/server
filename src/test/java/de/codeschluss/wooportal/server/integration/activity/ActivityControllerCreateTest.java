@@ -1,7 +1,7 @@
 package de.codeschluss.wooportal.server.integration.activity;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willReturn;
 
 import de.codeschluss.wooportal.server.components.activity.ActivityController;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
@@ -35,7 +35,7 @@ public class ActivityControllerCreateTest {
   
   @Before
   public void setUp() {
-    willDoNothing().given(
+    willReturn(null).given(
         pushService).pushNewActivity(Mockito.any());
   }
 

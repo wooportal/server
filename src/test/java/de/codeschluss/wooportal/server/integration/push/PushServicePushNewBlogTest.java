@@ -10,6 +10,7 @@ import de.codeschluss.wooportal.server.components.blogger.BloggerService;
 import de.codeschluss.wooportal.server.components.push.FirebasePushService;
 import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import java.util.concurrent.CompletableFuture;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,13 +59,13 @@ public class PushServicePushNewBlogTest {
     BlogEntity newBlog = 
         createBlog(blogger);
     
-    pushService.pushNewBlog(newBlog);
+    CompletableFuture<String> result = pushService.pushNewBlog(newBlog);
+    result.get();
     
     assertArugments(
         subscriptionId,
         blogger.getUser().getName(),
-        PushService.messageContentNewBlog,
-        newBlog.selfLink().getHref());
+        PushService.messageContentNewBlog);
   }
   
   @Test
@@ -75,13 +76,13 @@ public class PushServicePushNewBlogTest {
     BlogEntity newBlog = 
         createBlog(blogger);
     
-    pushService.pushNewBlog(newBlog);
+    CompletableFuture<String> result = pushService.pushNewBlog(newBlog);
+    result.get();
     
     assertArugments(
         subscriptionId,
         blogger.getUser().getName(),
-        translationString,
-        newBlog.selfLink().getHref());
+        translationString);
   }
 
   private BlogEntity createBlog(
@@ -96,8 +97,7 @@ public class PushServicePushNewBlogTest {
   private void assertArugments(
       String subscriptionId, 
       String title,
-      String content,
-      String link) {
+      String content) {
     then(this.firebasePushService)
         .should(new AtLeast(1))
         .sendPush(
@@ -106,10 +106,7 @@ public class PushServicePushNewBlogTest {
             ArgumentMatchers.argThat(messageParam ->
                 messageParam.getTitle().equals(title)
                 && messageParam.getContent().equals(content)),
-            ArgumentMatchers.argThat(dataParam -> 
-            dataParam.entrySet().stream().anyMatch(d -> 
-                d.getKey().equals("link") && d.getValue().equals(
-                    link))));
+            Mockito.any());
   }
 
 }

@@ -21,8 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 /**
@@ -33,9 +36,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PushService {
-  
-  /** The pushConfig. */
-  private final PushConfig pushConfig;
   
   private final TranslationsConfiguration translationConfig;
 
@@ -72,6 +72,9 @@ public class PushService {
   public static final String messageContentNewPage =
       "Es gibt einen neuen Beitrag zu diesem Thema";
   
+  public static final String messageTitleActivityReminder =
+      "Veranstaltungserinnerung";
+  
   /**
    * Instantiates a new push service.
    *
@@ -80,7 +83,6 @@ public class PushService {
    * @param languageService the language service
    */
   public PushService(
-      PushConfig pushConfig,
       TranslationsConfiguration translationConfig,
       FirebasePushService firebasePushService,
       SubscriptionService subscriptionService,
@@ -88,7 +90,6 @@ public class PushService {
       TranslationService translationService,
       ScheduleService scheduleService,
       OrganisationService orgaService) {
-    this.pushConfig = pushConfig;
     this.translationConfig = translationConfig;
     this.firebasePushService = firebasePushService;
     this.subscriptionService = subscriptionService;
@@ -106,7 +107,6 @@ public class PushService {
    * @param message the message
    * @throws FirebaseMessagingException the firebase messaging exception
    */
-  @Async
   public void pushNews(MessageDto message) {
     List<SubscriptionEntity> subscriptions = subscriptionService.getByNewsSub();
     if (subscriptions != null && !subscriptions.isEmpty()) {
@@ -123,7 +123,6 @@ public class PushService {
    * @param message the message
    * @param link the link
    */
-  @Async
   public void pushSingleContent(MessageDto message, String link) {
     List<SubscriptionEntity> subscriptions = subscriptionService.getBySingleContentSub();
     if (subscriptions != null && !subscriptions.isEmpty()) {
@@ -185,14 +184,14 @@ public class PushService {
    * Push activity reminders.
    */
   @Async
-  public void pushActivityReminders() {
+  public CompletableFuture<String> pushActivityReminders() {
     List<SubscriptionEntity> subscriptions = subscriptionService.getByActivityReminderTypeSub();
     if (subscriptions != null && !subscriptions.isEmpty()) {
+      Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
         Map<String, String> data = new HashMap<>();
         
         MessageDto message = new MessageDto();
-        message.setTitle(pushConfig.getTypeActivityReminderTitle());
         String messageContent = null;
         for (ActivityEntity activity : subscription.getActivitySubscriptions()) {
           List<ScheduleEntity> schedules = scheduleService.getNextByActivityId(activity.getId());
@@ -201,11 +200,22 @@ public class PushService {
               messageContent = "";
               data.put("link", activity.selfLink().getHref());
             } else {
-              messageContent = ", " + messageContent;  
+              messageContent = messageContent + ", ";  
             }
             
+            String messageTitle = messageTitleActivityReminder;
+            if (!subscription.getLanguage().equalsIgnoreCase(
+                translationConfig.getDefaultLocale())) {
+              messageTitle = translateSingle(
+                  subscription, 
+                  translationConfig.getDefaultLocale(), 
+                  messageTitle, 
+                  translatedMessages);
+            }
+            message.setTitle(messageTitle);
+            
             String activityTitle = getActivityTitle(activity, subscription.getLanguage());
-            String time = dateFormatter.format(schedules.get(0));
+            String time = dateFormatter.format(schedules.get(0).getStartDate());
             messageContent = messageContent + activityTitle + ": " + time;
           }
         }
@@ -216,6 +226,8 @@ public class PushService {
         }
       }
     }
+    
+    return CompletableFuture.completedFuture("done");
   }
 
   private String getActivityTitle(ActivityEntity activity, String language) {
@@ -226,7 +238,7 @@ public class PushService {
       if (language.equalsIgnoreCase(translationConfig.getDefaultLocale())) {
         return translatable.get().getName();
       }
-      return translatable.get().getName().replaceFirst("\\(.*?\\)","");
+      return translatable.get().getName().replaceFirst("\\(.*?\\)","").trim();
     } else {
       translatable = getOptionalActivityTranslatable(
           activity, translationConfig.getDefaultLocale());
@@ -251,7 +263,7 @@ public class PushService {
    * @param newActivity the new activity
    */
   @Async
-  public void pushNewActivity(ActivityEntity newActivity) {
+  public CompletableFuture<String> pushNewActivity(ActivityEntity newActivity) {
     List<SubscriptionEntity> orgaSubscriptions = 
         subscriptionService.getByNewContentAndOrgaSub(newActivity.getOrganisationId());
     
@@ -261,6 +273,8 @@ public class PushService {
     
     pushNewActivityForOrgaSub(orgaSubscriptions, newActivity);
     pushNewActivityForSimilar(activitySubscriptions, newActivity);
+    
+    return CompletableFuture.completedFuture("done");
   }
 
   private void pushNewActivityForOrgaSub(
@@ -340,7 +354,7 @@ public class PushService {
    * @param newBlog the new blog
    */
   @Async
-  public void pushNewBlog(BlogEntity newBlog) {
+  public CompletableFuture<String> pushNewBlog(BlogEntity newBlog) {
     List<SubscriptionEntity> subscriptions = 
         subscriptionService.getByNewContentAndBloggerSub(newBlog.getBlogger().getId());
     if (subscriptions != null && !subscriptions.isEmpty()) {
@@ -363,6 +377,8 @@ public class PushService {
         firebasePushService.sendPush(subscription, message, data);
       }
     }
+    
+    return CompletableFuture.completedFuture("done");
   }
   
   /**
@@ -371,7 +387,7 @@ public class PushService {
    * @param newPage the new page
    */
   @Async
-  public void pushNewPage(PageEntity newPage) {
+  public CompletableFuture<String> pushNewPage(PageEntity newPage) {
     List<SubscriptionEntity> subscriptions = 
         subscriptionService.getByNewContentAndTopicSub(newPage.getTopic().getId());
     if (subscriptions != null && !subscriptions.isEmpty()) {
@@ -394,6 +410,8 @@ public class PushService {
         firebasePushService.sendPush(subscription, message, data);
       }
     }
+    
+    return CompletableFuture.completedFuture("done");
   }
 
   private String getTopicName(TopicEntity topic, String language) {

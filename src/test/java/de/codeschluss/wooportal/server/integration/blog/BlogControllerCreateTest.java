@@ -1,7 +1,7 @@
 package de.codeschluss.wooportal.server.integration.blog;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.BDDMockito.willReturn;
 
 import de.codeschluss.wooportal.server.components.blog.BlogController;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
@@ -35,8 +35,8 @@ public class BlogControllerCreateTest {
   
   @Before
   public void setUp() {
-    willDoNothing().given(
-        pushService).pushNewBlog(Mockito.any());
+    willReturn(null).given(
+        pushService).pushNewActivity(Mockito.any());
   }
 
   @Test

@@ -86,8 +86,7 @@ public class PushServicePushNewsTest {
             ArgumentMatchers.argThat(messageParam -> 
                 messageParam.getTitle().equals(title)
                 && messageParam.getContent().equals(content)),
-            ArgumentMatchers.argThat(dataParam -> 
-                dataParam == null));
+            Mockito.any());
   }
 
 }
