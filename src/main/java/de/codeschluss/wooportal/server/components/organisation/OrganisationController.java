@@ -8,6 +8,7 @@ import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.address.AddressService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.components.video.VideoEntity;
 import de.codeschluss.wooportal.server.components.video.VideoService;
@@ -74,6 +75,9 @@ public class OrganisationController
   
   /** The authorization service. */
   private final AuthorizationService authService;
+  
+  /** The subscription service. */
+  private final SubscriptionService subscriptionService;
 
   /**
    * Instantiates a new organisation controller.
@@ -92,7 +96,7 @@ public class OrganisationController
   public OrganisationController(OrganisationService service, ProviderService providerService,
       UserService userService, AddressService addressService, ActivityService activityService,
       TranslationService translationService, ImageService imageService, VideoService videoService,
-      AuthorizationService authService) {
+      AuthorizationService authService, SubscriptionService subscriptionService) {
     super(service);
     this.providerService = providerService;
     this.userService = userService;
@@ -102,6 +106,7 @@ public class OrganisationController
     this.imageService = imageService;
     this.videoService = videoService;
     this.authService = authService;
+    this.subscriptionService = subscriptionService;
   }
 
   @GetMapping("/organisations")
@@ -476,13 +481,20 @@ public class OrganisationController
    * Increase like.
    *
    * @param organisationId the organisation id
+   * @param subscriptionId the subscription id
    * @return the response entity
    */
   @PutMapping("/organisations/{organisationId}/like")
   public ResponseEntity<?> increaseLike(
-      @PathVariable String organisationId) {
-    try {
-      service.increaseLike(organisationId);
+      @PathVariable String organisationId, 
+      @RequestBody(required = false) StringPrimitive subscriptionId) { 
+    try { 
+      service.increaseLike(organisationId); 
+      if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) { 
+        subscriptionService.addLikedOrganisation(
+            subscriptionId.getValue(),  
+            service.getById(organisationId)); 
+      } 
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");

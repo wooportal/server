@@ -4,6 +4,7 @@ import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
 import de.codeschluss.wooportal.server.components.push.PushService;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.TopicService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
@@ -41,7 +42,10 @@ public class PageController extends CrudController<PageEntity, PageService> {
   /** The translation service. */
   private final TranslationService translationService;
   
+  /** The push service. */
   private final PushService pushService;
+  
+  private final SubscriptionService subscriptionService;
 
   /**
    * Instantiates a new page controller.
@@ -54,11 +58,13 @@ public class PageController extends CrudController<PageEntity, PageService> {
       PageService service,
       TopicService topicService,
       TranslationService translationService,
-      PushService pushService) {
+      PushService pushService,
+      SubscriptionService subscriptionService) {
     super(service);
     this.topicService = topicService;
     this.translationService = translationService;
     this.pushService = pushService;
+    this.subscriptionService = subscriptionService;
   }
 
   @Override
@@ -155,12 +161,20 @@ public class PageController extends CrudController<PageEntity, PageService> {
    * Increase like.
    *
    * @param pageId the page id
+   * @param subscriptionId the subscription id
    * @return the response entity
    */
   @PutMapping("/pages/{pageId}/like")
-  public ResponseEntity<?> increaseLike(@PathVariable String pageId) {
+  public ResponseEntity<?> increaseLike(
+      @PathVariable String pageId,
+      @RequestBody(required = false) StringPrimitive subscriptionId) {
     try {
       service.increaseLike(pageId);
+      if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
+        subscriptionService.addLikedPage(
+            subscriptionId.getValue(), 
+            service.getById(pageId));
+      }
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Page does not exist");

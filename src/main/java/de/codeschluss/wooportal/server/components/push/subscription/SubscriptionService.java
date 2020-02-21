@@ -3,12 +3,15 @@ package de.codeschluss.wooportal.server.components.push.subscription;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
+import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
+import de.codeschluss.wooportal.server.components.page.PageEntity;
 import de.codeschluss.wooportal.server.components.push.PushConfig;
 import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.io.IOException;
 import java.util.List;
@@ -293,4 +296,85 @@ public class SubscriptionService
     
     repo.save(subscription); 
   }
+
+  /**
+   * Adds the liked activity.
+   *
+   * @param subscriptionId the subscription id
+   * @param activityLikeToAdd the activity to add
+   */
+  public void addLikedActivity(String subscriptionId, ActivityEntity activityLikeToAdd) {
+    try {
+      SubscriptionEntity subscription = getById(subscriptionId);
+      if (subscription.getActivityLikes().stream().noneMatch(activity -> 
+          activity.getId().equals(activityLikeToAdd.getId()))) {
+        subscription.getActivityLikes().add(activityLikeToAdd);
+      }
+      repo.save(subscription);
+    } catch (NotFoundException e) {
+      return;
+    }
+  }
+
+  /**
+   * Adds the liked blog.
+   *
+   * @param subscriptionId the subscription id
+   * @param blogLikeToAdd the blog like to add
+   */
+  public void addLikedBlog(String subscriptionId, BlogEntity blogLikeToAdd) {
+    try {
+      SubscriptionEntity subscription = getById(subscriptionId);
+      if (subscription.getBlogLikes().stream().noneMatch(blog -> 
+          blog.getId().equals(blogLikeToAdd.getId()))) {
+        subscription.getBlogLikes().add(blogLikeToAdd);
+      }
+      repo.save(subscription);
+    } catch (NotFoundException e) {
+      return;
+    }
+  }
+  
+  /**
+   * Adds the liked organisation.
+   *
+   * @param subscriptionId the subscription id
+   * @param organisationLikeToAdd the organisation like to add
+   */
+  public void addLikedOrganisation(
+      String subscriptionId, 
+      OrganisationEntity organisationLikeToAdd) {
+    try {
+      SubscriptionEntity subscription = getById(subscriptionId);
+      if (subscription.getOrganisationLikes().stream().noneMatch(organisation -> 
+          organisation.getId().equals(organisationLikeToAdd.getId()))) {
+        subscription.getOrganisationLikes().add(organisationLikeToAdd);
+      }
+      repo.save(subscription);
+    } catch (NotFoundException e) {
+      return;
+    }
+  }
+  
+  /**
+   * Adds the liked page.
+   *
+   * @param subscriptionId the subscription id
+   * @param pageLikeToAdd the page like to add
+   */
+  public void addLikedPage(
+      String subscriptionId, 
+      PageEntity pageLikeToAdd) {
+    try {
+      SubscriptionEntity subscription = getById(subscriptionId);
+      if (subscription.getPageLikes().stream().noneMatch(page -> 
+          page.getId().equals(pageLikeToAdd.getId()))) {
+        subscription.getPageLikes().add(pageLikeToAdd);
+      }
+      repo.save(subscription);
+    } catch (NotFoundException e) {
+      return;
+    }
+  }
+  
 }

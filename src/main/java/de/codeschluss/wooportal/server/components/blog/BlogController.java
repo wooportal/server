@@ -7,6 +7,7 @@ import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerService;
 import de.codeschluss.wooportal.server.components.push.PushService;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
@@ -59,6 +60,9 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   
   /** The push service. */
   private final PushService pushService;
+  
+  /** The subscription service. */
+  private final SubscriptionService subscriptionService;
 
   /**
    * Instantiates a new blog controller.
@@ -72,7 +76,8 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       TranslationService translationService,
       AuthorizationService authService,
       ImageService imageService,
-      PushService pushService) {
+      PushService pushService,
+      SubscriptionService subscriptionService) {
     super(service);
     this.bloggerService = bloggerService;
     this.activityService = activityService;
@@ -80,6 +85,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
     this.authService = authService;
     this.imageService = imageService;
     this.pushService = pushService;
+    this.subscriptionService = subscriptionService;
   }
   
   @Override
@@ -238,12 +244,20 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
    * Increase like.
    *
    * @param blogId the blog id
+   * @param subscriptionId the subscription id
    * @return the response entity
    */
   @PutMapping("/blogs/{blogId}/like")
-  public ResponseEntity<?> increaseLike(@PathVariable String blogId) {
+  public ResponseEntity<?> increaseLike(
+      @PathVariable String blogId,
+      @RequestBody(required = false) StringPrimitive subscriptionId) {
     try {
       service.increaseLike(blogId);
+      if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
+        subscriptionService.addLikedBlog(
+            subscriptionId.getValue(), 
+            service.getById(blogId));
+      }
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Blog does not exist");

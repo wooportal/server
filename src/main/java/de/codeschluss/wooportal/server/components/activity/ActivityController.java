@@ -613,13 +613,20 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
    * Increase like.
    *
    * @param activityId the activity id
+   * @param subscriptionId the subscription id
    * @return the response entity
    */
   @PutMapping("/activities/{activityId}/like")
-  public ResponseEntity<?> increaseLike(@PathVariable String activityId) {
+  public ResponseEntity<?> increaseLike(
+      @PathVariable String activityId,
+      @RequestBody(required = false) StringPrimitive subscriptionId) {
     try {
       service.increaseLike(activityId);
-      
+      if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
+        subscriptionService.addLikedActivity(
+            subscriptionId.getValue(), 
+            service.getById(activityId));
+      }
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");
