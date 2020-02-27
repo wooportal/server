@@ -1,9 +1,7 @@
-package de.codeschluss.wooportal.server.components.address.bingmaps;
+package de.codeschluss.wooportal.server.core.location.model.address;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import lombok.Data;
 
 /**
@@ -16,13 +14,13 @@ import lombok.Data;
 public class AddressResource {
 
   private String type;
-  private List<Double> bbox = null;
+  private List<Double> bbox;
   private String name;
   private Point point;
   private Address address;
   private String confidence;
   private String entityType;
-  private List<GeocodePoint> geocodePoints = null;
-  private List<String> matchCodes = null;
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+  private List<GeocodePoint> geocodePoints;
+  private List<String> matchCodes;
+  private Map<String, Object> additionalProperties;
 }

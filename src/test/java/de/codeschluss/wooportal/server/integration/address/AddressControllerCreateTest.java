@@ -5,9 +5,9 @@ import static org.mockito.BDDMockito.given;
 
 import de.codeschluss.wooportal.server.components.address.AddressController;
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
-import de.codeschluss.wooportal.server.components.address.bingmaps.MapService;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.location.BingMapService;
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +29,7 @@ public class AddressControllerCreateTest {
   private AddressController controller;
 
   @MockBean
-  private MapService mapService;
+  private BingMapService bingMapService;
 
   @Test
   @WithUserDetails("super@user")
@@ -37,7 +37,7 @@ public class AddressControllerCreateTest {
     String suburbId = "00000000-0000-0000-0005-100000000000";
     AddressEntity address =
         newAddress("1", "createSuperUserOk", "1111", "createSuperUserOk", suburbId);
-    given(this.mapService.retrieveExternalAddress(Mockito.any())).willReturn(address);
+    given(this.bingMapService.retrieveExternalAddress(Mockito.any())).willReturn(address);
 
     controller.create(address);
 
@@ -50,7 +50,7 @@ public class AddressControllerCreateTest {
     String suburbId = "00000000-0000-0000-0005-100000000000";
     AddressEntity address = newAddress("1", "createProviderUserOk", "1111", "createProviderUserOk",
         suburbId);
-    given(this.mapService.retrieveExternalAddress(Mockito.any())).willReturn(address);
+    given(this.bingMapService.retrieveExternalAddress(Mockito.any())).willReturn(address);
 
     controller.create(address);
 

@@ -1,9 +1,9 @@
 package de.codeschluss.wooportal.server.components.address;
 
-import de.codeschluss.wooportal.server.components.address.bingmaps.MapService;
 import de.codeschluss.wooportal.server.components.suburb.SuburbEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.location.BingMapService;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import javax.naming.ServiceUnavailableException;
 import org.springframework.hateoas.Resource;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddressService extends ResourceDataService<AddressEntity, AddressQueryBuilder> {
   
-  private final MapService mapService;
+  private final BingMapService mapService;
 
   /**
    * Instantiates a new address service.
@@ -32,9 +32,9 @@ public class AddressService extends ResourceDataService<AddressEntity, AddressQu
   public AddressService(
       AddressRepository repo, 
       AddressQueryBuilder entities,
-      PagingAndSortingAssembler assembler, MapService mapService) {
+      PagingAndSortingAssembler assembler, BingMapService bingMapService) {
     super(repo, entities, assembler);
-    this.mapService = mapService;
+    this.mapService = bingMapService;
   }
 
   @Override

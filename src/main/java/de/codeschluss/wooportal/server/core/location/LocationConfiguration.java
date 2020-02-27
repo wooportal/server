@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.address;
+package de.codeschluss.wooportal.server.core.location;
 
 import lombok.Data;
 
@@ -6,17 +6,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * The Class AddressConfiguration.
+ * The Class LocationConfiguration.
  * 
  * @author Valmir Etemi
  *
  */
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "address")
-public class AddressConfiguration {
+@ConfigurationProperties(prefix = "location")
+public class LocationConfiguration {
   
   private String serviceSubscriptionKey;
-  private String serviceUrl;
+  private String addressUrl;
+  private String routesUrl;
 
 }

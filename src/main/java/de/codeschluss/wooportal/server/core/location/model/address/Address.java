@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.address.bingmaps;
+package de.codeschluss.wooportal.server.core.location.model.address;
 
 import java.util.HashMap;
 import java.util.Map;
