@@ -2,7 +2,6 @@ package de.codeschluss.wooportal.server.core.location.model.address;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import lombok.Data;
 
 /**
@@ -22,13 +21,30 @@ public class Address {
   private String locality;
   private String postalCode;
   private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-  public String getStreet() {
-    return addressLine.split(" ")[0];
+  
+  private String houseNumber;
+  private String street;
+  
+  /**
+   * Sets the address line.
+   *
+   * @param addressLine the new address line
+   */
+  public void setAddressLine(String addressLine) {
+    this.addressLine = addressLine;
+    setSplitAdressLine(addressLine);
   }
 
-  public String getHousenumber() {
-    return addressLine.split(" ")[1];
+  private void setSplitAdressLine(String addressLine) {
+    this.street = "";
+    String[] addressParts = addressLine.split(" ");
+    for (int i = 0; i < addressParts.length; i++) {
+      if (i < addressParts.length - 1) {
+        street = street +  " " + addressParts[i];
+      } else {
+        houseNumber = addressParts[i];
+      }
+    } 
+    street = street.trim();
   }
-
 }

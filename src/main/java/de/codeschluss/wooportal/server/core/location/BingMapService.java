@@ -19,8 +19,10 @@ import java.net.URI;
 import java.util.List;
 import javax.naming.ServiceUnavailableException;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -63,7 +65,7 @@ public class BingMapService {
    * @throws ServiceUnavailableException the service unavailable exception
    */
   public AddressEntity retrieveExternalAddress(AddressEntity newAddress)
-      throws ServiceUnavailableException {
+      throws ServiceUnavailableException, NotFoundException {
     BingMapAddressResult result = geoLocationClient
         .method(HttpMethod.GET)
         .uri(createAddressUri(newAddress))
@@ -120,7 +122,7 @@ public class BingMapService {
 
     newAddress.setPostalCode(address.getPostalCode());
     newAddress.setPlace(address.getLocality());
-    newAddress.setHouseNumber(address.getHousenumber());
+    newAddress.setHouseNumber(address.getHouseNumber());
     newAddress.setStreet(address.getStreet());
     newAddress.setSuburb(givenAddress.getSuburb());
     newAddress.setLatitude(point.getLatitude());
@@ -137,14 +139,23 @@ public class BingMapService {
    * @throws ServiceUnavailableException the service unavailable exception
    */
   public RouteResource calculateRoute(LocationParam params) 
-      throws ServiceUnavailableException {
-    BingMapLocationResult result = geoLocationClient
-        .method(HttpMethod.GET)
-        .uri(createRouteUri(params))
-        .retrieve().bodyToMono(BingMapLocationResult.class).block();
-    isValid(result);
-    
-    return extractRouteResult(result);
+      throws ServiceUnavailableException, NotFoundException {
+    try {
+      BingMapLocationResult result = geoLocationClient
+          .method(HttpMethod.GET)
+          .uri(createRouteUri(params))
+          .retrieve().bodyToMono(BingMapLocationResult.class).block();
+      isValid(result);
+
+      return extractRouteResult(result);
+    } catch (WebClientResponseException e) {
+      if (e.getStatusCode() == HttpStatus.NOT_FOUND
+          && params.getTravelMode() == TravelMode.TRANSIT) {
+        params.setTravelMode(TravelMode.DRIVING);
+        return calculateRoute(params);
+      }
+      throw new ServiceUnavailableException(e.getMessage());
+    }
   }
 
   /**
@@ -154,17 +165,39 @@ public class BingMapService {
    * @return the uri
    */
   private URI createRouteUri(LocationParam params) {
-    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(config.getRoutesUrl())
-        .queryParam("wayPoint.0", params.getStartPoint().toString());
+    UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(config.getRoutesUrl());
 
-    addVia(builder, params.getVia());
     addTravelMode(builder, params.getTravelMode());
+    addStartPoint(builder, params.getStartPoint());
+    addVia(builder, params.getVia());
     addLocale(builder);
     addTargetPoint(builder, params.getVia(), params.getTargetPoint());
+    addKey(builder);
     
-    return builder
-        .queryParam("key", config.getServiceSubscriptionKey()).build().encode().toUri();
+    return builder.build().encode().toUri();
     
+  }
+
+  /**
+   * Adds the travel mode.
+   *
+   * @param builder the builder
+   * @param travelMode the travel mode
+   */
+  private void addTravelMode(UriComponentsBuilder builder, TravelMode travelMode) {
+    if (travelMode != null && !travelMode.name().isEmpty()) {
+      builder.path("/" + travelMode.name().toLowerCase());
+    }
+  }
+
+  /**
+   * Adds the start point.
+   *
+   * @param builder the builder
+   * @param startPoint the start point
+   */
+  private void addStartPoint(UriComponentsBuilder builder, Coordinate startPoint) {
+    builder.queryParam("wayPoint.0", startPoint.toString());
   }
 
   /**
@@ -182,24 +215,21 @@ public class BingMapService {
   }
   
   /**
-   * Adds the travel mode.
-   *
-   * @param builder the builder
-   * @param travelMode the travel mode
-   */
-  private void addTravelMode(UriComponentsBuilder builder, TravelMode travelMode) {
-    if (travelMode != null && !travelMode.name().isEmpty()) {
-      builder.queryParam("travelMode", "Walking");
-    }
-  }
-  
-  /**
    * Adds the locale.
    *
    * @param builder the builder
    */
   private void addLocale(UriComponentsBuilder builder) {
     builder.queryParam("culture", languageService.getCurrentRequestLocales().get(0));
+  }
+  
+  /**
+   * Adds the key.
+   *
+   * @param builder the builder
+   */
+  private void addKey(UriComponentsBuilder builder) {
+    builder.queryParam("key", config.getServiceSubscriptionKey());
   }
   
   /**
