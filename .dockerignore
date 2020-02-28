@@ -1,4 +1,6 @@
-/.git
-/.settings
-/src/main/resources/database/output
-/target
+/.git/
+/.settings/
+/src/main/resources/database/output/
+/target/
+
+/src/main/resources/push/firebase-adminsdk.json

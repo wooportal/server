@@ -1,5 +1,5 @@
-/.settings
-/src/main/resources/database/output
-/target
+/.settings/
+/src/main/resources/database/output/
+/target/
 
-src/main/resources/push/firebase-adminsdk.json
+/src/main/resources/push/firebase-adminsdk.json

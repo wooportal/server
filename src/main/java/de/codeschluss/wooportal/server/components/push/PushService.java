@@ -138,20 +138,20 @@ public class PushService {
       MessageDto message,
       Map<String, String> additionalData,
       Map<String, Map<String, String>> translatedMessages) {
-    String messageLang = languageService.getCurrentRequestLocales().get(0);
+    String messageLocale = languageService.getCurrentRequestLocales().get(0);
     MessageDto messageToSend = message;
-    if (!subscription.getLanguage().equalsIgnoreCase(messageLang)) {
-      messageToSend = translateMultiple(subscription, messageLang, message, translatedMessages);
+    if (!subscription.getLocale().equalsIgnoreCase(messageLocale)) {
+      messageToSend = translateMultiple(subscription, messageLocale, message, translatedMessages);
     }
     firebasePushService.sendPush(subscription, messageToSend, additionalData);
   }
 
   private MessageDto translateMultiple(
       SubscriptionEntity subscription, 
-      String messageLang,
+      String messageLocale,
       MessageDto message,
       Map<String, Map<String, String>> translatedMessages) {
-    Map<String, String> translations = translatedMessages.get(subscription.getLanguage());
+    Map<String, String> translations = translatedMessages.get(subscription.getLocale());
     MessageDto translatedMessage = new MessageDto();
     if (translations != null) {
       translatedMessage.setTitle(translations.get("title"));
@@ -161,20 +161,20 @@ public class PushService {
     
     Map<String, String> currentTranslations = new HashMap<>();
     String titleTranslation = translationService.translate(
-        subscription.getLanguage(), 
-        messageLang, 
+        subscription.getLocale(), 
+        messageLocale, 
         message.getTitle());
     translatedMessage.setTitle(titleTranslation);
     currentTranslations.put("title", titleTranslation);
     
     String contentTranslation = translationService.translate(
-        subscription.getLanguage(), 
-        messageLang, 
+        subscription.getLocale(), 
+        messageLocale, 
         message.getContent());
     translatedMessage.setContent(contentTranslation);
     currentTranslations.put("content", contentTranslation);
     
-    translatedMessages.put(subscription.getLanguage(), currentTranslations);
+    translatedMessages.put(subscription.getLocale(), currentTranslations);
     return translatedMessage;
   }
   
@@ -202,7 +202,7 @@ public class PushService {
             }
             
             String messageTitle = messageTitleActivityReminder;
-            if (!subscription.getLanguage().equalsIgnoreCase(
+            if (!subscription.getLocale().equalsIgnoreCase(
                 translationConfig.getDefaultLocale())) {
               messageTitle = translateSingle(
                   subscription, 
@@ -212,7 +212,7 @@ public class PushService {
             }
             message.setTitle(messageTitle);
             
-            String activityTitle = getActivityTitle(activity, subscription.getLanguage());
+            String activityTitle = getActivityTitle(activity, subscription.getLocale());
             String time = dateFormatter.format(schedules.get(0).getStartDate());
             messageContent = messageContent + activityTitle + ": " + time;
           }
@@ -282,7 +282,7 @@ public class PushService {
       Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : orgaSubscriptions) {
         String messageContentToSend = messageContentNewActivityOrgaSub;
-        if (!subscription.getLanguage().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+        if (!subscription.getLocale().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
               translationConfig.getDefaultLocale(), 
@@ -312,7 +312,7 @@ public class PushService {
           for (ActivityEntity activity : subscribedActivities) {
             if (similar(activity, newActivity)) {
               String messageContentToSend = messageContentNewActivitySimilar;
-              if (!subscription.getLanguage().equalsIgnoreCase(
+              if (!subscription.getLocale().equalsIgnoreCase(
                   translationConfig.getDefaultLocale())) {
                 messageContentToSend = translateSingle(
                     subscription, 
@@ -359,7 +359,7 @@ public class PushService {
       Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
         String messageContentToSend = messageContentNewBlog;
-        if (!subscription.getLanguage().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+        if (!subscription.getLocale().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
               translationConfig.getDefaultLocale(), 
@@ -392,7 +392,7 @@ public class PushService {
       Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
         String messageContentToSend = messageContentNewPage;
-        if (!subscription.getLanguage().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+        if (!subscription.getLocale().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
               translationConfig.getDefaultLocale(), 
@@ -403,7 +403,7 @@ public class PushService {
         data.put("link", newPage.selfLink().getHref());
        
         MessageDto message = new MessageDto(
-            getTopicName(newPage.getTopic(), subscription.getLanguage()), messageContentToSend);
+            getTopicName(newPage.getTopic(), subscription.getLocale()), messageContentToSend);
         
         firebasePushService.sendPush(subscription, message, data);
       }
@@ -438,18 +438,18 @@ public class PushService {
         .findFirst();
   }
 
-  private String translateSingle(SubscriptionEntity subscription, String messageLang,
+  private String translateSingle(SubscriptionEntity subscription, String messageLocale,
       String messageContent, Map<String, String> translatedMessages) {
-    String translation = translatedMessages.get(subscription.getLanguage());
+    String translation = translatedMessages.get(subscription.getLocale());
     if (translation != null) {
       return translation;
     }
     
     String currentTranslation = translationService.translate(
-        subscription.getLanguage(), 
-        messageLang, 
+        subscription.getLocale(), 
+        messageLocale, 
         messageContent);    
-    translatedMessages.put(subscription.getLanguage(), currentTranslation);
+    translatedMessages.put(subscription.getLocale(), currentTranslation);
     return currentTranslation;
   }
 }

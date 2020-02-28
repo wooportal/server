@@ -1,5 +1,6 @@
 package de.codeschluss.wooportal.server.components.push.subscription;
 
+import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -15,6 +16,7 @@ import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -94,11 +96,14 @@ public class SubscriptionController
   @PostMapping("/subscriptions")
   public ResponseEntity<?> create(@RequestBody SubscriptionEntity newSubscription) 
       throws Exception {
+    validateCreate(newSubscription);
+    
     Resource<SubscriptionEntity> existing = service.getExistingResource(newSubscription);
     if (existing != null) {
       return ok(existing);
     }
-    return super.create(newSubscription);
+    Resource<SubscriptionEntity> resource = service.addResource(newSubscription);
+    return created(new URI(resource.getId().expand().getHref())).body(resource);
   }
 
   @Override

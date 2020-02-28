@@ -107,17 +107,17 @@ public class PushServicePushActivityReminderTest {
     assertArugments(
         subscriptionId, 
         PushService.messageTitleActivityReminder, 
-        buildContentSingle(activity, sub.getLanguage()));
+        buildContentSingle(activity, sub.getLocale()));
   }
   
   private String buildContentSingle(
       ActivityEntity activity,
-      String lang) {
+      String locale) {
     String time = getTime(activity.getSchedules().get(0).getStartDate());
     
     String name = activity.getTranslatables().stream()
         .filter(t -> 
-            t.getLanguage().getLocale().equalsIgnoreCase(lang))
+            t.getLanguage().getLocale().equalsIgnoreCase(locale))
         .findFirst().get()
         .getName();
     
@@ -186,13 +186,13 @@ public class PushServicePushActivityReminderTest {
         PushService.messageTitleActivityReminder, 
         activity1, 
         activity2, 
-        sub.getLanguage());
+        sub.getLocale());
   }
 
   private String buildContentMultiple(ActivityEntity activity1, ActivityEntity activity2,
-      String language) {
-    String contentActivity1 = buildContentSingle(activity1, language);
-    String contentActivity2 = buildContentSingle(activity2, language);
+      String locale) {
+    String contentActivity1 = buildContentSingle(activity1, locale);
+    String contentActivity2 = buildContentSingle(activity2, locale);
     
     return contentActivity1 + ", " + contentActivity2;
   }
@@ -202,7 +202,7 @@ public class PushServicePushActivityReminderTest {
       String title,
       ActivityEntity activity1,
       ActivityEntity activity2,
-      String language) {
+      String locale) {
     then(this.firebasePushService)
         .should(new AtLeast(1))
         .sendPush(
@@ -212,16 +212,16 @@ public class PushServicePushActivityReminderTest {
                 messageParam.getTitle().equals(title)
                 && (
                     messageParam.getContent().equals(buildContentMultiple(
-                        activity1, activity2, language))
+                        activity1, activity2, locale))
                     || messageParam.getContent().equals(buildContentMultiple(
-                        activity2, activity1, language))
+                        activity2, activity1, locale))
                     )),
             Mockito.any());
   }
 
   private ActivityEntity createActivity(
       String name,
-      String lang) throws ServiceUnavailableException {
+      String locale) throws ServiceUnavailableException {
     ActivityEntity activity = new ActivityEntity();
         
     activity.setMail("createActivity");
@@ -233,8 +233,8 @@ public class PushServicePushActivityReminderTest {
     
     ScheduleEntity schedule = new ScheduleEntity();
     schedule.setActivity(activity);
-    schedule.setStartDate(nowPlusHours(2));
-    schedule.setStartDate(nowPlusHours(3));
+    schedule.setStartDate(nowPlusMinutes(10));
+    schedule.setEndDate(nowPlusMinutes(15));
     List<ScheduleEntity> schedules = new ArrayList<>();
     schedules.add(schedule);
     scheduleService.addAll(schedules);
@@ -243,7 +243,7 @@ public class PushServicePushActivityReminderTest {
     ActivityTranslatablesEntity translatable = new ActivityTranslatablesEntity();
     translatable.setName(name);
     translatable.setDescription("description");
-    translatable.setLanguage(languageService.getById(lang));
+    translatable.setLanguage(languageService.getById(locale));
     translatable.setParent(activity);
     Set<ActivityTranslatablesEntity> translatables = new HashSet<>();
     translatables.add(translatable);
@@ -253,9 +253,9 @@ public class PushServicePushActivityReminderTest {
     return activity;
   }
   
-  private Date nowPlusHours(int hours) {
+  private Date nowPlusMinutes(int minutes) {
     Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.HOUR, hours);
+    cal.add(Calendar.MINUTE, minutes);
     return cal.getTime();
   }
 

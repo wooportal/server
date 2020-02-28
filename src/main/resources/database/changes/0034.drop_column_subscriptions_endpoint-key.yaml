@@ -1,7 +1,7 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 0031.drop_column_subscriptions_endpoint-key
+    id: 0034.drop_column_subscriptions_endpoint-key
     author: codeschluss
     changes:
     - dropColumn:

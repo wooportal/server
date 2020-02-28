@@ -57,7 +57,7 @@ public class SubscriptionEntity extends BaseResource {
   @Column(name = "auth_secret", nullable = false, unique = true)
   private String authSecret;
   
-  private String language;
+  private String locale;
   
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @ToString.Exclude

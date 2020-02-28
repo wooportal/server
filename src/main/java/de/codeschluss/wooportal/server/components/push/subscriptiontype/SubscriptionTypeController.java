@@ -81,13 +81,13 @@ public class SubscriptionTypeController
   /**
    * Read translations.
    *
-   * @param organisationId the organisation id
+   * @param subscriptionTypeId the subscription type id
    * @return the response entity
    */
   @GetMapping("/subscriptiontypes/{subscriptionTypeId}/translations")
-  public ResponseEntity<?> readTranslations(@PathVariable String organisationId) {
+  public ResponseEntity<?> readTranslations(@PathVariable String subscriptionTypeId) {
     try {
-      return ok(translationService.getAllTranslations(service.getById(organisationId)));
+      return ok(translationService.getAllTranslations(service.getById(subscriptionTypeId)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
       throw new RuntimeException(e);

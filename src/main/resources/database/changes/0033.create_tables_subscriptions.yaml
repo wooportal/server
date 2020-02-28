@@ -1,7 +1,7 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 0030.create_tables_subscriptions.1
+    id: 0033.create_tables_subscriptions.1
     author: codeschluss
     changes:
     - createTable:
@@ -29,7 +29,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE subscribed_types CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.2
+    id: 0033.create_tables_subscriptions.2
     author: codeschluss
     changes:
     - createTable:
@@ -57,7 +57,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE activity_subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.3
+    id: 0033.create_tables_subscriptions.3
     author: codeschluss
     changes:
     - createTable:
@@ -85,7 +85,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE activity_likes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.4
+    id: 0033.create_tables_subscriptions.4
     author: codeschluss
     changes:
     - createTable:
@@ -113,7 +113,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE blogger_subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.5
+    id: 0033.create_tables_subscriptions.5
     author: codeschluss
     changes:
     - createTable:
@@ -141,7 +141,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE blog_likes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.6
+    id: 0033.create_tables_subscriptions.6
     author: codeschluss
     changes:
     - createTable:
@@ -169,7 +169,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE organisation_subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.7
+    id: 0033.create_tables_subscriptions.7
     author: codeschluss
     changes:
     - createTable:
@@ -197,7 +197,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE organisation_likes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.8
+    id: 0033.create_tables_subscriptions.8
     author: codeschluss
     changes:
     - createTable:
@@ -225,7 +225,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE topic_subscriptions CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.9
+    id: 0033.create_tables_subscriptions.9
     author: codeschluss
     changes:
     - createTable:
@@ -253,7 +253,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE page_likes CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.10
+    id: 0033.create_tables_subscriptions.10
     author: codeschluss
     changes:
     - createTable:
@@ -289,7 +289,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE subscription_types CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.11
+    id: 0033.create_tables_subscriptions.11
     author: codeschluss
     changes:
     - createTable:
@@ -338,7 +338,7 @@ databaseChangeLog:
         splitStatements: true
         sql: ALTER TABLE subscription_type_translatables CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - changeSet:
-    id: 0030.create_tables_subscriptions.12
+    id: 0033.create_tables_subscriptions.12
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -346,7 +346,7 @@ databaseChangeLog:
         constraintName: UK3v118j2xcvmo4e9wxk70wmc8j
         tableName: subscribed_types
 - changeSet:
-    id: 0030.create_tables_subscriptions.13
+    id: 0033.create_tables_subscriptions.13
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -354,7 +354,7 @@ databaseChangeLog:
         constraintName: UK6mulsm75q63xuabkxrdpuoh0r
         tableName: topic_subscriptions
 - changeSet:
-    id: 0030.create_tables_subscriptions.14
+    id: 0033.create_tables_subscriptions.14
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -362,7 +362,7 @@ databaseChangeLog:
         constraintName: UKcnxg7d1cica7adv8eerq3yon
         tableName: organisation_subscriptions
 - changeSet:
-    id: 0030.create_tables_subscriptions.15
+    id: 0033.create_tables_subscriptions.15
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -370,7 +370,7 @@ databaseChangeLog:
         constraintName: UKdd3kn2x6sguglkjng5t2d46db
         tableName: blogger_subscriptions
 - changeSet:
-    id: 0030.create_tables_subscriptions.16
+    id: 0033.create_tables_subscriptions.16
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -378,7 +378,7 @@ databaseChangeLog:
         constraintName: UKq5idwlg57g63wo5ev163xvowu
         tableName: activity_subscriptions
 - changeSet:
-    id: 0030.create_tables_subscriptions.17
+    id: 0033.create_tables_subscriptions.17
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -386,7 +386,7 @@ databaseChangeLog:
         constraintName: UKdd3kn2x6sguglkjev163xvowu
         tableName: subscriptions
 - changeSet:
-    id: 0030.create_tables_subscriptions.18
+    id: 0033.create_tables_subscriptions.18
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -394,7 +394,7 @@ databaseChangeLog:
         constraintName: UKe56rejt111qyh2txash3edaws
         tableName: activity_likes
 - changeSet:
-    id: 0030.create_tables_subscriptions.19
+    id: 0033.create_tables_subscriptions.19
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -402,7 +402,7 @@ databaseChangeLog:
         constraintName: UKd742xdpg1usokx49xggh1gsw3
         tableName: blog_likes
 - changeSet:
-    id: 0030.create_tables_subscriptions.20
+    id: 0033.create_tables_subscriptions.20
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -410,7 +410,7 @@ databaseChangeLog:
         constraintName: UK8oy1tjllds8qlr0ej4vse730f
         tableName: page_likes
 - changeSet:
-    id: 0030.create_tables_subscriptions.21
+    id: 0033.create_tables_subscriptions.21
     author: codeschluss
     changes:
     - addUniqueConstraint:
@@ -418,7 +418,7 @@ databaseChangeLog:
         constraintName: UKb1mr1k6unc5s9jbpwee4mbi0b
         tableName: organisation_likes
 - changeSet:
-    id: 0030.create_tables_subscriptions.22
+    id: 0033.create_tables_subscriptions.22
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -433,7 +433,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.23
+    id: 0033.create_tables_subscriptions.23
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -448,7 +448,7 @@ databaseChangeLog:
         referencedTableName: topics
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.24
+    id: 0033.create_tables_subscriptions.24
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -463,7 +463,7 @@ databaseChangeLog:
         referencedTableName: subscription_types
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.25
+    id: 0033.create_tables_subscriptions.25
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -478,7 +478,7 @@ databaseChangeLog:
         referencedTableName: organisations
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.26
+    id: 0033.create_tables_subscriptions.26
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -493,7 +493,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.27
+    id: 0033.create_tables_subscriptions.27
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -508,7 +508,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.28
+    id: 0033.create_tables_subscriptions.28
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -523,7 +523,7 @@ databaseChangeLog:
         referencedTableName: activities
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.29
+    id: 0033.create_tables_subscriptions.29
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -538,7 +538,7 @@ databaseChangeLog:
         referencedTableName: bloggers
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.30
+    id: 0033.create_tables_subscriptions.30
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -553,7 +553,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.31
+    id: 0033.create_tables_subscriptions.31
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -568,7 +568,7 @@ databaseChangeLog:
         referencedTableName: languages
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.32
+    id: 0033.create_tables_subscriptions.32
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -583,7 +583,7 @@ databaseChangeLog:
         referencedTableName: subscription_types
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.33
+    id: 0033.create_tables_subscriptions.33
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -598,7 +598,7 @@ databaseChangeLog:
         referencedTableName: activities
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.34
+    id: 0033.create_tables_subscriptions.34
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -613,7 +613,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.35
+    id: 0033.create_tables_subscriptions.35
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -628,7 +628,7 @@ databaseChangeLog:
         referencedTableName: blogs
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.36
+    id: 0033.create_tables_subscriptions.36
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -643,7 +643,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.37
+    id: 0033.create_tables_subscriptions.37
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -658,7 +658,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.38
+    id: 0033.create_tables_subscriptions.38
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -673,7 +673,7 @@ databaseChangeLog:
         referencedTableName: organisations
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.39
+    id: 0033.create_tables_subscriptions.39
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -688,7 +688,7 @@ databaseChangeLog:
         referencedTableName: pages
         validate: true
 - changeSet:
-    id: 0030.create_tables_subscriptions.40
+    id: 0033.create_tables_subscriptions.40
     author: codeschluss
     changes:
     - addForeignKeyConstraint:

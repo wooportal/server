@@ -1,7 +1,7 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 0032.add_column_subscriptions_language
+    id: 0035.add_column_subscriptions_locale
     author: codeschluss
     changes:
     - addColumn:
@@ -9,6 +9,6 @@ databaseChangeLog:
         - column:
             constraints:
                 nullable: true
-            name: language
+            name: locale
             type: VARCHAR(255)
         tableName: subscriptions

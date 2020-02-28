@@ -92,7 +92,7 @@ INSERT INTO `videos` (`id`, `url`, `organisation_id`) VALUES
 ('00000000-0000-0000-0020-400000000000', 'videoUrl4', '00000000-0000-0000-0008-200000000000'),
 ('00000000-0000-0000-0020-500000000000', 'videoUrl5', '00000000-0000-0000-0008-200000000000');
 
-INSERT INTO `subscriptions`(`id`, `auth_secret`, `language`) VALUES
+INSERT INTO `subscriptions`(`id`, `auth_secret`, `locale`) VALUES
 ('00000000-0000-0000-0020-100000000000', 'authSecret1', 'en'),
 ('00000000-0000-0000-0020-200000000000', 'authSecretUpdate', 'en'),
 ('00000000-0000-0000-0020-300000000000', 'authSecretDelete', 'en'),
