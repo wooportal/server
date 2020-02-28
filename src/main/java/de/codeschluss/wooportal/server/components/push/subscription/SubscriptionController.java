@@ -94,6 +94,10 @@ public class SubscriptionController
   @PostMapping("/subscriptions")
   public ResponseEntity<?> create(@RequestBody SubscriptionEntity newSubscription) 
       throws Exception {
+    Resource<SubscriptionEntity> existing = service.getExistingResource(newSubscription);
+    if (existing != null) {
+      return ok(existing);
+    }
     return super.create(newSubscription);
   }
 

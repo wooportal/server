@@ -45,6 +45,20 @@ public abstract class ResourceDataService<E extends BaseResource, B extends Quer
   public Resource<E> getResourceById(String id) {
     return assembler.toResource(getById(id));
   }
+  
+  /**
+   * Gets the existing resource.
+   *
+   * @param newEntity the new entity
+   * @return the existing resource
+   */
+  public Resource<E> getExistingResource(E newEntity) {
+    E existing = getExisting(newEntity);
+    if (existing != null) {
+      return assembler.toResource(existing);
+    }
+    return null;
+  }
 
   /**
    * Adds the resource.
