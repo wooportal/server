@@ -4,6 +4,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
@@ -33,6 +35,7 @@ import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.core.Relation;
 
 /**
  * The persistent class for the subscription database table.
@@ -46,6 +49,7 @@ import org.springframework.hateoas.Link;
 @AllArgsConstructor
 @Entity
 @Table(name = "subscriptions")
+@Relation(collectionRelation = "data")
 @GenericGenerator(
     name = "UUID",
     strategy = "org.hibernate.id.UUIDGenerator"
@@ -55,6 +59,7 @@ public class SubscriptionEntity extends BaseResource {
   private static final long serialVersionUID = 1L;
 
   @Column(name = "auth_secret", nullable = false, unique = true)
+  @JsonProperty(access = Access.WRITE_ONLY)
   private String authSecret;
   
   private String locale;

@@ -26,6 +26,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.core.Relation;
 
 /**
  * The persistent class for the subscription database table.
@@ -40,6 +41,7 @@ import org.springframework.hateoas.Link;
 @Localized
 @Entity
 @Table(name = "subscription_types")
+@Relation(collectionRelation = "data")
 public class SubscriptionTypeEntity extends BaseResource {
   
   private static final long serialVersionUID = 1L;

@@ -114,9 +114,23 @@ public class SubscriptionService
     return repo.findAll(entities.withSubscribedType(type));
   }
   
+  /**
+   * Gets the subscribed activities.
+   *
+   * @param subscriptionId the subscription id
+   * @return the subscribed activities
+   * @throws JsonParseException the json parse exception
+   * @throws JsonMappingException the json mapping exception
+   * @throws IOException Signals that an I/O exception has occurred.
+   * @throws NotFoundException the not found exception
+   */
   public Resources<?> getSubscribedActivities(String subscriptionId)
-      throws JsonParseException, JsonMappingException, IOException {
-    return assembler.entitiesToResources(getById(subscriptionId).getActivitySubscriptions(), null);
+      throws JsonParseException, JsonMappingException, IOException, NotFoundException {
+    List<ActivityEntity> subscribedActivities = getById(subscriptionId).getActivitySubscriptions();
+    if (subscribedActivities != null && !subscribedActivities.isEmpty()) {
+      return assembler.entitiesToResources(subscribedActivities, null);
+    }
+    throw new NotFoundException(subscriptionId);
   }
 
   /**
@@ -150,9 +164,23 @@ public class SubscriptionService
     repo.save(subscription); 
   }
 
+  /**
+   * Gets the subscribed bloggers.
+   *
+   * @param subscriptionId the subscription id
+   * @return the subscribed bloggers
+   * @throws JsonParseException the json parse exception
+   * @throws JsonMappingException the json mapping exception
+   * @throws IOException Signals that an I/O exception has occurred.
+   * @throws NotFoundException the not found exception
+   */
   public Resources<?> getSubscribedBloggers(String subscriptionId)
-      throws JsonParseException, JsonMappingException, IOException {
-    return assembler.entitiesToResources(getById(subscriptionId).getBloggerSubscriptions(), null);
+      throws JsonParseException, JsonMappingException, IOException, NotFoundException {
+    List<BloggerEntity> subscribedBloggers = getById(subscriptionId).getBloggerSubscriptions();
+    if (subscribedBloggers != null && !subscribedBloggers.isEmpty()) {
+      return assembler.entitiesToResources(subscribedBloggers, null);
+    }
+    throw new NotFoundException(subscriptionId);
   }
   
   /**
@@ -186,10 +214,24 @@ public class SubscriptionService
     repo.save(subscription); 
   }
   
+  /**
+   * Gets the subscribed organisations.
+   *
+   * @param subscriptionId the subscription id
+   * @return the subscribed organisations
+   * @throws JsonParseException the json parse exception
+   * @throws JsonMappingException the json mapping exception
+   * @throws IOException Signals that an I/O exception has occurred.
+   * @throws NotFoundException the not found exception
+   */
   public Resources<?> getSubscribedOrganisations(String subscriptionId) 
-      throws JsonParseException, JsonMappingException, IOException {
-    return assembler.entitiesToResources(
-        getById(subscriptionId).getOrganisationSubscriptions(), null);
+      throws JsonParseException, JsonMappingException, IOException, NotFoundException {
+    List<OrganisationEntity> subscribedOrgas = 
+        getById(subscriptionId).getOrganisationSubscriptions();
+    if (subscribedOrgas != null && !subscribedOrgas.isEmpty()) {
+      return assembler.entitiesToResources(subscribedOrgas, null);
+    }
+    throw new NotFoundException(subscriptionId);
   }
 
   /**
@@ -222,9 +264,22 @@ public class SubscriptionService
     repo.save(subscription); 
   }
   
+  /**
+   * Gets the subscribed types.
+   *
+   * @param subscriptionId the subscription id
+   * @return the subscribed types
+   * @throws JsonParseException the json parse exception
+   * @throws JsonMappingException the json mapping exception
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public Resources<?> getSubscribedTypes(String subscriptionId) 
       throws JsonParseException, JsonMappingException, IOException {
-    return assembler.entitiesToResources(getById(subscriptionId).getSubscribedTypes(), null);
+    List<SubscriptionTypeEntity> subscribedTypes = getById(subscriptionId).getSubscribedTypes();
+    if (subscribedTypes != null && !subscribedTypes.isEmpty()) {
+      return assembler.entitiesToResources(subscribedTypes, null);
+    }
+    throw new NotFoundException(subscriptionId);
   }
 
   /**
@@ -261,9 +316,22 @@ public class SubscriptionService
     repo.save(subscription); 
   }
 
+  /**
+   * Gets the subscribed topics.
+   *
+   * @param subscriptionId the subscription id
+   * @return the subscribed topics
+   * @throws JsonParseException the json parse exception
+   * @throws JsonMappingException the json mapping exception
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
   public Resources<?> getSubscribedTopics(String subscriptionId) 
       throws JsonParseException, JsonMappingException, IOException {
-    return assembler.entitiesToResources(getById(subscriptionId).getTopicSubscriptions(), null);
+    List<TopicEntity> subscribedTopics = getById(subscriptionId).getTopicSubscriptions();
+    if (subscribedTopics != null && !subscribedTopics.isEmpty()) {
+      return assembler.entitiesToResources(subscribedTopics, null);
+    }
+    throw new NotFoundException(subscriptionId);
   }
 
   /**

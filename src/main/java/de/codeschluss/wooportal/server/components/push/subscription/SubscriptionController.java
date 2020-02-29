@@ -87,7 +87,6 @@ public class SubscriptionController
 
   @Override
   @GetMapping("/subscriptions/{subscriptionId}")
-  @SuperUserPermission
   public Resource<SubscriptionEntity> readOne(@PathVariable String subscriptionId) {
     return super.readOne(subscriptionId);
   }
