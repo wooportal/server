@@ -343,7 +343,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, subscription_type_id
-        constraintName: UK3v118j2xcvmo4e9wxk70wmc8j
+        constraintName: CONSTRAINT_B6AD4935
         tableName: subscribed_types
 - changeSet:
     id: 0033.create_tables_subscriptions.13
@@ -351,7 +351,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, topic_id
-        constraintName: UK6mulsm75q63xuabkxrdpuoh0r
+        constraintName: CONSTRAINT_997A6145
         tableName: topic_subscriptions
 - changeSet:
     id: 0033.create_tables_subscriptions.14
@@ -359,7 +359,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, organisation_id
-        constraintName: UKcnxg7d1cica7adv8eerq3yon
+        constraintName: CONSTRAINT_9D2225AD
         tableName: organisation_subscriptions
 - changeSet:
     id: 0033.create_tables_subscriptions.15
@@ -367,7 +367,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, blogger_id
-        constraintName: UKdd3kn2x6sguglkjng5t2d46db
+        constraintName: CONSTRAINT_7AF3843D
         tableName: blogger_subscriptions
 - changeSet:
     id: 0033.create_tables_subscriptions.16
@@ -375,7 +375,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, activity_id
-        constraintName: UKq5idwlg57g63wo5ev163xvowu
+        constraintName: CONSTRAINT_A1CD19E4
         tableName: activity_subscriptions
 - changeSet:
     id: 0033.create_tables_subscriptions.17
@@ -383,7 +383,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: auth_secret
-        constraintName: UKdd3kn2x6sguglkjev163xvowu
+        constraintName: CONSTRAINT_D85866CA
         tableName: subscriptions
 - changeSet:
     id: 0033.create_tables_subscriptions.18
@@ -391,7 +391,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, activity_id
-        constraintName: UKe56rejt111qyh2txash3edaws
+        constraintName: CONSTRAINT_F37E3CFB
         tableName: activity_likes
 - changeSet:
     id: 0033.create_tables_subscriptions.19
@@ -399,7 +399,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, blog_id
-        constraintName: UKd742xdpg1usokx49xggh1gsw3
+        constraintName: CONSTRAINT_19EAE0A1
         tableName: blog_likes
 - changeSet:
     id: 0033.create_tables_subscriptions.20
@@ -407,7 +407,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, page_id
-        constraintName: UK8oy1tjllds8qlr0ej4vse730f
+        constraintName: CONSTRAINT_2D64C5F8
         tableName: page_likes
 - changeSet:
     id: 0033.create_tables_subscriptions.21
@@ -415,7 +415,7 @@ databaseChangeLog:
     changes:
     - addUniqueConstraint:
         columnNames: subscription_id, organisation_id
-        constraintName: UKb1mr1k6unc5s9jbpwee4mbi0b
+        constraintName: CONSTRAINT_DC8CE334
         tableName: organisation_likes
 - changeSet:
     id: 0033.create_tables_subscriptions.22
@@ -424,7 +424,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: subscribed_types
-        constraintName: FK3tj3ooaxe42w64cq2ja22bmj0
+        constraintName: CONSTRAINT_DB0FC214
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -439,7 +439,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: topic_id
         baseTableName: topic_subscriptions
-        constraintName: FKd6dua6o9elgacf6k087ql03sv
+        constraintName: CONSTRAINT_A0E3F42A
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -454,7 +454,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: parent_id
         baseTableName: subscription_type_translatables
-        constraintName: FKflx8hcwhngoqv5b6r3d50dxym
+        constraintName: CONSTRAINT_ABF43867
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -469,7 +469,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: organisation_id
         baseTableName: organisation_subscriptions
-        constraintName: FKikp5kkbijxvdeh7m84bslfi8s
+        constraintName: CONSTRAINT_08A62474
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -484,7 +484,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: topic_subscriptions
-        constraintName: FKl2k4uqdvg9oebkpiwjuo0ay4o
+        constraintName: CONSTRAINT_4337E12B
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -499,7 +499,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: organisation_subscriptions
-        constraintName: FKqmc2t2pnkxdvwuvu9t0ep0sqe
+        constraintName: CONSTRAINT_FD021ABF
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -514,7 +514,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: activity_subscriptions
-        constraintName: FKr9bqnuqoh3lohidt2m0dx44pc
+        constraintName: CONSTRAINT_0D00C463
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -529,7 +529,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: blogger_id
         baseTableName: blogger_subscriptions
-        constraintName: FKrr8poc339fiw5mtot7son23li
+        constraintName: CONSTRAINT_559342D5
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -544,7 +544,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: blogger_subscriptions
-        constraintName: FKs6om7betkwpkuxfirka3g6oun
+        constraintName: CONSTRAINT_9B5EA37C
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -559,7 +559,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: language_id
         baseTableName: subscription_type_translatables
-        constraintName: FKsisbg5i0k7pmlnroc7e02enom
+        constraintName: CONSTRAINT_74216BB0
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -574,7 +574,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_type_id
         baseTableName: subscribed_types
-        constraintName: FKt0l7vq41i6h083g01hsegorlx
+        constraintName: CONSTRAINT_38A2E1EB
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -589,7 +589,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: activity_id
         baseTableName: activity_likes
-        constraintName: FKcgr01ardr5i9wsmw684tr5ojy
+        constraintName: CONSTRAINT_8333304F
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -604,7 +604,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: activity_likes
-        constraintName: FKn1qahbayu2ysasu24tw91rinq
+        constraintName: CONSTRAINT_42428A26
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -619,7 +619,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: blog_id
         baseTableName: blog_likes
-        constraintName: FKojo8uaqhkmbtqa8duxtbq56w3
+        constraintName: CONSTRAINT_6FF4F928
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -634,7 +634,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: blog_likes
-        constraintName: FK9mmb9tgby4iqir2vduy5vhnnd
+        constraintName: CONSTRAINT_9EF9AF98
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -649,7 +649,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: organisation_likes
-        constraintName: FK8q923ckgdxntwe851hvirebbg
+        constraintName: CONSTRAINT_DC16506C
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -664,7 +664,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: organisation_id
         baseTableName: organisation_likes
-        constraintName: FKgrv08l10kkh1xokhsxjct7pst
+        constraintName: CONSTRAINT_A9C488AC
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -679,7 +679,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: page_id
         baseTableName: page_likes
-        constraintName: FKl4oq4pubew4xrqi9cs05hd407
+        constraintName: CONSTRAINT_A555C09B
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
@@ -694,7 +694,7 @@ databaseChangeLog:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: page_likes
-        constraintName: FKnh59hsne7dmeyj91jetq0ydo7
+        constraintName: CONSTRAINT_EB56D7C9
         deferrable: false
         initiallyDeferred: false
         onDelete: CASCADE
