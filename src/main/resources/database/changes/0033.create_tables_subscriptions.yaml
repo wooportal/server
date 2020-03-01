@@ -261,7 +261,6 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-              primaryKeyName: subscription_typesPK
             name: id
             type: CHAR(36)
         - column:
@@ -297,7 +296,6 @@ databaseChangeLog:
         - column:
             constraints:
               primaryKey: true
-              primaryKeyName: subscription_type_translatablesPK
             name: id
             type: CHAR(36)
         - column:

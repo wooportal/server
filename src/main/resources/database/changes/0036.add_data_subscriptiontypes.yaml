@@ -22,7 +22,7 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into subscription_type_translatables (id, parent_id, language_id, name, description)
-            select uuid(), p.id, l.id, '<p>Benachrichtige mich bei Neuigkeiten</p>', '<p>Sobald es Neuigkeiten über das Portal gibt, wirst du darüber informiert.</p>'
+            select uuid(), p.id, l.id, 'Benachrichtige mich bei Neuigkeiten', '<p>Sobald es Neuigkeiten über das Portal gibt, wirst du darüber informiert.</p>'
             from subscription_types p, languages l
             WHERE p.config_type = 'NEWS' and l.locale = 'de';
     - sql:
@@ -32,7 +32,7 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into subscription_type_translatables (id, parent_id, language_id, name, description)
-            select uuid(), p.id, l.id, '<p>Benachrichtige mich bei neuen Inhalten des Trägers</p>', '<p>Träger können dich über neue Inhalte direkt informieren.</p>'
+            select uuid(), p.id, l.id, 'Benachrichtige mich bei neuen Inhalten des Trägers', '<p>Träger können dich über neue Inhalte direkt informieren.</p>'
             from subscription_types p, languages l
             WHERE p.config_type = 'SINGLE_CONTENT' and l.locale = 'de';
     - sql:
@@ -42,7 +42,7 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into subscription_type_translatables (id, parent_id, language_id, name, description)
-            select uuid(), p.id, l.id, '<p>Benachrichtige mich bei gefolgten Inhalten</p>', '<p>Sobald es neue Inhalte von dir gefolgten Organisationen, Themen oder Bloggern gibt, wirst du darüber informiert.</p>'
+            select uuid(), p.id, l.id, 'Benachrichtige mich bei gefolgten Inhalten', '<p>Sobald es neue Inhalte von dir gefolgten Organisationen, Themen oder Bloggern gibt, wirst du darüber informiert.</p>'
             from subscription_types p, languages l
             WHERE p.config_type = 'NEW_CONTENT' and l.locale = 'de';
     - sql:
@@ -52,6 +52,6 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             insert into subscription_type_translatables (id, parent_id, language_id, name, description)
-            select uuid(), p.id, l.id, '<p>Erinnere mich an Veranstaltungen</p>', '<p>Du wirst an von dir gefolgten Veranstaltungen erinnert.</p>'
+            select uuid(), p.id, l.id, 'Erinnere mich an Veranstaltungen', '<p>Du wirst an von dir gefolgten Veranstaltungen erinnert.</p>'
             from subscription_types p, languages l
             WHERE p.config_type = 'ACTIVITY_REMINDER' and l.locale = 'de';
