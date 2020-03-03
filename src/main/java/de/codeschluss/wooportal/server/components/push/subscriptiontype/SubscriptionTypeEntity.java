@@ -21,9 +21,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.core.Relation;
@@ -34,8 +34,8 @@ import org.springframework.hateoas.core.Relation;
  * @author Valmir Etemi
  *
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Localized
@@ -56,7 +56,7 @@ public class SubscriptionTypeEntity extends BaseResource {
   @Transient
   private String description;
   
-  @Column(name = "config_type", nullable = false)
+  @Column(name = "config_type", nullable = false, unique = true)
   @JsonIgnore
   private String configType;
   

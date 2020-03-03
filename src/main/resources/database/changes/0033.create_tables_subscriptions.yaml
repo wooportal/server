@@ -419,6 +419,14 @@ databaseChangeLog:
     id: 0033.create_tables_subscriptions.22
     author: codeschluss
     changes:
+    - addUniqueConstraint:
+        columnNames: config_type
+        constraintName: CONSTRAINT_821A72B9
+        tableName: subscription_types
+- changeSet:
+    id: 0033.create_tables_subscriptions.23
+    author: codeschluss
+    changes:
     - addForeignKeyConstraint:
         baseColumnNames: subscription_id
         baseTableName: subscribed_types
@@ -431,7 +439,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.23
+    id: 0033.create_tables_subscriptions.24
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -446,7 +454,7 @@ databaseChangeLog:
         referencedTableName: topics
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.24
+    id: 0033.create_tables_subscriptions.25
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -461,7 +469,7 @@ databaseChangeLog:
         referencedTableName: subscription_types
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.25
+    id: 0033.create_tables_subscriptions.26
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -476,7 +484,7 @@ databaseChangeLog:
         referencedTableName: organisations
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.26
+    id: 0033.create_tables_subscriptions.27
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -491,7 +499,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.27
+    id: 0033.create_tables_subscriptions.28
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -506,7 +514,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.28
+    id: 0033.create_tables_subscriptions.29
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -521,7 +529,7 @@ databaseChangeLog:
         referencedTableName: activities
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.29
+    id: 0033.create_tables_subscriptions.30
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -536,7 +544,7 @@ databaseChangeLog:
         referencedTableName: bloggers
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.30
+    id: 0033.create_tables_subscriptions.31
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -551,7 +559,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.31
+    id: 0033.create_tables_subscriptions.32
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -566,7 +574,7 @@ databaseChangeLog:
         referencedTableName: languages
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.32
+    id: 0033.create_tables_subscriptions.33
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -581,7 +589,7 @@ databaseChangeLog:
         referencedTableName: subscription_types
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.33
+    id: 0033.create_tables_subscriptions.34
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -596,7 +604,7 @@ databaseChangeLog:
         referencedTableName: activities
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.34
+    id: 0033.create_tables_subscriptions.35
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -611,7 +619,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.35
+    id: 0033.create_tables_subscriptions.36
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -626,7 +634,7 @@ databaseChangeLog:
         referencedTableName: blogs
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.36
+    id: 0033.create_tables_subscriptions.37
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -641,7 +649,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.37
+    id: 0033.create_tables_subscriptions.38
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -656,7 +664,7 @@ databaseChangeLog:
         referencedTableName: subscriptions
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.38
+    id: 0033.create_tables_subscriptions.39
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -671,7 +679,7 @@ databaseChangeLog:
         referencedTableName: organisations
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.39
+    id: 0033.create_tables_subscriptions.40
     author: codeschluss
     changes:
     - addForeignKeyConstraint:
@@ -686,7 +694,7 @@ databaseChangeLog:
         referencedTableName: pages
         validate: true
 - changeSet:
-    id: 0033.create_tables_subscriptions.40
+    id: 0033.create_tables_subscriptions.41
     author: codeschluss
     changes:
     - addForeignKeyConstraint:

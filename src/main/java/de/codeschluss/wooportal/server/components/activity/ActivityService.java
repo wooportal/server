@@ -11,6 +11,7 @@ import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
+import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
@@ -110,6 +111,19 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   
   public List<ActivityEntity> getByUser(UserEntity user) {
     return repo.findAll(entities.forUser(user.getId()));
+  }
+  
+  /**
+   * Gets the by current.
+   *
+   * @param current the current
+   * @return the by current
+   */
+  public List<ActivityEntity> getByCurrent(BooleanPrimitive current) {
+    if (current != null && current.getValue()) {
+      return repo.findAll(entities.withCurrentSchedulesOnly());
+    }
+    return repo.findAll();
   }
   
   /**

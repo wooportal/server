@@ -4,15 +4,11 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
-
-import de.codeschluss.wooportal.server.components.activity.QActivityEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc
@@ -245,7 +241,7 @@ public class ActivityQueryBuilder extends QueryBuilder<QActivityEntity> {
   public BooleanExpression withAnyOfProviders(List<ProviderEntity> providers) {
     return query.provider.in(providers);
   }
-
+  
   /**
    * With current schedules only.
    *
@@ -254,6 +250,7 @@ public class ActivityQueryBuilder extends QueryBuilder<QActivityEntity> {
   public BooleanExpression withCurrentSchedulesOnly() {
     return query.schedules.any().startDate.after(Expressions.currentTimestamp());
   }
+
   
   /**
    * Validate params.

@@ -4,17 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
@@ -26,9 +22,9 @@ import org.springframework.hateoas.Resource;
  *
  */
 @MappedSuperclass
-@EqualsAndHashCode(callSuper = true)
 @EntityListeners(AuditingEntityListener.class)
-@Data
+@Getter
+@Setter
 public abstract class BaseResource extends BaseEntity {
   
   private static final long serialVersionUID = 1L;
