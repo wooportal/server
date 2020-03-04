@@ -1,6 +1,5 @@
 package de.codeschluss.wooportal.server.components.push;
 
-import com.google.firebase.messaging.FirebaseMessagingException;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.activity.translations.ActivityTranslatablesEntity;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
@@ -13,7 +12,6 @@ import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.translations.TopicTranslatablesEntity;
-import de.codeschluss.wooportal.server.core.i18n.TranslationsConfiguration;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import java.text.SimpleDateFormat;
@@ -34,8 +32,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PushService {
-  
-  private final TranslationsConfiguration translationConfig;
 
   /** The push service. */
   private final FirebasePushService firebasePushService;
@@ -81,14 +77,12 @@ public class PushService {
    * @param languageService the language service
    */
   public PushService(
-      TranslationsConfiguration translationConfig,
       FirebasePushService firebasePushService,
       SubscriptionService subscriptionService,
       LanguageService languageService,
       TranslationService translationService,
       ScheduleService scheduleService,
       OrganisationService orgaService) {
-    this.translationConfig = translationConfig;
     this.firebasePushService = firebasePushService;
     this.subscriptionService = subscriptionService;
     this.languageService = languageService;
@@ -100,10 +94,22 @@ public class PushService {
   }
 
   /**
-   * Push message.
+   * Push manual.
    *
    * @param message the message
-   * @throws FirebaseMessagingException the firebase messaging exception
+   */
+  public void pushMessage(MessageDto message) {
+    if (message.getRoute() == null || message.getRoute().isEmpty()) {
+      pushNews(message);
+    } else {
+      pushSingleContent(message);
+    }
+  }
+  
+  /**
+   * Push news.
+   *
+   * @param message the message
    */
   public void pushNews(MessageDto message) {
     List<SubscriptionEntity> subscriptions = subscriptionService.getByNewsSub();
@@ -116,18 +122,17 @@ public class PushService {
   }
   
   /**
-   * Push content.
+   * Push single content.
    *
    * @param message the message
-   * @param link the link
    */
-  public void pushSingleContent(MessageDto message, String link) {
+  public void pushSingleContent(MessageDto message) {
     List<SubscriptionEntity> subscriptions = subscriptionService.getBySingleContentSub();
     if (subscriptions != null && !subscriptions.isEmpty()) {
       Map<String, Map<String, String>> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
         Map<String, String> data = new HashMap<>();
-        data.put("link", link);
+        data.put("route", message.getRoute());
         translateAndPush(subscription, message, data, translatedMessages);
       }
     }
@@ -140,12 +145,12 @@ public class PushService {
       Map<String, Map<String, String>> translatedMessages) {
     String messageLocale = languageService.getCurrentRequestLocales().get(0);
     MessageDto messageToSend = message;
-    if (!subscription.getLocale().equalsIgnoreCase(messageLocale)) {
+    if (needsTranslation(subscription, messageLocale)) {
       messageToSend = translateMultiple(subscription, messageLocale, message, translatedMessages);
     }
     firebasePushService.sendPush(subscription, messageToSend, additionalData);
   }
-
+  
   private MessageDto translateMultiple(
       SubscriptionEntity subscription, 
       String messageLocale,
@@ -196,17 +201,16 @@ public class PushService {
           if (schedules != null && !schedules.isEmpty()) {
             if (messageContent == null) {
               messageContent = "";
-              data.put("link", activity.selfLink().getHref());
+              data.put("route", activity.selfLink().getHref());
             } else {
               messageContent = messageContent + ", ";  
             }
             
             String messageTitle = messageTitleActivityReminder;
-            if (!subscription.getLocale().equalsIgnoreCase(
-                translationConfig.getDefaultLocale())) {
+            if (needsTranslation(subscription, languageService.getDefaultLocale())) {
               messageTitle = translateSingle(
                   subscription, 
-                  translationConfig.getDefaultLocale(), 
+                  languageService.getDefaultLocale(), 
                   messageTitle, 
                   translatedMessages);
             }
@@ -233,13 +237,13 @@ public class PushService {
         getOptionalActivityTranslatable(activity, language);
     
     if (translatable.isPresent()) {
-      if (language.equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+      if (language.equalsIgnoreCase(languageService.getDefaultLocale())) {
         return translatable.get().getName();
       }
       return translatable.get().getName().replaceFirst("\\(.*?\\)","").trim();
     } else {
       translatable = getOptionalActivityTranslatable(
-          activity, translationConfig.getDefaultLocale());
+          activity, languageService.getDefaultLocale());
       if (translatable.isPresent()) {
         return translatable.get().getName();
       }
@@ -282,15 +286,15 @@ public class PushService {
       Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : orgaSubscriptions) {
         String messageContentToSend = messageContentNewActivityOrgaSub;
-        if (!subscription.getLocale().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+        if (needsTranslation(subscription, languageService.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
-              translationConfig.getDefaultLocale(), 
+              languageService.getDefaultLocale(), 
               messageContentToSend, 
               translatedMessages);
         }
         Map<String, String> data = new HashMap<>();
-        data.put("link", newActivity.selfLink().getHref());
+        data.put("route", newActivity.selfLink().getHref());
         
         OrganisationEntity orga = orgaService.getById(newActivity.getOrganisationId());
         MessageDto message = new MessageDto(
@@ -312,16 +316,15 @@ public class PushService {
           for (ActivityEntity activity : subscribedActivities) {
             if (similar(activity, newActivity)) {
               String messageContentToSend = messageContentNewActivitySimilar;
-              if (!subscription.getLocale().equalsIgnoreCase(
-                  translationConfig.getDefaultLocale())) {
+              if (needsTranslation(subscription, languageService.getDefaultLocale())) {
                 messageContentToSend = translateSingle(
                     subscription, 
-                    translationConfig.getDefaultLocale(), 
+                    languageService.getDefaultLocale(), 
                     messageContentToSend, 
                     translatedMessages);
               }
               Map<String, String> data = new HashMap<>();
-              data.put("link", newActivity.selfLink().getHref());
+              data.put("route", newActivity.selfLink().getHref());
               
               OrganisationEntity orga = orgaService.getById(newActivity.getOrganisationId());
               MessageDto message = new MessageDto(
@@ -359,15 +362,15 @@ public class PushService {
       Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
         String messageContentToSend = messageContentNewBlog;
-        if (!subscription.getLocale().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+        if (needsTranslation(subscription, languageService.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
-              translationConfig.getDefaultLocale(), 
+              languageService.getDefaultLocale(), 
               messageContentToSend, 
               translatedMessages);
         }
         Map<String, String> data = new HashMap<>();
-        data.put("link", newBlog.selfLink().getHref());
+        data.put("route", newBlog.selfLink().getHref());
        
         MessageDto message = new MessageDto(
             newBlog.getAuthor(), messageContentToSend);
@@ -392,15 +395,15 @@ public class PushService {
       Map<String, String> translatedMessages = new HashMap<>();
       for (SubscriptionEntity subscription : subscriptions) {
         String messageContentToSend = messageContentNewPage;
-        if (!subscription.getLocale().equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+        if (needsTranslation(subscription, languageService.getDefaultLocale())) {
           messageContentToSend = translateSingle(
               subscription, 
-              translationConfig.getDefaultLocale(), 
+              languageService.getDefaultLocale(), 
               messageContentToSend, 
               translatedMessages);
         }
         Map<String, String> data = new HashMap<>();
-        data.put("link", newPage.selfLink().getHref());
+        data.put("route", newPage.selfLink().getHref());
        
         MessageDto message = new MessageDto(
             getTopicName(newPage.getTopic(), subscription.getLocale()), messageContentToSend);
@@ -417,12 +420,12 @@ public class PushService {
         getOptionalTopicTranslatable(topic, language);
     
     if (translatable.isPresent()) {
-      if (language.equalsIgnoreCase(translationConfig.getDefaultLocale())) {
+      if (language.equalsIgnoreCase(languageService.getDefaultLocale())) {
         return translatable.get().getName();
       }
       return translatable.get().getName().replaceFirst("\\(.*?\\)","").trim();
     } else {
-      translatable = getOptionalTopicTranslatable(topic, translationConfig.getDefaultLocale());
+      translatable = getOptionalTopicTranslatable(topic, languageService.getDefaultLocale());
       if (translatable.isPresent()) {
         return translatable.get().getName();
       }
@@ -436,6 +439,13 @@ public class PushService {
         .filter(t -> 
             t.getLanguage().getLocale().equalsIgnoreCase(language))
         .findFirst();
+  }
+  
+  private boolean needsTranslation(SubscriptionEntity subscription, String messageLocale) {
+    if (subscription.getLocale() == null || subscription.getLocale().isEmpty()) {
+      subscription.setLocale(languageService.getDefaultLocale());
+    }
+    return subscription.getLocale().equalsIgnoreCase(messageLocale);
   }
 
   private String translateSingle(SubscriptionEntity subscription, String messageLocale,

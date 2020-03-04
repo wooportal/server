@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 /**
  * The Class FirebasePushService.
@@ -72,9 +73,6 @@ public class FirebasePushService {
    *
    * @param subscription the subscription
    * @param message the message
-   * @throws FirebaseMessagingException the firebase messaging exception
-   * @throws InterruptedException the interrupted exception
-   * @throws ExecutionException the execution exception
    */
   public void sendPush(
       SubscriptionEntity subscription, 

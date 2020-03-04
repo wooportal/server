@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
 import de.codeschluss.wooportal.server.components.blog.translations.BlogTranslatablesEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
@@ -18,8 +17,6 @@ import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -84,7 +81,7 @@ public class BlogEntity extends BaseResource {
   @Transient
   private String content;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -109,7 +106,7 @@ public class BlogEntity extends BaseResource {
   @Transient
   private String title;
   
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<BlogTranslatablesEntity> translatables;

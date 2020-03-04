@@ -78,7 +78,7 @@ public class PageEntity extends BaseResource {
   @Transient
   private String title;
   
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<PageTranslatablesEntity> translatables;

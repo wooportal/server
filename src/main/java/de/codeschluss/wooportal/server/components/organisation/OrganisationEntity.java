@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.organisation.translations.OrganisationTranslatablesEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
@@ -16,12 +15,9 @@ import de.codeschluss.wooportal.server.components.video.VideoEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,14 +29,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -87,7 +81,7 @@ public class OrganisationEntity extends BaseResource {
   @Transient
   private String description;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -114,17 +108,17 @@ public class OrganisationEntity extends BaseResource {
 
   private String phone;
   
-  @OneToMany(mappedBy = "organisation", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "organisation", fetch = FetchType.LAZY)
   @JsonIgnore
   @ToString.Exclude
   private List<ProviderEntity> providers;
   
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
   @JsonIgnore
   @ToString.Exclude
   protected Set<OrganisationTranslatablesEntity> translatables;
   
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation", cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
   private List<VideoEntity> videos;
 
   private String website;

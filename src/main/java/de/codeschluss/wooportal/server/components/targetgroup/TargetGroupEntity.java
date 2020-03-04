@@ -13,7 +13,6 @@ import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -62,7 +61,7 @@ public class TargetGroupEntity extends BaseResource {
   @Transient
   private String name;
   
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<TargetGroupTranslatablesEntity> translatables;

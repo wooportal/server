@@ -77,7 +77,7 @@ public class ActivityEntity extends BaseResource {
   @JsonIgnore
   private AddressEntity address;
   
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "activity", cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "activity")
   @ToString.Exclude
   @JsonIgnore
   private List<BlogEntity> blogs;
@@ -86,7 +86,7 @@ public class ActivityEntity extends BaseResource {
   @JsonDeserialize
   private String categoryId;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -139,12 +139,12 @@ public class ActivityEntity extends BaseResource {
   @JoinColumn(nullable = false)
   private ProviderEntity provider;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "activity", cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "activity")
   @ToString.Exclude
   @JsonIgnore
   private List<ScheduleEntity> schedules;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -161,7 +161,7 @@ public class ActivityEntity extends BaseResource {
   )
   private List<TagEntity> tags;
 
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -178,7 +178,7 @@ public class ActivityEntity extends BaseResource {
   )
   private List<TargetGroupEntity> targetGroups;
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent", cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<ActivityTranslatablesEntity> translatables;

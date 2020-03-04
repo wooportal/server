@@ -35,14 +35,15 @@ public class PushServicePushSingleContentTest {
   public void pushSingleContentOk() throws Exception {
     String title = "test";
     String content = "test";
-    MessageDto message = new MessageDto(title, content);
+    String link = "url";
+    MessageDto message = new MessageDto(title, content, link);
     String translation = "translation";
     String subscriptionId = "00000000-0000-0000-0020-400000000000";
-    String link = "url";
+
     
     prepareMocks(translation);
     
-    pushService.pushSingleContent(message, link);
+    pushService.pushSingleContent(message);
     
     assertArguments(
         subscriptionId, 
@@ -55,14 +56,15 @@ public class PushServicePushSingleContentTest {
   public void pushNewsWithTranslationOk() throws Exception {
     String title = "test";
     String content = "test";
-    MessageDto message = new MessageDto(title, content);
+    String link = "url";
+    MessageDto message = new MessageDto(title, content, link);
     String translation = "translation";
     String subscriptionId = "00000000-0000-0000-0020-100000000000";
-    String link = "url";
+
     
     prepareMocks(translation);
     
-    pushService.pushSingleContent(message, link);
+    pushService.pushSingleContent(message);
     
     assertArguments(
         subscriptionId, 
@@ -93,7 +95,7 @@ public class PushServicePushSingleContentTest {
                 && messageParam.getContent().equals(content)),
             ArgumentMatchers.argThat(dataParam -> 
                 dataParam.entrySet().stream().anyMatch(d -> 
-                    d.getKey().equals("link") && d.getValue().equals(link))));
+                    d.getKey().equals("route") && d.getValue().equals(link))));
   }
 
 }

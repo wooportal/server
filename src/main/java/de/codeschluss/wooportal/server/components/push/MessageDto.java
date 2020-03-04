@@ -15,4 +15,13 @@ public class MessageDto {
   private String title;
   
   private String content;
+  
+  private String route;
+  
+  public MessageDto(
+      String title,
+      String content) {
+    setTitle(title);
+    setContent(content);
+  }
 }

@@ -16,7 +16,6 @@ import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -64,7 +63,7 @@ public class SubscriptionEntity extends BaseResource {
   
   private String locale;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -81,7 +80,7 @@ public class SubscriptionEntity extends BaseResource {
   )
   private List<ActivityEntity> activitySubscriptions;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -98,7 +97,7 @@ public class SubscriptionEntity extends BaseResource {
   )
   private List<ActivityEntity> activityLikes;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -115,7 +114,7 @@ public class SubscriptionEntity extends BaseResource {
   )
   private List<BloggerEntity> bloggerSubscriptions;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -132,7 +131,7 @@ public class SubscriptionEntity extends BaseResource {
   )
   private List<BlogEntity> blogLikes;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -149,7 +148,7 @@ public class SubscriptionEntity extends BaseResource {
   )
   private List<OrganisationEntity> organisationSubscriptions;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -166,7 +165,7 @@ public class SubscriptionEntity extends BaseResource {
   )
   private List<OrganisationEntity> organisationLikes;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -183,7 +182,7 @@ public class SubscriptionEntity extends BaseResource {
   )
   private List<PageEntity> pageLikes;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
@@ -200,7 +199,7 @@ public class SubscriptionEntity extends BaseResource {
   )
   private List<SubscriptionTypeEntity> subscribedTypes;
   
-  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(

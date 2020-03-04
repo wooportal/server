@@ -23,19 +23,11 @@ public class PushController {
     this.pushService = pushService;
   }
   
-  @PostMapping("/push/news")
-  @SuperUserPermission
-  public ResponseEntity<?> pushNews(@RequestBody(required = true) MessageDto message) {
-    pushService.pushNews(message);
+  @PostMapping("/push")
+//  @SuperUserPermission
+  public ResponseEntity<?> push(@RequestBody(required = true) MessageDto message) {
+    pushService.pushMessage(message);
     return noContent().build();
   }
-  
-  @PostMapping("/push/content")
-  @SuperUserPermission
-  public ResponseEntity<?> pushContent(
-      @RequestBody(required = true) MessageDto message,
-      @RequestBody(required = true) String link) {
-    pushService.pushSingleContent(message, link);
-    return noContent().build();
-  }
+ 
 }

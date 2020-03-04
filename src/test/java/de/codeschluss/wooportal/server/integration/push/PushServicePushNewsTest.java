@@ -41,7 +41,7 @@ public class PushServicePushNewsTest {
     
     prepareMocks(translation);
     
-    pushService.pushNews(message);
+    pushService.pushMessage(message);
     
     assertArguments(
         subscriptionId, 
@@ -59,7 +59,7 @@ public class PushServicePushNewsTest {
     
     prepareMocks(translation);
     
-    pushService.pushNews(message);
+    pushService.pushMessage(message);
     
     assertArguments(
         subscriptionId, 
