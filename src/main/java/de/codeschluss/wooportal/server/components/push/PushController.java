@@ -24,7 +24,7 @@ public class PushController {
   }
   
   @PostMapping("/push")
-//  @SuperUserPermission
+  @SuperUserPermission
   public ResponseEntity<?> push(@RequestBody(required = true) MessageDto message) {
     pushService.pushMessage(message);
     return noContent().build();

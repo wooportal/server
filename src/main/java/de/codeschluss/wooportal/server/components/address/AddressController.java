@@ -13,6 +13,7 @@ import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import java.net.URI;
 import java.net.URISyntaxException;
+import javax.naming.ServiceUnavailableException;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -126,4 +127,12 @@ public class AddressController extends CrudController<AddressEntity, AddressServ
       throw new BadParamsException("Address or Suburb with given ID do not exist!");
     }
   }
+  
+  @PostMapping("/addresses/lookup")
+  @SuperUserPermission
+  public ResponseEntity<AddressEntity> lookup(@RequestBody AddressEntity address) 
+      throws ServiceUnavailableException, NotFoundException {
+    return ok(service.lookup(address));
+  }
+  
 }

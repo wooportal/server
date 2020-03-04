@@ -6,18 +6,13 @@ import de.codeschluss.wooportal.server.components.user.UserEntity;
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.mail.MailConfiguration;
 import de.codeschluss.wooportal.server.core.mail.MailService;
-import de.codeschluss.wooportal.server.core.mail.MailTemplateService;
 import de.codeschluss.wooportal.server.core.service.DataService;
-import freemarker.template.TemplateException;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.mail.MessagingException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,37 +36,27 @@ public class ProviderService extends DataService<ProviderEntity, ProviderQueryBu
 
   /** The user service. */
   private final UserService userService;
-  
-  private final MailTemplateService templateService;
-  
-  private final MailConfiguration mailConfig;
+
 
   /**
    * Instantiates a new provider service.
    *
-   * @param repo
-   *          the provider repo
-   * @param orgaService
-   *          the orga service
-   * @param mailService
-   *          the mail service
-   * @param userService
-   *          the user service
+   * @param repo the repo
+   * @param entities the entities
+   * @param orgaService the orga service
+   * @param userService the user service
+   * @param mailService the mail service
    */
   public ProviderService(
       ProviderRepository repo, 
       ProviderQueryBuilder entities,
       OrganisationService orgaService,
       UserService userService,
-      MailService mailService,
-      MailTemplateService mailTemplateService,
-      MailConfiguration mailConfig) {
+      MailService mailService) {
     super(repo, entities);
     this.orgaService = orgaService;
     this.userService = userService;
     this.mailService = mailService;
-    this.templateService = mailTemplateService;
-    this.mailConfig = mailConfig;
   }
   
   @Override
@@ -340,23 +325,18 @@ public class ProviderService extends DataService<ProviderEntity, ProviderQueryBu
    * @return true, if successful
    */
   public boolean sendApplicationUserMail(ProviderEntity applicationProvider, List<String> toMails) {
-    try {
-      Map<String, Object> model = new HashMap<>();
-      model.put("userMail", applicationProvider.getUser().getUsername());
-      model.put("orgaName", applicationProvider.getOrganisation().getName());
-      model.put("portalName", mailConfig.getPortalName());
-      
-      String subject = "Neuer Anbieter für Organisation "
-          + applicationProvider.getOrganisation().getName();
+    Map<String, Object> model = new HashMap<>();
+    model.put("userMail", applicationProvider.getUser().getUsername());
+    model.put("orgaName", applicationProvider.getOrganisation().getName());
+    
+    String subject = "Neuer Anbieter für Organisation "
+        + applicationProvider.getOrganisation().getName();
 
-      mailService.sendEmail(
-          subject, 
-          templateService.createMessage("applicationprovider.ftl", model), 
-          toMails.toArray(new String[0]));
-      return true;
-    } catch (IOException | TemplateException | MessagingException e) {
-      return false;
-    }
+    return mailService.sendEmail(
+        subject, 
+        "applicationprovider.ftl", 
+        model, 
+        toMails.toArray(new String[0]));
   }
 
   /**
@@ -379,22 +359,17 @@ public class ProviderService extends DataService<ProviderEntity, ProviderQueryBu
    * @return true, if successful
    */
   public boolean sendApprovedUserMail(ProviderEntity approvedProvider) {
-    try {
-      Map<String, Object> model = new HashMap<>();
-      model.put("name", approvedProvider.getUser().getName());
-      model.put("orgaName", approvedProvider.getOrganisation().getName());
-      model.put("portalName", mailConfig.getPortalName());
-      String subject = "Freigabe als Anbieter für Organisation "
-          + approvedProvider.getOrganisation().getName();
+    Map<String, Object> model = new HashMap<>();
+    model.put("name", approvedProvider.getUser().getName());
+    model.put("orgaName", approvedProvider.getOrganisation().getName());
+    String subject = "Freigabe als Anbieter für Organisation "
+        + approvedProvider.getOrganisation().getName();
 
-      mailService.sendEmail(
-          subject, 
-          templateService.createMessage("approvedprovider.ftl", model), 
-          approvedProvider.getUser().getUsername());
-      return true;
-    } catch (IOException | TemplateException | MessagingException e) {
-      return false;
-    }
+    return mailService.sendEmail(
+        subject, 
+        "approvedprovider.ftl", 
+        model,
+        approvedProvider.getUser().getUsername());
   }
 
   /**
@@ -439,19 +414,14 @@ public class ProviderService extends DataService<ProviderEntity, ProviderQueryBu
   }
   
   private boolean sendNewOrgaMail(OrganisationEntity orga) {
-    try {
-      Map<String, Object> model = new HashMap<>();
-      model.put("name", orga.getName());
-      model.put("portalName", mailConfig.getPortalName());
-      String subject = "Neue Organisation";
+    Map<String, Object> model = new HashMap<>();
+    model.put("name", orga.getName());
+    String subject = "Neue Organisation";
 
-      mailService.sendEmail(
-          subject, 
-          templateService.createMessage("neworga.ftl", model), 
-          userService.getSuperUserMails().toArray(new String[0]));
-      return true;
-    } catch (IOException | TemplateException | MessagingException e) {
-      return false;
-    }
+    return mailService.sendEmail(
+        subject, 
+        "neworga.ftl", 
+        model, 
+        userService.getSuperUserMails().toArray(new String[0]));
   }
 }

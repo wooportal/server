@@ -4,7 +4,10 @@ import de.codeschluss.wooportal.server.components.suburb.SuburbEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.location.BingMapService;
+import de.codeschluss.wooportal.server.core.mail.MailService;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.util.HashMap;
+import java.util.Map;
 import javax.naming.ServiceUnavailableException;
 import org.springframework.hateoas.Resource;
 import org.springframework.stereotype.Service;
@@ -19,22 +22,30 @@ import org.springframework.stereotype.Service;
 @Service
 public class AddressService extends ResourceDataService<AddressEntity, AddressQueryBuilder> {
   
+  /** The map service. */
   private final BingMapService mapService;
+  
+  /** The mail service. */
+  private final MailService mailService;
 
   /**
    * Instantiates a new address service.
    *
-   * @param repo
-   *          the repo
-   * @param assembler
-   *          the assembler
+   * @param repo the repo
+   * @param entities the entities
+   * @param assembler the assembler
+   * @param bingMapService the bing map service
+   * @param mailService the mail service
    */
   public AddressService(
       AddressRepository repo, 
       AddressQueryBuilder entities,
-      PagingAndSortingAssembler assembler, BingMapService bingMapService) {
+      PagingAndSortingAssembler assembler, 
+      BingMapService bingMapService,
+      MailService mailService) {
     super(repo, entities, assembler);
     this.mapService = bingMapService;
+    this.mailService = mailService;
   }
 
   @Override
@@ -130,13 +141,34 @@ public class AddressService extends ResourceDataService<AddressEntity, AddressQu
       return existing;
     }
     
-    newAddress = mapService.retrieveExternalAddress(newAddress);
-    
-    existing = getExisting(newAddress);
-    if (existing != null) {
-      return existing;
+    try {
+      newAddress = lookup(newAddress);
+      existing = getExisting(newAddress);
+      if (existing != null) {
+        return existing;
+      }
+    } catch (NotFoundException ex) {
+      sendNotFoundAddressMail(newAddress);
     }
-    
     return repo.save(newAddress);
+  }
+  
+  public AddressEntity lookup(AddressEntity newAddress) 
+      throws ServiceUnavailableException, NotFoundException {
+    return mapService.retrieveExternalAddress(newAddress);
+  }
+
+  private void sendNotFoundAddressMail(AddressEntity newAddress) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("street", newAddress.getStreet());
+    model.put("houseNumber", newAddress.getHouseNumber());
+    model.put("postalCode", newAddress.getPostalCode());
+    model.put("place", newAddress.getPlace());
+    String subject = "Adresse nicht gefunden";
+
+    mailService.sendEmail(
+        subject, 
+        "addressnotfound.ftl", 
+        model);
   }
 }

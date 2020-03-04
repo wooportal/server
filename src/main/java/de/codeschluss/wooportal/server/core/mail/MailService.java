@@ -1,5 +1,8 @@
 package de.codeschluss.wooportal.server.core.mail;
 
+import freemarker.template.TemplateException;
+import java.io.IOException;
+import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,6 +24,9 @@ public class MailService {
   
   /** The mail config. */
   private final MailConfiguration mailConfig;
+  
+  /** The template service. */
+  private final MailTemplateService templateService;
 
   /**
    * Instantiates a new mail service.
@@ -30,9 +36,37 @@ public class MailService {
    */
   public MailService(
       JavaMailSender sender, 
-      MailConfiguration mailConfig) {
+      MailConfiguration mailConfig,
+      MailTemplateService templateService) {
     this.sender = sender;
     this.mailConfig = mailConfig;
+    this.templateService = templateService;
+  }
+  
+  /**
+   * Send email.
+   *
+   * @param subject the subject
+   * @param template the template
+   * @param templateModel the template model
+   * @param to the to
+   * @return true, if successful
+   */
+  public boolean sendEmail(
+      String subject, 
+      String template,
+      Map<String, Object> templateModel,
+      String... to) {
+    try {
+      templateModel.put("portalName", mailConfig.getPortalName());
+      sendEmail(
+          subject, 
+          templateService.createMessage(template, templateModel),
+          to);
+      return true;
+    } catch (TemplateException | IOException | MessagingException e) {
+      return false;
+    }
   }
 
   /**

@@ -8,17 +8,13 @@ import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.mail.MailConfiguration;
 import de.codeschluss.wooportal.server.core.mail.MailService;
-import de.codeschluss.wooportal.server.core.mail.MailTemplateService;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-import freemarker.template.TemplateException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.mail.MessagingException;
 import org.apache.commons.lang3.NotImplementedException;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.PagedResources;
@@ -40,12 +36,6 @@ public class BloggerService extends ResourceDataService<BloggerEntity, BloggerQu
   
   /** The mail config. */
   private final MailService mailService;
-  
-  /** The template service. */
-  private final MailTemplateService templateService;
-  
-  /** The mail config. */
-  private final MailConfiguration mailConfig;
 
   /**
    * Instantiates a new blogger service.
@@ -55,23 +45,17 @@ public class BloggerService extends ResourceDataService<BloggerEntity, BloggerQu
    * @param assembler the assembler
    * @param mailService the mail service
    * @param userService the user service
-   * @param templateService the template service
-   * @param mailConfig the mail config
    */
   public BloggerService(
       DataRepository<BloggerEntity> repo, 
       BloggerQueryBuilder entities,
       PagingAndSortingAssembler assembler,
       MailService mailService,
-      UserService userService,
-      MailTemplateService templateService,
-      MailConfiguration mailConfig) {
+      UserService userService) {
     super(repo, entities, assembler);
     
     this.userService = userService;
     this.mailService = mailService;
-    this.templateService = templateService;
-    this.mailConfig = mailConfig;
   }
 
   @Override
@@ -170,19 +154,14 @@ public class BloggerService extends ResourceDataService<BloggerEntity, BloggerQu
   }
 
   private boolean sendApprovedMail(BloggerEntity blogger) {
-    try {
-      Map<String, Object> model = new HashMap<>();
-      model.put("portalName", mailConfig.getPortalName());
-      String subject = "Als Blogger freigegeben";
+    Map<String, Object> model = new HashMap<>();
+    String subject = "Als Blogger freigegeben";
 
-      mailService.sendEmail(
-          subject, 
-          templateService.createMessage("approvedblogger.ftl", model), 
-          blogger.getUser().getUsername());
-      return true;
-    } catch (IOException | TemplateException | MessagingException e) {
-      return false;
-    }
+    return mailService.sendEmail(
+        subject, 
+        "approvedblogger.ftl", 
+        model,
+        blogger.getUser().getUsername());
   }
 
   /**
@@ -205,20 +184,15 @@ public class BloggerService extends ResourceDataService<BloggerEntity, BloggerQu
   }
 
   private boolean sendApplicationMail(BloggerEntity blogger) {
-    try {
-      Map<String, Object> model = new HashMap<>();
-      model.put("userName", blogger.getUser().getName());
-      model.put("portalName", mailConfig.getPortalName());
-      String subject = "Neue Bloggeranfrage";
+    Map<String, Object> model = new HashMap<>();
+    model.put("userName", blogger.getUser().getName());
+    String subject = "Neue Bloggeranfrage";
 
-      mailService.sendEmail(
-          subject, 
-          templateService.createMessage("newblogger.ftl", model), 
-          userService.getSuperUserMails().toArray(new String[0]));
-      return true;
-    } catch (IOException | TemplateException | MessagingException e) {
-      return false;
-    }
+    return mailService.sendEmail(
+        subject, 
+        "newblogger.ftl", 
+        model,
+        userService.getSuperUserMails().toArray(new String[0]));
   }
 
   /**

@@ -3,17 +3,12 @@ package de.codeschluss.wooportal.server.components.user;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.mail.MailConfiguration;
 import de.codeschluss.wooportal.server.core.mail.MailService;
-import de.codeschluss.wooportal.server.core.mail.MailTemplateService;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-import freemarker.template.TemplateException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.mail.MessagingException;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -37,37 +32,25 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
 
   /** The mail service. */
   private final MailService mailService;
-  
-  /** The mail template service. */
-  private final MailTemplateService mailTemplateService;
-  
-  private final MailConfiguration mailConfig;
 
   /**
    * Instantiates a new user service.
    *
-   * @param repo
-   *          the repo
-   * @param assembler
-   *          the assembler
-   * @param encoder
-   *          the encoder
-   * @param mailService
-   *          the mail service
+   * @param repo the repo
+   * @param assembler the assembler
+   * @param encoder the encoder
+   * @param mailService the mail service
+   * @param entities the entities
    */
   public UserService(
       UserRepository repo, 
       PagingAndSortingAssembler assembler,
       BCryptPasswordEncoder encoder, 
       MailService mailService,
-      UserQueryBuilder entities,
-      MailTemplateService mailTemplateService,
-      MailConfiguration mailConfig) {
+      UserQueryBuilder entities) {
     super(repo, entities, assembler);
     this.bcryptPasswordEncoder = encoder;
     this.mailService = mailService;
-    this.mailTemplateService = mailTemplateService;
-    this.mailConfig = mailConfig;
   }
 
   /**
@@ -198,22 +181,20 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
    *
    * @param user the user
    * @param newPassword the new password
+   * @param templateName the template name
    * @return true, if successful
    */
   public boolean sendResetPasswordMail(UserEntity user, String newPassword, String templateName) {
-    try {
-      Map<String, Object> model = new HashMap<>();
-      model.put("name", user.getName());
-      model.put("newPwd", newPassword);
-      model.put("portalName", mailConfig.getPortalName());
-      String content = mailTemplateService.createMessage(templateName, model);
-      String subject = "Ihr Passwort wurde zurück gesetzt";
+    Map<String, Object> model = new HashMap<>();
+    model.put("name", user.getName());
+    model.put("newPwd", newPassword);
+    String subject = "Ihr Passwort wurde zurück gesetzt";
 
-      mailService.sendEmail(subject, content, user.getUsername());
-      return true;
-    } catch (IOException | TemplateException | MessagingException e) {
-      return false;
-    }
+    return mailService.sendEmail(
+        subject, 
+        templateName, 
+        model, 
+        user.getUsername());
   }
 
   /**

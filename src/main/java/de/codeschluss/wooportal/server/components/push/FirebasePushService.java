@@ -8,7 +8,6 @@ import com.google.firebase.messaging.AndroidNotification;
 import com.google.firebase.messaging.ApnsConfig;
 import com.google.firebase.messaging.Aps;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Message.Builder;
 import com.google.firebase.messaging.Notification;
@@ -22,7 +21,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 /**
  * The Class FirebasePushService.
