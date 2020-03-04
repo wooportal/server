@@ -12,8 +12,10 @@ import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.translations.TopicTranslatablesEntity;
+import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.mail.MailService;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class PushService.
  * 
@@ -36,36 +39,47 @@ public class PushService {
   /** The push service. */
   private final FirebasePushService firebasePushService;
   
-  /** The subscription service. */
-  private final SubscriptionService subscriptionService;
-  
   /** The language service. */
   private final LanguageService languageService;
   
-  /** The translation service. */
-  private final TranslationService translationService;
-  
-  /** The schedule service. */
-  private final ScheduleService scheduleService;
+  /** The mail service. */
+  private final MailService mailService;
   
   /** The orga service. */
   private final OrganisationService orgaService;
   
+  /** The schedule service. */
+  private final ScheduleService scheduleService;
+  
+  /** The subscription service. */
+  private final SubscriptionService subscriptionService;
+  
+  /** The translation service. */
+  private final TranslationService translationService;
+  
+  /** The user service. */
+  private final UserService userService;
+  
   /** The date formatter. */
   private final SimpleDateFormat dateFormatter;
   
+  /** The Constant messageContentNewActivityOrgaSub. */
   public static final String messageContentNewActivityOrgaSub =
       "Hat eine neue Veranstaltung erstellt";
   
+  /** The Constant messageContentNewActivitySimilar. */
   public static final String messageContentNewActivitySimilar =
       "Eine Veranstaltung könnte dir gefallen";
   
+  /** The Constant messageContentNewBlog. */
   public static final String messageContentNewBlog =
       "Hat einen neuen Blog geschrieben";
   
+  /** The Constant messageContentNewPage. */
   public static final String messageContentNewPage =
       "Es gibt einen neuen Beitrag zu diesem Thema";
   
+  /** The Constant messageTitleActivityReminder. */
   public static final String messageTitleActivityReminder =
       "Veranstaltungserinnerung";
   
@@ -73,32 +87,58 @@ public class PushService {
    * Instantiates a new push service.
    *
    * @param firebasePushService the firebase push service
-   * @param subscriptionService the subscription service
    * @param languageService the language service
+   * @param mailService the mail service
+   * @param orgaService the orga service
+   * @param scheduleService the schedule service
+   * @param subscriptionService the subscription service
+   * @param translationService the translation service
    */
   public PushService(
       FirebasePushService firebasePushService,
-      SubscriptionService subscriptionService,
       LanguageService languageService,
-      TranslationService translationService,
+      MailService mailService,
+      OrganisationService orgaService,
       ScheduleService scheduleService,
-      OrganisationService orgaService) {
+      SubscriptionService subscriptionService,
+      TranslationService translationService,
+      UserService userService) {
     this.firebasePushService = firebasePushService;
-    this.subscriptionService = subscriptionService;
     this.languageService = languageService;
-    this.translationService = translationService;
-    this.scheduleService = scheduleService;
+    this.mailService = mailService;
     this.orgaService = orgaService;
-    
+    this.scheduleService = scheduleService;
+    this.subscriptionService = subscriptionService;
+    this.translationService = translationService;
+    this.userService = userService;
+
     this.dateFormatter = new SimpleDateFormat("HH:mm");
   }
-
+  
   /**
-   * Push manual.
+   * Push mails.
    *
    * @param message the message
    */
-  public void pushMessage(MessageDto message) {
+  public void pushMails(MessageDto message) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("content", message.getContent());
+    String subject = message.getTitle();
+
+    mailService.sendEmail(
+        subject, 
+        "mailall.ftl", 
+        model, 
+        userService.getAllMailAddresses().toArray(new String[0]));
+  }
+
+
+  /**
+   * Push notifications.
+   *
+   * @param message the message
+   */
+  public void pushNotifications(MessageDto message) {
     if (message.getRoute() == null || message.getRoute().isEmpty()) {
       pushNews(message);
     } else {
@@ -138,6 +178,14 @@ public class PushService {
     }
   }
   
+  /**
+   * Translate and push.
+   *
+   * @param subscription the subscription
+   * @param message the message
+   * @param additionalData the additional data
+   * @param translatedMessages the translated messages
+   */
   private void translateAndPush(
       SubscriptionEntity subscription, 
       MessageDto message,
@@ -151,6 +199,15 @@ public class PushService {
     firebasePushService.sendPush(subscription, messageToSend, additionalData);
   }
   
+  /**
+   * Translate multiple.
+   *
+   * @param subscription the subscription
+   * @param messageLocale the message locale
+   * @param message the message
+   * @param translatedMessages the translated messages
+   * @return the message dto
+   */
   private MessageDto translateMultiple(
       SubscriptionEntity subscription, 
       String messageLocale,
@@ -185,6 +242,8 @@ public class PushService {
   
   /**
    * Push activity reminders.
+   *
+   * @return the completable future
    */
   @Async
   public CompletableFuture<String> pushActivityReminders() {
@@ -232,6 +291,13 @@ public class PushService {
     return CompletableFuture.completedFuture("done");
   }
 
+  /**
+   * Gets the activity title.
+   *
+   * @param activity the activity
+   * @param language the language
+   * @return the activity title
+   */
   private String getActivityTitle(ActivityEntity activity, String language) {
     Optional<ActivityTranslatablesEntity> translatable = 
         getOptionalActivityTranslatable(activity, language);
@@ -251,6 +317,13 @@ public class PushService {
     return null;
   }
 
+  /**
+   * Gets the optional activity translatable.
+   *
+   * @param activity the activity
+   * @param language the language
+   * @return the optional activity translatable
+   */
   private Optional<ActivityTranslatablesEntity> getOptionalActivityTranslatable(
       ActivityEntity activity, String language) {
     return activity.getTranslatables().stream()
@@ -263,6 +336,7 @@ public class PushService {
    * Push new activity.
    *
    * @param newActivity the new activity
+   * @return the completable future
    */
   @Async
   public CompletableFuture<String> pushNewActivity(ActivityEntity newActivity) {
@@ -279,6 +353,12 @@ public class PushService {
     return CompletableFuture.completedFuture("done");
   }
 
+  /**
+   * Push new activity for orga sub.
+   *
+   * @param orgaSubscriptions the orga subscriptions
+   * @param newActivity the new activity
+   */
   private void pushNewActivityForOrgaSub(
       List<SubscriptionEntity> orgaSubscriptions,
       ActivityEntity newActivity) {
@@ -305,6 +385,12 @@ public class PushService {
     }
   }
   
+  /**
+   * Push new activity for similar.
+   *
+   * @param activitySubscriptions the activity subscriptions
+   * @param newActivity the new activity
+   */
   private void pushNewActivityForSimilar(
       List<SubscriptionEntity> activitySubscriptions,
       ActivityEntity newActivity) {
@@ -338,10 +424,24 @@ public class PushService {
     }
   }
 
+  /**
+   * Similar.
+   *
+   * @param activity the activity
+   * @param newActivity the new activity
+   * @return true, if successful
+   */
   private boolean similar(ActivityEntity activity, ActivityEntity newActivity) {
     return activity.getCategory().getId().equals(newActivity.getCategoryId());
   }
 
+  /**
+   * Filter duplicates.
+   *
+   * @param activitySubscriptions the activity subscriptions
+   * @param orgaSubscriptions the orga subscriptions
+   * @return the list
+   */
   private List<SubscriptionEntity> filterDuplicates(List<SubscriptionEntity> activitySubscriptions,
       List<SubscriptionEntity> orgaSubscriptions) {
     return activitySubscriptions.stream().filter(actSub -> 
@@ -353,6 +453,7 @@ public class PushService {
    * Push new blog.
    *
    * @param newBlog the new blog
+   * @return the completable future
    */
   @Async
   public CompletableFuture<String> pushNewBlog(BlogEntity newBlog) {
@@ -386,6 +487,7 @@ public class PushService {
    * Push new page.
    *
    * @param newPage the new page
+   * @return the completable future
    */
   @Async
   public CompletableFuture<String> pushNewPage(PageEntity newPage) {
@@ -415,6 +517,13 @@ public class PushService {
     return CompletableFuture.completedFuture("done");
   }
 
+  /**
+   * Gets the topic name.
+   *
+   * @param topic the topic
+   * @param language the language
+   * @return the topic name
+   */
   private String getTopicName(TopicEntity topic, String language) {
     Optional<TopicTranslatablesEntity> translatable = 
         getOptionalTopicTranslatable(topic, language);
@@ -433,6 +542,13 @@ public class PushService {
     return null;
   }
 
+  /**
+   * Gets the optional topic translatable.
+   *
+   * @param topic the topic
+   * @param language the language
+   * @return the optional topic translatable
+   */
   private Optional<TopicTranslatablesEntity> getOptionalTopicTranslatable(TopicEntity topic,
       String language) {
     return topic.getTranslatables().stream()
@@ -441,6 +557,13 @@ public class PushService {
         .findFirst();
   }
   
+  /**
+   * Needs translation.
+   *
+   * @param subscription the subscription
+   * @param messageLocale the message locale
+   * @return true, if successful
+   */
   private boolean needsTranslation(SubscriptionEntity subscription, String messageLocale) {
     if (subscription.getLocale() == null || subscription.getLocale().isEmpty()) {
       subscription.setLocale(languageService.getDefaultLocale());
@@ -448,6 +571,15 @@ public class PushService {
     return subscription.getLocale().equalsIgnoreCase(messageLocale);
   }
 
+  /**
+   * Translate single.
+   *
+   * @param subscription the subscription
+   * @param messageLocale the message locale
+   * @param messageContent the message content
+   * @param translatedMessages the translated messages
+   * @return the string
+   */
   private String translateSingle(SubscriptionEntity subscription, String messageLocale,
       String messageContent, Map<String, String> translatedMessages) {
     String translation = translatedMessages.get(subscription.getLocale());

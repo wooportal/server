@@ -229,12 +229,16 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
   }
 
   /**
-   * Gets the super user mails.
+   * Gets the super user mail addresses.
    *
-   * @return the super user mails
+   * @return the super user mail addresses
    */
-  public List<String> getSuperUserMails() {
+  public List<String> getSuperUserMailAddresses() {
     return getSuperUsers().stream().map(user -> user.getUsername()).collect(Collectors.toList());
+  }
+  
+  public List<String> getAllMailAddresses() {
+    return getAll().stream().map(user -> user.getUsername()).collect(Collectors.toList());
   }
 
   /**

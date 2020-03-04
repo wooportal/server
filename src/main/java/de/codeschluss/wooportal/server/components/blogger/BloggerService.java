@@ -192,7 +192,7 @@ public class BloggerService extends ResourceDataService<BloggerEntity, BloggerQu
         subject, 
         "newblogger.ftl", 
         model,
-        userService.getSuperUserMails().toArray(new String[0]));
+        userService.getSuperUserMailAddresses().toArray(new String[0]));
   }
 
   /**

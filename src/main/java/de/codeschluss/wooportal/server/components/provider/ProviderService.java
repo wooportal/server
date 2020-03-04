@@ -312,7 +312,7 @@ public class ProviderService extends DataService<ProviderEntity, ProviderQueryBu
   private void sendApplicationMail(ProviderEntity provider) {
     List<ProviderEntity> adminProviders = getOrgaAdminProviders(provider.getOrganisation());
     List<String> toMails = adminProviders == null || adminProviders.isEmpty()
-        ? userService.getSuperUserMails()
+        ? userService.getSuperUserMailAddresses()
         : userService.getMailsByProviders(adminProviders);
     sendApplicationUserMail(provider, toMails);
   }
@@ -422,6 +422,6 @@ public class ProviderService extends DataService<ProviderEntity, ProviderQueryBu
         subject, 
         "neworga.ftl", 
         model, 
-        userService.getSuperUserMails().toArray(new String[0]));
+        userService.getSuperUserMailAddresses().toArray(new String[0]));
   }
 }
