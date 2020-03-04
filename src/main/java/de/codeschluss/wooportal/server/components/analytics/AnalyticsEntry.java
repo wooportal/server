@@ -11,7 +11,9 @@ public class AnalyticsEntry implements Comparable<AnalyticsEntry> {
   
   private String name;
   
-  private double value; 
+  private double value;
+  
+  private String customColor;
   
   @Override
   public int compareTo(AnalyticsEntry other) {

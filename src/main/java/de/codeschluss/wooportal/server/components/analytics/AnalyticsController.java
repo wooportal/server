@@ -19,21 +19,21 @@ public class AnalyticsController {
     this.analyticsService = analyticsService;
   }
   
-  @GetMapping("/analytics/activities/categories")
+  @GetMapping("/analytic/activities/categories")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerCategory(
       BooleanPrimitive current) {
     return ok(analyticsService.calculateActivitiesPerCategory(current));
   }
   
-  @GetMapping("/analytics/activities/targetgroups")
+  @GetMapping("/analytic/activities/targetgroups")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerTargetGroup(
       BooleanPrimitive current) {
     return ok(analyticsService.calculateActivitiesPerTargetGroup(current));
   }
   
-  @GetMapping("/analytics/subscriptions")
+  @GetMapping("/analytic/subscriptions")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> calculateSubscriptions() {
     return ok(analyticsService.calculateSubscriptions());

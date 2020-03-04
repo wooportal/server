@@ -77,7 +77,8 @@ public class AnalyticsService {
     
     return data.entrySet()
         .stream()
-        .map(entry -> new AnalyticsEntry(entry.getKey().getName(), entry.getValue()))
+        .map(entry -> new AnalyticsEntry(
+            entry.getKey().getName(), entry.getValue(), entry.getKey().getColor()))
         .sorted()
         .collect(Collectors.toList());
   }
@@ -102,7 +103,8 @@ public class AnalyticsService {
     
     return data.entrySet()
         .stream()
-        .map(entry -> new AnalyticsEntry(entry.getKey().getName(), entry.getValue()))
+        .map(entry -> new AnalyticsEntry(
+            entry.getKey().getName(), entry.getValue(), null))
         .sorted()
         .collect(Collectors.toList());
   }
@@ -127,7 +129,8 @@ public class AnalyticsService {
     
     return data.entrySet()
         .stream()
-        .map(entry ->  new AnalyticsEntry(entry.getKey().getConfigType(), entry.getValue()))
+        .map(entry -> 
+          new AnalyticsEntry(entry.getKey().getConfigType(), entry.getValue(), null))
         .sorted()
         .collect(Collectors.toList());
   }
