@@ -17,6 +17,7 @@ import com.google.firebase.messaging.WebpushNotification.Action;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionEntity;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import org.springframework.core.io.ClassPathResource;
@@ -83,25 +84,23 @@ public class FirebasePushService {
               Notification.builder()
                 .setTitle(message.getTitle())
                 .setBody(message.getContent())
-                .build())
-          .setWebpushConfig(WebpushConfig.builder()
-              .setNotification(WebpushNotification.builder()
-                  .addAction(new Action("open", "Öffnen"))  
-                  .build())
-              .build())
-          .setAndroidConfig(AndroidConfig.builder()
-              .setNotification(AndroidNotification.builder()
-                  .setClickAction("Öffnen")
-                  .build())
-              .build())
-          .setApnsConfig(ApnsConfig.builder()
-              .setAps(Aps.builder()
-                  .setCategory("Öffnen")
-                  .build())
               .build());
 
       if (additionalData != null) {
-        messageBuilder.putAllData(additionalData);
+        messageBuilder
+          .setAndroidConfig(AndroidConfig.builder()
+              .putAllData(additionalData)
+              .build())
+          .setApnsConfig(ApnsConfig.builder()
+              .setAps(Aps.builder()
+                  .putAllCustomData(new HashMap<String, Object>(additionalData))
+                  .build())
+              .build())
+          .setWebpushConfig(WebpushConfig.builder()
+              .setNotification(WebpushNotification.builder()
+                  .setData(additionalData)
+                  .build())
+              .build());
       }
       
       FirebaseMessaging.getInstance()
