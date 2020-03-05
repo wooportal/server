@@ -13,6 +13,7 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -273,5 +274,16 @@ public class OrganisationService
       throw new NotFoundException("No videos found");
     }
     return result;
+  }
+
+  /**
+   * Gets the all mail addresses.
+   *
+   * @return the all mail addresses
+   */
+  public List<String> getAllMailAddresses() {
+    return repo.findAll(entities.withMail())
+        .stream().map(o -> o.getMail())
+        .collect(Collectors.toList());
   }
 }

@@ -183,4 +183,8 @@ public class OrganisationQueryBuilder extends QueryBuilder<QOrganisationEntity> 
     return query.providers.any().user.id.eq(userId)
         .and(query.providers.any().admin.isTrue());
   }
+
+  public Predicate withMail() {
+    return query.mail.isNotEmpty().and(query.mail.isNotNull());
+  }
 }

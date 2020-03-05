@@ -17,6 +17,7 @@ import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.mail.MailService;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -124,12 +125,16 @@ public class PushService {
     Map<String, Object> model = new HashMap<>();
     model.put("content", message.getContent());
     String subject = message.getTitle();
+    
+    List<String> mailAddresses = new ArrayList<>();
+    mailAddresses.addAll(userService.getAllMailAddresses());
+    mailAddresses.addAll(orgaService.getAllMailAddresses());
 
     mailService.sendEmail(
         subject, 
         "mailall.ftl", 
         model, 
-        userService.getAllMailAddresses().toArray(new String[0]));
+        mailAddresses.stream().toArray(String[]::new));
   }
 
 
