@@ -227,14 +227,14 @@ public class PushService {
     }
     
     Map<String, String> currentTranslations = new HashMap<>();
-    String titleTranslation = translationService.translate(
+    String titleTranslation = translate(
         subscription.getLocale(), 
         messageLocale, 
         message.getTitle());
     translatedMessage.setTitle(titleTranslation);
     currentTranslations.put("title", titleTranslation);
     
-    String contentTranslation = translationService.translate(
+    String contentTranslation = translate(
         subscription.getLocale(), 
         messageLocale, 
         message.getContent());
@@ -592,11 +592,27 @@ public class PushService {
       return translation;
     }
     
-    String currentTranslation = translationService.translate(
+    String currentTranslation = translate(
         subscription.getLocale(), 
         messageLocale, 
         messageContent);    
     translatedMessages.put(subscription.getLocale(), currentTranslation);
     return currentTranslation;
+  }
+  
+  /**
+   * Translate and if service unavailable, return text.
+   *
+   * @param target the target
+   * @param source the source
+   * @param text the text
+   * @return the string
+   */
+  private String translate(String target, String source, String text) {
+    try {
+      return translationService.translate(target, source, text); 
+    } catch (Exception e) {
+      return text;
+    }
   }
 }

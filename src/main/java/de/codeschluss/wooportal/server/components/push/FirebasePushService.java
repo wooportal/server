@@ -4,7 +4,6 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.AndroidConfig;
-import com.google.firebase.messaging.AndroidNotification;
 import com.google.firebase.messaging.ApnsConfig;
 import com.google.firebase.messaging.Aps;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -13,7 +12,6 @@ import com.google.firebase.messaging.Message.Builder;
 import com.google.firebase.messaging.Notification;
 import com.google.firebase.messaging.WebpushConfig;
 import com.google.firebase.messaging.WebpushNotification;
-import com.google.firebase.messaging.WebpushNotification.Action;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionEntity;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import java.io.IOException;
@@ -100,7 +98,7 @@ public class FirebasePushService {
                 .setNotification(WebpushNotification.builder()
                     .setData(additionalData)
                     .build())
-             .build());
+            .build());
       }
       
       FirebaseMessaging.getInstance()
