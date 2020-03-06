@@ -88,19 +88,19 @@ public class FirebasePushService {
 
       if (additionalData != null) {
         messageBuilder
-          .setAndroidConfig(AndroidConfig.builder()
-              .putAllData(additionalData)
-              .build())
-          .setApnsConfig(ApnsConfig.builder()
-              .setAps(Aps.builder()
-                  .putAllCustomData(new HashMap<String, Object>(additionalData))
-                  .build())
-              .build())
-          .setWebpushConfig(WebpushConfig.builder()
-              .setNotification(WebpushNotification.builder()
-                  .setData(additionalData)
-                  .build())
-              .build());
+            .setAndroidConfig(AndroidConfig.builder()
+                .putAllData(additionalData)
+                .build())
+            .setApnsConfig(ApnsConfig.builder()
+                .setAps(Aps.builder()
+                    .putAllCustomData(new HashMap<String, Object>(additionalData))
+                    .build())
+                .build())
+            .setWebpushConfig(WebpushConfig.builder()
+                .setNotification(WebpushNotification.builder()
+                    .setData(additionalData)
+                    .build())
+             .build());
       }
       
       FirebaseMessaging.getInstance()

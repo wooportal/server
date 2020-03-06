@@ -222,7 +222,7 @@ public class PushService {
     MessageDto translatedMessage = new MessageDto();
     if (translations != null) {
       translatedMessage.setTitle(translations.get("title"));
-      translatedMessage.setTitle(translations.get("content"));
+      translatedMessage.setContent(translations.get("content"));
       return translatedMessage;
     }
     
@@ -573,7 +573,7 @@ public class PushService {
     if (subscription.getLocale() == null || subscription.getLocale().isEmpty()) {
       subscription.setLocale(languageService.getDefaultLocale());
     }
-    return subscription.getLocale().equalsIgnoreCase(messageLocale);
+    return !subscription.getLocale().equalsIgnoreCase(messageLocale);
   }
 
   /**
