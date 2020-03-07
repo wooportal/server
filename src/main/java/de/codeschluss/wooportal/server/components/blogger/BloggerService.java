@@ -12,6 +12,7 @@ import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.NotImplementedException;
@@ -201,5 +202,20 @@ public class BloggerService extends ResourceDataService<BloggerEntity, BloggerQu
    */
   public void deleteByUser(String userId) {
     repo.delete(getByUser(userId));
+  }
+
+  /**
+   * Gets the by blog.
+   *
+   * @param blogId the blog id
+   * @return the by blog
+   */
+  public Object getByBlog(String blogId) {
+    Optional<BloggerEntity> blogger = repo.findOne(entities.withBlog(blogId));
+    if (blogger.isPresent()) {
+      return assembler.toResource(blogger.get()); 
+    } else {
+      throw new NotFoundException(blogId);
+    }
   }
 }

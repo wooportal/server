@@ -224,6 +224,17 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   }
   
   /**
+   * Read blogger.
+   *
+   * @param blogId the blog id
+   * @return the response entity
+   */
+  @GetMapping("/blogs/{blogId}/blogger")
+  public ResponseEntity<?> readBlogger(@PathVariable String blogId) {
+    return ok(bloggerService.getByBlog(blogId));
+  }
+  
+  /**
    * Read translations.
    *
    * @param blogId

@@ -45,4 +45,14 @@ public class BloggerQueryBuilder extends QueryBuilder<QBloggerEntity> {
     return query.user.id.eq(userId);
   }
 
+  /**
+   * With blog.
+   *
+   * @param blogId the blog id
+   * @return the predicate
+   */
+  public Predicate withBlog(String blogId) {
+    return query.blogs.any().id.eq(blogId);
+  }
+
 }
