@@ -170,7 +170,9 @@ public class BingMapService {
     addTravelMode(builder, params.getTravelMode());
     addStartPoint(builder, params.getStartPoint());
     addVia(builder, params.getVia());
+    addRouteOptions(builder);
     addLocale(builder);
+    
     addTargetPoint(builder, params.getVia(), params.getTargetPoint());
     addKey(builder);
     
@@ -233,18 +235,12 @@ public class BingMapService {
   }
   
   /**
-   * Extract route result.
+   * Adds the route options.
    *
-   * @param result the result
-   * @return the route resource
+   * @param builder the builder
    */
-  private RouteResource extractRouteResult(BingMapLocationResult result) {
-    for (RouteResourceSet resourceSet : result.getResourceSets()) {
-      if (resourceSet.getEstimatedTotal() > 0) {
-        return resourceSet.getResources().get(0);
-      }
-    }
-    throw new NotFoundException("Route not found");
+  private void addRouteOptions(UriComponentsBuilder builder) {
+    builder.queryParam("routeAttributes", "routePath");
   }
   
   /**
@@ -263,6 +259,21 @@ public class BingMapService {
     } else {
       builder.queryParam("wayPoint." + via.size(), targetPoint.toString()); 
     }
+  }
+  
+  /**
+   * Extract route result.
+   *
+   * @param result the result
+   * @return the route resource
+   */
+  private RouteResource extractRouteResult(BingMapLocationResult result) {
+    for (RouteResourceSet resourceSet : result.getResourceSets()) {
+      if (resourceSet.getEstimatedTotal() > 0) {
+        return resourceSet.getResources().get(0);
+      }
+    }
+    throw new NotFoundException("Route not found");
   }
 
   /**

@@ -1,7 +1,6 @@
 package de.codeschluss.wooportal.server.core.location.model.address;
 
 import java.util.List;
-import java.util.Map;
 import lombok.Data;
 
 /**
@@ -22,5 +21,4 @@ public class AddressResource {
   private String entityType;
   private List<GeocodePoint> geocodePoints;
   private List<String> matchCodes;
-  private Map<String, Object> additionalProperties;
 }

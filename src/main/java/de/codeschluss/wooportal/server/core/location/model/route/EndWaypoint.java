@@ -2,7 +2,6 @@
 package de.codeschluss.wooportal.server.core.location.model.route;
 
 import java.util.List;
-import java.util.Map;
 import lombok.Data;
 
 @Data
@@ -14,5 +13,5 @@ public class EndWaypoint {
   private Boolean isVia;
   private String locationIdentifier;
   private Integer routePathIndex;
-  private Map<String, Object> additionalProperties;
+  
 }

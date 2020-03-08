@@ -2,7 +2,6 @@
 package de.codeschluss.wooportal.server.core.location.model.route;
 
 import java.util.List;
-import java.util.Map;
 import lombok.Data;
 
 @Data
@@ -24,6 +23,5 @@ public class ItineraryItem {
   private Integer travelDuration;
   private String travelMode;
   private List<Hint> hints;
-  private Map<String, Object> additionalProperties;
 
 }

@@ -1,6 +1,5 @@
 package de.codeschluss.wooportal.server.core.location.model;
 
-import java.util.Map;
 import lombok.Data;
 
 @Data
@@ -12,5 +11,5 @@ public class BingMapResult {
   protected Integer statusCode;
   protected String statusDescription;
   protected String traceId;
-  protected Map<String, Object> additionalProperties;
+  
 }

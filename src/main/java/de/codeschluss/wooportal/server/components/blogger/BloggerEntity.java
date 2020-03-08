@@ -6,6 +6,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.user.UserController;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
@@ -19,6 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +48,11 @@ public class BloggerEntity extends BaseResource {
 
   private static final long serialVersionUID = 1L;
   
+  @JsonSerialize
+  @JsonDeserialize
+  @Transient
+  private String name;
+  
   @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
   @JsonProperty(access = Access.READ_ONLY)
   private boolean approved;
@@ -59,6 +67,10 @@ public class BloggerEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   private List<BlogEntity> blogs;
+  
+  public String getName() {
+    return getUser().getName();
+  }
 
   @Override
   public List<Link> createResourceLinks() {

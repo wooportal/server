@@ -5,8 +5,9 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ActualStart {
+public class Line {
 
-  private String type;
-  private List<Double> coordinates;
+  public String type;
+  public List<List<Double>> coordinates;
+
 }

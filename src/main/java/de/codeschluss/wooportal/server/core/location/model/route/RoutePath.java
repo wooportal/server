@@ -5,8 +5,9 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ActualStart {
+public class RoutePath {
 
-  private String type;
-  private List<Double> coordinates;
+  public List<Object> generalizations;
+  public Line line;
+
 }

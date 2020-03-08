@@ -1,7 +1,5 @@
 package de.codeschluss.wooportal.server.core.location.model.address;
 
-import java.util.HashMap;
-import java.util.Map;
 import lombok.Data;
 
 /**
@@ -20,7 +18,6 @@ public class Address {
   private String formattedAddress;
   private String locality;
   private String postalCode;
-  private Map<String, Object> additionalProperties = new HashMap<String, Object>();
   
   private String houseNumber;
   private String street;
