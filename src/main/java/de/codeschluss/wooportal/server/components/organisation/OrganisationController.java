@@ -430,7 +430,7 @@ public class OrganisationController
    * @return the response entity
    */
   @PostMapping("/organisations/{organisationId}/videos")
-  @OrgaAdminOrSuperUserPermission
+//  @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> addVideos(@PathVariable String organisationId,
       @RequestBody List<VideoEntity> videos) {
     validateVideos(videos);
@@ -446,8 +446,8 @@ public class OrganisationController
     if (videos == null || videos.isEmpty()) {
       throw new BadParamsException("Video must not be null");
     }
-    for (VideoEntity image : videos) {
-      if (!videoService.validCreateFieldConstraints(image)) {
+    for (VideoEntity video : videos) {
+      if (!videoService.validCreateFieldConstraints(video)) {
         throw new BadParamsException("Video is missing field");
       }
     }
@@ -461,11 +461,11 @@ public class OrganisationController
    * @return the response entity
    */
   @DeleteMapping("/organisations/{organisationId}/videos")
-  @OrgaAdminOrSuperUserPermission
+//  @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> deleteVideos(@PathVariable String organisationId,
       @RequestParam(value = "videoIds", required = true) List<String> videoIds) {
     try {
-      if (videoService.areOrgaVideos(organisationId, videoIds)) {
+      if (videoService.belongsToOrga(organisationId, videoIds)) {
         videoService.deleteAll(videoIds);
         return noContent().build();
       } else {

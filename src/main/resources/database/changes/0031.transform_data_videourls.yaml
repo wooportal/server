@@ -10,6 +10,6 @@ databaseChangeLog:
         splitStatements: true
         sql:
             /*!40101 SET character_set_client = utf8 */;
-            insert into videos (id, created, modified, url, platform, organisation_id)
-            select uuid(), t1.created, t1.modified, t1.video_url, 'youtube', t1.id
+            insert into videos (id, created, modified, url, organisation_id)
+            select uuid(), t1.created, t1.modified, t1.video_url, t1.id
             from organisations t1 where t1.video_url is not null and t1.video_url <> '';

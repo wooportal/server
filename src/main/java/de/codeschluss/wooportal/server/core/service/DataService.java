@@ -3,6 +3,7 @@ package de.codeschluss.wooportal.server.core.service;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -163,6 +164,17 @@ public abstract class DataService<E extends BaseEntity, B extends QueryBuilder<?
    */
   public void deleteAll(List<String> ids) {
     ids.forEach(id -> repo.deleteById(id));
+  }
+  
+  /**
+   * Delete existing.
+   *
+   * @param entity the entity
+   */
+  public void deleteExisting(E entity) {
+    if (entity != null && existsById(entity.getId())) {
+      delete(entity.getId());
+    }
   }
 
   /**

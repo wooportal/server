@@ -24,11 +24,13 @@ databaseChangeLog:
             name: modified
             type: datetime
         - column:
+            constraints:
+              nullable: true
+            name: image_id
+            type: CHAR(36)
+        - column:
             name: url
             type: VARCHAR(512)
-        - column:
-            name: platform
-            type: VARCHAR(255)
         - column:
             constraints:
               nullable: false
@@ -61,4 +63,14 @@ databaseChangeLog:
         onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: organisations
+        validate: true
+    - addForeignKeyConstraint:
+        baseColumnNames: image_id
+        baseTableName: videos
+        constraintName: CONSTRAINT_A7B0132B
+        deferrable: false
+        initiallyDeferred: false
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: images
         validate: true

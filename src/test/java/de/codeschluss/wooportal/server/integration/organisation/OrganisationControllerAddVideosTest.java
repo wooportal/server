@@ -95,7 +95,6 @@ public class OrganisationControllerAddVideosTest {
   private VideoEntity newVideoEntity() {
     VideoEntity video = new VideoEntity();
     video.setUrl("testUrl");
-    video.setPlatform("testPlatform");
     return video;
   }
   

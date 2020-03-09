@@ -58,10 +58,10 @@ public class ImageEntity extends BaseResource {
    * @return the image data
    */
   public String getImageData() {
-    if (this.imageData != null) {
-      return this.imageData;
+    if (imageData != null) {
+      return imageData;
     }
-    if (this.image != null) {
+    if (image != null) {
       return Base64Utils.encodeToString(image);
     }
     return null;
