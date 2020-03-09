@@ -38,13 +38,13 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
   }
   
   @Override
-  public boolean validCreateFieldConstraints(ImageEntity newOrgaImage) {
-    return validFields(newOrgaImage);
+  public boolean validCreateFieldConstraints(ImageEntity newImage) {
+    return validFields(newImage);
   }
   
   @Override
-  public boolean validUpdateFieldConstraints(ImageEntity newOrgaImage) {
-    return validFields(newOrgaImage);
+  public boolean validUpdateFieldConstraints(ImageEntity newImage) {
+    return validFields(newImage);
   }
 
   /**

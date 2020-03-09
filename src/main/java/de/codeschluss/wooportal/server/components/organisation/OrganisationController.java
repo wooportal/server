@@ -353,11 +353,6 @@ public class OrganisationController
     }
   }
   
-  @GetMapping("/organisations/{organisationId}/videos")
-  public ResponseEntity<?> readVideos(@PathVariable String organisationId) {
-    return ok(this.service.getVideos(organisationId));
-  }
-  
   /**
    * Read images.
    *
@@ -396,12 +391,9 @@ public class OrganisationController
       throw new BadParamsException("Image File must not be null");
     }
     for (ImageEntity image : images) {
-      if (!imageService.validCreateFieldConstraints(image)) {
-        throw new BadParamsException("Image or Mime Type with correct form required");
-      }
+      validateImage(image);
     }
   }
-
 
   /**
    * Delete images.
@@ -422,6 +414,11 @@ public class OrganisationController
     }
   }
   
+  @GetMapping("/organisations/{organisationId}/videos")
+  public ResponseEntity<?> readVideos(@PathVariable String organisationId) {
+    return ok(this.service.getVideos(organisationId));
+  }
+  
   /**
    * Adds the videos.
    *
@@ -430,12 +427,11 @@ public class OrganisationController
    * @return the response entity
    */
   @PostMapping("/organisations/{organisationId}/videos")
-//  @OrgaAdminOrSuperUserPermission
+  @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> addVideos(@PathVariable String organisationId,
       @RequestBody List<VideoEntity> videos) {
     validateVideos(videos);
     try {
-      
       return ok(videoService.addAll(videos, service.getById(organisationId)));
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
@@ -461,7 +457,7 @@ public class OrganisationController
    * @return the response entity
    */
   @DeleteMapping("/organisations/{organisationId}/videos")
-//  @OrgaAdminOrSuperUserPermission
+  @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> deleteVideos(@PathVariable String organisationId,
       @RequestParam(value = "videoIds", required = true) List<String> videoIds) {
     try {
@@ -476,6 +472,44 @@ public class OrganisationController
     }
   }
   
+  @GetMapping("/organisations/{organisationId}/videos/{videoId}/thumbnail")
+  public ResponseEntity<?> readVideoThumbnail(
+      @PathVariable String organisationId,
+      @PathVariable String videoId) {
+    return ok(videoService.getThumbnail(videoId));
+  }  
+  
+  /**
+   * Adds the video thumbnail.
+   *
+   * @param organisationId the organisation id
+   * @param videoId the video id
+   * @param thumbnail the image
+   * @return the response entity
+   */
+  @PostMapping("/organisations/{organisationId}/videos/{videoId}/thumbnail")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> addVideoThumbnail(
+      @PathVariable String organisationId,
+      @PathVariable String videoId,
+      @RequestBody ImageEntity thumbnail) {
+    validateImage(thumbnail);
+    try {
+      if (videoService.belongsToOrga(organisationId, videoId)) {
+        return ok(videoService.addThumbnail(videoId, imageService.add(thumbnail)));
+      } else {
+        throw new BadParamsException("Video do not belong to Organisation");
+      }
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Organisation does not exist");
+    }
+  }
+  
+  private void validateImage(ImageEntity image) {
+    if (!imageService.validCreateFieldConstraints(image)) {
+      throw new BadParamsException("Image or Mime Type with correct form required");
+    }
+  }
   
   /**
    * Increase like.

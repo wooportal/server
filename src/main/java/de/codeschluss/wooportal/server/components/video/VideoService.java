@@ -2,6 +2,7 @@ package de.codeschluss.wooportal.server.components.video;
 
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
@@ -61,7 +62,6 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
     return newVideos.stream().map(video -> {
       try {
         video.setOrganisation(organisation);
-        setImage(video);
         return add(video);
       } catch (ServiceUnavailableException e) {
         return null;
@@ -73,7 +73,6 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
   public VideoEntity update(String id, VideoEntity updatedEntity) {
     return repo.findById(id).map(video -> {
       video.setUrl(updatedEntity.getUrl());
-      setImage(video);
       return repo.save(video);
     }).orElseGet(() -> {
       updatedEntity.setId(id);
@@ -81,21 +80,19 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
     });
   }
   
-  private void setImage(VideoEntity video) {
-    if (hasValidThumbnailData(video)) {
-      imageService.deleteExisting(video.getImage());
-      ImageEntity image = new ImageEntity();
-      image.setImageData(video.getThumbnail());
-      image.setCaption(video.getThumbnailCaption());
-      image.setMimeType(video.getThumbnailMimeType());
-      
-      video.setImage(imageService.add(image));
-    }
-  }
+  /**
+   * Adds the thumbnail.
+   *
+   * @param videoId the video id
+   * @param thumbnail the thumbnail
+   * @return the video entity
+   */
+  public VideoEntity addThumbnail(String videoId, ImageEntity thumbnail) {
+    VideoEntity video = getById(videoId);
+    imageService.deleteExisting(video.getThumbnail());
 
-  private boolean hasValidThumbnailData(VideoEntity video) {
-    return video.getThumbnail() != null && !video.getThumbnail().isEmpty()
-        && video.getThumbnailMimeType() != null && !video.getThumbnailMimeType().isEmpty();
+    video.setThumbnail(thumbnail);
+    return repo.save(video);
   }
 
   /**
@@ -107,12 +104,36 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
    */
   public boolean belongsToOrga(String organisationId, List<String> videoIds) {
     for (String id : videoIds) {
-      Optional<VideoEntity> video = repo.findOne(entities.withIdAndOrgaId(id, organisationId));
-      
-      if (!video.isPresent()) {
+      if (!belongsToOrga(organisationId, id)) {
         return false;
       }
     }
     return true;
+  }
+  
+  /**
+   * Belongs to orga.
+   *
+   * @param organisationId the organisation id
+   * @param videoId the video id
+   * @return true, if successful
+   */
+  public boolean belongsToOrga(String organisationId, String videoId) {
+    Optional<VideoEntity> video = repo.findOne(entities.withIdAndOrgaId(videoId, organisationId));
+    return video.isPresent();
+  }
+
+  /**
+   * Gets the thumbnail.
+   *
+   * @param videoId the video id
+   * @return the thumbnail
+   */
+  public ImageEntity getThumbnail(String videoId) {
+    ImageEntity thumbnail = getById(videoId).getThumbnail();
+    if (thumbnail != null) {
+      return thumbnail;
+    }
+    throw new NotFoundException("No thumbnail found");
   }
 }

@@ -26,7 +26,7 @@ databaseChangeLog:
         - column:
             constraints:
               nullable: true
-            name: image_id
+            name: thumbnail_id
             type: CHAR(36)
         - column:
             name: url
@@ -65,12 +65,13 @@ databaseChangeLog:
         referencedTableName: organisations
         validate: true
     - addForeignKeyConstraint:
-        baseColumnNames: image_id
+        baseColumnNames: thumbnail_id
         baseTableName: videos
         constraintName: CONSTRAINT_A7B0132B
         deferrable: false
         initiallyDeferred: false
         onUpdate: CASCADE
+        onDelete: SET NULL
         referencedColumnNames: id
         referencedTableName: images
         validate: true
