@@ -28,6 +28,10 @@ public class VideoQueryBuilder extends QueryBuilder<QVideoEntity> {
   }
 
   public Predicate withIdAndOrgaId(String id, String organisationId) {
-    return query.id.eq(id).and(query.organisation.id.eq(organisationId));
+    return query.id.eq(id).and(withOrgaId(organisationId));
+  }
+
+  public Predicate withOrgaId(String organisationId) {
+    return query.organisation.id.eq(organisationId);
   }
 }

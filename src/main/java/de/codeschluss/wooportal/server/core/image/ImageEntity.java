@@ -66,6 +66,11 @@ public class ImageEntity extends BaseResource {
     }
     return null;
   }
+  
+  public void setImage(byte[] image) {
+    this.image = image;
+    this.imageData = Base64Utils.encodeToString(this.image);
+  }
 
   @Override
   public List<Link> createResourceLinks() {

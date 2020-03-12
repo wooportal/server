@@ -1,6 +1,8 @@
 package de.codeschluss.wooportal.server.components.video;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
@@ -11,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,6 +50,16 @@ public class VideoEntity extends BaseResource {
   @JsonIgnore
   @JoinColumn(nullable = false)
   private OrganisationEntity organisation;
+  
+  @Transient
+  @JsonSerialize
+  @JsonDeserialize
+  private String thumbnailUrl;
+  
+  @Transient
+  @JsonSerialize
+  @JsonDeserialize
+  private String thumbnailCaption;
   
   @Override
   public List<Link> createResourceLinks() {

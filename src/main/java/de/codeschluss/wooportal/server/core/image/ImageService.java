@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import javax.imageio.ImageIO;
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Method;
@@ -78,13 +79,17 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
   
   private ImageEntity setImageDate(ImageEntity image) {
     try {
-      byte[] resizedImage = resize(image);
+      byte[] resizedImage = resizeImage(image);
       image.setImage(resizedImage);
-      image.setImageData(Base64Utils.encodeToString(resizedImage));
       return image;
     } catch (IOException e) {
       return null;
     }
+  }
+  
+  private String extractFormatFromMimeType(String mimeType) {
+    String[] parts = mimeType.split("/");
+    return parts[1];
   }
  
   /**
@@ -94,29 +99,63 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
    * @return the byte[]
    * @throws IOException Signals that an I/O exception has occurred.
    */
-  public byte[] resize(ImageEntity image) throws IOException {
+  public byte[] resizeImage(ImageEntity image) throws IOException {
+    if (image.getImage() != null && image.getImage().length > 1) {
+      return image.getImage();
+    }
+    
     byte[] imageByte = Base64Utils.decodeFromString(image.getImageData());
     if (imageByte == null || imageByte.length == 1) {
       return null;
     }
 
+    String formatType = extractFormatFromMimeType(image.getMimeType());
     ByteArrayInputStream inputStream = new ByteArrayInputStream(imageByte);
     BufferedImage imageBuff = ImageIO.read(inputStream);
     
-    if (imageBuff.getHeight() <= config.getMaxHeight()
-        && imageBuff.getWidth() <= config.getMaxWidth()) {
-      return imageByte;
-    }
+    return needsResize(imageBuff)
+        ? resize(imageBuff, formatType)
+        : imageByte;
+  }
+  
+  public String extractFormatFromUrl(String imageUrl) {
+    String[] splitUrl = imageUrl.split(".");
+    return splitUrl[splitUrl.length - 1];
+  }
+
+  /**
+   * Gets the image data from url.
+   *
+   * @param imageUrl the image url
+   * @return the image data from url
+   * @throws IOException Signals that an I/O exception has occurred.
+   */
+  public byte[] getImageFromUrl(String imageUrl, String formatType) 
+      throws IOException {
+    URL url = new URL(imageUrl);
+    BufferedImage imageBuff = ImageIO.read(url);
+    return needsResize(imageBuff)
+        ? resize(imageBuff, formatType)
+        : convertToByte(imageBuff, formatType);
+  }
+  
+  private boolean needsResize(BufferedImage imageBuff) {
+    return imageBuff.getHeight() >= config.getMaxHeight()
+        || imageBuff.getWidth() >= config.getMaxWidth();
+  }
+  
+  private byte[] resize(BufferedImage imageBuff, String formatType) 
+      throws IOException {
     BufferedImage resized = Scalr.resize(
         imageBuff, Method.ULTRA_QUALITY, config.getMaxWidth(), config.getMaxWidth());
     
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    ImageIO.write(resized, extractFormatType(image.getMimeType()), outputStream);
-    return outputStream.toByteArray();
+    return convertToByte(resized, formatType);
   }
   
-  private String extractFormatType(String mimeType) {
-    String[] parts = mimeType.split("/");
-    return parts[1];
+  private byte[] convertToByte(BufferedImage image, String mimeType) 
+      throws IOException {
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    ImageIO.write(image, mimeType, outputStream);
+    return outputStream.toByteArray();
   }
 }

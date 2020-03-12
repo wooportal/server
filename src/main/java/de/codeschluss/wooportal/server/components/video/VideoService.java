@@ -6,15 +6,20 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.naming.ServiceUnavailableException;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 
 /**
  * The Class VideoService.
- *  
+ * 
  * @author Valmir Etemi
  */
 @Service
@@ -22,12 +27,9 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
 
   /** The image service. */
   private final ImageService imageService;
-  
-  public VideoService(
-      VideoRepository repo,
-      VideoQueryBuilder entities,
-      PagingAndSortingAssembler assembler,
-      ImageService imageService) {
+
+  public VideoService(VideoRepository repo, VideoQueryBuilder entities,
+      PagingAndSortingAssembler assembler, ImageService imageService) {
     super(repo, entities, assembler);
     this.imageService = imageService;
   }
@@ -46,11 +48,37 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
   public boolean validUpdateFieldConstraints(VideoEntity video) {
     return validFields(video);
   }
-  
+
   public boolean validFields(VideoEntity video) {
     return video.getUrl() != null && !video.getUrl().isEmpty();
   }
   
+  /**
+   * Gets the resources with embeddables.
+   *
+   * @param orgaId the orga id
+   * @return the resources with embeddables
+   */
+  public Resources<?> getResourcesWithEmbeddables(String orgaId) {
+    List<VideoEntity> result = repo.findAll(entities.withOrgaId(orgaId));
+    
+    if (result == null || result.isEmpty()) {
+      throw new NotFoundException("No videos found");
+    }
+    
+    List<Resource<?>> embeddedVideos = result.stream().map(video -> {
+      ImageEntity thumbnail = video.getThumbnail(); 
+      if (thumbnail != null) {
+        Map<String, Object> embedded = new HashMap<>();
+        embedded.put("thumbnail", thumbnail);
+        return assembler.resourceWithEmbeddable(video, embedded); 
+      }
+      return video.toResource();
+    }).collect(Collectors.toList());
+    
+    return assembler.toListResources(embeddedVideos, null);
+  }
+
   /**
    * Adds the all.
    *
@@ -62,11 +90,25 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
     return newVideos.stream().map(video -> {
       try {
         video.setOrganisation(organisation);
+        video.setThumbnail(getThumbnail(video));
         return add(video);
       } catch (ServiceUnavailableException e) {
         return null;
       }
     }).collect(Collectors.toList());
+  }
+
+  private ImageEntity getThumbnail(VideoEntity video) {
+    try {
+      ImageEntity image = new ImageEntity();
+      String formatType = imageService.extractFormatFromUrl(video.getThumbnailUrl());
+      image.setMimeType("image/" + formatType);
+      image.setImage(imageService.getImageFromUrl(video.getThumbnailUrl(), formatType));
+      image.setCaption(video.getThumbnailCaption());
+      return imageService.add(image);
+    } catch (IOException e) {
+      return null;
+    }
   }
 
   @Override
@@ -79,7 +121,7 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
       return repo.save(updatedEntity);
     });
   }
-  
+
   /**
    * Adds the thumbnail.
    *
@@ -103,37 +145,14 @@ public class VideoService extends ResourceDataService<VideoEntity, VideoQueryBui
    * @return true, if successful
    */
   public boolean belongsToOrga(String organisationId, List<String> videoIds) {
-    for (String id : videoIds) {
-      if (!belongsToOrga(organisationId, id)) {
+    for (String videoId : videoIds) {
+      Optional<VideoEntity> video = 
+          repo.findOne(entities.withIdAndOrgaId(videoId, organisationId));
+      if (!video.isPresent()) {
         return false;
       }
     }
     return true;
   }
   
-  /**
-   * Belongs to orga.
-   *
-   * @param organisationId the organisation id
-   * @param videoId the video id
-   * @return true, if successful
-   */
-  public boolean belongsToOrga(String organisationId, String videoId) {
-    Optional<VideoEntity> video = repo.findOne(entities.withIdAndOrgaId(videoId, organisationId));
-    return video.isPresent();
-  }
-
-  /**
-   * Gets the thumbnail.
-   *
-   * @param videoId the video id
-   * @return the thumbnail
-   */
-  public ImageEntity getThumbnail(String videoId) {
-    ImageEntity thumbnail = getById(videoId).getThumbnail();
-    if (thumbnail != null) {
-      return thumbnail;
-    }
-    throw new NotFoundException("No thumbnail found");
-  }
 }
