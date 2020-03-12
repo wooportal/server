@@ -119,6 +119,7 @@ public class OrganisationEntity extends BaseResource {
   protected Set<OrganisationTranslatablesEntity> translatables;
   
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
+  @JsonIgnore
   private List<VideoEntity> videos;
 
   private String website;
