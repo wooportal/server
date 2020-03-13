@@ -119,7 +119,7 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
   }
   
   public String extractFormatFromUrl(String imageUrl) {
-    String[] splitUrl = imageUrl.split(".");
+    String[] splitUrl = imageUrl.split("\\.");
     return splitUrl[splitUrl.length - 1];
   }
 

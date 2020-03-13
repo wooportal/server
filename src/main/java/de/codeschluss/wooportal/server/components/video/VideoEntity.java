@@ -21,6 +21,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.core.Relation;
 
 /**
  * The Class VideoEntity.
@@ -33,6 +34,7 @@ import org.springframework.hateoas.Link;
 @AllArgsConstructor
 @Entity
 @Table(name = "videos")
+@Relation(collectionRelation = "data")
 public class VideoEntity extends BaseResource {
 
   private static final long serialVersionUID = 1L;
