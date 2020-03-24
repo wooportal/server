@@ -26,18 +26,18 @@ public class AnalyticsController {
     return ok(analyticsService.calculateActivitiesPerCategory(current));
   }
   
-  @GetMapping("/analytic/activities/targetgroups")
-  @SuperUserPermission
-  public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerTargetGroup(
-      BooleanPrimitive current) {
-    return ok(analyticsService.calculateActivitiesPerTargetGroup(current));
-  }
-  
   @GetMapping("/analytic/activities/suburbs")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerSuburbs(
       BooleanPrimitive current) {
     return ok(analyticsService.calculateActivitiesPerSuburb(current));
+  }
+  
+  @GetMapping("/analytic/activities/targetgroups")
+  @SuperUserPermission
+  public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerTargetGroup(
+      BooleanPrimitive current) {
+    return ok(analyticsService.calculateActivitiesPerTargetGroup(current));
   }
   
   @GetMapping("/analytic/subscriptions")

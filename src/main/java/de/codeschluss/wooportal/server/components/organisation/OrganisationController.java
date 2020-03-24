@@ -146,7 +146,7 @@ public class OrganisationController
    * @return the response entity
    */
   @PutMapping("/organisations/{organisationId}/approve")
-//  @SuperUserPermission
+  @SuperUserPermission
   public ResponseEntity<?> grantApproval(
       @PathVariable String organisationId,
       @RequestBody BooleanPrimitive isApproved) {
