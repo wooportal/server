@@ -8,6 +8,8 @@ import de.codeschluss.wooportal.server.components.push.subscription.Subscription
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
 import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeService;
+import de.codeschluss.wooportal.server.components.suburb.SuburbEntity;
+import de.codeschluss.wooportal.server.components.suburb.SuburbService;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupService;
 import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
@@ -28,6 +30,9 @@ public class AnalyticsService {
   /** The category service. */
   private final CategoryService categoryService;
   
+  /** The suburb service. */
+  private final SuburbService suburbService;
+  
   /** The subscription service. */
   private final SubscriptionService subscriptionService;
   
@@ -47,12 +52,14 @@ public class AnalyticsService {
   public AnalyticsService(
       ActivityService activityService,
       CategoryService categoryService,
+      SuburbService suburbService,
       SubscriptionService subscriptionService,
       SubscriptionTypeService subscriptionTypeService,
       TargetGroupService targetGroupService,
       TranslationService translationService) {
     this.activityService = activityService;
     this.categoryService = categoryService;
+    this.suburbService = suburbService;
     this.subscriptionService = subscriptionService;
     this.subscriptionTypeService = subscriptionTypeService;
     this.targetGroupService = targetGroupService; 
@@ -98,6 +105,31 @@ public class AnalyticsService {
           Double value = data.get(targetGroup);
           data.put(targetGroup, value + 1);
         }
+      }
+    }
+    
+    return data.entrySet()
+        .stream()
+        .map(entry -> new AnalyticsEntry(
+            entry.getKey().getName(), entry.getValue(), null))
+        .sorted()
+        .collect(Collectors.toList());
+  }
+  
+  /**
+   * Calculate activities per suburb.
+   *
+   * @param current the current
+   * @return the object
+   */
+  public List<AnalyticsEntry> calculateActivitiesPerSuburb(BooleanPrimitive current) {
+    Map<SuburbEntity, Double> data = createContainer(suburbService);
+    List<ActivityEntity> activities = activityService.getByCurrent(current);
+    if (activities != null && !activities.isEmpty()) {
+      for (ActivityEntity activity : activities) {
+        SuburbEntity suburb = activity.getAddress().getSuburb();
+        Double value = data.get(suburb);
+        data.put(suburb, value + 1);
       }
     }
     
