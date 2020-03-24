@@ -313,7 +313,7 @@ public class ProviderService extends DataService<ProviderEntity, ProviderQueryBu
     List<ProviderEntity> adminProviders = getOrgaAdminProviders(provider.getOrganisation());
     List<String> toMails = adminProviders == null || adminProviders.isEmpty()
         ? userService.getSuperUserMailAddresses()
-        : userService.getMailsByProviders(adminProviders);
+        : userService.getMailsForProviders(adminProviders);
     sendApplicationUserMail(provider, toMails);
   }
   

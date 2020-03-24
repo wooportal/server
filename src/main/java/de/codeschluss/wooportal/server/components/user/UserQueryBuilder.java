@@ -1,5 +1,6 @@
 package de.codeschluss.wooportal.server.components.user;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
@@ -55,6 +56,16 @@ public class UserQueryBuilder extends QueryBuilder<QUserEntity> {
    */
   public BooleanExpression withAnyOfProviders(List<ProviderEntity> providers) {
     return query.providers.any().in(providers);
+  }
+  
+  /**
+   * With orga id.
+   *
+   * @param id the id
+   * @return the boolean expression
+   */
+  public BooleanExpression withOrgaId(String id) {
+    return query.providers.any().organisation.id.eq(id);
   }
 
   /**

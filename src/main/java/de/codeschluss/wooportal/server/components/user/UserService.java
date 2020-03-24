@@ -1,5 +1,6 @@
 package de.codeschluss.wooportal.server.components.user;
 
+import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
@@ -251,14 +252,31 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
   }
 
   /**
-   * Gets the mails by providers.
+   * Gets the mails for providers.
    *
-   * @param adminProviders
-   *          the admin providers
-   * @return the mails by providers
+   * @param adminProviders the admin providers
+   * @return the mails for providers
    */
-  public List<String> getMailsByProviders(List<ProviderEntity> adminProviders) {
+  public List<String> getMailsForProviders(List<ProviderEntity> adminProviders) {
     return adminProviders.stream().map(provider -> provider.getUser().getUsername())
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * Gets the mails for organisation.
+   *
+   * @param orga the orga
+   * @return the mails for organisation
+   */
+  public List<String> getMailsForOrganisation(OrganisationEntity orga) {
+    List<UserEntity> orgaUsers = repo.findAll(entities.withOrgaId(orga.getId()));
+    
+    if (orgaUsers == null) {
+      throw new NotFoundException(orga.getId());
+    }
+    
+    return orgaUsers.stream()
+        .map(user -> user.getUsername())
         .collect(Collectors.toList());
   }
 }

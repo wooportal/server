@@ -6,10 +6,12 @@ import com.querydsl.core.types.Predicate;
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
+import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
+import de.codeschluss.wooportal.server.core.mail.MailService;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.io.IOException;
 import java.util.HashMap;
@@ -33,19 +35,29 @@ import org.springframework.transaction.annotation.Transactional;
 public class OrganisationService
     extends ResourceDataService<OrganisationEntity, OrganisationQueryBuilder> {
 
+  /** The mail service. */
+  private final MailService mailService;
+
+  /** The user service. */
+  private final UserService userService;
+  
   /**
    * Instantiates a new organisation service.
    *
-   * @param repo
-   *          the repo
-   * @param assembler
-   *          the assembler
+   * @param repo the repo
+   * @param entities the entities
+   * @param assembler the assembler
+   * @param mailService the mail service
    */
   public OrganisationService(
       OrganisationRepository repo, 
       OrganisationQueryBuilder entities,
-      PagingAndSortingAssembler assembler) {
+      PagingAndSortingAssembler assembler,
+      MailService mailService,
+      UserService userService) {
     super(repo, entities, assembler);
+    this.mailService = mailService;
+    this.userService = userService;
   }
 
   /**
@@ -178,7 +190,22 @@ public class OrganisationService
   public void setApproval(String organisationId, Boolean isApproved) {
     OrganisationEntity organisation = getById(organisationId);
     organisation.setApproved(isApproved);
+    if (isApproved) {
+      this.sendApprovalMail(organisation);
+    }
     repo.save(organisation);
+  }
+
+  private boolean sendApprovalMail(OrganisationEntity orga) {
+    Map<String, Object> model = new HashMap<>();
+    model.put("name", orga.getName());
+    String subject = "Organisation bestätigt";
+
+    return mailService.sendEmail(
+        subject, 
+        "organisationapproved.ftl", 
+        model, 
+        userService.getMailsForOrganisation(orga).toArray(new String[0]));
   }
 
   /**

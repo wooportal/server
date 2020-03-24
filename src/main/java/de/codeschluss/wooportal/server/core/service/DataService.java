@@ -3,7 +3,6 @@ package de.codeschluss.wooportal.server.core.service;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import java.util.List;
 import java.util.stream.Collectors;
