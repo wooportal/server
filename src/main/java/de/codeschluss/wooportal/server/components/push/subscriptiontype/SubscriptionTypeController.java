@@ -5,6 +5,7 @@ import static org.springframework.http.ResponseEntity.ok;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
@@ -67,9 +68,10 @@ public class SubscriptionTypeController
 
   @Override
   @PutMapping("/subscriptiontypes/{subscriptionTypeId}")
+  @SuperUserPermission
   public ResponseEntity<?> update(@RequestBody SubscriptionTypeEntity newSubscriptionType,
       @PathVariable String subscriptionTypeId) throws URISyntaxException {
-    return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+    return super.update(newSubscriptionType, subscriptionTypeId);
   }
   
   @Override
