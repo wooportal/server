@@ -26,5 +26,5 @@ find /root /tmp -mindepth 1 -delete
 EXPOSE 8080
 WORKDIR /opt/wooportal.server
 CMD \
-  nginx -c /conf/nginx.conf && \
+  nginx -c /data/nginx.conf && \
   java -jar server.jar
