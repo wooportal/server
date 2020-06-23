@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-@Profile({"development"})
+@Profile({"development", "staging"})
 public class DummyMailServer {
   
   /** The smtp server. */
