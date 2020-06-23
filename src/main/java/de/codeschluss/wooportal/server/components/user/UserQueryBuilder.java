@@ -1,15 +1,10 @@
 package de.codeschluss.wooportal.server.components.user;
 
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
-import de.codeschluss.wooportal.server.components.user.QUserEntity;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
-
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc

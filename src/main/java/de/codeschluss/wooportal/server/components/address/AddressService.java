@@ -7,6 +7,7 @@ import de.codeschluss.wooportal.server.core.location.BingMapService;
 import de.codeschluss.wooportal.server.core.mail.MailService;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.naming.ServiceUnavailableException;
 import org.springframework.hateoas.Resource;
@@ -50,7 +51,11 @@ public class AddressService extends ResourceDataService<AddressEntity, AddressQu
 
   @Override
   public AddressEntity getExisting(AddressEntity address) {
-    return repo.findOne(entities.withAddress(address)).orElse(null);
+    List<AddressEntity> addresses = repo.findAll(entities.withAddress(address));
+    if (addresses != null && !addresses.isEmpty()) {
+      return addresses.get(0);
+    }
+    return null;
   }
   
   @Override
