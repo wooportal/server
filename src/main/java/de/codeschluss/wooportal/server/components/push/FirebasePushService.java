@@ -55,12 +55,13 @@ public class FirebasePushService {
    * @throws IOException Signals that an I/O exception has occurred.
    */
   private void initializePushService(PushConfig config) throws IOException {
-    FirebaseOptions options = new FirebaseOptions.Builder()
+    ClassPathResource firebaseConfigFile = new ClassPathResource(config.getFirebaseConfigFile());
+
+    if (firebaseConfigFile.exists() && FirebaseApp.getApps().isEmpty()) {
+      FirebaseApp.initializeApp(new FirebaseOptions.Builder()
         .setCredentials(GoogleCredentials
-            .fromStream(new ClassPathResource(config.getFirebaseConfigFile()).getInputStream()))
-        .build();
-    if (FirebaseApp.getApps().isEmpty()) {
-      FirebaseApp.initializeApp(options);
+            .fromStream(firebaseConfigFile.getInputStream()))
+        .build());
     }
   }
 
