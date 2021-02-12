@@ -148,7 +148,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
    * @param activityId the activity id
    * @return the response entity
    */
-  @PutMapping("/blogs/{activityId}/activity")
+  @PutMapping("/blogs/{blogId}/activity")
   @OwnBlogOrSuperuserPermission
   public ResponseEntity<?> updateActivity(@PathVariable String blogId,
       @RequestBody StringPrimitive activityId) {
