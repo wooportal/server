@@ -8,21 +8,12 @@ import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class LabelQueryBuilder.
- */
 @Service
 public class LabelQueryBuilder extends QueryBuilder<QLabelEntity> {
-  
-  /** The language service. */
+
   private final LanguageService languageService;
   
-  /**
-   * Instantiates a new Label query builder.
-   *
-   * @param languageService the language service
-   */
+
   public LabelQueryBuilder(LanguageService languageService) {
     super(QLabelEntity.labelEntity, "translatables.content");
     this.languageService = languageService;
