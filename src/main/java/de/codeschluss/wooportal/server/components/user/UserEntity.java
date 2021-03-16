@@ -77,6 +77,10 @@ public class UserEntity extends BaseResource {
   @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
   @JsonProperty(access = Access.READ_ONLY)
   private boolean superuser;
+  
+  @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+  @JsonProperty(access = Access.READ_ONLY)
+  private boolean translator;
 
   @Column(unique = true, nullable = false)
   private String username;

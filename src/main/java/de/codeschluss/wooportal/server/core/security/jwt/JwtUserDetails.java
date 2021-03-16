@@ -75,4 +75,8 @@ public class JwtUserDetails extends User {
   public boolean isSuperUser() {
     return this.user.isSuperuser();
   }
+
+  public boolean isTranslator() {
+    return this.user.isTranslator();
+  }
 }

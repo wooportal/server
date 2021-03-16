@@ -177,6 +177,14 @@ public class AuthorizationService {
     return false;
   }
   
+  public boolean isTranslator(Authentication authentication) {
+    if (authentication.getPrincipal() instanceof JwtUserDetails) {
+      JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
+      return jwtUserDetails.isTranslator();
+    }
+    return false;
+  }
+  
   /**
    * Validate user.
    *

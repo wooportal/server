@@ -139,6 +139,12 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
     repo.save(user);
   }
   
+  public void grantTranslator(String id, Boolean isTranslator) {
+    UserEntity user = repo.findById(id).orElseThrow(() -> new NotFoundException(id));
+    user.setTranslator(isTranslator);
+    repo.save(user);
+  }
+  
   /**
    * Reset all passwords.
    */
@@ -279,4 +285,5 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
         .map(user -> user.getUsername())
         .collect(Collectors.toList());
   }
+
 }

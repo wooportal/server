@@ -1,0 +1,13 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0037.add_column_users_translator
+    author: codeschluss
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            defaultValueBoolean: false
+            name: translator
+            type: BOOLEAN
+        tableName: users

@@ -160,6 +160,18 @@ public class UserController extends CrudController<UserEntity, UserService> {
       throw new BadParamsException("User with given ID does not exist!");
     }
   }
+  
+  @PutMapping("/users/{userId}/translator")
+  @SuperUserPermission
+  public ResponseEntity<?> grantTranslatorRight(@PathVariable String userId,
+      @RequestBody BooleanPrimitive isSuperuser) {
+    try {
+      service.grantTranslator(userId, isSuperuser.getValue());
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("User with given ID does not exist!");
+    }
+  }
 
   /**
    * Read organisations.

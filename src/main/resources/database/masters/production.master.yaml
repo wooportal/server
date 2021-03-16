@@ -74,3 +74,7 @@ databaseChangeLog:
     file: database/changes/0035.add_column_subscriptions_locale.yaml
 - include:
     file: database/changes/0036.add_data_subscriptiontypes.yaml
+- include:
+    file: database/changes/0037.add_column_users_translator.yaml
+- include:
+    file: database/changes/0038.create_tables_labels.yaml
