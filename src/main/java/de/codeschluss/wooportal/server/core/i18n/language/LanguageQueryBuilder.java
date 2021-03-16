@@ -1,15 +1,11 @@
 package de.codeschluss.wooportal.server.core.i18n.language;
 
+import java.util.List;
+import org.springframework.stereotype.Service;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
-import de.codeschluss.wooportal.server.core.i18n.language.QLanguageEntity;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
-
-import java.util.List;
-
-import org.springframework.stereotype.Service;
 
 /**
  * The Class LanguageQueryBuilder.

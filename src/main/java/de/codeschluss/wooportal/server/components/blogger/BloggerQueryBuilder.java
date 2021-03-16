@@ -1,12 +1,9 @@
 package de.codeschluss.wooportal.server.components.blogger;
 
+import org.springframework.stereotype.Service;
 import com.querydsl.core.types.Predicate;
-
-import de.codeschluss.wooportal.server.components.blogger.QBloggerEntity;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
-
-import org.springframework.stereotype.Service;
 
 /**
  * The Class BloggerQueryBuilder.

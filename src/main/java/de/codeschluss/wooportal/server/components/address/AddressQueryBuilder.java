@@ -1,12 +1,9 @@
 package de.codeschluss.wooportal.server.components.address;
 
+import org.springframework.stereotype.Service;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
-import de.codeschluss.wooportal.server.components.address.QAddressEntity;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
-
-import org.springframework.stereotype.Service;
 
 // TODO: Auto-generated Javadoc
 /**

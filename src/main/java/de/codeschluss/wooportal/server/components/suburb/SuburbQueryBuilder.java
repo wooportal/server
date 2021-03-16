@@ -1,13 +1,10 @@
 package de.codeschluss.wooportal.server.components.suburb;
 
+import org.springframework.stereotype.Service;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-
-import de.codeschluss.wooportal.server.components.suburb.QSuburbEntity;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
-
-import org.springframework.stereotype.Service;
 
 /**
  * The Class ContactQueryBuilder.
