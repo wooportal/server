@@ -33,10 +33,6 @@ public class LabelQueryBuilder extends QueryBuilder<QLabelEntity> {
   }
   
   private Predicate withLocalized(List<String> locales) {
-    String defaultLang = languageService.getDefaultLocale();
-    if (!locales.contains(defaultLang)) {
-      locales.add(defaultLang);
-    }
     return query.translatables.any().language.locale.in(locales);
   }
   
@@ -50,7 +46,7 @@ public class LabelQueryBuilder extends QueryBuilder<QLabelEntity> {
   public Predicate withTagId(String tagId) {
     return query.tagId.eq(tagId);
   }
-
+  
   public Predicate withLanguage(String languageId) {
     return query.translatables.any().language.id.eq(languageId);
   }
