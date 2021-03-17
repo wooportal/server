@@ -50,5 +50,9 @@ public class LabelQueryBuilder extends QueryBuilder<QLabelEntity> {
   public Predicate withTagId(String tagId) {
     return query.tagId.eq(tagId);
   }
+
+  public Predicate withLanguage(String languageId) {
+    return query.translatables.any().language.id.eq(languageId);
+  }
   
 }

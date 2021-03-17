@@ -1,17 +1,32 @@
 package de.codeschluss.wooportal.server.components.label;
 
+import java.io.IOException;
+import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
+import de.codeschluss.wooportal.server.core.i18n.language.LanguageEntity;
+import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
+import de.codeschluss.wooportal.server.core.i18n.xliff.Transunit;
+import de.codeschluss.wooportal.server.core.i18n.xliff.Xliff;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 
 @Service
 public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBuilder> {
 
+  private final LanguageService languageService;
+  
   public LabelService(
       LabelRepository repo, 
       LabelQueryBuilder entities,
-      PagingAndSortingAssembler assembler) {
+      PagingAndSortingAssembler assembler,
+      LanguageService languageService) {
     super(repo, entities, assembler);
+    
+    this.languageService = languageService;
   }
 
   @Override
@@ -40,5 +55,25 @@ public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBui
     });
   }
 
+  public void importLables(
+      String xmlContent, 
+      String filename) throws JsonParseException, JsonMappingException, IOException {
+    LanguageEntity language = languageService.getCurrentWriteLanguage();
+    deleteExisting(language);
+    for (Transunit unit : new XmlMapper().readValue(xmlContent, Xliff.class).getFile().getBody()) {
+      LabelEntity label = new LabelEntity();
+      label.setTagId(unit.getId());
+      label.setContent(unit.getTarget());
+      repo.save(label);
+    }
+  }
+
+  private void deleteExisting(LanguageEntity language) {
+    List<LabelEntity> result = repo.findAll(entities.withLanguage(language.getId()));
+    
+    if (result != null && !result.isEmpty()) {
+      repo.deleteAll(result);
+    }
+  }
 
 }

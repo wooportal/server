@@ -19,11 +19,6 @@ public class ImageReader {
     this.testConfig = testConfig;
   }
 
-  /**
-   * Gets the base 64 picture.
-   *
-   * @return the base 64 picture
-   */
   public String getBase64Picture() {
     return base64Pic != null
         ? base64Pic

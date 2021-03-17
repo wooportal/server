@@ -5,6 +5,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -46,7 +47,10 @@ public class LabelEntity extends BaseResource {
   @Column(nullable = false)
   private String content;
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @OneToMany(
+      fetch = FetchType.EAGER, 
+      mappedBy = "parent",
+      cascade = CascadeType.REMOVE)
   @ToString.Exclude
   @JsonIgnore
   protected Set<LabelTranslatablesEntity> translatables;

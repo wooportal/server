@@ -10,5 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class TestConfiguration {
   
   private String picturePath;
+  
+  private String xliffPath;
 
 }
