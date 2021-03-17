@@ -15,7 +15,7 @@ public class LabelQueryBuilder extends QueryBuilder<QLabelEntity> {
   
 
   public LabelQueryBuilder(LanguageService languageService) {
-    super(QLabelEntity.labelEntity, "translatables.content");
+    super(QLabelEntity.labelEntity, "tagId");
     this.languageService = languageService;
   }
 
@@ -53,6 +53,10 @@ public class LabelQueryBuilder extends QueryBuilder<QLabelEntity> {
 
   public Predicate withLanguage(String languageId) {
     return query.translatables.any().language.id.eq(languageId);
+  }
+
+  public Predicate withLanguageLocale(List<String> locales) {
+    return query.translatables.any().language.locale.in(locales);
   }
   
 }

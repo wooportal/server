@@ -1,12 +1,6 @@
 package de.codeschluss.wooportal.server.integration.label;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import de.codeschluss.wooportal.server.components.label.LabelController;
-import de.codeschluss.wooportal.server.components.label.LabelEntity;
-import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +12,11 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
+import de.codeschluss.wooportal.server.components.label.LabelController;
+import de.codeschluss.wooportal.server.components.label.LabelEntity;
+import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.exception.DuplicateEntryException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

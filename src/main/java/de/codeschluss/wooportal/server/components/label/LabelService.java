@@ -2,12 +2,14 @@ package de.codeschluss.wooportal.server.components.label;
 
 import java.io.IOException;
 import java.util.List;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
+import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageEntity;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.i18n.xliff.Transunit;
@@ -32,6 +34,19 @@ public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBui
   @Override
   public LabelEntity getExisting(LabelEntity newLabel) {
     return repo.findOne(entities.withTagId(newLabel.getTagId())).orElse(null);
+  }
+  
+  public <P extends FilterSortPaginate> List<LabelEntity> getSortedList(P params) {
+    Sort sort = entities.createSort(params);
+    List<LabelEntity> result = params.isEmptyQuery() && !entities.localized()
+        ? repo.findAll(entities.withLanguageLocale(languageService.getCurrentRequestLocales()), sort)
+        : repo.findAll(entities.search(params), sort);
+    
+    if (result == null || result.isEmpty()) {
+      throw new NotFoundException(params.toString());
+    }
+    
+    return result;
   }
   
   @Override
