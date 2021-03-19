@@ -25,11 +25,6 @@ databaseChangeLog:
             type: VARCHAR(255)
         - column:
             constraints:
-              nullable: false
-            name: content
-            type: TEXT
-        - column:
-            constraints:
               primaryKey: true
             name: id
             type: VARCHAR(255)

@@ -5,16 +5,18 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.core.Relation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.codeschluss.wooportal.server.components.label.translations.LabelTranslatablesEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
@@ -44,13 +46,14 @@ public class LabelEntity extends BaseResource {
   @Column(nullable = false, unique = true)
   private String tagId;
   
-  @Column(nullable = false)
+  @JsonSerialize
+  @JsonDeserialize
+  @Transient
   private String content;
 
   @OneToMany(
       fetch = FetchType.EAGER, 
-      mappedBy = "parent",
-      cascade = CascadeType.REMOVE)
+      mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<LabelTranslatablesEntity> translatables;

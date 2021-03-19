@@ -11,6 +11,7 @@ import de.codeschluss.wooportal.server.core.entity.BaseResource;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -201,7 +202,7 @@ public class PagingAndSortingAssembler {
           embeddables.put(node.getName(), resource);
         }
         if (helper.isValidSubList(fieldValue)) {
-          List<?> subEntities = (List<?>) fieldValue;
+          Collection<?> subEntities = (Collection<?>) fieldValue;
           Stream<Object> listResource = node.getNodes() != null && !node.getNodes().isEmpty()
               ? subEntities.stream().map(s -> toResourceWithEmbedabbles((E) s, node.getNodes()))
               : subEntities.stream().map(s -> toResource((E) s));

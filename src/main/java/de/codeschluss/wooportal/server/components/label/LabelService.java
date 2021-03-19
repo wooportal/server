@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import de.codeschluss.wooportal.server.components.label.translations.LabelTranslatableQueryBuilder;
+import de.codeschluss.wooportal.server.components.label.translations.LabelTranslatableRepository;
+import de.codeschluss.wooportal.server.components.label.translations.LabelTranslatablesEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageEntity;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
@@ -18,14 +21,22 @@ public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBui
 
   private final LanguageService languageService;
   
+  private final LabelTranslatableRepository translatableRepo;
+  
+  private final LabelTranslatableQueryBuilder translatableEntities;
+  
   public LabelService(
       LabelRepository repo, 
       LabelQueryBuilder entities,
       PagingAndSortingAssembler assembler,
-      LanguageService languageService) {
+      LanguageService languageService,
+      LabelTranslatableRepository translatableRepo,
+      LabelTranslatableQueryBuilder translatableEntities) {
     super(repo, entities, assembler);
     
     this.languageService = languageService;
+    this.translatableRepo = translatableRepo;
+    this.translatableEntities = translatableEntities;
   }
 
   @Override
@@ -57,22 +68,22 @@ public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBui
   public void importLables(
       String xmlContent, 
       String filename) throws JsonParseException, JsonMappingException, IOException {
-    LanguageEntity language = languageService.getCurrentWriteLanguage();
-    deleteExisting(language);
+//    LanguageEntity language = languageService.getCurrentWriteLanguage();
+//    deleteExisting(language);
     for (Transunit unit : new XmlMapper().readValue(xmlContent, Xliff.class).getFile().getBody()) {
-      LabelEntity label = new LabelEntity();
+      LabelEntity label = repo.findOne(entities.withTagId(unit.getId())).orElse(new LabelEntity());
       label.setTagId(unit.getId());
       label.setContent(unit.getTarget());
       repo.save(label);
     }
   }
 
-  private void deleteExisting(LanguageEntity language) {
-    List<LabelEntity> result = repo.findAll(entities.withLanguage(language.getId()));
-    
-    if (result != null && !result.isEmpty()) {
-      repo.deleteAll(result);
-    }
-  }
+//  private void deleteExisting(LanguageEntity language) {
+//    List<LabelTranslatablesEntity> result = translatableRepo.findAll(translatableEntities.withLanguage(language.getId()));
+//    
+//    if (result != null && !result.isEmpty()) {
+//      translatableRepo.deleteAll(result);
+//    }
+//  }
 
 }
