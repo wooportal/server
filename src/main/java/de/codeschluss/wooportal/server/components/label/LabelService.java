@@ -1,16 +1,13 @@
 package de.codeschluss.wooportal.server.components.label;
 
 import java.io.IOException;
-import java.util.List;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import de.codeschluss.wooportal.server.components.label.translations.LabelTranslatableQueryBuilder;
 import de.codeschluss.wooportal.server.components.label.translations.LabelTranslatableRepository;
-import de.codeschluss.wooportal.server.components.label.translations.LabelTranslatablesEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
-import de.codeschluss.wooportal.server.core.i18n.language.LanguageEntity;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.i18n.xliff.Transunit;
 import de.codeschluss.wooportal.server.core.i18n.xliff.Xliff;
@@ -68,8 +65,6 @@ public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBui
   public void importLables(
       String xmlContent, 
       String filename) throws JsonParseException, JsonMappingException, IOException {
-//    LanguageEntity language = languageService.getCurrentWriteLanguage();
-//    deleteExisting(language);
     for (Transunit unit : new XmlMapper().readValue(xmlContent, Xliff.class).getFile().getBody()) {
       LabelEntity label = repo.findOne(entities.withTagId(unit.getId())).orElse(new LabelEntity());
       label.setTagId(unit.getId());
@@ -77,13 +72,5 @@ public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBui
       repo.save(label);
     }
   }
-
-//  private void deleteExisting(LanguageEntity language) {
-//    List<LabelTranslatablesEntity> result = translatableRepo.findAll(translatableEntities.withLanguage(language.getId()));
-//    
-//    if (result != null && !result.isEmpty()) {
-//      translatableRepo.deleteAll(result);
-//    }
-//  }
 
 }
