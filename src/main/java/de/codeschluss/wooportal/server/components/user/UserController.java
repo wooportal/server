@@ -164,9 +164,9 @@ public class UserController extends CrudController<UserEntity, UserService> {
   @PutMapping("/users/{userId}/translator")
   @SuperUserPermission
   public ResponseEntity<?> grantTranslatorRight(@PathVariable String userId,
-      @RequestBody BooleanPrimitive isSuperuser) {
+      @RequestBody BooleanPrimitive isTranslator) {
     try {
-      service.grantTranslator(userId, isSuperuser.getValue());
+      service.grantTranslator(userId, isTranslator.getValue());
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("User with given ID does not exist!");
