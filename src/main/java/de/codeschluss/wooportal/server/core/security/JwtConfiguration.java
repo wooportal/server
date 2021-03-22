@@ -28,6 +28,7 @@ public class JwtConfiguration {
 
   private String secret;
   private String claimSuperuser;
+  private String claimTranslator;
   private String claimUserid;
   private String claimApprovedOrgas;
   private String claimAdminOrgas;

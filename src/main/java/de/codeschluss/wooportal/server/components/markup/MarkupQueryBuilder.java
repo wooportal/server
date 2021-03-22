@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.label.translations;
+package de.codeschluss.wooportal.server.components.markup;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -9,14 +9,18 @@ import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
 
 @Service
-public class LabelTranslatableQueryBuilder extends QueryBuilder<QLabelTranslatablesEntity> {
+public class MarkupQueryBuilder extends QueryBuilder<QMarkupEntity> {
 
   private final LanguageService languageService;
   
 
-  public LabelTranslatableQueryBuilder(LanguageService languageService) {
-    super(QLabelTranslatablesEntity.labelTranslatablesEntity, "content");
+  public MarkupQueryBuilder(LanguageService languageService) {
+    super(QMarkupEntity.markupEntity, "tagId");
     this.languageService = languageService;
+  }
+
+  public boolean localized() {
+    return true;
   }
 
   @Override
@@ -29,18 +33,26 @@ public class LabelTranslatableQueryBuilder extends QueryBuilder<QLabelTranslatab
   }
   
   private Predicate withLocalized(List<String> locales) {
-    return query.language.locale.in(locales);
+    return query.translatables.any().language.locale.in(locales);
   }
   
   private Predicate searchFiltered(BooleanBuilder search, FilterSortPaginate params) {
     String filter = prepareFilter(params.getFilter());
-    return query.content.likeIgnoreCase(filter)
-        .and(query.language.locale.in(
+    return query.translatables.any().content.likeIgnoreCase(filter)
+        .and(query.translatables.any().language.locale.in(
             languageService.getCurrentRequestLocales()));
+  }
+
+  public Predicate withTagId(String tagId) {
+    return query.tagId.eq(tagId);
   }
   
   public Predicate withLanguage(String languageId) {
-    return query.language.id.eq(languageId);
+    return query.translatables.any().language.id.eq(languageId);
+  }
+
+  public Predicate withLanguageLocale(List<String> locales) {
+    return query.translatables.any().language.locale.in(locales);
   }
   
 }

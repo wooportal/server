@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.label;
+package de.codeschluss.wooportal.server.components.markup;
 
 import java.io.IOException;
 import org.springframework.stereotype.Service;
@@ -11,32 +11,32 @@ import de.codeschluss.wooportal.server.core.i18n.xliff.Xliff;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 
 @Service
-public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBuilder> {
+public class MarkupService extends ResourceDataService<MarkupEntity, MarkupQueryBuilder> {
   
-  public LabelService(
-      LabelRepository repo, 
-      LabelQueryBuilder entities,
+  public MarkupService(
+      MarkupRepository repo, 
+      MarkupQueryBuilder entities,
       PagingAndSortingAssembler assembler) {
     super(repo, entities, assembler);
   }
 
   @Override
-  public LabelEntity getExisting(LabelEntity newLabel) {
+  public MarkupEntity getExisting(MarkupEntity newLabel) {
     return repo.findOne(entities.withTagId(newLabel.getTagId())).orElse(null);
   }
   
   @Override
-  public boolean validCreateFieldConstraints(LabelEntity newLabel) {
+  public boolean validCreateFieldConstraints(MarkupEntity newLabel) {
     return newLabel.getContent() != null && !newLabel.getContent().isEmpty();
   }
   
   @Override
-  public boolean validUpdateFieldConstraints(LabelEntity newLabel) {
+  public boolean validUpdateFieldConstraints(MarkupEntity newLabel) {
     return newLabel.getContent() != null && !newLabel.getContent().isEmpty();
   }
 
   @Override
-  public LabelEntity update(String id, LabelEntity newLabel) {
+  public MarkupEntity update(String id, MarkupEntity newLabel) {
     return repo.findById(id).map(label -> {
       label.setContent(newLabel.getContent());
       return repo.save(label);
@@ -50,7 +50,7 @@ public class LabelService extends ResourceDataService<LabelEntity, LabelQueryBui
       String xmlContent, 
       String filename) throws JsonParseException, JsonMappingException, IOException {
     for (Transunit unit : new XmlMapper().readValue(xmlContent, Xliff.class).getFile().getBody()) {
-      LabelEntity label = repo.findOne(entities.withTagId(unit.getId())).orElse(new LabelEntity());
+      MarkupEntity label = repo.findOne(entities.withTagId(unit.getId())).orElse(new MarkupEntity());
       label.setTagId(unit.getId());
       label.setContent(unit.getTarget());
       repo.save(label);

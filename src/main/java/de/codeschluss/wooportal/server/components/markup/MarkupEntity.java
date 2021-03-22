@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.components.label;
+package de.codeschluss.wooportal.server.components.markup;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -17,7 +17,7 @@ import org.springframework.hateoas.core.Relation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.codeschluss.wooportal.server.components.label.translations.LabelTranslatablesEntity;
+import de.codeschluss.wooportal.server.components.markup.translations.MarkupTranslatablesEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import lombok.AccessLevel;
@@ -33,13 +33,13 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Localized
-@Table(name = "labels")
+@Table(name = "markups")
 @Relation(collectionRelation = "data")
 @GenericGenerator(
     name = "UUID",
     strategy = "org.hibernate.id.UUIDGenerator"
 )
-public class LabelEntity extends BaseResource {
+public class MarkupEntity extends BaseResource {
 
   private static final long serialVersionUID = 1L;
 
@@ -57,7 +57,7 @@ public class LabelEntity extends BaseResource {
       orphanRemoval = true)
   @ToString.Exclude
   @JsonIgnore
-  protected Set<LabelTranslatablesEntity> translatables;
+  protected Set<MarkupTranslatablesEntity> translatables;
 
   @Override
   public List<Link> createResourceLinks() {
@@ -69,7 +69,7 @@ public class LabelEntity extends BaseResource {
   }
 
   public Link selfLink() {
-    return linkTo(methodOn(LabelController.class)
+    return linkTo(methodOn(MarkupController.class)
         .readOne(id)).withSelfRel();
   }
 }
