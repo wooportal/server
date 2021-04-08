@@ -1,0 +1,16 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0040.add_data_markups
+    author: codeschluss
+    changes:
+    - sql:
+        comment: Add initial markup data
+        dbms: mysql, h2
+        splitStatements: true
+        sql:
+            /*!40101 SET character_set_client = utf8 */;
+            insert into markups (id, tag_id) values
+            ('e69d1b19-798b-4403-98fa-fe3ac2477c35', 'homepage'),
+            ('cae39231-bfd5-4d90-94df-1d7a24ea8170', 'imprint'),
+            ('f46508f7-a5a5-4221-a6f0-9c8f34a69b05', 'policies');

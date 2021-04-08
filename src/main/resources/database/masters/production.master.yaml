@@ -80,3 +80,5 @@ databaseChangeLog:
     file: database/changes/0038.create_tables_labels.yaml
 - include:
     file: database/changes/0039.create_tables_markups.yaml
+- include:
+    file: database/changes/0040.add_data_markups.yaml
