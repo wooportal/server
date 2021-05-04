@@ -101,6 +101,7 @@ public class SubscriptionController
     if (existing != null) {
       return ok(existing);
     }
+    newSubscription.setSubscribedTypes(subscriptionTypeService.getAll());
     Resource<SubscriptionEntity> resource = service.addResource(newSubscription);
     return created(new URI(resource.getId().expand().getHref())).body(resource);
   }
