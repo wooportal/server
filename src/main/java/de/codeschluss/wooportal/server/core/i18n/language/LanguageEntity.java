@@ -40,8 +40,6 @@ public class LanguageEntity extends BaseResource {
   @Column(nullable = false, unique = true)
   private String name;
   
-  private String machineTranslated;
-  
   @Override
   public List<Link> createResourceLinks() {
     List<Link> links = new ArrayList<Link>();

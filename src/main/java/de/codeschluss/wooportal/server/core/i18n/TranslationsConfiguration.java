@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 public class TranslationsConfiguration {
   
   private String defaultLocale;
-  private String defaultAutomaticTranslated;
   private String serviceUrl;
   private String serviceSubscriptionKey;
 }

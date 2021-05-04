@@ -85,7 +85,6 @@ public class LanguageService extends ResourceDataService<LanguageEntity, Languag
     return repo.findById(id).map(language -> {
       language.setName(newLanguage.getName());
       language.setLocale(newLanguage.getLocale());
-      language.setMachineTranslated(newLanguage.getMachineTranslated());
       return repo.save(language);
     }).orElseGet(() -> {
       newLanguage.setId(id);

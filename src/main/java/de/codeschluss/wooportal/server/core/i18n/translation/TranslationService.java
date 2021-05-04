@@ -255,11 +255,10 @@ public class TranslationService {
     params.getTargets().stream().forEach(targetLang -> {
       TranslationResult translationResult = new TranslationResult();
       Map<String, String> translatedLabels = new HashMap<>(labels.size());
-      String machineTranslatedLabel = getMachineTranslatedLabel(targetLang);
 
       labels.forEach((label, text) -> {
         String translation = translate(targetLang, params.getSource(), text);
-        translatedLabels.put(label, addMachineTranslatedTo(translation, machineTranslatedLabel));
+        translatedLabels.put(label, translation);
       });
 
       translationResult.setLang(targetLang);
@@ -267,24 +266,6 @@ public class TranslationService {
       results.add(translationResult);
     });
     return results;
-  }
-
-  /**
-   * Gets the machine translated label.
-   *
-   * @param targetLang
-   *          the target lang
-   * @return the machine translated label
-   */
-  private String getMachineTranslatedLabel(String targetLang) {
-    String machineTranslated = languageService.getByLocale(targetLang).getMachineTranslated();
-
-    if (machineTranslated == null || machineTranslated.isEmpty()) {
-      machineTranslated = translate(targetLang, config.getDefaultLocale(),
-          config.getDefaultAutomaticTranslated());
-    }
-
-    return machineTranslated;
   }
 
   /**
@@ -330,16 +311,4 @@ public class TranslationService {
     return body.toString();
   }
 
-  /**
-   * Adds the machine translated to.
-   *
-   * @param translation
-   *          the translation
-   * @param machineTranslated
-   *          the machine translated
-   * @return the string
-   */
-  private String addMachineTranslatedTo(String translation, String machineTranslated) {
-    return "(" + machineTranslated + ") " + translation;
-  }
 }

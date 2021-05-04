@@ -30,8 +30,7 @@ public class LanguageControllerCreateTest {
   @WithUserDetails("super@user")
   @SuppressWarnings("unchecked")
   public void createSuperUserOk() throws Exception {
-    LanguageEntity language = newLanguage("createSuperUserOk", "createSuperUserOk",
-        "createSuperUserOk");
+    LanguageEntity language = newLanguage("createSuperUserOk", "createSuperUserOk");
 
     controller.create(language);
 
@@ -44,8 +43,7 @@ public class LanguageControllerCreateTest {
   @Test(expected = BadParamsException.class)
   @WithUserDetails("super@user")
   public void createNotValidLocaleDenied() throws Exception {
-    LanguageEntity language = newLanguage(null, "createNotValidLocaleDenied",
-        "createNotValidLocaleDenied");
+    LanguageEntity language = newLanguage(null, "createNotValidLocaleDenied");
 
     controller.create(language);
   }
@@ -53,7 +51,7 @@ public class LanguageControllerCreateTest {
   @Test(expected = BadParamsException.class)
   @WithUserDetails("super@user")
   public void createNotValidNameDenied() throws Exception {
-    LanguageEntity language = newLanguage("es", null, "createSuperUserDuplicatedLocale");
+    LanguageEntity language = newLanguage("es", null);
 
     controller.create(language);
   }
@@ -61,8 +59,7 @@ public class LanguageControllerCreateTest {
   @Test(expected = DuplicateEntryException.class)
   @WithUserDetails("super@user")
   public void createSuperUserDuplicatedLocale() throws Exception {
-    LanguageEntity language = newLanguage("es", "createSuperUserDuplicatedLocale",
-        "createSuperUserDuplicatedLocale");
+    LanguageEntity language = newLanguage("es", "createSuperUserDuplicatedLocale");
 
     controller.create(language);
   }
@@ -70,8 +67,7 @@ public class LanguageControllerCreateTest {
   @Test(expected = DuplicateEntryException.class)
   @WithUserDetails("super@user")
   public void createSuperUserDuplicatedName() throws Exception {
-    LanguageEntity language = newLanguage("createSuperUserDuplicatedName", "ToRead",
-        "createSuperUserDuplicatedName");
+    LanguageEntity language = newLanguage("createSuperUserDuplicatedName", "ToRead");
 
     controller.create(language);
   }
@@ -79,25 +75,22 @@ public class LanguageControllerCreateTest {
   @Test(expected = AccessDeniedException.class)
   @WithUserDetails("provider1@user")
   public void createProviderDenied() throws Exception {
-    LanguageEntity language = newLanguage("createProviderDenied", "createProviderDenied",
-        "createProviderDenied");
+    LanguageEntity language = newLanguage("createProviderDenied", "createProviderDenied");
 
     controller.create(language);
   }
 
   @Test(expected = AuthenticationCredentialsNotFoundException.class)
   public void createNoUserDenied() throws Exception {
-    LanguageEntity language = newLanguage("createNoUserDenied", "createNoUserDenied",
-        "createNoUserDenied");
+    LanguageEntity language = newLanguage("createNoUserDenied", "createNoUserDenied");
 
     controller.create(language);
   }
 
-  private LanguageEntity newLanguage(String locale, String name, String machineTranslated) {
+  private LanguageEntity newLanguage(String locale, String name) {
     LanguageEntity language = new LanguageEntity();
     language.setLocale(locale);
     language.setName(name);
-    language.setMachineTranslated(machineTranslated);
     return language;
   }
 }

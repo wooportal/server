@@ -29,7 +29,7 @@ public class LanguageControllerUpdateTest {
   @Test
   @WithUserDetails("super@user")
   public void updateSuperUserOk() throws URISyntaxException {
-    LanguageEntity language = newLanguage("fr", "updateSuperUserOk", "updateSuperUserOk");
+    LanguageEntity language = newLanguage("fr", "updateSuperUserOk");
     String languageId = "00000000-0000-0000-0013-200000000000";
 
     controller.update(language, languageId);
@@ -41,8 +41,7 @@ public class LanguageControllerUpdateTest {
   @Test(expected = BadParamsException.class)
   @WithUserDetails("super@user")
   public void updateNotValidLocaleDenied() throws URISyntaxException {
-    LanguageEntity language = newLanguage(null, "updateNotValidLocaleDenied",
-        "updateNotValidLocaleDenied");
+    LanguageEntity language = newLanguage(null, "updateNotValidLocaleDenied");
     String languageId = "00000000-0000-0000-0013-200000000000";
 
     controller.update(language, languageId);
@@ -51,7 +50,7 @@ public class LanguageControllerUpdateTest {
   @Test(expected = BadParamsException.class)
   @WithUserDetails("super@user")
   public void updateNotValidNameDenied() throws URISyntaxException {
-    LanguageEntity language = newLanguage("es", null, "updateSuperUserDuplicatedLocale");
+    LanguageEntity language = newLanguage("es", null);
     String languageId = "00000000-0000-0000-0013-200000000000";
 
     controller.update(language, languageId);
@@ -60,8 +59,7 @@ public class LanguageControllerUpdateTest {
   @Test(expected = DuplicateEntryException.class)
   @WithUserDetails("super@user")
   public void updateSuperUserDuplicatedLocale() throws URISyntaxException {
-    LanguageEntity language = newLanguage("es", "updateSuperUserDuplicatedLocale",
-        "updateSuperUserDuplicatedLocale");
+    LanguageEntity language = newLanguage("es", "updateSuperUserDuplicatedLocale");
     String languageId = "00000000-0000-0000-0013-200000000000";
 
     controller.update(language, languageId);
@@ -70,8 +68,7 @@ public class LanguageControllerUpdateTest {
   @Test(expected = DuplicateEntryException.class)
   @WithUserDetails("super@user")
   public void updateSuperUserDuplicatedName() throws URISyntaxException {
-    LanguageEntity language = newLanguage("updateSuperUserDuplicatedName", "ToRead",
-        "updateSuperUserDuplicatedName");
+    LanguageEntity language = newLanguage("updateSuperUserDuplicatedName", "ToRead");
     String languageId = "00000000-0000-0000-0013-200000000000";
 
     controller.update(language, languageId);
@@ -81,7 +78,7 @@ public class LanguageControllerUpdateTest {
   @WithUserDetails("provider1@user")
   public void updateProviderUserDenied() throws URISyntaxException {
     LanguageEntity language = newLanguage("updateProviderUserDenied",
-        "updateProviderUserDenied", "updateProviderUserDenied");
+        "updateProviderUserDenied");
     String languageId = "00000000-0000-0000-0013-100000000000";
 
     controller.update(language, languageId);
@@ -89,18 +86,16 @@ public class LanguageControllerUpdateTest {
 
   @Test(expected = AuthenticationCredentialsNotFoundException.class)
   public void updateNoUserDenied() throws URISyntaxException {
-    LanguageEntity language = newLanguage("updateNoUserDenied", "updateNoUserDenied",
-        "updateNoUserDenied");
+    LanguageEntity language = newLanguage("updateNoUserDenied", "updateNoUserDenied");
     String languageId = "00000000-0000-0000-0013-100000000000";
 
     controller.update(language, languageId);
   }
   
-  private LanguageEntity newLanguage(String locale, String name, String machineTranslated) {
+  private LanguageEntity newLanguage(String locale, String name) {
     LanguageEntity language = new LanguageEntity();
     language.setLocale(locale);
     language.setName(name);
-    language.setMachineTranslated(machineTranslated);
     return language;
   }
 
