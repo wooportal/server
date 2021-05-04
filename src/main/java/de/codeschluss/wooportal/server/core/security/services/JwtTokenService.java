@@ -45,6 +45,7 @@ public class JwtTokenService {
     return JWT.create().withSubject(jwtUserDetails.getUsername())
         .withClaim(securityConfig.getClaimSuperuser(), jwtUserDetails.isSuperUser())
         .withClaim(securityConfig.getClaimTranslator(), jwtUserDetails.isTranslator())
+        .withClaim(securityConfig.getClaimBlogger(), jwtUserDetails.isBlogger())
         .withClaim(securityConfig.getClaimUserid(), jwtUserDetails.getUser().getId())
         .withArrayClaim(securityConfig.getClaimCreatedActivities(),
             jwtUserDetails.getCreatedActivities())
