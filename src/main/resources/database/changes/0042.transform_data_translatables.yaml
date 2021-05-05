@@ -11,6 +11,9 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             UPDATE activity_translatables SET 
+                description = REPLACE(description, '﻿', ''),
+                name = REPLACE(name, '﻿', '');
+            UPDATE activity_translatables SET 
                 description = REPLACE(description, '("machine translated")', ''),
                 name = REPLACE(name, '("machine translated")', '');
             UPDATE activity_translatables SET 
@@ -20,8 +23,8 @@ databaseChangeLog:
                 description = REPLACE(description, '(translated by machine)', ''),
                 name = REPLACE(name, '(translated by machine)', '');
             UPDATE activity_translatables SET 
-                description = REPLACE(description, '(« Traduit par la machine »)', ''),
-                name = REPLACE(name, '(« Traduit par la machine »)', '');
+                description = REPLACE(description, '(« Traduit par la machine »)', ''),
+                name = REPLACE(name, '(« Traduit par la machine »)', '');
             UPDATE activity_translatables SET 
                 description = REPLACE(description, '(«Traduit par la machine»)', ''),
                 name = REPLACE(name, '(«Traduit par la machine»)', '');
@@ -29,8 +32,14 @@ databaseChangeLog:
                 description = REPLACE(description, '(Traduit par la machine)', ''),
                 name = REPLACE(name, '(Traduit par la machine)', '');
             UPDATE activity_translatables SET 
+                description = REPLACE(description, '(« machine traduite »)', ''),
+                name = REPLACE(name, '(« machine traduite »)', '');
+            UPDATE activity_translatables SET 
                 description = REPLACE(description, '(machine traduite)', ''),
                 name = REPLACE(name, '(machine traduite)', '');
+            UPDATE activity_translatables SET 
+                description = REPLACE(description, '("machine traduite")', ''),
+                name = REPLACE(name, '("machine traduite")', '');
             UPDATE activity_translatables SET 
                 description = REPLACE(description, '("maszyna przetłumaczona")', ''),
                 name = REPLACE(name, '("maszyna przetłumaczona")', '');
@@ -61,12 +70,18 @@ databaseChangeLog:
             UPDATE activity_translatables SET 
                 description = REPLACE(description, '("ماشین ترجمه شده")', ''),
                 name = REPLACE(name, '("ماشین ترجمه شده")', '');
+            UPDATE activity_translatables SET 
+                description = REPLACE(description, '("машина переведена")', ''),
+                name = REPLACE(name, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in blog translatables
         dbms: mysql, h2
         splitStatements: true
         sql:
             /*!40101 SET character_set_client = utf8 */;
+            UPDATE blog_translatables SET 
+                content = REPLACE(content, '﻿', ''),
+                title = REPLACE(title, '﻿', '');
             UPDATE blog_translatables SET 
                 content = REPLACE(content, '("machine translated")', ''),
                 title = REPLACE(title, '("machine translated")', '');
@@ -77,8 +92,8 @@ databaseChangeLog:
                 content = REPLACE(content, '(translated by machine)', ''),
                 title = REPLACE(title, '(translated by machine)', '');
             UPDATE blog_translatables SET 
-                content = REPLACE(content, '(« Traduit par la machine »)', ''),
-                title = REPLACE(title, '(« Traduit par la machine »)', '');
+                content = REPLACE(content, '(« Traduit par la machine »)', ''),
+                title = REPLACE(title, '(« Traduit par la machine »)', '');
             UPDATE blog_translatables SET 
                 content = REPLACE(content, '(«Traduit par la machine»)', ''),
                 title = REPLACE(title, '(«Traduit par la machine»)', '');
@@ -86,8 +101,14 @@ databaseChangeLog:
                 content = REPLACE(content, '(Traduit par la machine)', ''),
                 title = REPLACE(title, '(Traduit par la machine)', '');
             UPDATE blog_translatables SET 
+                content = REPLACE(content, '(« machine traduite »)', ''),
+                title = REPLACE(title, '(« machine traduite »)', '');
+            UPDATE blog_translatables SET 
                 content = REPLACE(content, '(machine traduite)', ''),
                 title = REPLACE(title, '(machine traduite)', '');
+            UPDATE blog_translatables SET 
+                content = REPLACE(content, '("machine traduite")', ''),
+                title = REPLACE(title, '("machine traduite")', '');
             UPDATE blog_translatables SET 
                 content = REPLACE(content, '("maszyna przetłumaczona")', ''),
                 title = REPLACE(title, '("maszyna przetłumaczona")', '');
@@ -118,6 +139,9 @@ databaseChangeLog:
             UPDATE blog_translatables SET 
                 content = REPLACE(content, '("ماشین ترجمه شده")', ''),
                 title = REPLACE(title, '("ماشین ترجمه شده")', '');
+            UPDATE blog_translatables SET 
+                content = REPLACE(content, '("машина переведена")', ''),
+                title = REPLACE(title, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in category translatables
         dbms: mysql, h2
@@ -125,19 +149,25 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             UPDATE category_translatables SET 
+                name = REPLACE(name, '﻿', '');
+            UPDATE category_translatables SET 
                 name = REPLACE(name, '("machine translated")', '');
             UPDATE category_translatables SET 
                 name = REPLACE(name, '(machine translated)', '');
             UPDATE category_translatables SET 
                 name = REPLACE(name, '(translated by machine)', '');
             UPDATE category_translatables SET 
-                name = REPLACE(name, '(« Traduit par la machine »)', '');
+                name = REPLACE(name, '(« Traduit par la machine »)', '');
             UPDATE category_translatables SET 
                 name = REPLACE(name, '(«Traduit par la machine»)', '');
             UPDATE category_translatables SET 
                 name = REPLACE(name, '(Traduit par la machine)', '');
             UPDATE category_translatables SET 
+                name = REPLACE(name, '(« machine traduite »)', '');
+            UPDATE category_translatables SET 
                 name = REPLACE(name, '(machine traduite)', '');
+            UPDATE category_translatables SET 
+                name = REPLACE(name, '("machine traduite")', '');
             UPDATE category_translatables SET 
                 name = REPLACE(name, '("maszyna przetłumaczona")', '');
             UPDATE category_translatables SET 
@@ -158,6 +188,8 @@ databaseChangeLog:
                 name = REPLACE(name, '("آلة مترجمة")', '');
             UPDATE category_translatables SET 
                 name = REPLACE(name, '("ماشین ترجمه شده")', '');
+            UPDATE category_translatables SET 
+                name = REPLACE(name, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in label translatables
         dbms: mysql, h2
@@ -165,19 +197,25 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             UPDATE label_translatables SET 
+                content = REPLACE(content, '﻿', '');
+            UPDATE label_translatables SET 
                 content = REPLACE(content, '("machine translated")', '');
             UPDATE label_translatables SET 
                 content = REPLACE(content, '(machine translated)', '');
             UPDATE label_translatables SET 
                 content = REPLACE(content, '(translated by machine)', '');
             UPDATE label_translatables SET 
-                content = REPLACE(content, '(« Traduit par la machine »)', '');
+                content = REPLACE(content, '(« Traduit par la machine »)', '');
             UPDATE label_translatables SET 
                 content = REPLACE(content, '(«Traduit par la machine»)', '');
             UPDATE label_translatables SET 
                 content = REPLACE(content, '(Traduit par la machine)', '');
             UPDATE label_translatables SET 
+                content = REPLACE(content, '(« machine traduite »)', '');
+            UPDATE label_translatables SET 
                 content = REPLACE(content, '(machine traduite)', '');
+            UPDATE label_translatables SET 
+                content = REPLACE(content, '("machine traduite")', '');
             UPDATE label_translatables SET 
                 content = REPLACE(content, '("maszyna przetłumaczona")', '');
             UPDATE label_translatables SET 
@@ -198,6 +236,8 @@ databaseChangeLog:
                 content = REPLACE(content, '("آلة مترجمة")', '');
             UPDATE label_translatables SET 
                 content = REPLACE(content, '("ماشین ترجمه شده")', '');
+            UPDATE label_translatables SET 
+                content = REPLACE(content, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in markup translatables
         dbms: mysql, h2
@@ -205,19 +245,25 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             UPDATE markup_translatables SET 
+                content = REPLACE(content, '﻿', '');
+            UPDATE markup_translatables SET 
                 content = REPLACE(content, '("machine translated")', '');
             UPDATE markup_translatables SET 
                 content = REPLACE(content, '(machine translated)', '');
             UPDATE markup_translatables SET 
                 content = REPLACE(content, '(translated by machine)', '');
             UPDATE markup_translatables SET 
-                content = REPLACE(content, '(« Traduit par la machine »)', '');
+                content = REPLACE(content, '(« Traduit par la machine »)', '');
             UPDATE markup_translatables SET 
                 content = REPLACE(content, '(«Traduit par la machine»)', '');
             UPDATE markup_translatables SET 
                 content = REPLACE(content, '(Traduit par la machine)', '');
             UPDATE markup_translatables SET 
+                content = REPLACE(content, '(« machine traduite »)', '');
+            UPDATE markup_translatables SET 
                 content = REPLACE(content, '(machine traduite)', '');
+            UPDATE markup_translatables SET 
+                content = REPLACE(content, '("machine traduite")', '');
             UPDATE markup_translatables SET 
                 content = REPLACE(content, '("maszyna przetłumaczona")', '');
             UPDATE markup_translatables SET 
@@ -238,6 +284,8 @@ databaseChangeLog:
                 content = REPLACE(content, '("آلة مترجمة")', '');
             UPDATE markup_translatables SET 
                 content = REPLACE(content, '("ماشین ترجمه شده")', '');
+            UPDATE markup_translatables SET 
+                content = REPLACE(content, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in organisation translatables
         dbms: mysql, h2
@@ -245,19 +293,25 @@ databaseChangeLog:
         sql:
             /*!40101 SET character_set_client = utf8 */;
             UPDATE organisation_translatables SET 
+                description = REPLACE(description, '﻿', '');
+            UPDATE organisation_translatables SET 
                 description = REPLACE(description, '("machine translated")', '');
             UPDATE organisation_translatables SET 
                 description = REPLACE(description, '(machine translated)', '');
             UPDATE organisation_translatables SET 
                 description = REPLACE(description, '(translated by machine)', '');
             UPDATE organisation_translatables SET 
-                description = REPLACE(description, '(« Traduit par la machine »)', '');
+                description = REPLACE(description, '(« Traduit par la machine »)', '');
             UPDATE organisation_translatables SET 
                 description = REPLACE(description, '(«Traduit par la machine»)', '');
             UPDATE organisation_translatables SET 
                 description = REPLACE(description, '(Traduit par la machine)', '');
             UPDATE organisation_translatables SET 
+                description = REPLACE(description, '(« machine traduite »)', '');
+            UPDATE organisation_translatables SET 
                 description = REPLACE(description, '(machine traduite)', '');
+            UPDATE organisation_translatables SET 
+                description = REPLACE(description, '("machine traduite")', '');
             UPDATE organisation_translatables SET 
                 description = REPLACE(description, '("maszyna przetłumaczona")', '');
             UPDATE organisation_translatables SET 
@@ -278,12 +332,17 @@ databaseChangeLog:
                 description = REPLACE(description, '("آلة مترجمة")', '');
             UPDATE organisation_translatables SET 
                 description = REPLACE(description, '("ماشین ترجمه شده")', '');
+            UPDATE organisation_translatables SET 
+                description = REPLACE(description, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in page translatables
         dbms: mysql, h2
         splitStatements: true
         sql:
             /*!40101 SET character_set_client = utf8 */;
+            UPDATE page_translatables SET
+                content = REPLACE(content, '﻿', ''),
+                title = REPLACE(title, '﻿', '');
             UPDATE page_translatables SET 
                 content = REPLACE(content, '("machine translated")', ''),
                 title = REPLACE(title, '("machine translated")', '');
@@ -294,8 +353,8 @@ databaseChangeLog:
                 content = REPLACE(content, '(translated by machine)', ''),
                 title = REPLACE(title, '(translated by machine)', '');
             UPDATE page_translatables SET 
-                content = REPLACE(content, '(« Traduit par la machine »)', ''),
-                title = REPLACE(title, '(« Traduit par la machine »)', '');
+                content = REPLACE(content, '(« Traduit par la machine »)', ''),
+                title = REPLACE(title, '(« Traduit par la machine »)', '');
             UPDATE page_translatables SET 
                 content = REPLACE(content, '(«Traduit par la machine»)', ''),
                 title = REPLACE(title, '(«Traduit par la machine»)', '');
@@ -303,8 +362,14 @@ databaseChangeLog:
                 content = REPLACE(content, '(Traduit par la machine)', ''),
                 title = REPLACE(title, '(Traduit par la machine)', '');
             UPDATE page_translatables SET 
+                content = REPLACE(content, '(« machine traduite »)', ''),
+                title = REPLACE(title, '(« machine traduite »)', '');
+            UPDATE page_translatables SET 
                 content = REPLACE(content, '(machine traduite)', ''),
                 title = REPLACE(title, '(machine traduite)', '');
+            UPDATE page_translatables SET 
+                content = REPLACE(content, '("machine traduite")', ''),
+                title = REPLACE(title, '("machine traduite")', '');
             UPDATE page_translatables SET 
                 content = REPLACE(content, '("maszyna przetłumaczona")', ''),
                 title = REPLACE(title, '("maszyna przetłumaczona")', '');
@@ -335,12 +400,18 @@ databaseChangeLog:
             UPDATE page_translatables SET 
                 content = REPLACE(content, '("ماشین ترجمه شده")', ''),
                 title = REPLACE(title, '("ماشین ترجمه شده")', '');
+            UPDATE page_translatables SET 
+                content = REPLACE(content, '("машина переведена")', ''),
+                title = REPLACE(title, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in subscription type translatables
         dbms: mysql, h2
         splitStatements: true
         sql:
             /*!40101 SET character_set_client = utf8 */;
+            UPDATE subscription_type_translatables SET
+                description = REPLACE(description, '﻿', ''),
+                name = REPLACE(name, '﻿', '');
             UPDATE subscription_type_translatables SET 
                 description = REPLACE(description, '("machine translated")', ''),
                 name = REPLACE(name, '("machine translated")', '');
@@ -351,8 +422,8 @@ databaseChangeLog:
                 description = REPLACE(description, '(translated by machine)', ''),
                 name = REPLACE(name, '(translated by machine)', '');
             UPDATE subscription_type_translatables SET 
-                description = REPLACE(description, '(« Traduit par la machine »)', ''),
-                name = REPLACE(name, '(« Traduit par la machine »)', '');
+                description = REPLACE(description, '(« Traduit par la machine »)', ''),
+                name = REPLACE(name, '(« Traduit par la machine »)', '');
             UPDATE subscription_type_translatables SET 
                 description = REPLACE(description, '(«Traduit par la machine»)', ''),
                 name = REPLACE(name, '(«Traduit par la machine»)', '');
@@ -360,8 +431,14 @@ databaseChangeLog:
                 description = REPLACE(description, '(Traduit par la machine)', ''),
                 name = REPLACE(name, '(Traduit par la machine)', '');
             UPDATE subscription_type_translatables SET 
+                description = REPLACE(description, '(« machine traduite »)', ''),
+                name = REPLACE(name, '(« machine traduite »)', '');
+            UPDATE subscription_type_translatables SET 
                 description = REPLACE(description, '(machine traduite)', ''),
                 name = REPLACE(name, '(machine traduite)', '');
+            UPDATE subscription_type_translatables SET 
+                description = REPLACE(description, '("machine traduite")', ''),
+                name = REPLACE(name, '("machine traduite")', '');
             UPDATE subscription_type_translatables SET 
                 description = REPLACE(description, '("maszyna przetłumaczona")', ''),
                 name = REPLACE(name, '("maszyna przetłumaczona")', '');
@@ -392,12 +469,17 @@ databaseChangeLog:
             UPDATE subscription_type_translatables SET 
                 description = REPLACE(description, '("ماشین ترجمه شده")', ''),
                 name = REPLACE(name, '("ماشین ترجمه شده")', '');
+            UPDATE subscription_type_translatables SET 
+                description = REPLACE(description, '("машина переведена")', ''),
+                name = REPLACE(name, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in target group translatables
         dbms: mysql, h2
         splitStatements: true
         sql:
             /*!40101 SET character_set_client = utf8 */;
+            UPDATE target_group_translatables SET
+                name = REPLACE(name, '﻿', '');
             UPDATE target_group_translatables SET 
                 name = REPLACE(name, '("machine translated")', '');
             UPDATE target_group_translatables SET 
@@ -405,13 +487,17 @@ databaseChangeLog:
             UPDATE target_group_translatables SET 
                 name = REPLACE(name, '(translated by machine)', '');
             UPDATE target_group_translatables SET 
-                name = REPLACE(name, '(« Traduit par la machine »)', '');
+                name = REPLACE(name, '(« Traduit par la machine »)', '');
             UPDATE target_group_translatables SET 
                 name = REPLACE(name, '(«Traduit par la machine»)', '');
             UPDATE target_group_translatables SET 
                 name = REPLACE(name, '(Traduit par la machine)', '');
             UPDATE target_group_translatables SET 
+                name = REPLACE(name, '(« machine traduite »)', '');
+            UPDATE target_group_translatables SET 
                 name = REPLACE(name, '(machine traduite)', '');
+            UPDATE target_group_translatables SET 
+                name = REPLACE(name, '("machine traduite")', '');
             UPDATE target_group_translatables SET 
                 name = REPLACE(name, '("maszyna przetłumaczona")', '');
             UPDATE target_group_translatables SET 
@@ -432,12 +518,16 @@ databaseChangeLog:
                 name = REPLACE(name, '("آلة مترجمة")', '');
             UPDATE target_group_translatables SET 
                 name = REPLACE(name, '("ماشین ترجمه شده")', '');
+            UPDATE target_group_translatables SET 
+                name = REPLACE(name, '("машина переведена")', '');
     - sql:
         comment: replace machine translated strings in topic translatables
         dbms: mysql, h2
         splitStatements: true
         sql:
             /*!40101 SET character_set_client = utf8 */;
+            UPDATE topic_translatables SET
+                name = REPLACE(name, '﻿', '');
             UPDATE topic_translatables SET 
                 name = REPLACE(name, '("machine translated")', '');
             UPDATE topic_translatables SET 
@@ -445,13 +535,17 @@ databaseChangeLog:
             UPDATE topic_translatables SET 
                 name = REPLACE(name, '(translated by machine)', '');
             UPDATE topic_translatables SET 
-                name = REPLACE(name, '(« Traduit par la machine »)', '');
+                name = REPLACE(name, '(« Traduit par la machine »)', '');
             UPDATE topic_translatables SET 
                 name = REPLACE(name, '(«Traduit par la machine»)', '');
             UPDATE topic_translatables SET 
                 name = REPLACE(name, '(Traduit par la machine)', '');
             UPDATE topic_translatables SET 
+                name = REPLACE(name, '(« machine traduite »)', '');
+            UPDATE topic_translatables SET 
                 name = REPLACE(name, '(machine traduite)', '');
+            UPDATE topic_translatables SET 
+                name = REPLACE(name, '("machine traduite")', '');
             UPDATE topic_translatables SET 
                 name = REPLACE(name, '("maszyna przetłumaczona")', '');
             UPDATE topic_translatables SET 
@@ -472,3 +566,5 @@ databaseChangeLog:
                 name = REPLACE(name, '("آلة مترجمة")', '');
             UPDATE topic_translatables SET 
                 name = REPLACE(name, '("ماشین ترجمه شده")', '');
+            UPDATE topic_translatables SET 
+                name = REPLACE(name, '("машина переведена")', '');

@@ -299,8 +299,11 @@ public class TranslationService {
    * @return the uri
    */
   private URI createUri(String target, String source) {
-    return UriComponentsBuilder.fromUriString(config.getServiceUrl()).queryParam("to", target)
-        .queryParam("from", source).build().encode().toUri();
+    return UriComponentsBuilder.fromUriString(config.getServiceUrl())
+        .queryParam("to", target)
+        .queryParam("from", source)
+        .queryParam("textType", "html")
+        .build().encode().toUri();
   }
   
   private String createBody(String text) {

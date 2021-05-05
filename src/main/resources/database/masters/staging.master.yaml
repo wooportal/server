@@ -87,4 +87,4 @@ databaseChangeLog:
 - include:
     file: database/changes/0041.drop_column_language_machinetranslated.yaml
 - include:
-    file: database/changes/0042.transform_data_translatables.yaml
+    file: database/changes/0042.transform_data_translatables.yaml   
