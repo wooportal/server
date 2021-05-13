@@ -25,6 +25,7 @@ find /root /tmp -mindepth 1 -delete
 # runtime
 EXPOSE 8080
 WORKDIR /opt/wooportal.server
+HEALTHCHECK CMD wget -q --spider 127.0.0.1:8080/api/languages
 CMD \
   nginx -c /data/nginx.conf && \
   java -jar server.jar
