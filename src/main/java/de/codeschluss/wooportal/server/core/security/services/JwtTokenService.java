@@ -49,6 +49,8 @@ public class JwtTokenService {
         .withClaim(securityConfig.getClaimUserid(), jwtUserDetails.getUser().getId())
         .withArrayClaim(securityConfig.getClaimCreatedActivities(),
             jwtUserDetails.getCreatedActivities())
+        .withArrayClaim(securityConfig.getClaimCreatedBlogs(),
+            jwtUserDetails.getCreatedBlogs())
         .withArrayClaim(securityConfig.getClaimApprovedOrgas(),
             jwtUserDetails.getApprovedOrganisations())
         .withArrayClaim(securityConfig.getClaimAdminOrgas(), jwtUserDetails.getAdminOrgas())
