@@ -21,7 +21,7 @@ mv /tmp/wooportal.server/nginx.conf /etc/nginx && \
 #
 # cleanup
 apk del --purge build && \
-find /root /tmp -mindepth 1 -delete
+find /root /tmp -delete -mindepth 1
 #
 # runtime
 EXPOSE 8080
