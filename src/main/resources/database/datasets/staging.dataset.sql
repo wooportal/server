@@ -151,16 +151,16 @@ INSERT INTO `category_translatables` (`id`, `name`, `language_id`, `parent_id`) 
 ('322909b2-dd09-4c01-835f-76680df93067', 'Ferien', 'b6baaee8-cb61-4921-b432-798b69525fde', '53711473-3649-4f2c-9b03-5feb6aaaf413'),
 ('626bef9d-be89-43e8-b0a3-a92b0f54c1fc', 'Religion', 'b6baaee8-cb61-4921-b432-798b69525fde', '3f01896f-4374-41f1-baa4-3bcc62513740');
 
-INSERT INTO `organisations` (`id`, `name`, `website`, `mail`, `phone`, `address_id`, `approved`) VALUES
-('7abe3193-4dd1-41a0-9013-1c3106bb0dfe', 'Sport zum Mitmachen e.V.', 'http://www.szmeV.de', 'szmeV@1.de', '01234567890', 'edbd167f-2cd3-4fdd-9e8e-71328a628841', 1),
-('e110bc85-2b51-4269-a605-e78828cb72a2', 'Chillclub', 'http://www.chillclub.com', 'chillclub@2.com', '09876543210', 'db2527da-f0df-4da7-8ef2-ec10d56aa613', 1),
-('1779192b-7d83-4fdb-8f44-ef9acb92d6a3', 'Die Wuppertaler Musiker', 'http://www.wuppertal-musik.com', 'wuppertal-musik@3.com', '09876543210', 'd8912840-958e-4265-a64d-c71202c56fc9', 1),
-('025388dd-2ed9-4761-980b-43d50598e137', 'Wupps Gaming', 'http://www.wuppsgaming.com', 'wuppsgaming@mail.com', '09876543210', '96b4809d-93a7-4455-9c20-5dc0072d541a', 1),
-('46f36319-05e2-473d-b9b6-740053b0a957', 'Religion in Wuppertal', 'http://www.rel-wuppertal.com', 'rel-wuppertal@mail.com', '09876543210', 'a59f8140-6e8a-4f60-8db4-3b197591321f', 1),
-('0c09dcd9-2bbc-4b94-8214-1902f512573d', 'Hilfe zur Selbsthilfe', 'http://www.h-z-s.com', 'h-z-s@translate.com', '09876543210', '4146a199-9b08-4d58-ab91-ae2ed69abcf2', 1),
-('075dbdaa-cc60-44c7-94f0-f1547372304c', 'Freizeit Hunters', 'http://www.freizeithunters.com', 'freizeithunters@noadmin.com', '09876543210', '4095f470-a72a-4f66-acc9-51b9ac1e95a4', 1),
-('1eb78966-ac73-4493-870b-ce369a998715', 'Wuppertal Politics', 'http://www.wuppertalpolitics.com', 'wuppertalpolitics@orgaMail.com', '09876543210', '59c0c0c2-591c-479b-8445-0d4c60d36c89', 1),
-('6d73353b-d51c-4c7e-8267-c05d808e9d6b', 'Wuppgngoes Online', 'http://www.wuppngoesonline.com', 'wuppngoesonline@orgaMap.com', '09876543210', '4049df9b-6907-449a-be16-d6a389893674', 1);
+INSERT INTO `organisations` (`id`, `name`, `website`, `mail`, `phone`, `address_id`, `approved`, `likes`) VALUES
+('7abe3193-4dd1-41a0-9013-1c3106bb0dfe', 'Sport zum Mitmachen e.V.', 'http://www.szmeV.de', 'szmeV@1.de', '01234567890', 'edbd167f-2cd3-4fdd-9e8e-71328a628841', 1, 0),
+('e110bc85-2b51-4269-a605-e78828cb72a2', 'Chillclub', 'http://www.chillclub.com', 'chillclub@2.com', '09876543210', 'db2527da-f0df-4da7-8ef2-ec10d56aa613', 1, 0),
+('1779192b-7d83-4fdb-8f44-ef9acb92d6a3', 'Die Wuppertaler Musiker', 'http://www.wuppertal-musik.com', 'wuppertal-musik@3.com', '09876543210', 'd8912840-958e-4265-a64d-c71202c56fc9', 1, 0),
+('025388dd-2ed9-4761-980b-43d50598e137', 'Wupps Gaming', 'http://www.wuppsgaming.com', 'wuppsgaming@mail.com', '09876543210', '96b4809d-93a7-4455-9c20-5dc0072d541a', 1, 0),
+('46f36319-05e2-473d-b9b6-740053b0a957', 'Religion in Wuppertal', 'http://www.rel-wuppertal.com', 'rel-wuppertal@mail.com', '09876543210', 'a59f8140-6e8a-4f60-8db4-3b197591321f', 1, 0),
+('0c09dcd9-2bbc-4b94-8214-1902f512573d', 'Hilfe zur Selbsthilfe', 'http://www.h-z-s.com', 'h-z-s@translate.com', '09876543210', '4146a199-9b08-4d58-ab91-ae2ed69abcf2', 1, 0),
+('075dbdaa-cc60-44c7-94f0-f1547372304c', 'Freizeit Hunters', 'http://www.freizeithunters.com', 'freizeithunters@noadmin.com', '09876543210', '4095f470-a72a-4f66-acc9-51b9ac1e95a4', 1, 0),
+('1eb78966-ac73-4493-870b-ce369a998715', 'Wuppertal Politics', 'http://www.wuppertalpolitics.com', 'wuppertalpolitics@orgaMail.com', '09876543210', '59c0c0c2-591c-479b-8445-0d4c60d36c89', 1, 0),
+('6d73353b-d51c-4c7e-8267-c05d808e9d6b', 'Wuppgngoes Online', 'http://www.wuppngoesonline.com', 'wuppngoesonline@orgaMap.com', '09876543210', '4049df9b-6907-449a-be16-d6a389893674', 1, 0);
 
 INSERT INTO `organisation_translatables` (`id`, `parent_id`, `language_id`, `description`) VALUES
 ('e0512402-cb28-4017-9641-de440b031cdd','7abe3193-4dd1-41a0-9013-1c3106bb0dfe', 'b6baaee8-cb61-4921-b432-798b69525fde', '<p>Wir sind eine Organisation, die sich zum Ziel gesetzt hat Jugendlichen die Freude an der Bewegung näher zu bringen</p>'),
@@ -307,14 +307,14 @@ INSERT INTO `topic_translatables` (`id`, `name`, `language_id`, `parent_id`) VAL
 ('104c16b7-e1af-411a-820c-c5c44ad74b78', 'Gesundheit', 'b6baaee8-cb61-4921-b432-798b69525fde', 'd8c5d11a-a3a8-4713-8ac6-68cc41aad8d2'),
 ('818bcaa1-6809-4f04-8bad-afa6fb72a79e', 'FAQ', 'b6baaee8-cb61-4921-b432-798b69525fde', 'c70f2ced-20b5-45d2-b092-1ab2944bf35a');
 
-INSERT INTO `pages` (`id`, `topic_id`) VALUES
-('7becf19c-85ee-4b0b-820e-56fb868f853a', 'f18700d0-e560-4e47-84e7-6f517eaa55a6'),
-('ba264bd4-38b1-48c1-9f3f-4554162686dd', '7e80eadb-7cfc-4d7e-a7d9-f884d714937b'),
-('67ab0274-49e0-4948-9066-4b55c6aa096b', '08188445-798e-44f7-a70f-a675bcc453ca'),
-('6fea17c5-fd06-4e0d-b359-c89331eb5b3a', 'b6022559-c226-4e45-8b61-dd0f9b8d41d2'),
-('d78d056e-bfb3-4aaa-a6c6-20dfe8cbe92a', '0cad66be-4a91-4335-b7da-86756300712c'),
-('91c4a41e-0968-4a3f-93e2-608caef340dd', 'd8c5d11a-a3a8-4713-8ac6-68cc41aad8d2'),
-('9fd9dcb0-03c1-4b0c-b6c6-5e0d5c808be2', 'c70f2ced-20b5-45d2-b092-1ab2944bf35a');
+INSERT INTO `pages` (`id`, `topic_id`, `likes`) VALUES
+('7becf19c-85ee-4b0b-820e-56fb868f853a', 'f18700d0-e560-4e47-84e7-6f517eaa55a6', 0),
+('ba264bd4-38b1-48c1-9f3f-4554162686dd', '7e80eadb-7cfc-4d7e-a7d9-f884d714937b', 0),
+('67ab0274-49e0-4948-9066-4b55c6aa096b', '08188445-798e-44f7-a70f-a675bcc453ca', 0),
+('6fea17c5-fd06-4e0d-b359-c89331eb5b3a', 'b6022559-c226-4e45-8b61-dd0f9b8d41d2', 0),
+('d78d056e-bfb3-4aaa-a6c6-20dfe8cbe92a', '0cad66be-4a91-4335-b7da-86756300712c', 0),
+('91c4a41e-0968-4a3f-93e2-608caef340dd', 'd8c5d11a-a3a8-4713-8ac6-68cc41aad8d2', 0),
+('9fd9dcb0-03c1-4b0c-b6c6-5e0d5c808be2', 'c70f2ced-20b5-45d2-b092-1ab2944bf35a', 0);
 
 INSERT INTO `page_translatables` (`id`, `title`, `content`, `language_id`, `parent_id`) VALUES
 ('cdeef097-e9fe-4a41-a233-3dbe5f2beaec', 'Wie spare ich Geld', '<p>Das wird irgendwann mal ein Text bei dem es ums Geld sparen geht.</p>', 'b6baaee8-cb61-4921-b432-798b69525fde', '7becf19c-85ee-4b0b-820e-56fb868f853a'),
