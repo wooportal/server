@@ -19,10 +19,6 @@ public class LabelQueryBuilder extends QueryBuilder<QLabelEntity> {
     this.languageService = languageService;
   }
 
-  public boolean localized() {
-    return true;
-  }
-
   @Override
   public <P extends FilterSortPaginate> Predicate search(P params) {
     List<String> locales = languageService.getCurrentRequestLocales();
