@@ -158,4 +158,9 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
     ImageIO.write(image, mimeType, outputStream);
     return outputStream.toByteArray();
   }
+
+  public Object addAvatar(ImageEntity avatar) {
+    
+    return repo.save(avatar);
+  }
 }

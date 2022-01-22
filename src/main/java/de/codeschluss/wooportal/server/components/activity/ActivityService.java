@@ -349,4 +349,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     blog.getImages().add(image);
     return repo.save(blog);
   }
+  
+//  public String createICal(String activityId) {
+    
+//  }
 }

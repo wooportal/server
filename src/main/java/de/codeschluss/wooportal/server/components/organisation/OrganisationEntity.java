@@ -26,6 +26,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -121,7 +122,13 @@ public class OrganisationEntity extends BaseResource {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
   @JsonIgnore
   private List<VideoEntity> videos;
-
+  
+  @OneToOne
+  @JsonIgnore
+  @ToString.Exclude
+  @JoinColumn(name="avatar_id")
+  private ImageEntity avatar;
+  
   private String website;
 
   @Override

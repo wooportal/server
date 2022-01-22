@@ -87,4 +87,6 @@ databaseChangeLog:
 - include:
     file: database/changes/0042.transform_data_translatables.yaml
 - include:
+    file: database/changes/0043.add_column_organisations_avatar.yaml
+- include:
     file: database/datasets/development.dataset.1.yaml

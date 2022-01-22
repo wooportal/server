@@ -1,0 +1,21 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0043.add_column_organisations_avatar
+    author: codeschluss
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: avatar_id
+            type: char(36)
+        tableName: organisations
+    - addForeignKeyConstraint:
+        baseColumnNames: avatar_id
+        baseTableName: organisations
+        constraintName: CONSTRAINT_58WUFYXDKI
+        deferrable: false
+        initiallyDeferred: false
+        referencedColumnNames: id
+        referencedTableName: images
+        validate: true
