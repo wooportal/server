@@ -414,8 +414,64 @@ public class OrganisationController
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
+      }
     }
+    
+  /**
+   * Read the avatar
+   */
+  @GetMapping("/organisations/{organisationId}/avatar")
+  public ResponseEntity<ImageEntity> readAvatar(@PathVariable String organisationId) {
+    return ok(service.getAvatar(organisationId));
   }
+        
+  
+  /**
+   * Adds the avatar
+   */
+  @PostMapping("/organisations/{organisationId}/avatar")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> addAvatar(@PathVariable String organisationId,@RequestBody ImageEntity avatar) {
+    try {
+
+      
+      validateAvatar(avatar);
+      return ok(service.addAvatar(organisationId, imageService.add(avatar)));
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Organisation does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
+    }
+    
+  }
+  
+  private void validateAvatar(ImageEntity avatar) {
+    if (avatar == null) {
+      throw new BadParamsException("Image File must not be null");
+    }
+      if (!imageService.validCreateFieldConstraints(avatar)) {
+        throw new BadParamsException("Image or Mime Type with correct form required");
+      }
+    }
+  
+  /**
+   * Delete the avatar
+   * @param organisationId
+   * @param avatarId
+   * @return
+   */
+  @DeleteMapping("/organisations/{organisationId}/avatar")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> deleteAvatar(@PathVariable String organisationId,
+      @RequestParam(value = "avatarId", required = true) String avatarId) {
+    try {
+      imageService.delete(avatarId); //worked
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("No Avatar");
+      }
+  }
+  
   
   @GetMapping("/organisations/{organisationId}/videos")
   public ResponseEntity<?> readVideos(@PathVariable String organisationId) {

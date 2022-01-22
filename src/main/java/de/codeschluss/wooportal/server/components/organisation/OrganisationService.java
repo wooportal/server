@@ -297,4 +297,19 @@ public class OrganisationService
         .stream().map(o -> o.getMail())
         .collect(Collectors.toList());
   }
+  
+  public ImageEntity getAvatar(String organisationId) {
+    OrganisationEntity result = repo.findOne(entities.withId(organisationId))
+      .orElseThrow(() -> new NotFoundException(organisationId));
+    
+    return result.getAvatar();
+    
+  }
+  public OrganisationEntity addAvatar(String organisationId, ImageEntity avatar) throws IOException {
+    OrganisationEntity organisation = getById(organisationId);
+    organisation.setAvatar(avatar);
+    return repo.save(organisation);
+    }
+    
+  
 }
