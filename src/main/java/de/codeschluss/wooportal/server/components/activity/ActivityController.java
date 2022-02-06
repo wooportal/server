@@ -47,6 +47,26 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.ProdId;
+import net.fortuna.ical4j.model.property.Uid;
+import net.fortuna.ical4j.model.property.Version;
+import net.fortuna.ical4j.util.RandomUidGenerator;
+import net.fortuna.ical4j.util.UidGenerator;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -591,7 +611,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       throw new BadParamsException("Given Activity does not exist");
     }
   }
-
+  
+  
   /**
    * Read translations.
    *
@@ -631,5 +652,15 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");
     }
-  }
+   
+    } 
+
+    @GetMapping("/activities/{activityId}/iCal")
+    public ResponseEntity<String> generateCalenderFile(@PathVariable String activityId)
+
+
+    {
+      return ok(service.generateCalenderFile(activityId));
+    }
+
 }
