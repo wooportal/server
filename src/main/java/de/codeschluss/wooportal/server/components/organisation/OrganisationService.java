@@ -293,23 +293,24 @@ public class OrganisationService
    * @return the all mail addresses
    */
   public List<String> getAllMailAddresses() {
-    return repo.findAll(entities.withMail())
-        .stream().map(o -> o.getMail())
+    return repo.findAll(entities.withMail()).stream().map(o -> o.getMail())
         .collect(Collectors.toList());
   }
-  
+
   public ImageEntity getAvatar(String organisationId) {
     OrganisationEntity result = repo.findOne(entities.withId(organisationId))
-      .orElseThrow(() -> new NotFoundException(organisationId));
-    
+        .orElseThrow(() -> new NotFoundException(organisationId));
+
     return result.getAvatar();
-    
   }
-  public OrganisationEntity addAvatar(String organisationId, ImageEntity avatar) throws IOException {
+
+  public OrganisationEntity addAvatar(String organisationId, ImageEntity avatar)
+      throws IOException {
+    if (organisationId == null || organisationId.isEmpty()) {
+      throw new NotFoundException("No Organisation exists");
+    }
     OrganisationEntity organisation = getById(organisationId);
     organisation.setAvatar(avatar);
     return repo.save(organisation);
-    }
-    
-  
+  }
 }

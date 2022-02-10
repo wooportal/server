@@ -14,8 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import de.codeschluss.wooportal.server.components.activity.ActivityController;
 import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
-import de.codeschluss.wooportal.server.components.category.CategoryEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
@@ -27,8 +27,8 @@ import net.fortuna.ical4j.model.property.DtStart;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
-public class ActivityControllerReadIcal {
-
+public class ActivityControllerReadIcalTest {
+  
   @Autowired
   private ActivityController controller;
 
@@ -36,11 +36,8 @@ public class ActivityControllerReadIcal {
   public void IcalNotNull() throws IOException {
 
     String activityId = "00000000-0000-0000-0010-100000000000";
-
-    ResponseEntity<?> result = controller.generateCalenderFile(activityId);
-
+    ResponseEntity<?> result = controller.generateAllIcal(activityId);
     assertThat(result).isNotNull();
-
   }
 
   @Test
@@ -48,7 +45,7 @@ public class ActivityControllerReadIcal {
     
     String activityId = "00000000-0000-0000-0010-100000000000";
     ActivityEntity activity = controller.readOne(activityId).getContent();
-    ResponseEntity<String> result = controller.generateCalenderFile(activityId);
+    ResponseEntity<String> result = controller.generateAllIcal(activityId);
 
     Calendar c = new CalendarBuilder().build(new StringReader(result.getBody()));
     Component vevent = c.getComponent("VEVENT").get();
@@ -82,6 +79,24 @@ public class ActivityControllerReadIcal {
         activity.getAddress().getLatitude() + ";" + activity.getAddress().getLongitude());
 
     assertThat(vevent.getProperty("UID").get().getValue()).isNotBlank();
+  }
+
+  @Test(expected = NotFoundException.class)
+  public void TestScheduleIdExceptionThrown() throws IOException, ParserException {
+
+    String scheduleId = "";
+    String activityId = "00000000-0000-0000-0010-100000000000";
+
+    controller.generateIcal(activityId, scheduleId);
+  }
+
+  @Test(expected = NotFoundException.class)
+  public void TestActivityIdExceptionThrown() throws IOException, ParserException {
+
+    String scheduleId = "00000000-0000-0000-0011-100000000000   ";
+    String activityId = "";
+
+    controller.generateIcal(activityId, scheduleId);
   }
 }
 
