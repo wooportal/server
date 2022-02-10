@@ -8,7 +8,6 @@ import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.var;
 import org.assertj.core.api.Condition;
 import org.junit.Test;
 import org.junit.runner.RunWith;
