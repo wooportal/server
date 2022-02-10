@@ -453,17 +453,6 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
         activity.getAddress().getLatitude() + ";" + activity.getAddress().getLongitude()));
     return event;
   }
-  
-  public HttpHeaders generateHeaders() {
-    
-    HttpHeaders header = new HttpHeaders();
-    header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=mycalendar.ics");
-    header.add("Cache-Control", "no-cache, no-store, must-revalidate");
-    header.add("Pragma", "no-cache");
-    header.add("Expires", "0");
-   
-    return header;
-  }
 }
 
 
