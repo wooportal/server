@@ -1,17 +1,17 @@
 package de.codeschluss.wooportal.server.core.service;
 
-import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
-import de.codeschluss.wooportal.server.core.entity.BaseEntity;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.repository.DataRepository;
-import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.ProdId;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.naming.ServiceUnavailableException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import de.codeschluss.wooportal.server.core.entity.BaseEntity;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.repository.DataRepository;
+
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -215,28 +215,17 @@ public abstract class DataService<E extends BaseEntity, B extends QueryBuilder<?
    * @return the paged
    */
   public <P extends FilterSortPaginate> Page<E> getPaged(P params) {
-    PageRequest page = PageRequest.of(
-        params.getPage(), params.getSize(), entities.createSort(params));
-    
-    Page<E> paged = params.isEmptyQuery() && !entities.localized()
-        ? repo.findAll(page)
+    PageRequest page =
+        PageRequest.of(params.getPage(), params.getSize(), entities.createSort(params));
+
+    Page<E> paged = params.isEmptyQuery() && !entities.localized() ? repo.findAll(page)
         : repo.findAll(entities.search(params), page);
-    
+
     if (paged == null || paged.isEmpty()) {
       throw new NotFoundException(params.toString());
     }
-    
+
     return paged;
   }
-
-
-  public void add(VEvent event) {
-    // TODO Auto-generated method stub
-    
-  }
-
-  public void add(ProdId prodId) {
-    // TODO Auto-generated method stub
-    
-  }
 }
+

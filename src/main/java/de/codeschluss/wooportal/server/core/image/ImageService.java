@@ -1,7 +1,5 @@
 package de.codeschluss.wooportal.server.core.image;
 
-import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
-import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -12,6 +10,8 @@ import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Method;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Base64Utils;
+import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
+import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 
 /**
  * The Class ImageService.
@@ -151,16 +151,11 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
     
     return convertToByte(resized, formatType);
   }
-  
-  private byte[] convertToByte(BufferedImage image, String mimeType) 
-      throws IOException {
+
+  private byte[] convertToByte(BufferedImage image, String mimeType) throws IOException {
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     ImageIO.write(image, mimeType, outputStream);
     return outputStream.toByteArray();
   }
-
-  public Object addAvatar(ImageEntity avatar) {
-    
-    return repo.save(avatar);
-  }
 }
+

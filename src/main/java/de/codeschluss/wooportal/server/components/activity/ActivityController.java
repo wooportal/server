@@ -3,7 +3,25 @@ package de.codeschluss.wooportal.server.components.activity;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
-
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import de.codeschluss.wooportal.server.components.address.AddressService;
 import de.codeschluss.wooportal.server.components.blog.BlogService;
 import de.codeschluss.wooportal.server.components.category.CategoryService;
@@ -30,43 +48,6 @@ import de.codeschluss.wooportal.server.core.security.permissions.OwnActivityPerm
 import de.codeschluss.wooportal.server.core.security.permissions.OwnOrOrgaActivityOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.ProviderPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.CalScale;
-import net.fortuna.ical4j.model.property.ProdId;
-import net.fortuna.ical4j.model.property.Uid;
-import net.fortuna.ical4j.model.property.Version;
-import net.fortuna.ical4j.util.RandomUidGenerator;
-import net.fortuna.ical4j.util.UidGenerator;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -612,7 +593,6 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     }
   }
   
-  
   /**
    * Read translations.
    *
@@ -645,22 +625,26 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       service.increaseLike(activityId);
       if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
         subscriptionService.addLikedActivity(
-            subscriptionId.getValue(), 
-            service.getById(activityId));
+            subscriptionId.getValue(), service.getById(activityId));
       }
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");
     }
-   
-    } 
+  }
 
-    @GetMapping("/activities/{activityId}/iCal")
-    public ResponseEntity<String> generateCalenderFile(@PathVariable String activityId)
+  @GetMapping("/activities/{activityId}/iCal")
+  public ResponseEntity<String> generateAllIcal(@PathVariable String activityId) {
 
+    return ResponseEntity.ok().headers(service.generateHeaders()).contentType(MediaType.APPLICATION_OCTET_STREAM)
+        .body(service.generateAllIcal(activityId));
+  }
 
-    {
-      return ok(service.generateCalenderFile(activityId));
-    }
+  @GetMapping("/activities/{activityId}/{scheduleId}/iCal")
+  public ResponseEntity<String> generateIcal(@PathVariable String activityId,
+      @PathVariable String scheduleId) {
 
+    return ResponseEntity.ok().headers(service.generateHeaders()).contentType(MediaType.APPLICATION_OCTET_STREAM)
+        .body(service.generateIcal(activityId, scheduleId));
+  }
 }

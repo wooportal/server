@@ -6,10 +6,10 @@ RUN \
 # packages
 apk --no-cache add \
   nginx \
-  openjdk8-jre && \
+  openjdk11-jre && \
 apk --no-cache --virtual build add \
   maven \
-  openjdk8 && \
+  openjdk11 && \
 #
 # wooportal.server
 cd /tmp/wooportal.server && \

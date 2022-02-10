@@ -5,8 +5,10 @@ import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -16,6 +18,7 @@ import de.codeschluss.wooportal.server.components.category.CategoryEntity;
 import de.codeschluss.wooportal.server.components.category.CategoryService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
+import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
 import de.codeschluss.wooportal.server.components.tag.TagEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
@@ -38,14 +41,9 @@ import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.Organizer;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Status;
+import net.fortuna.ical4j.model.property.Uid;
 import net.fortuna.ical4j.model.property.Version;
-import net.fortuna.ical4j.util.RandomUidGenerator;
-import net.fortuna.ical4j.util.UidGenerator;
 
-
-
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class ActivityService.
  * 
@@ -59,6 +57,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   
   private CategoryService categoryService;
   
+  private ScheduleService scheduleService;
+  
   /**
    * Instantiates a new activity service.
    *
@@ -71,11 +71,13 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
       ActivityQueryBuilder entities,
       PagingAndSortingAssembler assembler,
       MailConfiguration mailConfig,
-      CategoryService categoryService) {
+      CategoryService categoryService,
+      ScheduleService scheduleService) {
     super(repo, entities, assembler);
     
     this.mailConfig = mailConfig;
     this.categoryService = categoryService;
+    this.scheduleService = scheduleService;
   }
 
   @Override
@@ -311,8 +313,6 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     ActivityEntity activity = getById(activityId);
     activity.getTargetGroups()
         .removeIf(targetGroup -> targetGroupIds.contains(targetGroup.getId()));
-    // TODO: Check if target groups are nullable and throw exception if last target
-    // group is deleted
     repo.save(activity);
   }
 
@@ -385,49 +385,85 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
  
   /**
    * Creates an ICal String
-   * @return 
-   * @throws URISyntaxException 
-   *
    * 
+   * @return
+   * @throws URISyntaxException
+   *
    */
-  public String generateCalenderFile(String activityId) {
+  public String generateAllIcal(String activityId) {
     ActivityEntity activity = repo.findOne(entities.withId(activityId))
         .orElseThrow(() -> new NotFoundException(activityId));
-    CategoryEntity category = categoryService.getById(activity.getCategory().getId());
+    Calendar calendar = createCalendar();
+    
+    for (ScheduleEntity schedule : activity.getSchedules()) {
+      calendar.add(createVEvent(activity, 
+          schedule,
+          categoryService.getById(activity.getCategory().getId())));
+    }
+    
+    return calendar.toString();
+  }
+
+  public String generateIcal(String activityId, String scheduleId) {
+    ActivityEntity activity = repo.findOne(entities.withId(activityId))
+        .orElseThrow(() -> new NotFoundException(activityId));
+    Calendar calendar = createCalendar();
+    
+    calendar.add(createVEvent(activity, 
+        scheduleService.getById(scheduleId),
+        categoryService.getById(activity.getCategory().getId())));
+    
+    return calendar.toString();
+  }
   
-    UidGenerator ug = new RandomUidGenerator();
+  private Calendar createCalendar() {
     Calendar calendar = new Calendar();
     calendar.add(new ProdId("-//" + mailConfig.getPortalName() + "//IcalExport//EN"));
     calendar.add(Version.VERSION_2_0);
     calendar.add(CalScale.GREGORIAN);
-    
-    for (ScheduleEntity schedule: activity.getSchedules()) {      
-      VEvent event = new VEvent(
-          LocalDateTime.ofInstant(schedule.getStartDate().toInstant(), TimeZone.getDefault().toZoneId()),
-          LocalDateTime.ofInstant(schedule.getEndDate().toInstant(), TimeZone.getDefault().toZoneId()),
-          activity.getName());
-
-      try {
-        if (activity.getContactName() != null && activity.getMail() != null) {
-          event.add(new Organizer(
-              new ParameterList(List.of(new Cn(activity.getContactName()))),
-              "MAILTO:" + activity.getMail()));
-        }
-      } catch (URISyntaxException e) { }
-      
-      event.add(new Description(activity.getDescription()));
-      event.add(ug.generateUid());
-      event.add(new Status("confirmed"));
-      event.add(new Location(activity.getAddress().getStreet() + " "+ activity.getAddress().getHouseNumber()
-         +" " + activity.getAddress().getPostalCode() + " "+activity.getAddress().getPlace()));
-      event.add(new Categories(category.getName()));
-      event.add(new Geo(activity.getAddress().getLatitude()+";" +activity.getAddress().getLongitude()));
-      calendar.add(event);
-    }
-    return calendar.toString();
+    return calendar;
   }
-        
-}
 
+  public VEvent createVEvent(
+      ActivityEntity activity,
+      ScheduleEntity schedule,
+      CategoryEntity category) {
+    VEvent event = new VEvent(
+        LocalDateTime.ofInstant(schedule.getStartDate().toInstant(),
+            TimeZone.getDefault().toZoneId()),
+        LocalDateTime.ofInstant(schedule.getEndDate().toInstant(),
+            TimeZone.getDefault().toZoneId()),
+        activity.getName());
+
+    try {
+      if (activity.getContactName() != null && activity.getMail() != null) {
+        event.add(new Organizer(new ParameterList(List.of(new Cn(activity.getContactName()))),
+            "MAILTO:" + activity.getMail()));
+      }
+    } catch (URISyntaxException e) {
+    }
+    event.add(new Description(activity.getDescription()));
+    event.add(new Uid(UUID.randomUUID().toString()));
+    event.add(new Status("confirmed"));
+    event.add(new Location(
+        activity.getAddress().getStreet() + " " + activity.getAddress().getHouseNumber() + " "
+            + activity.getAddress().getPostalCode() + " " + activity.getAddress().getPlace()));
+    event.add(new Categories(category.getName()));
+    event.add(new Geo(
+        activity.getAddress().getLatitude() + ";" + activity.getAddress().getLongitude()));
+    return event;
+  }
+  
+  public HttpHeaders generateHeaders() {
+    
+    HttpHeaders header = new HttpHeaders();
+    header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=mycalendar.ics");
+    header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+    header.add("Pragma", "no-cache");
+    header.add("Expires", "0");
+   
+    return header;
+  }
+}
 
 
