@@ -636,7 +636,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   @GetMapping("/activities/{activityId}/iCal")
   public ResponseEntity<String> generateAllIcal(@PathVariable String activityId) {
 
-    return ResponseEntity.ok().headers(service.generateHeaders()).contentType(MediaType.APPLICATION_OCTET_STREAM)
+    return ResponseEntity.ok().headers(createIcalHeader()).contentType(MediaType.APPLICATION_OCTET_STREAM)
         .body(service.generateAllIcal(activityId));
   }
 
@@ -644,7 +644,16 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   public ResponseEntity<String> generateIcal(@PathVariable String activityId,
       @PathVariable String scheduleId) {
 
-    return ResponseEntity.ok().headers(service.generateHeaders()).contentType(MediaType.APPLICATION_OCTET_STREAM)
+    return ResponseEntity.ok().headers(createIcalHeader()).contentType(MediaType.APPLICATION_OCTET_STREAM)
         .body(service.generateIcal(activityId, scheduleId));
+  }
+  
+  public HttpHeaders createIcalHeader() {
+    HttpHeaders header = new HttpHeaders();
+    header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=mycalendar.ics");
+    header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+    header.add("Pragma", "no-cache");
+    header.add("Expires", "0");
+    return header;
   }
 }
