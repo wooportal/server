@@ -118,15 +118,9 @@ public class BlogQueryBuilder extends QueryBuilder<QBlogEntity> {
   public BooleanExpression withUserId(String userId) {
     return query.blogger.user.id.eq(userId);
   }
-
-  /**
-   * For activity.
-   *
-   * @param activityId the activity id
-   * @return the predicate
-   */
-  public BooleanExpression forActivity(String activityId) {
-    return query.activity.id.eq(activityId);
+  
+  public BooleanExpression withTopicId(String topicId) {
+    return query.topic.id.eq(topicId);
   }
 
 }

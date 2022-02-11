@@ -102,12 +102,12 @@ public class TopicQueryBuilder extends QueryBuilder<QTopicEntity> {
   }
 
   /**
-   * With any page id.
+   * With any blog id.
    *
-   * @param pageId the page id
+   * @param blogId the blog id
    * @return the predicate
    */
-  public Predicate withAnyPageId(String pageId) {
-    return query.pages.any().id.eq(pageId);
+  public Predicate withAnyBlogId(String blogId) {
+    return query.blogs.any().id.eq(blogId);
   }
 }

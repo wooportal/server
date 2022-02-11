@@ -2,18 +2,6 @@ package de.codeschluss.wooportal.server.components.blog;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
-import de.codeschluss.wooportal.server.components.blog.translations.BlogTranslatablesEntity;
-import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
-import de.codeschluss.wooportal.server.core.entity.BaseResource;
-import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
-import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -28,17 +16,30 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.core.Relation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.codeschluss.wooportal.server.components.blog.translations.BlogTranslatablesEntity;
+import de.codeschluss.wooportal.server.components.blog.visitors.BlogVisitorEntity;
+import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
+import de.codeschluss.wooportal.server.components.topic.TopicEntity;
+import de.codeschluss.wooportal.server.core.analytics.visit.annotations.Visitable;
+import de.codeschluss.wooportal.server.core.entity.BaseResource;
+import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.core.Relation;
 
 /**
  * The persistent class for the blogs database table.
@@ -51,6 +52,7 @@ import org.springframework.hateoas.core.Relation;
 @AllArgsConstructor
 @Data
 @Localized
+@Visitable(overview = "blogs")
 @Entity
 @Table(name = "blogs")
 @Relation(collectionRelation = "data")
@@ -61,10 +63,15 @@ import org.springframework.hateoas.core.Relation;
 public class BlogEntity extends BaseResource {
   private static final long serialVersionUID = 1L;
   
+  @Transient
+  @JsonDeserialize
+  private String topicId;
+
   @ManyToOne
+  @ToString.Exclude
   @JsonIgnore
-  @JoinColumn(nullable = true)
-  private ActivityEntity activity;
+  @JoinColumn(nullable = false)
+  private TopicEntity topic;
   
   @JsonSerialize
   @JsonDeserialize
@@ -111,6 +118,11 @@ public class BlogEntity extends BaseResource {
   @JsonIgnore
   protected Set<BlogTranslatablesEntity> translatables;
   
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @ToString.Exclude
+  @JsonIgnore
+  protected Set<BlogVisitorEntity> visits;
+  
   public String getAuthor() {
     return this.getBlogger().getUser().getName();
   }
@@ -120,8 +132,6 @@ public class BlogEntity extends BaseResource {
     List<Link> links = new ArrayList<Link>();
 
     links.add(selfLink());
-    links.add(linkTo(methodOn(BlogController.class)
-        .readActivity(id)).withRel("activity"));
     links.add(linkTo(methodOn(BlogController.class)
         .readImages(id)).withRel("images"));
     

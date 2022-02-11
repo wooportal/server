@@ -2,19 +2,6 @@ package de.codeschluss.wooportal.server.components.organisation;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.codeschluss.wooportal.server.components.address.AddressEntity;
-import de.codeschluss.wooportal.server.components.organisation.translations.OrganisationTranslatablesEntity;
-import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
-import de.codeschluss.wooportal.server.components.video.VideoEntity;
-import de.codeschluss.wooportal.server.core.entity.BaseResource;
-import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
-import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -30,17 +17,31 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.core.Relation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.codeschluss.wooportal.server.components.address.AddressEntity;
+import de.codeschluss.wooportal.server.components.organisation.translations.OrganisationTranslatablesEntity;
+import de.codeschluss.wooportal.server.components.organisation.visitors.OrganisationVisitorEntity;
+import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
+import de.codeschluss.wooportal.server.components.video.VideoEntity;
+import de.codeschluss.wooportal.server.core.analytics.visit.annotations.Visitable;
+import de.codeschluss.wooportal.server.core.entity.BaseResource;
+import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.core.Relation;
 
 /**
  * The persistent class for the organisations database table.
@@ -54,6 +55,7 @@ import org.springframework.hateoas.core.Relation;
 @AllArgsConstructor
 @Entity
 @Localized
+@Visitable(overview = "organisations")
 @Table(name = "organisations")
 @Relation(collectionRelation = "data")
 @GenericGenerator(
@@ -118,6 +120,11 @@ public class OrganisationEntity extends BaseResource {
   @JsonIgnore
   @ToString.Exclude
   protected Set<OrganisationTranslatablesEntity> translatables;
+  
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @ToString.Exclude
+  @JsonIgnore
+  protected Set<OrganisationVisitorEntity> visits;
   
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
   @JsonIgnore

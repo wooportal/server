@@ -185,7 +185,7 @@ public class TranslationService {
           currentWriteLanguage, parent);
 
       return existingTranslatable != null ? existingTranslatable
-          : (T) translatableClass.newInstance();
+          : (T) translatableClass.getDeclaredConstructor().newInstance();
     }
     throw new RuntimeException(
         "Repository of Translation must inherit from " + TranslationRepository.class);

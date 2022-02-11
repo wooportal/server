@@ -2,23 +2,6 @@ package de.codeschluss.wooportal.server.components.blog;
 
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
-
-import de.codeschluss.wooportal.server.components.activity.ActivityService;
-import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
-import de.codeschluss.wooportal.server.components.blogger.BloggerService;
-import de.codeschluss.wooportal.server.components.push.PushService;
-import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
-import de.codeschluss.wooportal.server.core.api.CrudController;
-import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
-import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
-import de.codeschluss.wooportal.server.core.image.ImageEntity;
-import de.codeschluss.wooportal.server.core.image.ImageService;
-import de.codeschluss.wooportal.server.core.security.permissions.BloggerPermission;
-import de.codeschluss.wooportal.server.core.security.permissions.OwnBlogOrSuperuserPermission;
-import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
@@ -33,6 +16,24 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
+import de.codeschluss.wooportal.server.components.blogger.BloggerService;
+import de.codeschluss.wooportal.server.components.push.PushService;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
+import de.codeschluss.wooportal.server.components.topic.TopicEntity;
+import de.codeschluss.wooportal.server.components.topic.TopicService;
+import de.codeschluss.wooportal.server.core.api.CrudController;
+import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
+import de.codeschluss.wooportal.server.core.image.ImageService;
+import de.codeschluss.wooportal.server.core.security.permissions.BloggerPermission;
+import de.codeschluss.wooportal.server.core.security.permissions.OwnBlogOrSuperuserPermission;
+import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
+import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
 
 /**
  * The Class BlogController.
@@ -43,17 +44,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BlogController extends CrudController<BlogEntity, BlogService> {
   
-  /** The blogger service. */
-  private final BloggerService bloggerService;
-  
-  /** The activity service. */
-  private final ActivityService activityService;
-  
-  /** The translation service. */
-  private final TranslationService translationService;
-  
   /** The auth service. */
   private final AuthorizationService authService;
+  
+  /** The blogger service. */
+  private final BloggerService bloggerService;
   
   /** The image service. */
   private final ImageService imageService;
@@ -63,6 +58,11 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   
   /** The subscription service. */
   private final SubscriptionService subscriptionService;
+  
+  /** The translation service. */
+  private final TranslationService translationService;
+  
+  private final TopicService topicService;
 
   /**
    * Instantiates a new blog controller.
@@ -70,22 +70,22 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
    * @param service the service
    */
   public BlogController(
+      AuthorizationService authService,
       BlogService service,
       BloggerService bloggerService,
-      ActivityService activityService,
-      TranslationService translationService,
-      AuthorizationService authService,
       ImageService imageService,
       PushService pushService,
-      SubscriptionService subscriptionService) {
+      SubscriptionService subscriptionService,
+      TranslationService translationService,
+      TopicService topicService) {
     super(service);
-    this.bloggerService = bloggerService;
-    this.activityService = activityService;
-    this.translationService = translationService;
     this.authService = authService;
+    this.bloggerService = bloggerService;
     this.imageService = imageService;
     this.pushService = pushService;
     this.subscriptionService = subscriptionService;
+    this.translationService = translationService;
+    this.topicService = topicService;
   }
   
   @Override
@@ -104,8 +104,13 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   @PostMapping("/blogs")
   @BloggerPermission
   public ResponseEntity<?> create(@RequestBody BlogEntity newBlog) throws Exception {
+    
     BloggerEntity blogger = getBlogger();
     newBlog.setBlogger(blogger);
+    
+    TopicEntity topic = topicService.getById(newBlog.getTopicId());
+    newBlog.setTopic(topic);
+    
     ResponseEntity<?> result = super.create(newBlog);
     pushService.pushNewBlog(newBlog);
     return result;
@@ -131,35 +136,6 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   }
   
   /**
-   * Read activity.
-   *
-   * @param blogId the blog id
-   * @return the response entity
-   */
-  @GetMapping("/blogs/{blogId}/activity")
-  public ResponseEntity<?> readActivity(@PathVariable String blogId) {
-    return ok(activityService.getResourceByBlogId(blogId)); 
-  }
-
-  /**
-   * Update activity.
-   *
-   * @param blogId the blog id
-   * @param activityId the activity id
-   * @return the response entity
-   */
-  @PutMapping("/blogs/{blogId}/activity")
-  @OwnBlogOrSuperuserPermission
-  public ResponseEntity<?> updateActivity(@PathVariable String blogId,
-      @RequestBody StringPrimitive activityId) {
-    if (activityService.existsById(activityId.getValue()) && service.existsById(blogId)) {
-      return ok(service.updateActivity(blogId, activityService.getById(activityId.getValue())));
-    } else {
-      throw new BadParamsException("Blog or Activity with given ID do not exist!");
-    }
-  }
-  
-  /**
    * Read images.
    *
    * @param blogId the blog id
@@ -170,6 +146,23 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
     return ok(service.getImages(blogId));
   }
   
+  @GetMapping("/blogs/{blogId}/topic")
+  public ResponseEntity<?> readTopic(@PathVariable String blogId) {
+    return ok(topicService.getResourceByBlog(blogId));
+  }
+  
+  @PutMapping("/blogs/{blogId}/topic")
+  @SuperUserPermission
+  public ResponseEntity<?> updateTopic(@PathVariable String blogId,
+      @RequestBody StringPrimitive topicId) {
+    if (topicService.existsById(topicId.getValue()) 
+        && service.existsById(blogId)) {
+      return ok(
+          service.updateResourceWithTopic(blogId, topicService.getById(topicId.getValue())));
+    } else {
+      throw new BadParamsException("Page or Topic with given ID do not exist!");
+    }
+  }
 
   /**
    * Adds the image.
@@ -207,7 +200,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   /**
    * Delete images.
    *
-   * @param blogId the activity id
+   * @param blogId the blog id
    * @param imageIds the image ids
    * @return the response entity
    */

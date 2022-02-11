@@ -5,13 +5,6 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import org.springframework.stereotype.Service;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class PageService.
- * 
- * @author Valmir Etemi
- *
- */
 @Service
 public class TopicService extends ResourceDataService<TopicEntity, TopicQueryBuilder> {
   
@@ -31,28 +24,28 @@ public class TopicService extends ResourceDataService<TopicEntity, TopicQueryBui
   }
 
   @Override
-  public TopicEntity getExisting(TopicEntity newPage) {
-    return repo.findOne(entities.withName(newPage.getName())).orElse(null);
+  public TopicEntity getExisting(TopicEntity newTopic) {
+    return repo.findOne(entities.withName(newTopic.getName())).orElse(null);
   }
   
   @Override
-  public boolean validCreateFieldConstraints(TopicEntity newPage) {
-    return validFields(newPage);
+  public boolean validCreateFieldConstraints(TopicEntity newTopic) {
+    return validFields(newTopic);
   }
   
   @Override
-  public boolean validUpdateFieldConstraints(TopicEntity newPage) {
-    return validFields(newPage);
+  public boolean validUpdateFieldConstraints(TopicEntity newTopic) {
+    return validFields(newTopic);
   }
 
   /**
    * Valid fields.
    *
-   * @param newPage the new page
+   * @param newTopic the new page
    * @return true, if successful
    */
-  private boolean validFields(TopicEntity newPage) {
-    return newPage.getName() != null && !newPage.getName().isEmpty();
+  private boolean validFields(TopicEntity newTopic) {
+    return newTopic.getName() != null && !newTopic.getName().isEmpty();
   }
 
   @Override
@@ -67,14 +60,14 @@ public class TopicService extends ResourceDataService<TopicEntity, TopicQueryBui
   }
 
   /**
-   * Gets the resource by page.
+   * Gets the resource by blog.
    *
-   * @param pageId the page id
-   * @return the resource by page
+   * @param blogId the blig id
+   * @return the resource by blog
    */
-  public Object getResourceByPage(String pageId) {
-    TopicEntity topic = repo.findOne(entities.withAnyPageId(pageId))
-        .orElseThrow(() -> new NotFoundException(pageId));
+  public Object getResourceByBlog(String blogId) {
+    TopicEntity topic = repo.findOne(entities.withAnyBlogId(blogId))
+        .orElseThrow(() -> new NotFoundException(blogId));
     return assembler.toResource(topic);
   }
 }

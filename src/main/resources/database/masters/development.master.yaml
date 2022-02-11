@@ -1,92 +1,102 @@
 databaseChangeLog:
-- logicalFilePath: path_independent
-- include:
-    file: database/seeds/development.seed.yaml
-- include:
-    file: database/datasets/development.dataset.0.yaml
-- include:
-    file: database/changes/0001.rename_table_translations_languages.yaml
-- include:
-    file: database/changes/0002.add_column_languages_machinetranslated.yaml
-- include:
-    file: database/changes/0003.create_tables_translatables.yaml
-- include:
-    file: database/changes/0004.transform_data_translatables_translations.yaml
-- include:
-    file: database/changes/0005.drop_column_translatable-parents_translations.yaml
-- include:
-    file: database/changes/0006.drop_table_i18n.yaml
-- include:
-    file: database/changes/0007.add_column_organisations_videourl.yaml
-- include:
-    file: database/changes/0008.create_table_organisationimages.yaml
-- include:
-    file: database/changes/0009.drop_column_organisations_image.yaml
-- include:
-    file: database/changes/0010.add_column_organisations_approved.yaml
-- include:
-    file: database/changes/0011.add_columns_activities_contacts.yaml
-- include:
-    file: database/changes/0012.transform_data_activities_contacts.yaml
-- include:
-    file: database/changes/0013.drop_column_activities_showuser.yaml
-- include:
-    file: database/changes/0014.rename_column_users_name.yaml
-- include:
-    file: database/changes/0015.add_column_activities_likes.yaml
-- include:
-    file: database/changes/0016.create_tables_topics.yaml
-- include:
-    file: database/changes/0017.create_tables_paging.yaml
-- include:
-    file: database/changes/0018.create_tables_blogging.yaml
-- include:
-    file: database/changes/0019.create_table_subscriptions.yaml
-- include:
-    file: database/changes/0020.add_column_categories_icon.yaml
-- include:
-    file: database/changes/0021.normalize_cascading.yaml
-- include:
-    file: database/changes/0022.add_column_organisations_likes.yaml
-- include:
-    file: database/changes/0023.add_column_pages_likes.yaml
-- include:
-    file: database/changes/0024.create_table_images.yaml
-- include:
-    file: database/changes/0025.create_table_activityimages.yaml
-- include:
-    file: database/changes/0026.create_table_blogimages.yaml
-- include:
-    file: database/changes/0027.create_table_orgaimages.yaml
-- include:
-    file: database/changes/0028.transform_data_orgaimages.yaml
-- include:
-    file: database/changes/0029.transform_data_richtext.yaml
-- include:
-    file: database/changes/0030.create_table_videos.yaml
-- include:
-    file: database/changes/0031.transform_data_videourls.yaml
-- include:
-    file: database/changes/0032.drop_column_organisations_video_url.yaml
-- include:
-    file: database/changes/0033.create_tables_subscriptions.yaml
-- include:
-    file: database/changes/0034.drop_column_subscriptions_endpoint-key.yaml
-- include:
-    file: database/changes/0035.add_column_subscriptions_locale.yaml
-- include:
-    file: database/changes/0037.add_column_users_translator.yaml
-- include:
-    file: database/changes/0038.create_tables_labels.yaml
-- include:
-    file: database/changes/0039.create_tables_markups.yaml
-- include:
-    file: database/changes/0040.add_data_markups.yaml
-- include:
-    file: database/changes/0041.drop_column_language_machinetranslated.yaml
-- include:
-    file: database/changes/0042.transform_data_translatables.yaml
-- include:
-    file: database/changes/0043.add_column_organisations_avatar.yaml
-- include:
-    file: database/datasets/development.dataset.1.yaml
+    - logicalFilePath: path_independent
+    - include:
+          file: database/seeds/development.seed.yaml
+    - include:
+          file: database/datasets/development.dataset.0.yaml
+    - include:
+          file: database/changes/0001.rename_table_translations_languages.yaml
+    - include:
+          file: database/changes/0002.add_column_languages_machinetranslated.yaml
+    - include:
+          file: database/changes/0003.create_tables_translatables.yaml
+    - include:
+          file: database/changes/0004.transform_data_translatables_translations.yaml
+    - include:
+          file: database/changes/0005.drop_column_translatable-parents_translations.yaml
+    - include:
+          file: database/changes/0006.drop_table_i18n.yaml
+    - include:
+          file: database/changes/0007.add_column_organisations_videourl.yaml
+    - include:
+          file: database/changes/0008.create_table_organisationimages.yaml
+    - include:
+          file: database/changes/0009.drop_column_organisations_image.yaml
+    - include:
+          file: database/changes/0010.add_column_organisations_approved.yaml
+    - include:
+          file: database/changes/0011.add_columns_activities_contacts.yaml
+    - include:
+          file: database/changes/0012.transform_data_activities_contacts.yaml
+    - include:
+          file: database/changes/0013.drop_column_activities_showuser.yaml
+    - include:
+          file: database/changes/0014.rename_column_users_name.yaml
+    - include:
+          file: database/changes/0015.add_column_activities_likes.yaml
+    - include:
+          file: database/changes/0016.create_tables_topics.yaml
+    - include:
+          file: database/changes/0017.create_tables_paging.yaml
+    - include:
+          file: database/changes/0018.create_tables_blogging.yaml
+    - include:
+          file: database/changes/0019.create_table_subscriptions.yaml
+    - include:
+          file: database/changes/0020.add_column_categories_icon.yaml
+    - include:
+          file: database/changes/0021.normalize_cascading.yaml
+    - include:
+          file: database/changes/0022.add_column_organisations_likes.yaml
+    - include:
+          file: database/changes/0023.add_column_pages_likes.yaml
+    - include:
+          file: database/changes/0024.create_table_images.yaml
+    - include:
+          file: database/changes/0025.create_table_activityimages.yaml
+    - include:
+          file: database/changes/0026.create_table_blogimages.yaml
+    - include:
+          file: database/changes/0027.create_table_orgaimages.yaml
+    - include:
+          file: database/changes/0028.transform_data_orgaimages.yaml
+    - include:
+          file: database/changes/0029.transform_data_richtext.yaml
+    - include:
+          file: database/changes/0030.create_table_videos.yaml
+    - include:
+          file: database/changes/0031.transform_data_videourls.yaml
+    - include:
+          file: database/changes/0032.drop_column_organisations_video_url.yaml
+    - include:
+          file: database/changes/0033.create_tables_subscriptions.yaml
+    - include:
+          file: database/changes/0034.drop_column_subscriptions_endpoint-key.yaml
+    - include:
+          file: database/changes/0035.add_column_subscriptions_locale.yaml
+    - include:
+          file: database/changes/0037.add_column_users_translator.yaml
+    - include:
+          file: database/changes/0038.create_tables_labels.yaml
+    - include:
+          file: database/changes/0039.create_tables_markups.yaml
+    - include:
+          file: database/changes/0040.add_data_markups.yaml
+    - include:
+          file: database/changes/0041.drop_column_language_machinetranslated.yaml
+    - include:
+          file: database/changes/0042.transform_data_translatables.yaml
+    - include:
+          file: database/changes/0043.add_column_organisations_avatar.yaml
+    - include:
+          file: database/datasets/development.dataset.1.yaml
+    - include:
+          file: database/changes/0044.drop_column_blog_activity.yaml
+    - include:
+          file: database/changes/0045.add_column_blog_topic.yaml
+    - include:
+          file: database/changes/0046.transform_data_pages_to_blogs.yaml
+    - include:
+          file: database/changes/0047.rebuild_table_pages.yaml
+    - include:
+          file: database/changes/0048.create_tables_visitors.yaml

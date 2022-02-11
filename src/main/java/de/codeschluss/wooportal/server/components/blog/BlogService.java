@@ -1,10 +1,17 @@
 package de.codeschluss.wooportal.server.components.blog;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.querydsl.core.types.Predicate;
-
-import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
+import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
@@ -12,15 +19,6 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Page;
-import org.springframework.hateoas.Resources;
-import org.springframework.stereotype.Service;
 
 /**
  * The Class BlogService.
@@ -121,7 +119,7 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
     }
     return assembler.entitiesToResources(result, params);
   }
-
+  
   /**
    * Gets the by user.
    *
@@ -139,6 +137,23 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
     }
 
     return transformList(result);
+  }
+  
+  public Resources<?> getResourcesByTopic(String topicId, BaseParams params)
+      throws JsonParseException, JsonMappingException, IOException {
+    var pages = repo.findAll(
+        entities.withTopicId(topicId), 
+        entities.createSort(params));
+    if (pages == null || pages.isEmpty()) {
+      throw new NotFoundException(topicId);
+    }
+    return assembler.entitiesToResources(pages, params);
+  }
+  
+  public Resource<?> updateResourceWithTopic(String blogId, TopicEntity topic) {
+    var page = getById(blogId);
+    page.setTopic(topic);
+    return assembler.toResource(repo.save(page));
   }
 
   @Override
@@ -197,40 +212,6 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
     blog.setLikes(blog.getLikes() + 1);
     repo.save(blog);
   }
-
-  /**
-   * Update activity.
-   *
-   * @param blogId
-   *          the blog id
-   * @param activity
-   *          the activity
-   */
-  public BlogEntity updateActivity(String blogId, ActivityEntity activity) {
-    BlogEntity blog = getById(blogId);
-    blog.setActivity(activity);
-    return repo.save(blog);
-  }
-
-  /**
-   * Gets the resource by activity.
-   *
-   * @param activityId the activity id
-   * @param params the params
-   * @return the resource by activity
-   * @throws JsonParseException the json parse exception
-   * @throws JsonMappingException the json mapping exception
-   * @throws IOException Signals that an I/O exception has occurred.
-   */
-  public Resources<?> getResourceByActivity(String activityId, BaseParams params) 
-      throws JsonParseException, JsonMappingException, IOException {
-    Predicate query = entities.forActivity(activityId);
-    List<BlogEntity> result = repo.findAll(query, entities.createSort(params));
-    if (result == null || result.isEmpty()) {
-      throw new NotFoundException(activityId);
-    }
-    return assembler.entitiesToResources(result, params);
-  }
   
   /**
    * Gets the images.
@@ -269,7 +250,7 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
    *
    * @param id the id
    * @param image the image
-   * @return the activity entity
+   * @return the blog entity
    * @throws IOException Signals that an I/O exception has occurred.
    */
   public BlogEntity addImage(String id, ImageEntity image) throws IOException {

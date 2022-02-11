@@ -2,18 +2,6 @@ package de.codeschluss.wooportal.server.components.push.subscription;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
-import de.codeschluss.wooportal.server.components.blog.BlogEntity;
-import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
-import de.codeschluss.wooportal.server.components.page.PageEntity;
-import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
-import de.codeschluss.wooportal.server.components.topic.TopicEntity;
-import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -24,17 +12,27 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.CollectionId;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.core.Relation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
+import de.codeschluss.wooportal.server.components.blog.BlogEntity;
+import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
+import de.codeschluss.wooportal.server.components.topic.TopicEntity;
+import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.CollectionId;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.core.Relation;
 
 /**
  * The persistent class for the subscription database table.
@@ -164,23 +162,6 @@ public class SubscriptionEntity extends BaseResource {
       generator = "UUID"
   )
   private List<OrganisationEntity> organisationLikes;
-  
-  @ManyToMany(fetch = FetchType.EAGER)
-  @ToString.Exclude
-  @JsonIgnore
-  @JoinTable(
-      name = "page_likes",
-      joinColumns = @JoinColumn(name = "subscription_id"),
-      inverseJoinColumns = @JoinColumn(name = "page_id"),
-      uniqueConstraints = {
-          @UniqueConstraint(columnNames = { "subscription_id", "page_id" })
-      })
-  @CollectionId(
-      columns = @Column(name = "id"),
-      type = @Type(type = "uuid-char"),
-      generator = "UUID"
-  )
-  private List<PageEntity> pageLikes;
   
   @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude

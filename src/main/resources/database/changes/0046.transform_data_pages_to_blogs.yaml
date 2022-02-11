@@ -1,0 +1,58 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0046.transform_data_pages_to_blogs.1
+          author: codeschluss
+          changes:
+              - sql:
+                    comment: create one blogger from first superuser
+                    dbms: mysql, h2
+                    splitStatements: true
+                    sql: /*!40101 SET character_set_client = utf8 */;
+                        insert into bloggers (id, created, modified, approved, user_id)
+                        select uuid(),  t1.created, t1.modified, true, t1.id
+                        from users t1 where t1.superuser = true limit 1;
+    - changeSet:
+          id: 0046.transform_data_pages_to_blogs.2
+          author: codeschluss
+          changes:
+              - sql:
+                    comment: transfer all pages into blogs table
+                    dbms: mysql, h2
+                    splitStatements: true
+                    sql: /*!40101 SET character_set_client = utf8 */;
+                        insert into blogs (id, created, modified, likes, topic_id, blogger_id)
+                        select t1.id,  t1.created, t1.modified, t1.likes, t1.topic_id, (select id from bloggers limit 1)
+                        from pages t1;
+    - changeSet:
+          id: 0046.transform_data_pages_to_blogs.3
+          author: codeschluss
+          changes:
+              - sql:
+                    comment: transfer all page_translatables into blog_translatables
+                    dbms: mysql, h2
+                    splitStatements: true
+                    sql: /*!40101 SET character_set_client = utf8 */;
+                        insert into blog_translatables (id, created, modified, content, title, language_id, parent_id)
+                        select t1.id,  t1.created, t1.modified, t1.content, t1.title, t1.language_id, t1.parent_id
+                        from page_translatables t1;
+    - changeSet:
+          id: 0046.transform_data_pages_to_blogs.4
+          author: codeschluss
+          changes:
+              - sql:
+                    comment: transfer all page_likes into blog_likes
+                    dbms: mysql, h2
+                    splitStatements: true
+                    sql: /*!40101 SET character_set_client = utf8 */;
+                        insert into blog_likes (id, subscription_id, blog_id)
+                        select t1.id,  t1.subscription_id, t1.page_id
+                        from page_likes t1;
+    - changeSet:
+          id: 0046.transform_data_pages_to_blogs.5
+          author: codeschluss
+          changes:
+              - dropTable:
+                    tableName: page_translatables
+              - dropTable:
+                    tableName: page_likes

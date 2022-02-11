@@ -1,0 +1,35 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0047.rebuild_table_pages.1
+          author: codeschluss
+          changes:
+              - sql:
+                    comment: delete all current pages
+                    dbms: mysql, h2
+                    splitStatements: true
+                    sql: /*!40101 SET character_set_client = utf8 */;
+                        delete from pages;
+    - changeSet:
+          id: 0047.rebuild_table_pages.2
+          author: codeschluss
+          changes:
+              - dropColumn:
+                    columnName: likes
+                    tableName: pages
+              - dropColumn:
+                    columnName: topic_id
+                    tableName: pages
+    - changeSet:
+          id: 0047.rebuild_table_pages.3
+          author: codeschluss
+          changes:
+              - addColumn:
+                    columns:
+                        - column:
+                              constraints:
+                                  nullable: false
+                                  uniqe: true
+                              name: name
+                              type: VARCHAR(255)
+                    tableName: pages
