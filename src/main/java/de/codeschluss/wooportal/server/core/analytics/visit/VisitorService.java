@@ -78,8 +78,7 @@ public class VisitorService {
   }
 
   public boolean isValidVisitor() {
-    return true;
-//   return isNoPrivateIpAddress() && isNoSuperUser();
+    return isNoPrivateIpAddress() && isNoSuperUser();
   }
 
   private boolean isNoPrivateIpAddress() {
