@@ -27,13 +27,14 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.codeschluss.wooportal.server.components.activity.translations.ActivityTranslatablesEntity;
+import de.codeschluss.wooportal.server.components.activity.visitors.ActivityVisitorEntity;
 import de.codeschluss.wooportal.server.components.address.AddressEntity;
-import de.codeschluss.wooportal.server.components.blog.BlogEntity;
 import de.codeschluss.wooportal.server.components.category.CategoryEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.tag.TagEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
+import de.codeschluss.wooportal.server.core.analytics.visit.annotations.Visitable;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
@@ -54,9 +55,10 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
-@Entity
 @Localized
+@Visitable(overview = "activities")
 @Table(name = "activities")
+@Entity
 @Relation(collectionRelation = "data")
 @GenericGenerator(
     name = "UUID",
@@ -74,11 +76,6 @@ public class ActivityEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   private AddressEntity address;
-  
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "activity")
-  @ToString.Exclude
-  @JsonIgnore
-  private List<BlogEntity> blogs;
 
   @Transient
   @JsonDeserialize
@@ -180,6 +177,11 @@ public class ActivityEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   protected Set<ActivityTranslatablesEntity> translatables;
+  
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @ToString.Exclude
+  @JsonIgnore
+  protected Set<ActivityVisitorEntity> visits;
 
   @Override
   public List<Link> createResourceLinks() {
@@ -198,8 +200,6 @@ public class ActivityEntity extends BaseResource {
         .readTargetGroups(id, null)).withRel("targetgroups"));
     links.add(linkTo(methodOn(ActivityController.class)
         .readAddress(id)).withRel("address"));
-    links.add(linkTo(methodOn(ActivityController.class)
-        .readBlogs(id, null)).withRel("blogs"));
     links.add(linkTo(methodOn(ActivityController.class)
         .readTranslations(id)).withRel("translations"));
     links.add(linkTo(methodOn(ActivityController.class)

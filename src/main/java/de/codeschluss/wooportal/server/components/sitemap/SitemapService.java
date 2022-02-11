@@ -1,16 +1,15 @@
 package de.codeschluss.wooportal.server.components.sitemap;
 
-import de.codeschluss.wooportal.server.components.activity.ActivityService;
-import de.codeschluss.wooportal.server.components.blog.BlogService;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
-import de.codeschluss.wooportal.server.components.page.PageService;
-import de.codeschluss.wooportal.server.core.entity.BaseEntity;
-import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import de.codeschluss.wooportal.server.components.activity.ActivityService;
+import de.codeschluss.wooportal.server.components.blog.BlogService;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
+import de.codeschluss.wooportal.server.core.entity.BaseEntity;
+import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 
 @Service
 public class SitemapService {
@@ -22,7 +21,6 @@ public class SitemapService {
   private final ActivityService activityService;
   private final BlogService blogService;
   private final OrganisationService orgaService;
-  private final PageService pageService;
   
   /**
    * Instantiates a new sitemap service.
@@ -37,13 +35,11 @@ public class SitemapService {
       SitemapConfiguration config,
       ActivityService activityService,
       BlogService blogService,
-      OrganisationService orgaService,
-      PageService pageService) {
+      OrganisationService orgaService) {
     this.config = config;
     this.dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     this.activityService = activityService;
     this.blogService = blogService;
-    this.pageService = pageService;
     this.orgaService = orgaService;
   }
   
@@ -62,7 +58,6 @@ public class SitemapService {
     map.addUrls(getEntityUrls(activityService, baseUrlBuilder, "activities"));
     map.addUrls(getEntityUrls(blogService, baseUrlBuilder, "blogposts"));
     map.addUrls(getEntityUrls(orgaService, baseUrlBuilder, "organisations"));
-    map.addUrls(getEntityUrls(pageService, baseUrlBuilder, "infopages"));
     return map;
   }
 

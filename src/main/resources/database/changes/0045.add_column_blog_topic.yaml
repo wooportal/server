@@ -1,0 +1,25 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0045.add_column_blog_topic
+          author: codeschluss
+          changes:
+              - addColumn:
+                    columns:
+                        - column:
+                              constraints:
+                                  nullable: true
+                              name: topic_id
+                              type: CHAR(36)
+                    tableName: blogs
+              - addForeignKeyConstraint:
+                    baseColumnNames: topic_id
+                    baseTableName: blogs
+                    constraintName: CONSTRAINT_J3O98DC
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: SET NULL
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: topics
+                    validate: true

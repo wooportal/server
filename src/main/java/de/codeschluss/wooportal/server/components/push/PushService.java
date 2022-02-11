@@ -1,21 +1,5 @@
 package de.codeschluss.wooportal.server.components.push;
 
-import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
-import de.codeschluss.wooportal.server.components.activity.translations.ActivityTranslatablesEntity;
-import de.codeschluss.wooportal.server.components.blog.BlogEntity;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
-import de.codeschluss.wooportal.server.components.page.PageEntity;
-import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionEntity;
-import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
-import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
-import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
-import de.codeschluss.wooportal.server.components.topic.TopicEntity;
-import de.codeschluss.wooportal.server.components.topic.translations.TopicTranslatablesEntity;
-import de.codeschluss.wooportal.server.components.user.UserService;
-import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
-import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
-import de.codeschluss.wooportal.server.core.mail.MailService;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +10,19 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import de.codeschluss.wooportal.server.components.activity.ActivityEntity;
+import de.codeschluss.wooportal.server.components.activity.translations.ActivityTranslatablesEntity;
+import de.codeschluss.wooportal.server.components.blog.BlogEntity;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionEntity;
+import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
+import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
+import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
+import de.codeschluss.wooportal.server.components.user.UserService;
+import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
+import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.mail.MailService;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -486,80 +483,6 @@ public class PushService {
     }
     
     return CompletableFuture.completedFuture("done");
-  }
-  
-  /**
-   * Push new page.
-   *
-   * @param newPage the new page
-   * @return the completable future
-   */
-  @Async
-  public CompletableFuture<String> pushNewPage(PageEntity newPage) {
-    List<SubscriptionEntity> subscriptions = 
-        subscriptionService.getByNewContentAndTopicSub(newPage.getTopic().getId());
-    if (subscriptions != null && !subscriptions.isEmpty()) {
-      Map<String, String> translatedMessages = new HashMap<>();
-      for (SubscriptionEntity subscription : subscriptions) {
-        String messageContentToSend = messageContentNewPage;
-        if (needsTranslation(subscription, languageService.getDefaultLocale())) {
-          messageContentToSend = translateSingle(
-              subscription, 
-              languageService.getDefaultLocale(), 
-              messageContentToSend, 
-              translatedMessages);
-        }
-        Map<String, String> data = new HashMap<>();
-        data.put("route", newPage.selfLink().getHref());
-       
-        MessageDto message = new MessageDto(
-            getTopicName(newPage.getTopic(), subscription.getLocale()), messageContentToSend);
-        
-        firebasePushService.sendPush(subscription, message, data);
-      }
-    }
-    
-    return CompletableFuture.completedFuture("done");
-  }
-
-  /**
-   * Gets the topic name.
-   *
-   * @param topic the topic
-   * @param language the language
-   * @return the topic name
-   */
-  private String getTopicName(TopicEntity topic, String language) {
-    Optional<TopicTranslatablesEntity> translatable = 
-        getOptionalTopicTranslatable(topic, language);
-    
-    if (translatable.isPresent()) {
-      if (language.equalsIgnoreCase(languageService.getDefaultLocale())) {
-        return translatable.get().getName();
-      }
-      return translatable.get().getName().replaceFirst("\\(.*?\\)","").trim();
-    } else {
-      translatable = getOptionalTopicTranslatable(topic, languageService.getDefaultLocale());
-      if (translatable.isPresent()) {
-        return translatable.get().getName();
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Gets the optional topic translatable.
-   *
-   * @param topic the topic
-   * @param language the language
-   * @return the optional topic translatable
-   */
-  private Optional<TopicTranslatablesEntity> getOptionalTopicTranslatable(TopicEntity topic,
-      String language) {
-    return topic.getTranslatables().stream()
-        .filter(t -> 
-            t.getLanguage().getLocale().equalsIgnoreCase(language))
-        .findFirst();
   }
   
   /**

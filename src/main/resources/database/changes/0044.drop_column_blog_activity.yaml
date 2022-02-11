@@ -1,0 +1,9 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0044.drop_column_blog_activity
+          author: codeschluss
+          changes:
+              - dropColumn:
+                    columnName: activity_id
+                    tableName: blogs

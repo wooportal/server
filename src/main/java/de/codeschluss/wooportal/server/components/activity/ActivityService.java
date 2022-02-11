@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
-import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -158,19 +157,6 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
       return repo.findAll(entities.withCurrentSchedulesOnly());
     }
     return repo.findAll();
-  }
-  
-  /**
-   * Gets the resource by blog id.
-   *
-   * @param blogId the blog id
-   * @return the resource by blog id
-   */
-  public Resource<ActivityEntity> getResourceByBlogId(String blogId) {
-    return assembler.toResource(
-        repo
-        .findOne(entities.withBlogId(blogId))
-        .orElseThrow(() -> new NotFoundException(blogId)));
   }
 
   /**
@@ -377,9 +363,9 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
    * @throws IOException Signals that an I/O exception has occurred.
    */
   public ActivityEntity addImage(String id, ImageEntity image) throws IOException {
-    ActivityEntity blog = getById(id);
-    blog.getImages().add(image);
-    return repo.save(blog);
+    ActivityEntity activity = getById(id);
+    activity.getImages().add(image);
+    return repo.save(activity);
   }
  
   /**

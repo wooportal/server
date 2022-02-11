@@ -1,8 +1,7 @@
 package de.codeschluss.wooportal.server.components.topic;
 
 import static org.springframework.http.ResponseEntity.ok;
-
-import de.codeschluss.wooportal.server.components.page.PageService;
+import de.codeschluss.wooportal.server.components.blog.BlogService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
@@ -30,25 +29,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TopicController extends CrudController<TopicEntity, TopicService> {
   
+  private final BlogService blogService;
+  
   /** The translation service. */
   private final TranslationService translationService;
-  
-  /** The page service. */
-  private final PageService pageService;
 
-  /**
-   * Instantiates a new topic controller.
-   *
-   * @param service the service
-   * @param pageService the page service
-   * @param translationService the translation service
-   */
   public TopicController(
+      BlogService blogService,
       TopicService service,
-      PageService pageService,
       TranslationService translationService) {
     super(service);
-    this.pageService = pageService;
+    this.blogService = blogService;
     this.translationService = translationService;
   }
 
@@ -94,10 +85,10 @@ public class TopicController extends CrudController<TopicEntity, TopicService> {
    * @param params the params
    * @return the response entity
    */
-  @GetMapping("/topics/{topicId}/pages")
-  public ResponseEntity<?> readPages(@PathVariable String topicId, BaseParams params) {
+  @GetMapping("/topics/{topicId}/blogs")
+  public ResponseEntity<?> readBlogs(@PathVariable String topicId, BaseParams params) {
     try {
-      return ok(pageService.getResourcesByTopic(topicId, params));
+      return ok(blogService.getResourcesByTopic(topicId, params));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

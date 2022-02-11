@@ -18,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import de.codeschluss.wooportal.server.components.markup.translations.MarkupTranslatablesEntity;
+import de.codeschluss.wooportal.server.components.markup.visitors.MarkupVisitorEntity;
+import de.codeschluss.wooportal.server.core.analytics.visit.annotations.Visitable;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
 import lombok.AccessLevel;
@@ -33,6 +35,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity
 @Localized
+@Visitable
 @Table(name = "markups")
 @Relation(collectionRelation = "data")
 @GenericGenerator(
@@ -58,6 +61,11 @@ public class MarkupEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   protected Set<MarkupTranslatablesEntity> translatables;
+  
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @ToString.Exclude
+  @JsonIgnore
+  protected Set<MarkupVisitorEntity> visits;
 
   @Override
   public List<Link> createResourceLinks() {
