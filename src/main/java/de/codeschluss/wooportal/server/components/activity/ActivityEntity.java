@@ -32,7 +32,6 @@ import de.codeschluss.wooportal.server.components.address.AddressEntity;
 import de.codeschluss.wooportal.server.components.category.CategoryEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
-import de.codeschluss.wooportal.server.components.tag.TagEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
 import de.codeschluss.wooportal.server.core.analytics.visit.annotations.Visitable;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
@@ -143,23 +142,6 @@ public class ActivityEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   @JoinTable(
-      name = "activities_tags",
-      joinColumns = @JoinColumn(name = "activity_id"),
-      inverseJoinColumns = @JoinColumn(name = "tag_id"),
-      uniqueConstraints = {
-          @UniqueConstraint(columnNames = { "activity_id", "tag_id" })
-      })
-  @CollectionId(
-      columns = @Column(name = "id"),
-      type = @Type(type = "uuid-char"),
-      generator = "UUID"
-  )
-  private List<TagEntity> tags;
-
-  @ManyToMany(fetch = FetchType.EAGER)
-  @ToString.Exclude
-  @JsonIgnore
-  @JoinTable(
       name = "activities_target_groups",
       joinColumns = @JoinColumn(name = "activity_id"),
       inverseJoinColumns = @JoinColumn(name = "target_group_id"),
@@ -194,8 +176,6 @@ public class ActivityEntity extends BaseResource {
         .readCategory(id)).withRel("category"));
     links.add(linkTo(methodOn(ActivityController.class)
         .readSchedules(id, null)).withRel("schedules"));
-    links.add(linkTo(methodOn(ActivityController.class)
-        .readTags(id, null)).withRel("tags"));
     links.add(linkTo(methodOn(ActivityController.class)
         .readTargetGroups(id, null)).withRel("targetgroups"));
     links.add(linkTo(methodOn(ActivityController.class)

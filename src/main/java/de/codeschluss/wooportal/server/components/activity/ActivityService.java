@@ -19,7 +19,6 @@ import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
 import de.codeschluss.wooportal.server.components.suburb.SuburbService;
-import de.codeschluss.wooportal.server.components.tag.TagEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupService;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
@@ -242,39 +241,6 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     ActivityEntity activity = getById(activityId);
     activity.setProvider(provider);
     return repo.save(activity);
-  }
-
-  /**
-   * Adds the tags.
-   *
-   * @param activityId
-   *          the activity id
-   * @param tags
-   *          the tags
-   * @return the list
-   */
-  public List<TagEntity> addTags(String activityId, List<TagEntity> tags) {
-    ActivityEntity activity = getById(activityId);
-    tags.stream().forEach(tagToAdd -> {
-      if (activity.getTags().stream().noneMatch(tag -> tag.getId().equals(tagToAdd.getId()))) {
-        activity.getTags().add(tagToAdd);
-      }
-    });
-    return repo.save(activity).getTags();
-  }
-
-  /**
-   * Delete tags.
-   *
-   * @param activityId
-   *          the activity id
-   * @param tagIds
-   *          the tag ids
-   */
-  public void deleteTags(String activityId, List<String> tagIds) {
-    ActivityEntity activity = getById(activityId);
-    activity.getTags().removeIf(tag -> tagIds.contains(tag.getId()));
-    repo.save(activity);
   }
 
   /**
