@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -17,9 +18,12 @@ import de.codeschluss.wooportal.server.components.category.CategoryService;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
+import de.codeschluss.wooportal.server.components.suburb.SuburbService;
 import de.codeschluss.wooportal.server.components.tag.TagEntity;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupEntity;
+import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupService;
 import de.codeschluss.wooportal.server.components.user.UserEntity;
+import de.codeschluss.wooportal.server.core.analytics.AnalyticsEntry;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
@@ -57,6 +61,10 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   
   private ScheduleService scheduleService;
   
+  private SuburbService suburbService;
+  
+  private TargetGroupService targetGroupService;
+  
   /**
    * Instantiates a new activity service.
    *
@@ -70,12 +78,16 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
       PagingAndSortingAssembler assembler,
       MailConfiguration mailConfig,
       CategoryService categoryService,
-      ScheduleService scheduleService) {
+      ScheduleService scheduleService,
+      SuburbService suburbService,
+      TargetGroupService targetGroupService) {
     super(repo, entities, assembler);
     
     this.mailConfig = mailConfig;
     this.categoryService = categoryService;
     this.scheduleService = scheduleService;
+    this.suburbService = suburbService; 
+    this.targetGroupService = targetGroupService;
   }
 
   @Override
@@ -367,6 +379,64 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     activity.getImages().add(image);
     return repo.save(activity);
   }
+  
+  public List<AnalyticsEntry> calculateActivitiesPerCategory(BooleanPrimitive current) {
+    var data = categoryService.getAll().stream().collect(Collectors.toMap(c -> c, c -> 0.0));
+    var activities = getByCurrent(current);
+    if (activities != null && !activities.isEmpty()) {
+      for (var activity : activities) {
+        var category = activity.getCategory();
+        var value = data.get(category);
+        data.put(category, value + 1);
+      }
+    }
+    
+    return data.entrySet()
+        .stream()
+        .map(entry -> new AnalyticsEntry(
+            entry.getKey().getName(), entry.getValue(), entry.getKey().getColor()))
+        .sorted()
+        .collect(Collectors.toList());
+  }
+  
+  public List<AnalyticsEntry> calculateActivitiesPerSuburb(BooleanPrimitive current) {
+    var data = suburbService.getAll().stream().collect(Collectors.toMap(c -> c, c -> 0.0));
+    var activities = getByCurrent(current);
+    if (activities != null && !activities.isEmpty()) {
+      for (var activity : activities) {
+        var suburb = activity.getAddress().getSuburb();
+        var value = data.get(suburb);
+        data.put(suburb, value + 1);
+      }
+    }
+    
+    return data.entrySet()
+        .stream()
+        .map(entry -> new AnalyticsEntry(
+            entry.getKey().getName(), entry.getValue(), null))
+        .sorted()
+        .collect(Collectors.toList());
+  }
+  
+  public List<AnalyticsEntry> calculateActivitiesPerTargetGroup(BooleanPrimitive current) {
+    var data = targetGroupService.getAll().stream().collect(Collectors.toMap(c -> c, c -> 0.0));
+    var activities = getByCurrent(current);
+    if (activities != null && !activities.isEmpty()) {
+      for (var activity : activities) {
+        for (var targetGroup : activity.getTargetGroups()) {
+          var value = data.get(targetGroup);
+          data.put(targetGroup, value + 1);
+        }
+      }
+    }
+    
+    return data.entrySet()
+        .stream()
+        .map(entry -> new AnalyticsEntry(
+            entry.getKey().getName(), entry.getValue(), null))
+        .sorted()
+        .collect(Collectors.toList());
+  }
  
   /**
    * Creates an ICal String
@@ -437,6 +507,11 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     event.add(new Geo(
         activity.getAddress().getLatitude() + ";" + activity.getAddress().getLongitude()));
     return event;
+  }
+
+  public Integer calculateVisitors(String activityId) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
 

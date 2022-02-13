@@ -2,6 +2,7 @@ package de.codeschluss.wooportal.server.components.push.subscription;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.hateoas.Resources;
 import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -12,7 +13,9 @@ import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
 import de.codeschluss.wooportal.server.components.push.PushConfig;
 import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeEntity;
+import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeService;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
+import de.codeschluss.wooportal.server.core.analytics.AnalyticsEntry;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
@@ -29,13 +32,17 @@ public class SubscriptionService
 
   private final PushConfig config;
   
+  private SubscriptionTypeService subscriptionTypeService;
+  
   public SubscriptionService(
       SubscriptionRepository repo,
       SubscriptionQueryBuilder entities,
       PagingAndSortingAssembler assembler,
-      PushConfig config) {
+      PushConfig config,
+      SubscriptionTypeService subscriptionTypeService) {
     super(repo, entities, assembler);
     this.config = config;
+    this.subscriptionTypeService = subscriptionTypeService;
   }
 
   @Override
@@ -421,6 +428,26 @@ public class SubscriptionService
     } catch (NotFoundException e) {
       return;
     }
+  }
+  
+  public List<AnalyticsEntry> calculateSubscriptions() {
+    List<SubscriptionEntity> subscriptions = getAll();
+    var data = subscriptionTypeService.getAll().stream().collect(Collectors.toMap(c -> c, c -> 0.0));    
+    if (subscriptions != null && !subscriptions.isEmpty()) {
+      for (SubscriptionEntity subscription : subscriptions) {
+        for (SubscriptionTypeEntity type : subscription.getSubscribedTypes()) {
+          Double value = data.get(type);
+          data.put(type, value + 1);
+        }
+      }
+    }
+    
+    return data.entrySet()
+        .stream()
+        .map(entry -> 
+          new AnalyticsEntry(entry.getKey().getName(), entry.getValue(), null))
+        .sorted()
+        .collect(Collectors.toList());
   }
   
 }

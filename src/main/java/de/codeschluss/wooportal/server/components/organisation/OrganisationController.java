@@ -20,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.address.AddressService;
+import de.codeschluss.wooportal.server.components.organisation.visitors.OrganisationVisitorEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.components.provider.ProviderService;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.components.video.VideoEntity;
 import de.codeschluss.wooportal.server.components.video.VideoService;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
@@ -77,6 +79,8 @@ public class OrganisationController
   
   /** The subscription service. */
   private final SubscriptionService subscriptionService;
+  
+  private final VisitableService<OrganisationVisitorEntity> visitableService;
 
   /**
    * Instantiates a new organisation controller.
@@ -95,7 +99,8 @@ public class OrganisationController
   public OrganisationController(OrganisationService service, ProviderService providerService,
       UserService userService, AddressService addressService, ActivityService activityService,
       TranslationService translationService, ImageService imageService, VideoService videoService,
-      AuthorizationService authService, SubscriptionService subscriptionService) {
+      AuthorizationService authService, SubscriptionService subscriptionService,
+      VisitableService<OrganisationVisitorEntity> visitableService) {
     super(service);
     this.providerService = providerService;
     this.userService = userService;
@@ -106,6 +111,7 @@ public class OrganisationController
     this.videoService = videoService;
     this.authService = authService;
     this.subscriptionService = subscriptionService;
+    this.visitableService = visitableService;
   }
 
   @GetMapping("/organisations")
@@ -548,5 +554,27 @@ public class OrganisationController
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
     }
+  }
+  
+  @GetMapping("/organisations/visitors")
+  public ResponseEntity<Integer> calculateOverviewVisitors() throws Throwable {
+    return ok(visitableService.calculateVisitors(this));
+  }
+  
+  @GetMapping("/organisations/visits")
+  public ResponseEntity<Integer> calculateOverviewVisits() throws Throwable {
+    return ok(visitableService.calculateVisits(this));
+  }
+  
+  @GetMapping("/organisations/{organisationId}/visitors")
+  public ResponseEntity<Integer> calculateVisitors(
+      @PathVariable String organisationId) throws Throwable {
+    return ok(visitableService.calculateVisitors(service.getById(organisationId)));
+  }
+  
+  @GetMapping("/organisations/{organisationId}/visits")
+  public ResponseEntity<Integer> calculateVisits(
+      @PathVariable String organisationId) throws Throwable {
+    return ok(visitableService.calculateVisits(service.getById(organisationId)));
   }
 }

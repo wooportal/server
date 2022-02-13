@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import de.codeschluss.wooportal.server.components.markup.visitors.MarkupVisitorEntity;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
@@ -29,11 +31,15 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   
   private final TranslationService translationService;
   
+  private final VisitableService<MarkupVisitorEntity> visitableService;
+  
   public MarkupController(
       MarkupService service,
-      TranslationService translationService) {
+      TranslationService translationService,
+      VisitableService<MarkupVisitorEntity> visitableService) {
     super(service);
     this.translationService = translationService;
+    this.visitableService = visitableService;
   }
 
   @Override
@@ -87,5 +93,17 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
         new String(file.getBytes(), StandardCharsets.UTF_8),
         file.getOriginalFilename());
     return noContent().build();
+  }
+  
+  @GetMapping("/markups/{markupId}/visitors")
+  public ResponseEntity<Integer> calculateVisitors(
+      @PathVariable String markupId) throws Throwable {
+    return ok(visitableService.calculateVisitors(service.getById(markupId)));
+  }
+  
+  @GetMapping("/markups/{markupId}/visits")
+  public ResponseEntity<Integer> calculateVisits(
+      @PathVariable String markupId) throws Throwable {
+    return ok(visitableService.calculateVisits(service.getById(markupId)));
   }
 }

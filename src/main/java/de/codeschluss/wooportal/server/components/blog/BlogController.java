@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import de.codeschluss.wooportal.server.components.blog.visitors.BlogVisitorEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerEntity;
 import de.codeschluss.wooportal.server.components.blogger.BloggerService;
 import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.TopicService;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
@@ -63,6 +65,8 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   private final TranslationService translationService;
   
   private final TopicService topicService;
+  
+  private final VisitableService<BlogVisitorEntity> visitableService;
 
   /**
    * Instantiates a new blog controller.
@@ -77,7 +81,8 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       PushService pushService,
       SubscriptionService subscriptionService,
       TranslationService translationService,
-      TopicService topicService) {
+      TopicService topicService,
+      VisitableService<BlogVisitorEntity> visitableService) {
     super(service);
     this.authService = authService;
     this.bloggerService = bloggerService;
@@ -86,6 +91,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
     this.subscriptionService = subscriptionService;
     this.translationService = translationService;
     this.topicService = topicService;
+    this.visitableService = visitableService;
   }
   
   @Override
@@ -266,5 +272,27 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Blog does not exist");
     }
+  }
+  
+  @GetMapping("/blogs/visitors")
+  public ResponseEntity<Integer> calculateOverviewVisitors() throws Throwable {
+    return ok(visitableService.calculateVisitors(this));
+  }
+  
+  @GetMapping("/blogs/visits")
+  public ResponseEntity<Integer> calculateOverviewVisits() throws Throwable {
+    return ok(visitableService.calculateVisits(this));
+  }
+  
+  @GetMapping("/blogs/{blogId}/visitors")
+  public ResponseEntity<Integer> calculateVisitors(
+      @PathVariable String blogId) throws Throwable {
+    return ok(visitableService.calculateVisitors(service.getById(blogId)));
+  }
+  
+  @GetMapping("/blogs/{blogId}/visits")
+  public ResponseEntity<Integer> calculateVisits(
+      @PathVariable String blogId) throws Throwable {
+    return ok(visitableService.calculateVisits(service.getById(blogId)));
   }
 }

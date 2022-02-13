@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import de.codeschluss.wooportal.server.components.activity.visitors.ActivityVisitorEntity;
 import de.codeschluss.wooportal.server.components.address.AddressService;
 import de.codeschluss.wooportal.server.components.category.CategoryService;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
@@ -35,8 +36,11 @@ import de.codeschluss.wooportal.server.components.tag.TagEntity;
 import de.codeschluss.wooportal.server.components.tag.TagService;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupService;
 import de.codeschluss.wooportal.server.components.user.UserService;
+import de.codeschluss.wooportal.server.core.analytics.AnalyticsEntry;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
+import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
@@ -46,6 +50,7 @@ import de.codeschluss.wooportal.server.core.image.ImageService;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnActivityPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnOrOrgaActivityOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.ProviderPermission;
+import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
 
 // TODO: Auto-generated Javadoc
@@ -93,6 +98,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   
   /** The subscription service. */
   private final SubscriptionService subscriptionService;
+  
+  private final VisitableService<ActivityVisitorEntity> visitableService;
 
   /**
    * Instantiates a new activity controller.
@@ -125,7 +132,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       TagService tagService, TargetGroupService targetGroupService, ScheduleService scheduleService,
       OrganisationService organisationService, 
       TranslationService translationService, AuthorizationService authService,
-      ImageService imageService, PushService pushService, SubscriptionService subscriptionService) {
+      ImageService imageService, PushService pushService, SubscriptionService subscriptionService,
+      VisitableService<ActivityVisitorEntity> visitableService) {
     super(service);
     this.addressService = addressService;
     this.categoryService = categoryService;
@@ -139,6 +147,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     this.imageService = imageService;
     this.pushService = pushService;
     this.subscriptionService = subscriptionService;
+    this.visitableService = visitableService;
   }
 
   /**
@@ -634,5 +643,48 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     header.add("Pragma", "no-cache");
     header.add("Expires", "0");
     return header;
+  }
+  
+  @GetMapping("/activities/analytics/categories")
+  @SuperUserPermission
+  public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerCategory(
+      BooleanPrimitive current) {
+    return ok(service.calculateActivitiesPerCategory(current));
+  }
+  
+  @GetMapping("/activities/analytics/suburbs")
+  @SuperUserPermission
+  public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerSuburbs(
+      BooleanPrimitive current) {
+    return ok(service.calculateActivitiesPerSuburb(current));
+  }
+  
+  @GetMapping("/activities/analytics/targetgroups")
+  @SuperUserPermission
+  public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerTargetGroup(
+      BooleanPrimitive current) {
+    return ok(service.calculateActivitiesPerTargetGroup(current));
+  }
+  
+  @GetMapping("/activities/visitors")
+  public ResponseEntity<Integer> calculateOverviewVisitors() throws Throwable {
+    return ok(visitableService.calculateVisitors(this));
+  }
+  
+  @GetMapping("/activities/visits")
+  public ResponseEntity<Integer> calculateOverviewVisits() throws Throwable {
+    return ok(visitableService.calculateVisits(this));
+  }
+  
+  @GetMapping("/activities/{activityId}/visitors")
+  public ResponseEntity<Integer> calculateVisitors(
+      @PathVariable String activityId) throws Throwable {
+    return ok(visitableService.calculateVisitors(service.getById(activityId)));
+  }
+  
+  @GetMapping("/activities/{activityId}/visits")
+  public ResponseEntity<Integer> calculateVisits(
+      @PathVariable String activityId) throws Throwable {
+    return ok(visitableService.calculateVisits(service.getById(activityId)));
   }
 }
