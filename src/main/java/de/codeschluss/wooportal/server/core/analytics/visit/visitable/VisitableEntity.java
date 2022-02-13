@@ -1,4 +1,4 @@
-package de.codeschluss.wooportal.server.core.analytics.visit.entities;
+package de.codeschluss.wooportal.server.core.analytics.visit.visitable;
 
 import javax.persistence.Column;
 import javax.persistence.FetchType;
@@ -7,6 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import org.springframework.hateoas.core.Relation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitor.VisitorEntity;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,18 +16,16 @@ import lombok.Setter;
 @Setter
 @Getter
 @Relation(collectionRelation = "data")
-public abstract class VisitorEntity<E extends BaseEntity> extends BaseEntity {
+public abstract class VisitableEntity<E extends BaseEntity> extends BaseEntity {
 
   private static final long serialVersionUID = 1L;
   
   @Column(nullable = false)
   protected Integer visits;
   
-  @Column(nullable = true, unique = true)
-  private String ipAddress;
-  
-  @Column(nullable = false)
-  private String userAgent;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JsonIgnore
+  protected VisitorEntity visitor;
   
   @ManyToOne(fetch = FetchType.LAZY)
   @JsonIgnore

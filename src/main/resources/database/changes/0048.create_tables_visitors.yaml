@@ -1,6 +1,6 @@
 databaseChangeLog:
     - logicalFilePath: path_independent
-    ########## Activity ##########
+    ########## Visitor ##########
     - changeSet:
           id: 0048.create_tables_visitors.1
           author: codeschluss
@@ -25,46 +25,22 @@ databaseChangeLog:
                               name: modified
                               type: datetime
                         - column:
-                              name: visits
-                              type: integer
-                        - column:
                               constraints:
                                   unique: true
+                                  nullable: true
                               name: ip_address
                               type: VARCHAR(255)
                         - column:
                               name: user_agent
                               type: VARCHAR(255)
-                        - column:
-                              constraints:
-                                  nullable: false
-                              name: parent_id
-                              type: CHAR(36)
-                    tableName: activity_visitors
+                    tableName: visitors
               - sql:
                     comment: set char set for mysql
                     dbms: mysql
                     endDelimiter: \nGO
                     splitStatements: true
-                    sql: ALTER TABLE activity_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-              - createIndex:
-                    columns:
-                        - column:
-                              name: parent_id
-                    indexName: CONSTRAINT_5S5UZ1D6E
-                    tableName: activity_visitors
-              - addForeignKeyConstraint:
-                    baseColumnNames: parent_id
-                    baseTableName: activity_visitors
-                    constraintName: CONSTRAINT_1FJ3287G
-                    deferrable: false
-                    initiallyDeferred: false
-                    onDelete: CASCADE
-                    onUpdate: CASCADE
-                    referencedColumnNames: id
-                    referencedTableName: activities
-                    validate: true
-    ########## Organisation ##########
+                    sql: ALTER TABLE visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+    ########## Activity ##########
     - changeSet:
           id: 0048.create_tables_visitors.2
           author: codeschluss
@@ -92,43 +68,55 @@ databaseChangeLog:
                               name: visits
                               type: integer
                         - column:
-                              constraints:
-                                  unique: true
-                              name: ip_address
-                              type: VARCHAR(255)
-                        - column:
-                              name: user_agent
-                              type: VARCHAR(255)
+                              name: visitor_id
+                              type: CHAR(36)
                         - column:
                               constraints:
                                   nullable: false
                               name: parent_id
                               type: CHAR(36)
-                    tableName: organisation_visitors
+                    tableName: activity_visitors
               - sql:
                     comment: set char set for mysql
                     dbms: mysql
                     endDelimiter: \nGO
                     splitStatements: true
-                    sql: ALTER TABLE organisation_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+                    sql: ALTER TABLE activity_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+              - createIndex:
+                    columns:
+                        - column:
+                              name: visitor_id
+                    indexName: CONSTRAINT_D26FHG532
+                    tableName: activity_visitors
+              - addForeignKeyConstraint:
+                    baseColumnNames: visitor_id
+                    baseTableName: activity_visitors
+                    constraintName: CONSTRAINT_D256HF3K8
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: SET NULL
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: visitors
+                    validate: true
               - createIndex:
                     columns:
                         - column:
                               name: parent_id
-                    indexName: CONSTRAINT_D653K7S9
-                    tableName: organisation_visitors
+                    indexName: CONSTRAINT_5S5UZ1D6E
+                    tableName: activity_visitors
               - addForeignKeyConstraint:
                     baseColumnNames: parent_id
-                    baseTableName: organisation_visitors
-                    constraintName: CONSTRAINT_D39G64HJ
+                    baseTableName: activity_visitors
+                    constraintName: CONSTRAINT_1FJ3287G
                     deferrable: false
                     initiallyDeferred: false
                     onDelete: CASCADE
                     onUpdate: CASCADE
                     referencedColumnNames: id
-                    referencedTableName: organisations
+                    referencedTableName: activities
                     validate: true
-    ########## Blog ##########
+    ########## Organisation ##########
     - changeSet:
           id: 0048.create_tables_visitors.3
           author: codeschluss
@@ -156,43 +144,55 @@ databaseChangeLog:
                               name: visits
                               type: integer
                         - column:
-                              constraints:
-                                  unique: true
-                              name: ip_address
-                              type: VARCHAR(255)
-                        - column:
-                              name: user_agent
-                              type: VARCHAR(255)
+                              name: visitor_id
+                              type: CHAR(36)
                         - column:
                               constraints:
                                   nullable: false
                               name: parent_id
                               type: CHAR(36)
-                    tableName: blog_visitors
+                    tableName: organisation_visitors
               - sql:
                     comment: set char set for mysql
                     dbms: mysql
                     endDelimiter: \nGO
                     splitStatements: true
-                    sql: ALTER TABLE blog_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+                    sql: ALTER TABLE organisation_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+              - createIndex:
+                    columns:
+                        - column:
+                              name: visitor_id
+                    indexName: CONSTRAINT_SDGF7539G
+                    tableName: organisation_visitors
+              - addForeignKeyConstraint:
+                    baseColumnNames: visitor_id
+                    baseTableName: organisation_visitors
+                    constraintName: CONSTRAINT_LK3FS860
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: SET NULL
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: visitors
+                    validate: true
               - createIndex:
                     columns:
                         - column:
                               name: parent_id
-                    indexName: CONSTRAINT_D83GJC37
-                    tableName: blog_visitors
+                    indexName: CONSTRAINT_D653K7S9
+                    tableName: organisation_visitors
               - addForeignKeyConstraint:
                     baseColumnNames: parent_id
-                    baseTableName: blog_visitors
-                    constraintName: CONSTRAINT_1DCN7935J
+                    baseTableName: organisation_visitors
+                    constraintName: CONSTRAINT_D39G64HJ
                     deferrable: false
                     initiallyDeferred: false
                     onDelete: CASCADE
                     onUpdate: CASCADE
                     referencedColumnNames: id
-                    referencedTableName: blogs
+                    referencedTableName: organisations
                     validate: true
-    ########## Pages ##########
+    ########## Blog ##########
     - changeSet:
           id: 0048.create_tables_visitors.4
           author: codeschluss
@@ -220,43 +220,55 @@ databaseChangeLog:
                               name: visits
                               type: integer
                         - column:
-                              constraints:
-                                  unique: true
-                              name: ip_address
-                              type: VARCHAR(255)
-                        - column:
-                              name: user_agent
-                              type: VARCHAR(255)
+                              name: visitor_id
+                              type: CHAR(36)
                         - column:
                               constraints:
                                   nullable: false
                               name: parent_id
                               type: CHAR(36)
-                    tableName: page_visitors
+                    tableName: blog_visitors
               - sql:
                     comment: set char set for mysql
                     dbms: mysql
                     endDelimiter: \nGO
                     splitStatements: true
-                    sql: ALTER TABLE page_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+                    sql: ALTER TABLE blog_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+              - createIndex:
+                    columns:
+                        - column:
+                              name: visitor_id
+                    indexName: CONSTRAINT_23JKF8A9
+                    tableName: blog_visitors
+              - addForeignKeyConstraint:
+                    baseColumnNames: visitor_id
+                    baseTableName: blog_visitors
+                    constraintName: CONSTRAINT_SKJGIU48T
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: SET NULL
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: visitors
+                    validate: true
               - createIndex:
                     columns:
                         - column:
                               name: parent_id
-                    indexName: CONSTRAINT_A45J94GH
-                    tableName: page_visitors
+                    indexName: CONSTRAINT_D83GJC37
+                    tableName: blog_visitors
               - addForeignKeyConstraint:
                     baseColumnNames: parent_id
-                    baseTableName: page_visitors
-                    constraintName: CONSTRAINT_A45HG19D
+                    baseTableName: blog_visitors
+                    constraintName: CONSTRAINT_1DCN7935J
                     deferrable: false
                     initiallyDeferred: false
                     onDelete: CASCADE
                     onUpdate: CASCADE
                     referencedColumnNames: id
-                    referencedTableName: pages
+                    referencedTableName: blogs
                     validate: true
-    ########## Markup ##########
+    ########## Pages ##########
     - changeSet:
           id: 0048.create_tables_visitors.5
           author: codeschluss
@@ -284,13 +296,84 @@ databaseChangeLog:
                               name: visits
                               type: integer
                         - column:
-                              constraints:
-                                  unique: true
-                              name: ip_address
-                              type: VARCHAR(255)
+                              name: visitor_id
+                              type: CHAR(36)
                         - column:
-                              name: user_agent
-                              type: VARCHAR(255)
+                              constraints:
+                                  nullable: false
+                              name: parent_id
+                              type: CHAR(36)
+                    tableName: page_visitors
+              - sql:
+                    comment: set char set for mysql
+                    dbms: mysql
+                    endDelimiter: \nGO
+                    splitStatements: true
+                    sql: ALTER TABLE page_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+              - createIndex:
+                    columns:
+                        - column:
+                              name: visitor_id
+                    indexName: CONSTRAINT_QETFDM395
+                    tableName: page_visitors
+              - addForeignKeyConstraint:
+                    baseColumnNames: visitor_id
+                    baseTableName: page_visitors
+                    constraintName: CONSTRAINT_YVEJ65832
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: SET NULL
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: visitors
+                    validate: true
+              - createIndex:
+                    columns:
+                        - column:
+                              name: parent_id
+                    indexName: CONSTRAINT_A45J94GH
+                    tableName: page_visitors
+              - addForeignKeyConstraint:
+                    baseColumnNames: parent_id
+                    baseTableName: page_visitors
+                    constraintName: CONSTRAINT_A45HG19D
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: CASCADE
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: pages
+                    validate: true
+    ########## Markup ##########
+    - changeSet:
+          id: 0048.create_tables_visitors.6
+          author: codeschluss
+          changes:
+              - createTable:
+                    columns:
+                        - column:
+                              constraints:
+                                  primaryKey: true
+                              name: id
+                              type: CHAR(36)
+                        - column:
+                              constraints:
+                                  nullable: false
+                              defaultValueComputed: CURRENT_TIMESTAMP
+                              name: created
+                              type: datetime
+                        - column:
+                              constraints:
+                                  nullable: false
+                              defaultValueComputed: CURRENT_TIMESTAMP
+                              name: modified
+                              type: datetime
+                        - column:
+                              name: visits
+                              type: integer
+                        - column:
+                              name: visitor_id
+                              type: CHAR(36)
                         - column:
                               constraints:
                                   nullable: false
@@ -303,6 +386,23 @@ databaseChangeLog:
                     endDelimiter: \nGO
                     splitStatements: true
                     sql: ALTER TABLE markup_visitors CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+              - createIndex:
+                    columns:
+                        - column:
+                              name: visitor_id
+                    indexName: CONSTRAINT_BDJZ6387
+                    tableName: markup_visitors
+              - addForeignKeyConstraint:
+                    baseColumnNames: visitor_id
+                    baseTableName: markup_visitors
+                    constraintName: CONSTRAINT_AVK6582FJ
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: SET NULL
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: visitors
+                    validate: true
               - createIndex:
                     columns:
                         - column:

@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import org.springframework.hateoas.core.Relation;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationEntity;
-import de.codeschluss.wooportal.server.core.analytics.visit.entities.VisitorEntity;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Table(name = "organisation_visitors")
 @Relation(collectionRelation = "data")
-public class OrganisationVisitorEntity extends VisitorEntity<OrganisationEntity> {
+public class OrganisationVisitorEntity extends VisitableEntity<OrganisationEntity> {
 
   private static final long serialVersionUID = 1L;
 }

@@ -6,11 +6,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import de.codeschluss.wooportal.server.core.analytics.visit.annotations.Visitable;
-import de.codeschluss.wooportal.server.core.analytics.visit.entities.VisitorEntity;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableEntity;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 
-public class VisitorHelper {
+public class VisitHelper {
   
   public static List<?> convertToList(Object result) {
     return result instanceof Page<?> ? ((Page<?>) result).getContent() : (List<?>) result;
@@ -48,10 +48,10 @@ public class VisitorHelper {
     return null;
   }
   
-  public static Class<VisitorEntity<?>> getVisitorType(Object entity) {
+  public static Class<VisitableEntity<?>> getVisitableType(Object entity) {
     for (Field field : entity.getClass().getDeclaredFields()) {
       field.setAccessible(true);
-      Class<VisitorEntity<?>> visitorType = getVisitorType(field.getGenericType());
+      Class<VisitableEntity<?>> visitorType = getVisitorType(field.getGenericType());
       if (visitorType != null) {
         return visitorType;
       }
@@ -61,12 +61,12 @@ public class VisitorHelper {
   }
 
   @SuppressWarnings("unchecked")
-  private static Class<VisitorEntity<?>> getVisitorType(Type fieldType) {
+  private static Class<VisitableEntity<?>> getVisitorType(Type fieldType) {
     if (fieldType instanceof ParameterizedType) {
       ParameterizedType pt = (ParameterizedType) fieldType;
       Class<?> genericType = (Class<?>) pt.getActualTypeArguments()[0];
-      if (VisitorEntity.class.isAssignableFrom(genericType)) {
-        return (Class<VisitorEntity<?>>) genericType;
+      if (VisitableEntity.class.isAssignableFrom(genericType)) {
+        return (Class<VisitableEntity<?>>) genericType;
       }
     }
     return null;

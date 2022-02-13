@@ -7,11 +7,12 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.stereotype.Component;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 
 @Component
 @Aspect
-public class VisitorInterceptor {
+public class VisitInterceptor {
 
   @Pointcut("execution(* de.codeschluss.wooportal.server.core.api.CrudController+.readOne(..))")
   private void readOne() { }
@@ -20,16 +21,16 @@ public class VisitorInterceptor {
   private void readAll() { }
 
   @Autowired
-  private VisitorService visitorService;
+  private VisitableService visitableService;
   
   @SuppressWarnings("unchecked")
   @Around("readOne()")
   public <E extends BaseEntity> Object saveVisitForEntity(ProceedingJoinPoint pjp) 
         throws Throwable {
     Object result = pjp.proceed();
-    if (visitorService.isValidVisitor() && VisitorHelper.isVisitable(pjp.getThis())) {
+    if (visitableService.isValidVisitor() && VisitHelper.isVisitable(pjp.getThis())) {
       if (result != null) {
-        visitorService.saveEntityVisit((E) ((Resource<?>) result).getContent());
+        visitableService.saveEntityVisit((E) ((Resource<?>) result).getContent());
       }
     }
     return result;
@@ -39,9 +40,9 @@ public class VisitorInterceptor {
   public <E extends BaseEntity>  Object saveVisitForOverviewPage(ProceedingJoinPoint pjp)
         throws Throwable {
     Object result = pjp.proceed();
-    var overviewName = VisitorHelper.getVisitableOverview(pjp.getThis());
-    if (visitorService.isValidVisitor() && overviewName != null) {
-      visitorService.saveOverviewVisit(overviewName);
+    var overviewName = VisitHelper.getVisitableOverview(pjp.getThis());
+    if (visitableService.isValidVisitor() && overviewName != null) {
+      visitableService.saveOverviewVisit(overviewName);
     }
     return result;
   }

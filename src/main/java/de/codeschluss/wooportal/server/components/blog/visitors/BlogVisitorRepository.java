@@ -1,9 +1,9 @@
 package de.codeschluss.wooportal.server.components.blog.visitors;
 
 import org.springframework.stereotype.Repository;
-import de.codeschluss.wooportal.server.core.analytics.visit.entities.VisitorRepository;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableRepository;
 
 @Repository
 public interface BlogVisitorRepository
-    extends VisitorRepository<BlogVisitorEntity> {
+    extends VisitableRepository<BlogVisitorEntity> {
 }
