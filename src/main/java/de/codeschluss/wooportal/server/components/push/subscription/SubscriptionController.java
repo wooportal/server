@@ -9,6 +9,7 @@ import de.codeschluss.wooportal.server.components.blogger.BloggerService;
 import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
 import de.codeschluss.wooportal.server.components.push.subscriptiontype.SubscriptionTypeService;
 import de.codeschluss.wooportal.server.components.topic.TopicService;
+import de.codeschluss.wooportal.server.core.analytics.AnalyticsEntry;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
@@ -393,6 +394,12 @@ public class SubscriptionController
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Subscription does not exist");
     }
+  }
+  
+  @GetMapping("/subscriptions/analytics")
+  @SuperUserPermission
+  public ResponseEntity<List<AnalyticsEntry>> calculateSubscriptions() {
+    return ok(service.calculateSubscriptions());
   }
   
 }

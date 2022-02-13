@@ -52,7 +52,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @Data
 @Localized
-@Visitable(overview = "blogs")
+@Visitable(overview = "blogposts")
 @Entity
 @Table(name = "blogs")
 @Relation(collectionRelation = "data")
