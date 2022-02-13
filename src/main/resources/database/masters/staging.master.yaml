@@ -91,7 +91,7 @@ databaseChangeLog:
     - include:
           file: database/changes/0043.add_column_organisations_avatar.yaml
     - include:
-          file: database/changes/0044.drop_column_blog_activity.yaml.yaml
+          file: database/changes/0044.drop_column_blog_activity.yaml
     - include:
           file: database/changes/0045.add_column_blog_topic.yaml
     - include:
