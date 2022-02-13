@@ -1,0 +1,12 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0049.drop_tables_tag
+          author: codeschluss
+          changes:
+              - dropTable:
+                    tableName: tags
+              - dropTable:
+                    tableName: activities_tags
+              - dropTable:
+                    tableName: tag_translatables

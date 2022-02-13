@@ -32,8 +32,6 @@ import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleEntity;
 import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
-import de.codeschluss.wooportal.server.components.tag.TagEntity;
-import de.codeschluss.wooportal.server.components.tag.TagService;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupService;
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.analytics.AnalyticsEntry;
@@ -74,9 +72,6 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
 
   /** The provider service. */
   private final ProviderService providerService;
-
-  /** The tag service. */
-  private final TagService tagService;
 
   /** The target group service. */
   private final TargetGroupService targetGroupService;
@@ -128,8 +123,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
    *          the auth service
    */
   public ActivityController(ActivityService service, AddressService addressService,
-      CategoryService categoryService, ProviderService providerService, UserService userService,
-      TagService tagService, TargetGroupService targetGroupService, ScheduleService scheduleService,
+      CategoryService categoryService, ProviderService providerService, UserService userService, TargetGroupService targetGroupService, ScheduleService scheduleService,
       OrganisationService organisationService, 
       TranslationService translationService, AuthorizationService authService,
       ImageService imageService, PushService pushService, SubscriptionService subscriptionService,
@@ -138,7 +132,6 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     this.addressService = addressService;
     this.categoryService = categoryService;
     this.providerService = providerService;
-    this.tagService = tagService;
     this.targetGroupService = targetGroupService;
     this.scheduleService = scheduleService;
     this.organisationService = organisationService;
@@ -299,77 +292,6 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       return readOrganisation(activityId);
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity, Organisation or Provider do not exist!");
-    }
-  }
-
-  /**
-   * Read tags.
-   *
-   * @param activityId          the activity id
-   * @param params the params
-   * @return the response entity
-   */
-  @GetMapping("/activities/{activityId}/tags")
-  public ResponseEntity<?> readTags(
-      @PathVariable String activityId,
-      BaseParams params) {
-    try {
-      return ok(tagService.getResourcesByActivity(activityId, params));
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  /**
-   * Adds the tags.
-   *
-   * @param activityId
-   *          the activity id
-   * @param tags
-   *          the tags
-   * @return the response entity
-   */
-  @PostMapping("/activities/{activityId}/tags")
-  @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> addTags(@PathVariable String activityId,
-      @RequestBody List<TagEntity> tags) {
-    try {
-      validateTags(tags);
-      return ok(service.addTags(activityId, tagService.addAll(tags)));
-    } catch (NotFoundException e) {
-      throw new BadParamsException("Given Activity does not exist");
-    }
-  }
-
-  /**
-   * Validate tags.
-   *
-   * @param tags the tags
-   */
-  private void validateTags(List<TagEntity> tags) {
-    for (TagEntity tag : tags) {
-      if (!tagService.validCreateFieldConstraints(tag)) {
-        throw new BadParamsException("Tags must have a name");
-      }
-    }
-  }
-
-  /**
-   * Delete tags.
-   *
-   * @param activityId the activity id
-   * @param tagIds the tag ids
-   * @return the response entity
-   */
-  @DeleteMapping("/activities/{activityId}/tags")
-  @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> deleteTags(@PathVariable String activityId,
-      @RequestParam(value = "tagIds", required = true) List<String> tagIds) {
-    try {
-      service.deleteTags(activityId, tagIds);
-      return noContent().build();
-    } catch (NotFoundException e) {
-      throw new BadParamsException("Given Activity does not exist");
     }
   }
 

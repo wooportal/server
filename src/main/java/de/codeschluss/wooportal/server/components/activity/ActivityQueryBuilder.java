@@ -112,7 +112,6 @@ public class ActivityQueryBuilder extends QueryBuilder<QActivityEntity> {
         .or(query.address.houseNumber.likeIgnoreCase(filter))
         .or(query.address.postalCode.likeIgnoreCase(filter))
         .or(query.address.suburb.name.likeIgnoreCase(filter))
-        .or(likeTags(filter, locales))
         .or(likeTargetGroups(filter, locales))
         .or(likeCategory(filter, locales));
     
@@ -129,18 +128,6 @@ public class ActivityQueryBuilder extends QueryBuilder<QActivityEntity> {
   private Predicate likeTargetGroups(String filter, List<String> locales) {
     return query.targetGroups.any().translatables.any().name.likeIgnoreCase(filter)
     .and(query.targetGroups.any().translatables.any().language.locale.in(locales));
-  }
-
-  /**
-   * Like tags.
-   *
-   * @param filter the filter
-   * @param locales the locales
-   * @return the predicate
-   */
-  private Predicate likeTags(String filter, List<String> locales) {
-    return query.tags.any().translatables.any().name.likeIgnoreCase(filter)
-        .and(query.tags.any().translatables.any().language.locale.in(locales));
   }
 
   /**
