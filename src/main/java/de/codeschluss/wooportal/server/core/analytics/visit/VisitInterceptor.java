@@ -7,12 +7,13 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.stereotype.Component;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableEntity;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 
 @Component
 @Aspect
-public class VisitInterceptor {
+public class VisitInterceptor<V extends VisitableEntity<?>> {
 
   @Pointcut("execution(* de.codeschluss.wooportal.server.core.api.CrudController+.readOne(..))")
   private void readOne() { }
@@ -21,7 +22,7 @@ public class VisitInterceptor {
   private void readAll() { }
 
   @Autowired
-  private VisitableService visitableService;
+  private VisitableService<V> visitableService;
   
   @SuppressWarnings("unchecked")
   @Around("readOne()")
