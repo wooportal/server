@@ -25,6 +25,10 @@ public class SitemapController {
   @GetMapping("/sitemap")
   public ResponseEntity<Sitemap> getSitemap(HttpServletRequest request) 
       throws MalformedURLException {
-    return ok(sitemapService.generateSitemap(new URL(request.getRequestURL().toString())));
+    var host = request.getHeader("host");
+    if (!host.startsWith("http") && !host.startsWith("www")) {
+      host = "http://" + host;
+    }
+    return ok(sitemapService.generateSitemap(new URL(host)));
   }
 }
