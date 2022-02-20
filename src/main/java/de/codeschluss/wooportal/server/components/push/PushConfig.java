@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "push")
 public class PushConfig {
   
-  private String firebaseConfigFile;
+  private String credentials;
   
   private String typeNews;
   

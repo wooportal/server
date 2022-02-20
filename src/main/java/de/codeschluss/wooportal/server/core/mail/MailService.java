@@ -1,6 +1,5 @@
 package de.codeschluss.wooportal.server.core.mail;
 
-import freemarker.template.TemplateException;
 import java.io.IOException;
 import java.util.Map;
 import javax.mail.MessagingException;
@@ -8,6 +7,8 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import de.codeschluss.wooportal.server.core.config.GeneralPropertyConfiguration;
+import freemarker.template.TemplateException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -22,6 +23,8 @@ public class MailService {
   /** The sender. */
   private final JavaMailSender sender;
   
+  private final GeneralPropertyConfiguration generalConfig;
+  
   /** The mail config. */
   private final MailConfiguration mailConfig;
   
@@ -35,10 +38,12 @@ public class MailService {
    * @param mailConfig the mail config
    */
   public MailService(
-      JavaMailSender sender, 
+      JavaMailSender sender,
+      GeneralPropertyConfiguration generalConfig,
       MailConfiguration mailConfig,
       MailTemplateService templateService) {
     this.sender = sender;
+    this.generalConfig = generalConfig;
     this.mailConfig = mailConfig;
     this.templateService = templateService;
   }
@@ -58,7 +63,7 @@ public class MailService {
       Map<String, Object> templateModel,
       String... to) {
     try {
-      templateModel.put("portalName", mailConfig.getPortalName());
+      templateModel.put("portalName", generalConfig.getPortalName());
       sendEmail(
           subject, 
           templateService.createMessage(template, templateModel),
@@ -95,7 +100,7 @@ public class MailService {
    */
   public void sendEmail(String fromAddress, String subject, String content, boolean html,
       String... toAddresses) throws MessagingException {
-    subject = "[" + mailConfig.getPortalName() + "] - " + subject;
+    subject = "[" + generalConfig.getPortalName() + "] - " + subject;
     MimeMessage message = sender.createMimeMessage();
     MimeMessageHelper helper = new MimeMessageHelper(message);
     helper.setFrom(fromAddress);
