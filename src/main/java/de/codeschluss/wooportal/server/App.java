@@ -1,9 +1,5 @@
 package de.codeschluss.wooportal.server;
 
-import com.ctc.wstx.api.WstxOutputProperties;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
-import de.codeschluss.wooportal.server.core.repository.CustomRepositoryFactoryBean;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +11,10 @@ import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConve
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.ctc.wstx.api.WstxOutputProperties;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
+import de.codeschluss.wooportal.server.core.repository.CustomRepositoryFactoryBean;
 
 /**
  * The Class App.
@@ -30,11 +30,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableJpaRepositories(repositoryFactoryBeanClass = CustomRepositoryFactoryBean.class)
 public class App {
 
-  /**
-   * The main method.
-   *
-   * @param args the arguments
-   */
+  
   public static void main(String[] args) {
     SpringApplication.run(App.class, args);
   }

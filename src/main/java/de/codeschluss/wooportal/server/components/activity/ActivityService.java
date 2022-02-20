@@ -26,6 +26,7 @@ import de.codeschluss.wooportal.server.core.analytics.AnalyticsEntry;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
+import de.codeschluss.wooportal.server.core.config.GeneralPropertyConfiguration;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.mail.MailConfiguration;
@@ -54,7 +55,7 @@ import net.fortuna.ical4j.model.property.Version;
 @Service
 public class ActivityService extends ResourceDataService<ActivityEntity, ActivityQueryBuilder> {
 
-  private MailConfiguration mailConfig;
+  private GeneralPropertyConfiguration generalConfig;
   
   private CategoryService categoryService;
   
@@ -75,14 +76,14 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
       ActivityRepository repo, 
       ActivityQueryBuilder entities,
       PagingAndSortingAssembler assembler,
-      MailConfiguration mailConfig,
+      GeneralPropertyConfiguration generalConfig,
       CategoryService categoryService,
       ScheduleService scheduleService,
       SuburbService suburbService,
       TargetGroupService targetGroupService) {
     super(repo, entities, assembler);
     
-    this.mailConfig = mailConfig;
+    this.generalConfig = generalConfig;
     this.categoryService = categoryService;
     this.scheduleService = scheduleService;
     this.suburbService = suburbService; 
@@ -439,7 +440,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   
   private Calendar createCalendar() {
     Calendar calendar = new Calendar();
-    calendar.add(new ProdId("-//" + mailConfig.getPortalName() + "//IcalExport//EN"));
+    calendar.add(new ProdId("-//" + generalConfig.getPortalName() + "//IcalExport//EN"));
     calendar.add(Version.VERSION_2_0);
     calendar.add(CalScale.GREGORIAN);
     return calendar;

@@ -2,4 +2,6 @@
 /src/main/resources/database/output/
 /target/
 
-/src/main/resources/push/firebase-adminsdk.json
+/src/main/resources/credentials/app/google-storage-credentials.json
+/src/main/resources/credentials/firebase/firebase-credentials.json
+/src/main/resources/credentials/search/search-console-credentials.json
