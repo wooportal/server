@@ -29,7 +29,6 @@ import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
 import de.codeschluss.wooportal.server.core.config.GeneralPropertyConfiguration;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
-import de.codeschluss.wooportal.server.core.mail.MailConfiguration;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.ParameterList;

@@ -63,6 +63,8 @@ import lombok.ToString;
 public class BlogEntity extends BaseResource {
   private static final long serialVersionUID = 1L;
   
+  private Boolean approved;
+  
   @Transient
   @JsonDeserialize
   private String topicId;
@@ -134,6 +136,8 @@ public class BlogEntity extends BaseResource {
     links.add(selfLink());
     links.add(linkTo(methodOn(BlogController.class)
         .readImages(id)).withRel("images"));
+    links.add(linkTo(methodOn(BlogController.class)
+        .readTopic(id)).withRel("topic"));
     
     return links;
   }
