@@ -25,16 +25,16 @@ public class AppStatisticsController {
   }
   
   @GetMapping("/app-statistics/install")
-//@SuperUserPermission
-public ResponseEntity<List<AnalyticsEntry>> appStatisticsInstalls(
-    @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate startDate, 
-    @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate endDate) throws IOException {
-  validateDates(startDate, endDate);
-  return ok(service.calculateInstalls(startDate, endDate));
-}
+  @SuperUserPermission
+  public ResponseEntity<List<AnalyticsEntry>> appStatisticsInstalls(
+      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate startDate, 
+      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate endDate) throws IOException {
+    validateDates(startDate, endDate);
+    return ok(service.calculateInstalls(startDate, endDate));
+  }
 
   @GetMapping("/app-statistics/ratings")
-//  @SuperUserPermission
+  @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> appStatisticsRatings(
       @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate startDate, 
       @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate endDate) throws IOException {
@@ -44,7 +44,7 @@ public ResponseEntity<List<AnalyticsEntry>> appStatisticsInstalls(
   
   private void validateDates(LocalDate startDate, LocalDate endDate) {
     if (endDate.isBefore(startDate)) {
-      throw new BadParamsException("endDate must after startDate");
+      throw new BadParamsException("endDate must be after startDate");
     }
     var now = LocalDate.now();
     if (startDate.isAfter(now) || endDate.isAfter(now)) {
