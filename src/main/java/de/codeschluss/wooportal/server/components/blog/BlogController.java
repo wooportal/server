@@ -133,7 +133,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   }
   
   @PutMapping("/blogs/{blogId}/approve")
-//  @SuperUserPermission
+  @SuperUserPermission
   public ResponseEntity<?> grantApproval(
       @PathVariable String blogId,
       @RequestBody BooleanPrimitive isApproved) {

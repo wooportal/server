@@ -121,18 +121,21 @@ public class VisitableService<V extends VisitableEntity<?>> {
   }
 
   public boolean isValidVisitor() {
-    return isNoPrivateIpAddress() && isNoSuperUser();
+    return !isPrivateIpAddress() && !isSuperUser();
   }
 
-  private boolean isNoPrivateIpAddress() {
-    return !request.getRemoteAddr().startsWith("192.")
-        && !request.getRemoteAddr().startsWith("172.")
-        && !request.getRemoteAddr().startsWith("10.");
+  private boolean isPrivateIpAddress() {
+    return request.getRemoteAddr().startsWith("192.")
+        || request.getRemoteAddr().startsWith("172.")
+        || request.getRemoteAddr().startsWith("10.");
   }
   
-  private boolean isNoSuperUser() {
-    JwtUserDetails jwtUserDetails = (JwtUserDetails) request.getUserPrincipal();
-    return jwtUserDetails == null || !jwtUserDetails.isSuperUser();
+  private boolean isSuperUser() {
+    var userPrincipal = request.getUserPrincipal();
+    if (userPrincipal != null && userPrincipal instanceof JwtUserDetails) {
+      return ((JwtUserDetails) userPrincipal).isSuperUser(); 
+    }
+    return false;
   }
 
 }
