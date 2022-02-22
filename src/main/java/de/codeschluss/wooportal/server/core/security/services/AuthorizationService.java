@@ -145,7 +145,7 @@ public class AuthorizationService {
       validateUser(jwtUserDetails);
       return jwtUserDetails.getUser();
     }
-    throw new RuntimeException("Something went wrong. UserDetails are configured wrongly");
+    return null;
   }
 
   /**

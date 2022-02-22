@@ -25,6 +25,7 @@ import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.TopicService;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
+import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
@@ -32,7 +33,6 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
-import de.codeschluss.wooportal.server.core.security.permissions.BloggerPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnBlogOrSuperuserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
@@ -108,11 +108,15 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
 
   @Override
   @PostMapping("/blogs")
-  @BloggerPermission
   public ResponseEntity<?> create(@RequestBody BlogEntity newBlog) throws Exception {
     
     BloggerEntity blogger = getBlogger();
-    newBlog.setBlogger(blogger);
+    if (blogger != null) {
+      newBlog.setBlogger(blogger);
+      newBlog.setApproved(true);
+    } else {
+      newBlog.setApproved(false);
+    }
     
     TopicEntity topic = topicService.getById(newBlog.getTopicId());
     newBlog.setTopic(topic);
@@ -123,7 +127,25 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   }
   
   private BloggerEntity getBlogger() {
-    return bloggerService.getByUser(authService.getCurrentUser().getId());
+    return authService.getCurrentUser() != null
+        ? bloggerService.getByUser(authService.getCurrentUser().getId())
+        : null;
+  }
+  
+  @PutMapping("/blogs/{blogId}/approve")
+//  @SuperUserPermission
+  public ResponseEntity<?> grantApproval(
+      @PathVariable String blogId,
+      @RequestBody BooleanPrimitive isApproved) {
+    try {
+      service.setApproval(blogId, isApproved.getValue());
+      if (!isApproved.getValue()) {
+        service.delete(blogId);
+      }
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Blog does not exist!");
+    }
   }
 
   @Override
