@@ -139,9 +139,6 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       @RequestBody BooleanPrimitive isApproved) {
     try {
       service.setApproval(blogId, isApproved.getValue());
-      if (!isApproved.getValue()) {
-        service.delete(blogId);
-      }
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Blog does not exist!");

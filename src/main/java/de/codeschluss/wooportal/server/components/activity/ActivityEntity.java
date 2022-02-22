@@ -193,6 +193,15 @@ public class ActivityEntity extends BaseResource {
         .readTranslations(id)).withRel("translations"));
     links.add(linkTo(methodOn(ActivityController.class)
         .readImages(id)).withRel("images"));
+    try {
+      links.add(linkTo(methodOn(ActivityController.class)
+          .calculateVisitors(id)).withRel("visitors"));
+      links.add(linkTo(methodOn(ActivityController.class)
+          .calculateVisits(id)).withRel("visits"));
+    } catch (Throwable e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     
     return links;
   }
