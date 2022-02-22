@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -138,6 +139,12 @@ public class ActivityEntity extends BaseResource {
   @JsonIgnore
   private List<ScheduleEntity> schedules;
 
+  @OneToOne
+  @JsonIgnore
+  @ToString.Exclude
+  @JoinColumn(name="titleimage_id")
+  private ImageEntity titleImage;
+  
   @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
@@ -152,6 +159,8 @@ public class ActivityEntity extends BaseResource {
       columns = @Column(name = "id"),
       type = @Type(type = "uuid-char"),
       generator = "UUID"
+      
+      
   )
   private List<TargetGroupEntity> targetGroups;
 

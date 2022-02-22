@@ -16,6 +16,8 @@ databaseChangeLog:
         constraintName: CONSTRAINT_58WUFYXDKI
         deferrable: false
         initiallyDeferred: false
+        onDelete: SET NULL
+        onUpdate: CASCADE
         referencedColumnNames: id
         referencedTableName: images
         validate: true

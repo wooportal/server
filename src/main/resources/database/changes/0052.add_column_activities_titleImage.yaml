@@ -1,0 +1,23 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0052.add_column_activities_titleImage
+          author: codeschluss
+          changes:
+              - addColumn:
+                    columns:
+                        - column:
+                              name: titleimage_id
+                              type: char(36)
+                    tableName: activities
+              - addForeignKeyConstraint:
+                    baseColumnNames: titleimage_id
+                    baseTableName: activities
+                    constraintName: CONSTRAINT_58MCGAHTEG
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: SET NULL
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: images
+                    validate: true

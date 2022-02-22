@@ -45,6 +45,7 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
+import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnActivityPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnOrOrgaActivityOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.ProviderPermission;
@@ -63,7 +64,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
 
   /** The address service. */
   private final AddressService addressService;
-  
+
   /** The image service. */
   private final ImageService imageService;
 
@@ -87,46 +88,36 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
 
   /** The auth service. */
   private final AuthorizationService authService;
-  
+
   /** The push service. */
   private final PushService pushService;
-  
+
   /** The subscription service. */
   private final SubscriptionService subscriptionService;
-  
+
   private final VisitableService<ActivityVisitorEntity> visitableService;
 
   /**
    * Instantiates a new activity controller.
    *
-   * @param service
-   *          the service
-   * @param addressService
-   *          the address service
-   * @param categoryService
-   *          the category service
-   * @param providerService
-   *          the provider service
-   * @param userService
-   *          the user service
-   * @param tagService
-   *          the tag service
-   * @param targetGroupService
-   *          the target group service
-   * @param scheduleService
-   *          the schedule service
-   * @param organisationService
-   *          the organisation service
-   * @param translationService
-   *          the translation service
-   * @param authService
-   *          the auth service
+   * @param service the service
+   * @param addressService the address service
+   * @param categoryService the category service
+   * @param providerService the provider service
+   * @param userService the user service
+   * @param tagService the tag service
+   * @param targetGroupService the target group service
+   * @param scheduleService the schedule service
+   * @param organisationService the organisation service
+   * @param translationService the translation service
+   * @param authService the auth service
    */
   public ActivityController(ActivityService service, AddressService addressService,
-      CategoryService categoryService, ProviderService providerService, UserService userService, TargetGroupService targetGroupService, ScheduleService scheduleService,
-      OrganisationService organisationService, 
-      TranslationService translationService, AuthorizationService authService,
-      ImageService imageService, PushService pushService, SubscriptionService subscriptionService,
+      CategoryService categoryService, ProviderService providerService, UserService userService,
+      TargetGroupService targetGroupService, ScheduleService scheduleService,
+      OrganisationService organisationService, TranslationService translationService,
+      AuthorizationService authService, ImageService imageService, PushService pushService,
+      SubscriptionService subscriptionService,
       VisitableService<ActivityVisitorEntity> visitableService) {
     super(service);
     this.addressService = addressService;
@@ -163,8 +154,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   @Override
   @PostMapping("/activities")
   @ProviderPermission
-  public ResponseEntity<?> create(@RequestBody ActivityEntity newActivity)
-      throws Exception {
+  public ResponseEntity<?> create(@RequestBody ActivityEntity newActivity) throws Exception {
     validateCreate(newActivity);
 
     try {
@@ -199,8 +189,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read address.
    *
-   * @param activityId
-   *          the activity id
+   * @param activityId the activity id
    * @return the response entity
    */
   @GetMapping("/activities/{activityId}/address")
@@ -219,8 +208,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   @OwnOrOrgaActivityOrSuperUserPermission
   public ResponseEntity<?> updateAddress(@PathVariable String activityId,
       @RequestBody StringPrimitive addressId) {
-    if (addressService.existsById(addressId.getValue()) 
-        && service.existsById(activityId)) {
+    if (addressService.existsById(addressId.getValue()) && service.existsById(activityId)) {
       service.updateAddress(activityId, addressService.getById(addressId.getValue()));
       return readAddress(activityId);
     } else {
@@ -231,8 +219,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read category.
    *
-   * @param activityId
-   *          the activity id
+   * @param activityId the activity id
    * @return the response entity
    */
   @GetMapping("/activities/{activityId}/category")
@@ -243,10 +230,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Update category.
    *
-   * @param activityId
-   *          the activity id
-   * @param categoryId
-   *          the category id
+   * @param activityId the activity id
+   * @param categoryId the category id
    * @return the response entity
    */
   @PutMapping("/activities/{activityId}/category")
@@ -264,8 +249,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read organisation.
    *
-   * @param activityId
-   *          the activity id
+   * @param activityId the activity id
    * @return the response entity
    */
   @GetMapping("/activities/{activityId}/organisation")
@@ -277,10 +261,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Update organisation.
    *
-   * @param activityId
-   *          the activity id
-   * @param organisationId
-   *          the organisation id
+   * @param activityId the activity id
+   * @param organisationId the organisation id
    * @return the response entity
    */
   @PutMapping("/activities/{activityId}/organisation")
@@ -298,14 +280,12 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read target groups.
    *
-   * @param activityId          the activity id
+   * @param activityId the activity id
    * @param params the params
    * @return the response entity
    */
   @GetMapping("/activities/{activityId}/targetgroups")
-  public ResponseEntity<?> readTargetGroups(
-      @PathVariable String activityId,
-      BaseParams params) {
+  public ResponseEntity<?> readTargetGroups(@PathVariable String activityId, BaseParams params) {
     try {
       return ok(targetGroupService.getResourceByActivity(activityId, params));
     } catch (IOException e) {
@@ -316,10 +296,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Adds the target groups.
    *
-   * @param activityId
-   *          the activity id
-   * @param targetGroupIds
-   *          the target group ids
+   * @param activityId the activity id
+   * @param targetGroupIds the target group ids
    * @return the response entity
    */
   @PostMapping("/activities/{activityId}/targetgroups")
@@ -327,8 +305,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   public ResponseEntity<?> addTargetGroups(@PathVariable String activityId,
       @RequestBody List<String> targetGroupIds) {
     try {
-      List<String> distinctTargetGroups = targetGroupIds.stream().distinct()
-          .collect(Collectors.toList());
+      List<String> distinctTargetGroups =
+          targetGroupIds.stream().distinct().collect(Collectors.toList());
       return ok(
           service.addTargetGroups(activityId, targetGroupService.getByIds(distinctTargetGroups)));
     } catch (NotFoundException e) {
@@ -358,7 +336,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Find schedules.
    *
-   * @param activityId          the activity id
+   * @param activityId the activity id
    * @param params the params
    * @return the response entity
    */
@@ -374,10 +352,8 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Adds the schedules.
    *
-   * @param activityId
-   *          the activity id
-   * @param schedules
-   *          the schedules
+   * @param activityId the activity id
+   * @param schedules the schedules
    * @return the response entity
    */
   @PostMapping("/activities/{activityId}/schedules")
@@ -386,8 +362,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       @RequestBody List<ScheduleEntity> schedules) {
     validateSchedules(schedules);
     try {
-      return scheduleService.addAllResourcesWithActivity(
-          schedules, service.getById(activityId));
+      return scheduleService.addAllResourcesWithActivity(schedules, service.getById(activityId));
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");
     } catch (IOException e) {
@@ -430,27 +405,25 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Gets the provider.
    *
-   * @param organisationId
-   *          the organisation id
+   * @param organisationId the organisation id
    * @return the provider
    */
   private ProviderEntity getProvider(String organisationId) {
     return providerService.getProviderByUserAndOrganisation(authService.getCurrentUser().getId(),
         organisationId);
   }
-  
+
   /**
    * Read images.
    *
-   * @param activityId
-   *          the activity id
+   * @param activityId the activity id
    * @return the response entity
    */
   @GetMapping("/activities/{activityId}/images")
   public ResponseEntity<?> readImages(@PathVariable String activityId) {
     return ok(service.getImages(activityId));
   }
-  
+
   /**
    * Adds the image.
    *
@@ -472,7 +445,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       throw new BadParamsException("Image Upload not possible");
     }
   }
-  
+
   private void validateImages(List<ImageEntity> images) {
     if (images == null || images.isEmpty()) {
       throw new BadParamsException("Image File must not be null");
@@ -502,12 +475,11 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       throw new BadParamsException("Given Activity does not exist");
     }
   }
-  
+
   /**
    * Read translations.
    *
-   * @param activityId
-   *          the activity id
+   * @param activityId the activity id
    * @return the response entity
    */
   @GetMapping("/activities/{activityId}/translations")
@@ -519,7 +491,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       throw new RuntimeException(e);
     }
   }
-  
+
   /**
    * Increase like.
    *
@@ -528,14 +500,13 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
    * @return the response entity
    */
   @PutMapping("/activities/{activityId}/like")
-  public ResponseEntity<?> increaseLike(
-      @PathVariable String activityId,
+  public ResponseEntity<?> increaseLike(@PathVariable String activityId,
       @RequestBody(required = false) StringPrimitive subscriptionId) {
     try {
       service.increaseLike(activityId);
       if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
-        subscriptionService.addLikedActivity(
-            subscriptionId.getValue(), service.getById(activityId));
+        subscriptionService.addLikedActivity(subscriptionId.getValue(),
+            service.getById(activityId));
       }
       return noContent().build();
     } catch (NotFoundException e) {
@@ -546,18 +517,19 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   @GetMapping("/activities/{activityId}/iCal")
   public ResponseEntity<String> generateAllIcal(@PathVariable String activityId) {
 
-    return ResponseEntity.ok().headers(createIcalHeader()).contentType(MediaType.APPLICATION_OCTET_STREAM)
-        .body(service.generateAllIcal(activityId));
+    return ResponseEntity.ok().headers(createIcalHeader())
+        .contentType(MediaType.APPLICATION_OCTET_STREAM).body(service.generateAllIcal(activityId));
   }
 
   @GetMapping("/activities/{activityId}/{scheduleId}/iCal")
   public ResponseEntity<String> generateIcal(@PathVariable String activityId,
       @PathVariable String scheduleId) {
 
-    return ResponseEntity.ok().headers(createIcalHeader()).contentType(MediaType.APPLICATION_OCTET_STREAM)
+    return ResponseEntity.ok().headers(createIcalHeader())
+        .contentType(MediaType.APPLICATION_OCTET_STREAM)
         .body(service.generateIcal(activityId, scheduleId));
   }
-  
+
   public HttpHeaders createIcalHeader() {
     HttpHeaders header = new HttpHeaders();
     header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=mycalendar.ics");
@@ -566,47 +538,99 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     header.add("Expires", "0");
     return header;
   }
-  
+
   @GetMapping("/activities/analytics/categories")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerCategory(
       BooleanPrimitive current) {
     return ok(service.calculateActivitiesPerCategory(current));
   }
-  
+
   @GetMapping("/activities/analytics/suburbs")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerSuburbs(
       BooleanPrimitive current) {
     return ok(service.calculateActivitiesPerSuburb(current));
   }
-  
+
   @GetMapping("/activities/analytics/targetgroups")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> calculateActivitiesPerTargetGroup(
       BooleanPrimitive current) {
     return ok(service.calculateActivitiesPerTargetGroup(current));
   }
-  
+
   @GetMapping("/activities/visitors")
   public ResponseEntity<Integer> calculateOverviewVisitors() throws Throwable {
     return ok(visitableService.calculateVisitors(this));
   }
-  
+
   @GetMapping("/activities/visits")
   public ResponseEntity<Integer> calculateOverviewVisits() throws Throwable {
     return ok(visitableService.calculateVisits(this));
   }
-  
+
   @GetMapping("/activities/{activityId}/visitors")
-  public ResponseEntity<Integer> calculateVisitors(
-      @PathVariable String activityId) throws Throwable {
+  public ResponseEntity<Integer> calculateVisitors(@PathVariable String activityId)
+      throws Throwable {
     return ok(visitableService.calculateVisitors(service.getById(activityId)));
   }
-  
+
   @GetMapping("/activities/{activityId}/visits")
-  public ResponseEntity<Integer> calculateVisits(
-      @PathVariable String activityId) throws Throwable {
+  public ResponseEntity<Integer> calculateVisits(@PathVariable String activityId) throws Throwable {
     return ok(visitableService.calculateVisits(service.getById(activityId)));
+  }
+
+  /**
+   * Read the titleImage
+   */
+  @GetMapping("/activities/{activityId}/titleImage")
+  public ResponseEntity<ImageEntity> readTitleImage(@PathVariable String activityId) {
+    return ok(service.getTitleImage(activityId));
+  }
+
+  /**
+   * Adds the titleImage
+   */
+  @PostMapping("/activities/{activityId}/titleImage")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> addTitleImage(@PathVariable String activityId,
+      @RequestBody ImageEntity titleImage) {
+    try {
+      validateTitleImage(titleImage);
+      return ok(service.addTitleImage(activityId, imageService.add(titleImage)));
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Activity does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
+    }
+  }
+
+  private void validateTitleImage(ImageEntity titleImage) {
+    if (titleImage == null) {
+      throw new BadParamsException("Image File must not be null");
+    }
+    if (!imageService.validCreateFieldConstraints(titleImage)) {
+      throw new BadParamsException("Image or Mime Type with correct form required");
+    }
+  }
+
+  /**
+   * Delete the titleimage
+   * 
+   * @param activityId
+   * @param titleImageId
+   * @return
+   */
+  @DeleteMapping("/activity/{activityId}/titleImage")
+  @OrgaAdminOrSuperUserPermission
+  public ResponseEntity<?> deleteTitleImage(@PathVariable String activityId,
+      @RequestParam(value = "titleimageId", required = true) String titleImageId) {
+    try {
+      imageService.delete(titleImageId);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("No TitleImage");
+    }
   }
 }

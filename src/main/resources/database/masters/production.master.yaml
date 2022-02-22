@@ -102,3 +102,7 @@ databaseChangeLog:
           file: database/changes/0049.drop_tables_tag.yaml
     - include:
           file: database/changes/0050.add_columns_blog.yaml
+    - include:
+          file: database/changes/0051.add_column_users_avatar.yaml
+    - include:
+          file: database/changes/0052.add_column_activities_titleImage.yaml

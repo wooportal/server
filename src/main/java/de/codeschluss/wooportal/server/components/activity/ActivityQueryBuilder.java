@@ -42,8 +42,7 @@ public class ActivityQueryBuilder extends QueryBuilder<QActivityEntity> {
   }
   
   @Override
-  public Predicate search(FilterSortPaginate p) {
-    ActivityQueryParam params = validateParams(p);
+  public Predicate search(FilterSortPaginate params) {
     List<String> locales = languageService.getCurrentRequestLocales();
     BooleanBuilder search = new BooleanBuilder(withLocalized(locales));
     
@@ -76,8 +75,9 @@ public class ActivityQueryBuilder extends QueryBuilder<QActivityEntity> {
    */
   private Predicate searchFiltered(
       BooleanBuilder search, 
-      ActivityQueryParam params,
+      FilterSortPaginate p,
       List<String> locales) {
+    ActivityQueryParam params = validateParams(p);
     String filter = params.getFilter();
     if (params.getCurrent() != null && params.getCurrent()) {
       search.and(withCurrentSchedulesOnly());

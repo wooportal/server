@@ -4,8 +4,10 @@ import de.codeschluss.wooportal.server.components.organisation.OrganisationEntit
 import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.mail.MailService;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -285,5 +287,31 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
         .map(user -> user.getUsername())
         .collect(Collectors.toList());
   }
+  
+  /**
+   * gets the avatar
+   *
+   * @return avatar
+   */
+  public ImageEntity getAvatar(String userId) {
+    UserEntity result = repo.findOne(entities.withId(userId))
+        .orElseThrow(() -> new NotFoundException(userId));
 
+    return result.getAvatar();
+  }
+  
+  /**
+   * adds the avatar
+   *
+   * @return saveavatar
+   */
+  public UserEntity addAvatar(String userId, ImageEntity avatar)
+      throws IOException {
+    if (userId == null || userId.isEmpty()) {
+      throw new NotFoundException("No User exists");
+    }
+    UserEntity user = getById(userId);
+    user.setAvatar(avatar);
+    return repo.save(user);
+  }
 }

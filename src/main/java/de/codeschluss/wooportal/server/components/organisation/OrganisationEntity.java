@@ -157,4 +157,8 @@ public class OrganisationEntity extends BaseResource {
 
     return links;
   }
+  
+  public Link selfLink() {
+    return linkTo(methodOn(OrganisationController.class).readOne(id)).withSelfRel();
+  }
 }

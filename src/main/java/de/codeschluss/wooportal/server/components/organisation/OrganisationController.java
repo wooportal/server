@@ -457,6 +457,7 @@ public class OrganisationController
   
   /**
    * Delete the avatar
+   * 
    * @param organisationId
    * @param avatarId
    * @return
@@ -466,13 +467,13 @@ public class OrganisationController
   public ResponseEntity<?> deleteAvatar(@PathVariable String organisationId,
       @RequestParam(value = "avatarId", required = true) String avatarId) {
     try {
-      imageService.delete(avatarId); 
+      imageService.delete(avatarId);
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("No Avatar");
-      }
+    }
   }
-  
+
   
   @GetMapping("/organisations/{organisationId}/videos")
   public ResponseEntity<?> readVideos(@PathVariable String organisationId) {
