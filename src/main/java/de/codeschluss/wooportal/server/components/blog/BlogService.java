@@ -2,7 +2,9 @@ package de.codeschluss.wooportal.server.components.blog;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.Resource;
@@ -17,6 +19,7 @@ import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
+import de.codeschluss.wooportal.server.core.mail.MailService;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 
@@ -28,6 +31,8 @@ import de.codeschluss.wooportal.server.core.service.ResourceDataService;
  */
 @Service
 public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilder> {
+  
+  private final MailService mailService;
 
   /**
    * Instantiates a new blog service.
@@ -39,9 +44,14 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
    * @param assembler
    *          the assembler
    */
-  public BlogService(DataRepository<BlogEntity> repo, BlogQueryBuilder entities,
-      PagingAndSortingAssembler assembler) {
+  public BlogService(
+      DataRepository<BlogEntity> repo, 
+      BlogQueryBuilder entities,
+      PagingAndSortingAssembler assembler,
+      MailService mailService) {
     super(repo, entities, assembler);
+    
+    this.mailService = mailService;
   }
 
   @Override
@@ -257,5 +267,29 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
     BlogEntity blog = getById(id);
     blog.getImages().add(image);
     return repo.save(blog);
+  }
+  
+  public void setApproval(String blogId, Boolean isApproved) {
+    var blog = getById(blogId);
+    blog.setApproved(isApproved);
+    repo.save(blog);
+    if (isApproved) {
+      this.sendApprovalMail(blog);
+    }
+  }
+
+  private void sendApprovalMail(BlogEntity blog) {
+    if (blog.getMailAddress() != null && !blog.getMailAddress().isEmpty()) {
+      Map<String, Object> model = new HashMap<>();
+      model.put("title", blog.getTitle());
+      model.put("author", blog.getAuthor());
+      String subject = "Beitrag veröffentlicht";
+      mailService.sendEmail(
+          subject, 
+          "approvedblog.ftl", 
+          model, 
+          blog.getMailAddress());
+    }
+
   }
 }

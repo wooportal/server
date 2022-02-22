@@ -100,3 +100,5 @@ databaseChangeLog:
           file: database/changes/0048.create_tables_visitors.yaml
     - include:
           file: database/changes/0049.drop_tables_tag.yaml
+    - include:
+          file: database/changes/0050.add_columns_blog.yaml

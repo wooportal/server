@@ -63,6 +63,7 @@ import lombok.ToString;
 public class BlogEntity extends BaseResource {
   private static final long serialVersionUID = 1L;
   
+  @JsonProperty(access = Access.READ_ONLY)
   private Boolean approved;
   
   @Transient
@@ -75,10 +76,9 @@ public class BlogEntity extends BaseResource {
   @JoinColumn(nullable = false)
   private TopicEntity topic;
   
-  @JsonSerialize
-  @JsonDeserialize
-  @Transient
   private String author;
+  
+  private String mailAddress;
   
   @ManyToOne
   @JsonIgnore
@@ -126,7 +126,9 @@ public class BlogEntity extends BaseResource {
   protected Set<BlogVisitorEntity> visits;
   
   public String getAuthor() {
-    return this.getBlogger().getUser().getName();
+    return author != null && !author.isBlank() 
+        ? author
+        : getBlogger().getUser().getName();
   }
 
   @Override
@@ -138,6 +140,8 @@ public class BlogEntity extends BaseResource {
         .readImages(id)).withRel("images"));
     links.add(linkTo(methodOn(BlogController.class)
         .readTopic(id)).withRel("topic"));
+    links.add(linkTo(methodOn(BlogController.class)
+        .readBlogger(id)).withRel("blogger"));
     
     return links;
   }

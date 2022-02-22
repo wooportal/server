@@ -1,0 +1,37 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0050.add_column_blog.1
+          author: codeschluss
+          changes:
+              - addColumn:
+                    columns:
+                        - column:
+                              constraints:
+                                  nullable: true
+                              defaultValueComputed: 1
+                              name: approved
+                              type: BIT(1)
+                        - column:
+                              name: author
+                              type: VARCHAR(255)
+                        - column:
+                              name: mail_address
+                              type: VARCHAR(255)
+                    tableName: blogs
+    - changeSet:
+          id: 0050.add_column_blog.2
+          author: codeschluss
+          changes:
+              - dropDefaultValue:
+                    columnDataType: BIT(1)
+                    columnName: approved
+                    tableName: blogs
+    - changeSet:
+          id: 0050.add_column_blog.3
+          author: codeschluss
+          changes:
+              - dropNotNullConstraint:
+                    columnDataType: CHAR(36)
+                    columnName: blogger_id
+                    tableName: blogs
