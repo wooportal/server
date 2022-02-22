@@ -76,8 +76,7 @@ public class OrganisationQueryBuilder extends QueryBuilder<QOrganisationEntity> 
   }
 
   @Override
-  public Predicate search(FilterSortPaginate p) {
-    OrganisationQueryParam params = validateParams(p);
+  public Predicate search(FilterSortPaginate params) {
     List<String> locales = languageService.getCurrentRequestLocales();
     BooleanBuilder search = new BooleanBuilder(withLocalized(locales));
     return params.isEmptyQuery()
@@ -106,7 +105,10 @@ public class OrganisationQueryBuilder extends QueryBuilder<QOrganisationEntity> 
    * @param params the params
    * @return the predicate
    */
-  private Predicate searchFiltered(BooleanBuilder search, OrganisationQueryParam params) {
+  private Predicate searchFiltered(
+      BooleanBuilder search, 
+      FilterSortPaginate p) {
+    OrganisationQueryParam params = validateParams(p);
     if (params.getApproved() != null) {
       search.and(withApproved(params.getApproved()));
     }

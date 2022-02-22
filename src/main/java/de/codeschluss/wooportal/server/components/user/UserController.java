@@ -3,25 +3,6 @@ package de.codeschluss.wooportal.server.components.user;
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
-
-import de.codeschluss.wooportal.server.components.activity.ActivityService;
-import de.codeschluss.wooportal.server.components.blog.BlogService;
-import de.codeschluss.wooportal.server.components.blogger.BloggerService;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
-import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
-import de.codeschluss.wooportal.server.components.provider.ProviderService;
-import de.codeschluss.wooportal.server.core.api.CrudController;
-import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
-import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
-import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
-import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
-import de.codeschluss.wooportal.server.core.security.permissions.OwnUserOrSuperUserPermission;
-import de.codeschluss.wooportal.server.core.security.permissions.OwnUserPermission;
-import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
-import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,7 +16,28 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import de.codeschluss.wooportal.server.components.activity.ActivityService;
+import de.codeschluss.wooportal.server.components.blog.BlogService;
+import de.codeschluss.wooportal.server.components.blogger.BloggerService;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
+import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
+import de.codeschluss.wooportal.server.components.provider.ProviderService;
+import de.codeschluss.wooportal.server.core.api.CrudController;
+import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
+import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
+import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
+import de.codeschluss.wooportal.server.core.image.ImageService;
+import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
+import de.codeschluss.wooportal.server.core.security.permissions.OwnUserOrSuperUserPermission;
+import de.codeschluss.wooportal.server.core.security.permissions.OwnUserPermission;
+import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
+import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -64,6 +66,9 @@ public class UserController extends CrudController<UserEntity, UserService> {
   
   /** The auth service. */
   private final AuthorizationService authService;
+  
+  /** The image service. */
+  private final ImageService imageService;
 
   /**
    * Instantiates a new user controller.
@@ -80,7 +85,7 @@ public class UserController extends CrudController<UserEntity, UserService> {
       OrganisationService organisationService,
       BlogService blogService,
       BloggerService bloggerService,
-      AuthorizationService authService) {
+      AuthorizationService authService, ImageService imageService) {
     super(userService);
     this.providerService = providerService;
     this.activityService = activityService;
@@ -88,7 +93,8 @@ public class UserController extends CrudController<UserEntity, UserService> {
     this.blogService = blogService;
     this.bloggerService = bloggerService;
     this.authService = authService;
-  }
+    this.imageService = imageService;
+    }
 
   @Override
   @GetMapping("/users")
@@ -406,4 +412,59 @@ public class UserController extends CrudController<UserEntity, UserService> {
       return noContent().build();
     }
   }
+
+  /**
+   * Read the avatar
+   */
+  @GetMapping("/user/{userId}/avatar")
+  public ResponseEntity<ImageEntity> readAvatar(@PathVariable String userId) {
+    return ok(service.getAvatar(userId));
+  }
+
+  /**
+   * Adds the avatar
+   */
+  @PostMapping("/user/{userId}/avatar")
+  @OwnUserPermission
+  public ResponseEntity<?> addAvatar(@PathVariable String userId,
+      @RequestBody ImageEntity avatar) {
+    try {
+      validateAvatar(avatar);
+      return ok(service.addAvatar(userId, imageService.add(avatar)));
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given User does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
+    }
+  }
+
+  private void validateAvatar(ImageEntity avatar) {
+    if (avatar == null) {
+      throw new BadParamsException("Image File must not be null");
+    }
+    if (!imageService.validCreateFieldConstraints(avatar)) {
+      throw new BadParamsException("Image or Mime Type with correct form required");
+    }
+  }
+
+  /**
+   * Delete the avatar
+   * 
+   * @param userId
+   * @param avatarId
+   * @return
+   */
+  @DeleteMapping("/user/{userId}/avatar")
+  @OwnUserOrSuperUserPermission
+  public ResponseEntity<?> deleteAvatar(@PathVariable String userId,
+      @RequestParam(value = "avatarId", required = true) String avatarId) {
+    try {
+      imageService.delete(avatarId);
+      return noContent().build();
+    } catch (NotFoundException e) {
+      throw new BadParamsException("No Avatar");
+    }
+  }
 }
+
+

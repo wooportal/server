@@ -57,13 +57,13 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   private GeneralPropertyConfiguration generalConfig;
   
   private CategoryService categoryService;
-  
+
   private ScheduleService scheduleService;
-  
+
   private SuburbService suburbService;
-  
+
   private TargetGroupService targetGroupService;
-  
+
   /**
    * Instantiates a new activity service.
    *
@@ -85,7 +85,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     this.generalConfig = generalConfig;
     this.categoryService = categoryService;
     this.scheduleService = scheduleService;
-    this.suburbService = suburbService; 
+    this.suburbService = suburbService;
     this.targetGroupService = targetGroupService;
   }
 
@@ -93,7 +93,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   public ActivityEntity getExisting(ActivityEntity activity) {
     return repo.findById(activity.getId()).orElse(null);
   }
-  
+
   @Override
   public boolean validCreateFieldConstraints(ActivityEntity newActivity) {
     return newActivity.getName() != null && !newActivity.getName().isEmpty()
@@ -102,7 +102,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
         && newActivity.getOrganisationId() != null && !newActivity.getOrganisationId().isEmpty()
         && validContactData(newActivity);
   }
-  
+
   @Override
   public boolean validUpdateFieldConstraints(ActivityEntity newActivity) {
     return newActivity.getName() != null && !newActivity.getName().isEmpty()
@@ -129,7 +129,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
    * @throws JsonMappingException the json mapping exception
    * @throws IOException Signals that an I/O exception has occurred.
    */
-  public Resources<?> getResourcesByProviders(List<ProviderEntity> providers, BaseParams params) 
+  public Resources<?> getResourcesByProviders(List<ProviderEntity> providers, BaseParams params)
       throws JsonParseException, JsonMappingException, IOException {
     return assembler.entitiesToResources(getByProviders(providers, params), params);
   }
@@ -143,16 +143,15 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
    */
   public List<ActivityEntity> getByProviders(List<ProviderEntity> providers, BaseParams params) {
     Predicate query = entities.withAnyOfProviders(providers);
-    List<ActivityEntity> result = params == null
-        ? repo.findAll(query)
-        : repo.findAll(query, entities.createSort(params));
-    
+    List<ActivityEntity> result =
+        params == null ? repo.findAll(query) : repo.findAll(query, entities.createSort(params));
+
     if (result == null || result.isEmpty()) {
       throw new NotFoundException(providers.toString());
     }
     return result;
   }
-  
+
   public List<ActivityEntity> getByUser(UserEntity user) {
     return repo.findAll(entities.forUser(user.getId()));
   }
@@ -177,10 +176,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   /**
    * Checks if is activity for provider.
    *
-   * @param activityId
-   *          the activity id
-   * @param providers
-   *          the providers
+   * @param activityId the activity id
+   * @param providers the providers
    * @return true, if is activity for provider
    */
   public boolean isActivityForProvider(String activityId, List<ProviderEntity> providers) {
@@ -205,10 +202,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   /**
    * Update address.
    *
-   * @param activityId
-   *          the activity id
-   * @param address
-   *          the address
+   * @param activityId the activity id
+   * @param address the address
    * @return the address entity
    */
   public AddressEntity updateAddress(String activityId, AddressEntity address) {
@@ -220,10 +215,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   /**
    * Update category.
    *
-   * @param activityId
-   *          the activity id
-   * @param category
-   *          the category
+   * @param activityId the activity id
+   * @param category the category
    * @return the activity entity
    */
   public ActivityEntity updateCategory(String activityId, CategoryEntity category) {
@@ -235,10 +228,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   /**
    * Update provider.
    *
-   * @param activityId
-   *          the activity id
-   * @param provider
-   *          the provider
+   * @param activityId the activity id
+   * @param provider the provider
    * @return the activity entity
    */
   public ActivityEntity updateProvider(String activityId, ProviderEntity provider) {
@@ -250,10 +241,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   /**
    * Adds the target groups.
    *
-   * @param activityId
-   *          the activity id
-   * @param targetGroups
-   *          the target groups
+   * @param activityId the activity id
+   * @param targetGroups the target groups
    * @return the list
    */
   public List<TargetGroupEntity> addTargetGroups(String activityId,
@@ -271,10 +260,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   /**
    * Delete target group.
    *
-   * @param activityId
-   *          the activity id
-   * @param targetGroupIds
-   *          the target group ids
+   * @param activityId the activity id
+   * @param targetGroupIds the target group ids
    */
   public void deleteTargetGroup(String activityId, List<String> targetGroupIds) {
     ActivityEntity activity = getById(activityId);
@@ -303,7 +290,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     activity.setLikes(activity.getLikes() + 1);
     repo.save(activity);
   }
-  
+
   /**
    * Gets the images.
    *
@@ -317,7 +304,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     }
     return result;
   }
-  
+
   /**
    * Adds the images.
    *
@@ -326,9 +313,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
    * @return the list
    * @throws IOException Signals that an I/O exception has occurred.
    */
-  public List<ImageEntity> addImages(
-      String id,
-      List<ImageEntity> images) throws IOException {
+  public List<ImageEntity> addImages(String id, List<ImageEntity> images) throws IOException {
     ActivityEntity savedEntity = null;
     for (ImageEntity image : images) {
       savedEntity = addImage(id, image);
@@ -349,7 +334,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     activity.getImages().add(image);
     return repo.save(activity);
   }
-  
+
   public List<AnalyticsEntry> calculateActivitiesPerCategory(BooleanPrimitive current) {
     var data = categoryService.getAll().stream().collect(Collectors.toMap(c -> c, c -> 0.0));
     var activities = getByCurrent(current);
@@ -360,15 +345,11 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
         data.put(category, value + 1);
       }
     }
-    
-    return data.entrySet()
-        .stream()
-        .map(entry -> new AnalyticsEntry(
-            entry.getKey().getName(), entry.getValue(), entry.getKey().getColor()))
-        .sorted()
-        .collect(Collectors.toList());
+
+    return data.entrySet().stream().map(entry -> new AnalyticsEntry(entry.getKey().getName(),
+        entry.getValue(), entry.getKey().getColor())).sorted().collect(Collectors.toList());
   }
-  
+
   public List<AnalyticsEntry> calculateActivitiesPerSuburb(BooleanPrimitive current) {
     var data = suburbService.getAll().stream().collect(Collectors.toMap(c -> c, c -> 0.0));
     var activities = getByCurrent(current);
@@ -379,15 +360,12 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
         data.put(suburb, value + 1);
       }
     }
-    
-    return data.entrySet()
-        .stream()
-        .map(entry -> new AnalyticsEntry(
-            entry.getKey().getName(), entry.getValue(), null))
-        .sorted()
+
+    return data.entrySet().stream()
+        .map(entry -> new AnalyticsEntry(entry.getKey().getName(), entry.getValue(), null)).sorted()
         .collect(Collectors.toList());
   }
-  
+
   public List<AnalyticsEntry> calculateActivitiesPerTargetGroup(BooleanPrimitive current) {
     var data = targetGroupService.getAll().stream().collect(Collectors.toMap(c -> c, c -> 0.0));
     var activities = getByCurrent(current);
@@ -399,15 +377,12 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
         }
       }
     }
-    
-    return data.entrySet()
-        .stream()
-        .map(entry -> new AnalyticsEntry(
-            entry.getKey().getName(), entry.getValue(), null))
-        .sorted()
+
+    return data.entrySet().stream()
+        .map(entry -> new AnalyticsEntry(entry.getKey().getName(), entry.getValue(), null)).sorted()
         .collect(Collectors.toList());
   }
- 
+
   /**
    * Creates an ICal String
    * 
@@ -419,13 +394,12 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     ActivityEntity activity = repo.findOne(entities.withId(activityId))
         .orElseThrow(() -> new NotFoundException(activityId));
     Calendar calendar = createCalendar();
-    
+
     for (ScheduleEntity schedule : activity.getSchedules()) {
-      calendar.add(createVEvent(activity, 
-          schedule,
+      calendar.add(createVEvent(activity, schedule,
           categoryService.getById(activity.getCategory().getId())));
     }
-    
+
     return calendar.toString();
   }
 
@@ -433,14 +407,13 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     ActivityEntity activity = repo.findOne(entities.withId(activityId))
         .orElseThrow(() -> new NotFoundException(activityId));
     Calendar calendar = createCalendar();
-    
-    calendar.add(createVEvent(activity, 
-        scheduleService.getById(scheduleId),
+
+    calendar.add(createVEvent(activity, scheduleService.getById(scheduleId),
         categoryService.getById(activity.getCategory().getId())));
-    
+
     return calendar.toString();
   }
-  
+
   private Calendar createCalendar() {
     Calendar calendar = new Calendar();
     calendar.add(new ProdId("-//" + generalConfig.getPortalName() + "//IcalExport//EN"));
@@ -449,9 +422,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     return calendar;
   }
 
-  public VEvent createVEvent(
-      ActivityEntity activity,
-      ScheduleEntity schedule,
+  public VEvent createVEvent(ActivityEntity activity, ScheduleEntity schedule,
       CategoryEntity category) {
     VEvent event = new VEvent(
         LocalDateTime.ofInstant(schedule.getStartDate().toInstant(),
@@ -474,8 +445,8 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
         activity.getAddress().getStreet() + " " + activity.getAddress().getHouseNumber() + " "
             + activity.getAddress().getPostalCode() + " " + activity.getAddress().getPlace()));
     event.add(new Categories(category.getName()));
-    event.add(new Geo(
-        activity.getAddress().getLatitude() + ";" + activity.getAddress().getLongitude()));
+    event.add(
+        new Geo(activity.getAddress().getLatitude() + ";" + activity.getAddress().getLongitude()));
     return event;
   }
 
@@ -484,6 +455,21 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     return null;
   }
 
+  public ImageEntity getTitleImage(String activityId) {
+    ActivityEntity result = repo.findOne(entities.withId(activityId))
+        .orElseThrow(() -> new NotFoundException(activityId));
+    return result.getTitleImage();
+  }
+
+  public ActivityEntity addTitleImage(String activityId, ImageEntity titleImage)
+      throws IOException {
+    if (activityId == null || activityId.isEmpty()) {
+      throw new NotFoundException("No Activity exists");
+    }
+    ActivityEntity activity = getById(activityId);
+    activity.setTitleImage(titleImage);
+    return repo.save(activity);
+  }
 }
 
 
