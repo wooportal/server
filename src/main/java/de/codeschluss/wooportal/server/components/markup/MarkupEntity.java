@@ -73,6 +73,15 @@ public class MarkupEntity extends BaseResource {
 
     links.add(selfLink());
     
+    try {
+      links.add(linkTo(methodOn(MarkupController.class)
+          .calculateVisitors(id)).withRel("visitors"));
+      links.add(linkTo(methodOn(MarkupController.class)
+          .calculateVisits(id)).withRel("visits"));
+    } catch (Throwable e) {
+      e.printStackTrace();
+    }
+    
     return links;
   }
 
