@@ -300,7 +300,6 @@ public class UserController extends CrudController<UserEntity, UserService> {
    * @return the response entity
    */
   @GetMapping("/users/bloggers")
-  @SuperUserPermission
   public ResponseEntity<?> readAllBloggers(FilterSortPaginate params) {
     validateRead(params);
     return params.getPage() == null && params.getSize() == null
