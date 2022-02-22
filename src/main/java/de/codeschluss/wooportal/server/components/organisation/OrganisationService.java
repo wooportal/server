@@ -219,6 +219,10 @@ public class OrganisationService
         .orElseThrow(() -> new NotFoundException(provider.getId()));
     return assembler.toResource(orga);
   }
+  
+  public Resources<?> getResourcesByAddress(String addressId) throws JsonParseException, JsonMappingException, IOException {
+    return assembler.entitiesToResources(repo.findAll(entities.withAddress(addressId)), null);
+  }
 
   /**
    * Gets the for admin provider.

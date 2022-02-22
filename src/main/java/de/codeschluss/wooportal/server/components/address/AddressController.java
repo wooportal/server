@@ -2,19 +2,12 @@ package de.codeschluss.wooportal.server.components.address;
 
 import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
-
-import de.codeschluss.wooportal.server.components.suburb.SuburbService;
-import de.codeschluss.wooportal.server.core.api.CrudController;
-import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
-import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
-import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import javax.naming.ServiceUnavailableException;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +16,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import de.codeschluss.wooportal.server.components.activity.ActivityService;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
+import de.codeschluss.wooportal.server.components.suburb.SuburbService;
+import de.codeschluss.wooportal.server.core.api.CrudController;
+import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
+import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -34,6 +37,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AddressController extends CrudController<AddressEntity, AddressService> {
 
+  private final ActivityService activityService;
+  
+  private final OrganisationService organisationService;
+  
   /** The suburb service. */
   private final SuburbService suburbService;
 
@@ -45,8 +52,14 @@ public class AddressController extends CrudController<AddressEntity, AddressServ
    * @param suburbService
    *          the suburb service
    */
-  public AddressController(AddressService service, SuburbService suburbService) {
+  public AddressController(
+      AddressService service, 
+      ActivityService activityService,
+      OrganisationService organisationService,
+      SuburbService suburbService) {
     super(service);
+    this.activityService = activityService;
+    this.organisationService = organisationService;
     this.suburbService = suburbService;
   }
 
@@ -125,6 +138,24 @@ public class AddressController extends CrudController<AddressEntity, AddressServ
       return ok(suburbService.getResourceByAddress(addressId));
     } else {
       throw new BadParamsException("Address or Suburb with given ID do not exist!");
+    }
+  }
+  
+  @GetMapping("/addresses/{addressId}/activities")
+  public ResponseEntity<Resources<?>> readActivities(@PathVariable String addressId) {
+    try {
+      return ok(activityService.getResourcesByAddress(addressId));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+  
+  @GetMapping("/addresses/{addressId}/organisations")
+  public ResponseEntity<Resources<?>> readOrganisations(@PathVariable String addressId) {
+    try {
+      return ok(organisationService.getResourcesByAddress(addressId));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
   

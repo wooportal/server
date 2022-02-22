@@ -157,6 +157,10 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     return repo.findAll(entities.forUser(user.getId()));
   }
   
+  public Resources<?> getResourcesByAddress(String addressId) throws JsonParseException, JsonMappingException, IOException {
+    return assembler.entitiesToResources(repo.findAll(entities.forAddress(addressId)), null);
+  }
+  
   /**
    * Gets the by current.
    *
@@ -479,6 +483,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     // TODO Auto-generated method stub
     return null;
   }
+
 }
 
 

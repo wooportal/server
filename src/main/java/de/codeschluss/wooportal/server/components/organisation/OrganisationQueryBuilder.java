@@ -183,4 +183,8 @@ public class OrganisationQueryBuilder extends QueryBuilder<QOrganisationEntity> 
   public Predicate withMail() {
     return query.mail.isNotEmpty().and(query.mail.isNotNull());
   }
+
+  public Predicate withAddress(String addressId) {
+    return query.address.id.eq(addressId);
+  }
 }
