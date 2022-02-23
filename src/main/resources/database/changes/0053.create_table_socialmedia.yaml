@@ -31,17 +31,19 @@ databaseChangeLog:
         - column:
             constraints:
                 nullable: false
+                unique: true
             name: url
             type: VARCHAR(255)
         - column:
             constraints:
                 nullable: false
+                unique: true
             name: icon
             type: VARCHAR(255)
-        tableName: socialmedia
+        tableName: social_media
     - sql:
         comment: set char set for mysql
         dbms: mysql
         endDelimiter: \nGO
         splitStatements: true
-        sql: ALTER TABLE socialmedia CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+        sql: ALTER TABLE social_media CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
