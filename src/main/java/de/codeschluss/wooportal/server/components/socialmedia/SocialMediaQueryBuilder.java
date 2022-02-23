@@ -18,14 +18,11 @@ public class SocialMediaQueryBuilder extends QueryBuilder<QSocialMediaEntity> {
     super(QSocialMediaEntity.socialMediaEntity);
   }
 
-  public BooleanExpression withItem(String name) {
-    return query.name.eq(name);
-  }
-
   @Override
   public BooleanExpression search(FilterSortPaginate params) {
     String filter = prepareFilter(params.getFilter());
-    return query.name.likeIgnoreCase(filter);
+    return query.name.likeIgnoreCase(filter)
+        .or(query.url.likeIgnoreCase(filter));
   }
   
 }

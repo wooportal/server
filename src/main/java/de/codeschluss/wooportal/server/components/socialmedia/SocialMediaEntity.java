@@ -28,7 +28,7 @@ import org.springframework.hateoas.core.Relation;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Entity
-@Table(name = "socialmedia")
+@Table(name = "social_media")
 @Relation(collectionRelation = "data")
 public class SocialMediaEntity extends BaseResource {
   
@@ -37,10 +37,14 @@ public class SocialMediaEntity extends BaseResource {
   @Column(nullable = false)
   private String name;
 
-  @Column(nullable = false)
+  @Column(
+      nullable = false,
+      unique = true)
   private String icon;
   
-  @Column(nullable = false)
+  @Column(
+      nullable = false,
+      unique = true)
   private String url;
 
   @Override
