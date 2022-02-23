@@ -108,3 +108,9 @@ databaseChangeLog:
           file: database/changes/0051.add_column_users_avatar.yaml
     - include:
           file: database/changes/0052.add_column_activities_titleImage.yaml
+    - include:
+          file: database/changes/0053.create_table_socialmedia.yaml
+    - include:
+          file: database/datasets/development.dataset.2.yaml
+          
+          
