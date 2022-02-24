@@ -154,6 +154,9 @@ public class OrganisationEntity extends BaseResource {
         .readTranslations(id)).withRel("translations"));
     links.add(linkTo(methodOn(OrganisationController.class)
         .readImages(id)).withRel("images"));
+    links.add(linkTo(methodOn(OrganisationController.class)
+        .readAvatar(id)).withRel("avatar"));
+    
     try {
       links.add(linkTo(methodOn(OrganisationController.class)
           .calculateVisitors(id)).withRel("visitors"));
