@@ -7,12 +7,6 @@ databaseChangeLog:
     - addColumn:
         columns:
         - column:
-            name: admission_Fee
+            name: admission_fee
             type: DECIMAL(,)
         tableName: activities
-    - sql:
-        comment: set char set for mysql
-        dbms: mysql
-        endDelimiter: \nGO
-        splitStatements: true
-        sql: ALTER TABLE activities CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
