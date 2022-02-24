@@ -1,0 +1,18 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0054.add_column_activities_admissionFee
+    author: codeschluss
+    changes:
+    - addColumn:
+        columns:
+        - column:
+            name: admission_Fee
+            type: DECIMAL(,)
+        tableName: activities
+    - sql:
+        comment: set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE activities CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
