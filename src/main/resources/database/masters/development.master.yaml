@@ -111,6 +111,8 @@ databaseChangeLog:
     - include:
           file: database/changes/0053.create_table_socialmedia.yaml
     - include:
+          file: database/changes/0054.add_column_activities_admissionFee.yaml  
+    - include:
           file: database/datasets/development.dataset.2.yaml
-          
+        
           

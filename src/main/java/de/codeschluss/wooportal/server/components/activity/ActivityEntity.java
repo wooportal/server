@@ -174,6 +174,9 @@ public class ActivityEntity extends BaseResource {
   @JsonIgnore
   protected Set<ActivityVisitorEntity> visits;
 
+  @Column
+  private Double admissionFee;
+  
   @Override
   public List<Link> createResourceLinks() {
     List<Link> links = new ArrayList<Link>();
@@ -199,7 +202,6 @@ public class ActivityEntity extends BaseResource {
       links.add(linkTo(methodOn(ActivityController.class)
           .calculateVisits(id)).withRel("visits"));
     } catch (Throwable e) {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
     
