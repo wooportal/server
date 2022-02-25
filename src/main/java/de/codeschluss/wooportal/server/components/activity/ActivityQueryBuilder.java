@@ -8,6 +8,7 @@ import de.codeschluss.wooportal.server.components.provider.ProviderEntity;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.i18n.language.LanguageService;
 import de.codeschluss.wooportal.server.core.service.QueryBuilder;
+import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -159,8 +160,23 @@ public class ActivityQueryBuilder extends QueryBuilder<QActivityEntity> {
     }
     if (params.getTargetgroups() != null && !params.getTargetgroups().isEmpty()) {
       advancedSearch.and(withAnyOfTargetGroups(params.getTargetgroups()));
-    }    
+    }
+    if (params.getStartDate() != null) {
+      advancedSearch.and(withScheduleStartAfter(params.getStartDate()));
+    }
+    if (params.getEndDate() != null) {
+      advancedSearch.and(withScheduleStartBefore(params.getEndDate()));
+    }
+    
     return search.and(advancedSearch).getValue();
+  }
+
+  private Predicate withScheduleStartAfter(Date startDate) {
+    return query.schedules.any().startDate.after(startDate);
+  }
+  
+  private Predicate withScheduleStartBefore(Date endDate) {
+    return query.schedules.any().startDate.before(endDate);
   }
 
   /**
