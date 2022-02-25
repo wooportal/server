@@ -294,9 +294,13 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
    * @return avatar
    */
   public ImageEntity getAvatar(String userId) {
-    UserEntity result = repo.findOne(entities.withId(userId))
+    var result = repo.findOne(entities.withId(userId))
         .orElseThrow(() -> new NotFoundException(userId));
 
+    if (result.getAvatar() == null) {
+      throw new NotFoundException("avater");
+    }
+    
     return result.getAvatar();
   }
   

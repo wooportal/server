@@ -427,10 +427,17 @@ public class UserController extends CrudController<UserEntity, UserService> {
   @PostMapping("/user/{userId}/avatar")
   @OwnUserPermission
   public ResponseEntity<?> addAvatar(@PathVariable String userId,
-      @RequestBody ImageEntity avatar) {
+      @RequestBody(required = false) ImageEntity avatar) {
     try {
-      validateAvatar(avatar);
-      return ok(service.addAvatar(userId, imageService.add(avatar)));
+      if (avatar == null) {
+        try {
+          imageService.delete(service.getAvatar(userId).getId()); 
+        } catch (NotFoundException e) {}
+        return noContent().build();
+      } else {
+        validateAvatar(avatar);
+        return ok(service.addAvatar(userId, imageService.add(avatar))); 
+      }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given User does not exist");
     } catch (IOException e) {
