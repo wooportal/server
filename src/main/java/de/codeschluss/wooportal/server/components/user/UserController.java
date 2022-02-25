@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import de.codeschluss.wooportal.server.components.activity.ActivityService;
 import de.codeschluss.wooportal.server.components.blog.BlogService;
@@ -413,17 +412,11 @@ public class UserController extends CrudController<UserEntity, UserService> {
     }
   }
 
-  /**
-   * Read the avatar
-   */
   @GetMapping("/user/{userId}/avatar")
   public ResponseEntity<ImageEntity> readAvatar(@PathVariable String userId) {
     return ok(service.getAvatar(userId));
   }
 
-  /**
-   * Adds the avatar
-   */
   @PostMapping("/user/{userId}/avatar")
   @OwnUserPermission
   public ResponseEntity<?> addAvatar(@PathVariable String userId,
@@ -435,41 +428,12 @@ public class UserController extends CrudController<UserEntity, UserService> {
         } catch (NotFoundException e) {}
         return noContent().build();
       } else {
-        validateAvatar(avatar);
         return ok(service.addAvatar(userId, imageService.add(avatar))); 
       }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given User does not exist");
     } catch (IOException e) {
       throw new BadParamsException("Image Upload not possible");
-    }
-  }
-
-  private void validateAvatar(ImageEntity avatar) {
-    if (avatar == null) {
-      throw new BadParamsException("Image File must not be null");
-    }
-    if (!imageService.validCreateFieldConstraints(avatar)) {
-      throw new BadParamsException("Image or Mime Type with correct form required");
-    }
-  }
-
-  /**
-   * Delete the avatar
-   * 
-   * @param userId
-   * @param avatarId
-   * @return
-   */
-  @DeleteMapping("/user/{userId}/avatar")
-  @OwnUserOrSuperUserPermission
-  public ResponseEntity<?> deleteAvatar(@PathVariable String userId,
-      @RequestParam(value = "avatarId", required = true) String avatarId) {
-    try {
-      imageService.delete(avatarId);
-      return noContent().build();
-    } catch (NotFoundException e) {
-      throw new BadParamsException("No Avatar");
     }
   }
 }
