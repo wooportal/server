@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.feed.AbstractRssFeedView;
 import com.rometools.rome.feed.rss.Channel;
@@ -29,9 +30,12 @@ public class RssFeedView extends AbstractRssFeedView {
   
   private final BlogService blogService;
   
+  private final GeneralPropertyConfiguration generalConfig;
+  
   private final OrganisationService orgaService;
   
-  private final GeneralPropertyConfiguration generalConfig;
+  @Autowired
+  protected HttpServletRequest request;
 
   public RssFeedView(ActivityService activityService,
       BlogService blogService, OrganisationService orgaService,
@@ -47,7 +51,7 @@ public class RssFeedView extends AbstractRssFeedView {
       HttpServletRequest request) {
     feed.setTitle(generalConfig.getPortalName() + " RSS Feed");
     feed.setDescription(generalConfig.getPortalName() + " News");
-    feed.setLink("http://www.wooportal.de");
+    feed.setLink(request.getHeader("host"));
   }
 
   @Override
