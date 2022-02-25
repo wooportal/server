@@ -22,12 +22,19 @@ import de.codeschluss.wooportal.server.components.markup.visitors.MarkupVisitorE
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
+import de.codeschluss.wooportal.server.core.image.ImageService;
+import de.codeschluss.wooportal.server.core.security.permissions.OwnUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.TranslatorOrSuperUserPermission;
 
 @RestController
 public class MarkupController extends CrudController<MarkupEntity, MarkupService> {
+  
+  private final ImageService imageService;
   
   private final TranslationService translationService;
   
@@ -35,9 +42,11 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   
   public MarkupController(
       MarkupService service,
+      ImageService imageService,
       TranslationService translationService,
       VisitableService<MarkupVisitorEntity> visitableService) {
     super(service);
+    this.imageService = imageService;
     this.translationService = translationService;
     this.visitableService = visitableService;
   }
@@ -106,4 +115,30 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
       @PathVariable String markupId) throws Throwable {
     return ok(visitableService.calculateVisits(service.getById(markupId)));
   }
+  
+  @GetMapping("/markups/{markupId}/image")
+  public ResponseEntity<ImageEntity> readImage(@PathVariable String markupId) {
+    return ok(service.getImage(markupId));
+  }
+  
+  @PostMapping("/markups/{markupId}/image")
+  @OwnUserPermission
+  public ResponseEntity<?> addAvatar(@PathVariable String markupId,
+      @RequestBody(required = false) ImageEntity avatar) {
+    try {
+      if (avatar == null) {
+        try {
+          imageService.delete(service.getImage(markupId).getId()); 
+        } catch (NotFoundException e) {}
+        return noContent().build();
+      } else {
+        return ok(service.addImage(markupId, imageService.add(avatar))); 
+      }
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Markup does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
+    }
+  }
+
 }

@@ -8,7 +8,9 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
@@ -22,6 +24,7 @@ import de.codeschluss.wooportal.server.components.markup.visitors.MarkupVisitorE
 import de.codeschluss.wooportal.server.core.analytics.visit.annotations.Visitable;
 import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import de.codeschluss.wooportal.server.core.i18n.annotations.Localized;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -66,6 +69,12 @@ public class MarkupEntity extends BaseResource {
   @ToString.Exclude
   @JsonIgnore
   protected Set<MarkupVisitorEntity> visits;
+  
+  @OneToOne
+  @JsonIgnore
+  @ToString.Exclude
+  @JoinColumn
+  private ImageEntity image;
 
   @Override
   public List<Link> createResourceLinks() {

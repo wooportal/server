@@ -1,0 +1,12 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0054.add_column_activities_admissionfee
+          author: codeschluss
+          changes:
+              - addColumn:
+                    columns:
+                        - column:
+                              name: admission_fee
+                              type: DECIMAL(,)
+                    tableName: activities

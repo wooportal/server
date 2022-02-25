@@ -107,12 +107,12 @@ databaseChangeLog:
     - include:
           file: database/changes/0051.add_column_users_avatar.yaml
     - include:
-          file: database/changes/0052.add_column_activities_titleImage.yaml
+          file: database/changes/0052.add_column_activities_titleimage.yaml
     - include:
           file: database/changes/0053.create_table_socialmedia.yaml
     - include:
-          file: database/changes/0054.add_column_activities_admissionFee.yaml  
+          file: database/changes/0054.add_column_activities_admissionfee.yaml
+    - include:
+          file: database/changes/0055.add_column_markups_image.yaml
     - include:
           file: database/datasets/development.dataset.2.yaml
-        
-          

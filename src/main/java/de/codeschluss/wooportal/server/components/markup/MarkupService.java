@@ -6,8 +6,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import de.codeschluss.wooportal.server.core.api.PagingAndSortingAssembler;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.xliff.Transunit;
 import de.codeschluss.wooportal.server.core.i18n.xliff.Xliff;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.service.ResourceDataService;
 
 @Service
@@ -55,6 +57,27 @@ public class MarkupService extends ResourceDataService<MarkupEntity, MarkupQuery
       label.setContent(unit.getTarget());
       repo.save(label);
     }
+  }
+  
+  public ImageEntity getImage(String markupId) {
+    var result = repo.findOne(entities.withId(markupId))
+        .orElseThrow(() -> new NotFoundException(markupId));
+
+    if (result.getImage() == null) {
+      throw new NotFoundException("image");
+    }
+    
+    return result.getImage();
+  }
+  
+  public MarkupEntity addImage(String markupId, ImageEntity image)
+      throws IOException {
+    if (markupId == null || markupId.isEmpty()) {
+      throw new NotFoundException("No Markup exists");
+    }
+    var user = getById(markupId);
+    user.setImage(image);
+    return repo.save(user);
   }
 
 }
