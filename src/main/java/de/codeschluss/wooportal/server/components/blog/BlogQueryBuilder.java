@@ -22,7 +22,7 @@ public class BlogQueryBuilder extends QueryBuilder<QBlogEntity> {
   private final LanguageService languageService;
 
   public BlogQueryBuilder(LanguageService languageService) {
-    super(QBlogEntity.blogEntity, "translatables.title");
+    super(QBlogEntity.blogEntity, "created");
     this.languageService = languageService;
   }
   
