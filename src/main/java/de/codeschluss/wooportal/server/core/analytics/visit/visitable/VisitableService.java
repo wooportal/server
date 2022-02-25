@@ -11,6 +11,7 @@ import de.codeschluss.wooportal.server.core.analytics.visit.page.PageService;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitor.VisitorEntity;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitor.VisitorService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
+import de.codeschluss.wooportal.server.core.config.GeneralPropertyConfiguration;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import de.codeschluss.wooportal.server.core.repository.RepositoryService;
@@ -18,6 +19,9 @@ import de.codeschluss.wooportal.server.core.security.jwt.JwtUserDetails;
 
 @Service
 public class VisitableService<V extends VisitableEntity<?>> {
+  
+  @Autowired
+  private GeneralPropertyConfiguration generalConfig;
   
   @Autowired
   private PageService pageService;
@@ -125,11 +129,20 @@ public class VisitableService<V extends VisitableEntity<?>> {
   }
 
   private boolean isPrivateIpAddress() {
-    return request.getRemoteAddr().startsWith("192.")
-        || request.getRemoteAddr().startsWith("172.")
-        || request.getRemoteAddr().startsWith("10.");
+    var ipAddress = retrieveUserAddress();
+    return ipAddress.startsWith("192.")
+        || ipAddress.startsWith("172.")
+        || ipAddress.startsWith("127.")
+        || ipAddress.startsWith("10.");
   }
   
+  private String retrieveUserAddress() {
+    var ipAddress = request.getHeader(generalConfig.getClientIpHeader());
+    return ipAddress != null && !ipAddress.isBlank()
+        ? ipAddress
+        : request.getRemoteAddr();
+  }
+
   private boolean isSuperUser() {
     var userPrincipal = request.getUserPrincipal();
     if (userPrincipal != null && userPrincipal instanceof JwtUserDetails) {

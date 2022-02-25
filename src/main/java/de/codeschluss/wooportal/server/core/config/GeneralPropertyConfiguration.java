@@ -11,4 +11,6 @@ public class GeneralPropertyConfiguration {
 
   private String portalName;
   
+  private String clientIpHeader;
+  
 }
