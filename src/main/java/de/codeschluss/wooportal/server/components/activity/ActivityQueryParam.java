@@ -1,6 +1,7 @@
 package de.codeschluss.wooportal.server.components.activity;
 
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
+import java.util.Date;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -30,6 +31,10 @@ public class ActivityQueryParam extends FilterSortPaginate {
   
   /** The targetgroups. */
   protected List<String> targetgroups;
+  
+  protected Date startDate;
+  
+  protected Date endDate;
 
   /**
    * Instantiates a new activity query param.
@@ -54,17 +59,23 @@ public class ActivityQueryParam extends FilterSortPaginate {
       Boolean current,
       List<String> categories,
       List<String> suburubs,
-      List<String> targetgroups) {
+      List<String> targetgroups,
+      Date startDate,
+      Date endDate) {
     super(filter, page, size, sort, dir, embeddings);
     this.current = current;
     this.categories = categories;
     this.suburbs = suburubs;
     this.targetgroups = targetgroups;
+    this.startDate = startDate;
+    this.endDate = endDate;
   }
   
   @Override
   public boolean isEmptyQuery() {
     return super.isEmptyQuery()
+        && startDate != null
+        && endDate != null
         && (current == null || !current)
         && (categories == null || categories.isEmpty())
         && (suburbs == null || suburbs.isEmpty())
