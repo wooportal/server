@@ -68,10 +68,42 @@ public class BlogQueryBuilder extends QueryBuilder<QBlogEntity> {
    * @param filter the filter
    * @return the predicate
    */
-  private Predicate searchFiltered(BooleanBuilder search, FilterSortPaginate params) {
+  private Predicate searchFiltered(BooleanBuilder search, FilterSortPaginate p) {
+    var params = validateParams(p);
+    String filter = params.getFilter();
+    
+    return filter != null && !filter.isEmpty()
+        ? fuzzyTextSearch(params, search)
+        : advancedSearch(params, search);
+  }
+  
+  public Predicate advancedSearch(BlogQueryParam params, BooleanBuilder search) {
+    BooleanBuilder advancedSearch = new BooleanBuilder();
+    if (params.getTopics() != null && !params.getTopics().isEmpty()) {
+      advancedSearch.and(withAnyOfTopics(params.getTopics()));
+    }
+    
+    return search.and(advancedSearch).getValue();
+  }
+  
+  private Predicate withAnyOfTopics(List<String> topics) {
+    return query.topic.id.in(topics);
+  }
+
+  public Predicate fuzzyTextSearch(
+      BlogQueryParam params,
+      BooleanBuilder search) {
     String filter = prepareFilter(params.getFilter());
     return search.and(likeTitle(filter)
         .or(likeContent(filter)));
+  }
+  
+  private <P extends FilterSortPaginate> BlogQueryParam validateParams(P p) {
+    if (p instanceof BlogQueryParam) {
+      return (BlogQueryParam) p;
+    }
+    throw new RuntimeException(
+        "Must be of type " + BlogQueryParam.class + " but is " + p.getClass());
   }
 
   /**
