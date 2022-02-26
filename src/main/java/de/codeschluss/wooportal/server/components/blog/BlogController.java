@@ -26,7 +26,6 @@ import de.codeschluss.wooportal.server.components.topic.TopicService;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
-import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import de.codeschluss.wooportal.server.core.api.dto.StringPrimitive;
 import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 import de.codeschluss.wooportal.server.core.exception.NotFoundException;
@@ -94,9 +93,8 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
     this.visitableService = visitableService;
   }
   
-  @Override
   @GetMapping("/blogs")
-  public ResponseEntity<?> readAll(FilterSortPaginate params) {
+  public ResponseEntity<?> readAll(BlogQueryParam params) {
     return super.readAll(params);
   }
   
