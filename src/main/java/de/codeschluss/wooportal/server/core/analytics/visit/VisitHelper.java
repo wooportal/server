@@ -3,18 +3,12 @@ package de.codeschluss.wooportal.server.core.analytics.visit;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
-import org.springframework.data.domain.Page;
 import de.codeschluss.wooportal.server.core.analytics.visit.annotations.Visitable;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableEntity;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 
 public class VisitHelper {
-  
-  public static List<?> convertToList(Object result) {
-    return result instanceof Page<?> ? ((Page<?>) result).getContent() : (List<?>) result;
-  }
 
   @SuppressWarnings("unchecked")
   public static <E extends BaseEntity> boolean isVisitable(Object controller) {
