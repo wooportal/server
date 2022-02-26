@@ -302,9 +302,13 @@ public class OrganisationService
   }
 
   public ImageEntity getAvatar(String organisationId) {
-    OrganisationEntity result = repo.findOne(entities.withId(organisationId))
+    var result = repo.findOne(entities.withId(organisationId))
         .orElseThrow(() -> new NotFoundException(organisationId));
 
+    if (result.getAvatar() == null) {
+      throw new NotFoundException("avatar");
+    }
+    
     return result.getAvatar();
   }
 

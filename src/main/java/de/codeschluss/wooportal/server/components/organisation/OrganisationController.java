@@ -435,25 +435,22 @@ public class OrganisationController
    */
   @PostMapping("/organisations/{organisationId}/avatar")
   @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> addAvatar(@PathVariable String organisationId,@RequestBody ImageEntity avatar) {
+  public ResponseEntity<?> addAvatar(@PathVariable String organisationId, @RequestBody ImageEntity avatar) {
     try {
-      validateAvatar(avatar);
-      return ok(service.addAvatar(organisationId, imageService.add(avatar)));
+      if (avatar == null) {
+        try {
+          imageService.delete(service.getAvatar(organisationId).getId()); 
+        } catch (NotFoundException e) {}
+        return noContent().build();
+      } else {
+        return ok(service.addAvatar(organisationId, imageService.add(avatar))); 
+      }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
     } catch (IOException e) {
       throw new BadParamsException("Image Upload not possible");
     }
   }
-  
-  private void validateAvatar(ImageEntity avatar) {
-    if (avatar == null) {
-      throw new BadParamsException("Image File must not be null");
-    }
-      if (!imageService.validCreateFieldConstraints(avatar)) {
-        throw new BadParamsException("Image or Mime Type with correct form required");
-      }
-    }
   
   /**
    * Delete the avatar

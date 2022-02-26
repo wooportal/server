@@ -298,7 +298,7 @@ public class UserService extends ResourceDataService<UserEntity, UserQueryBuilde
         .orElseThrow(() -> new NotFoundException(userId));
 
     if (result.getAvatar() == null) {
-      throw new NotFoundException("avater");
+      throw new NotFoundException("avatar");
     }
     
     return result.getAvatar();
