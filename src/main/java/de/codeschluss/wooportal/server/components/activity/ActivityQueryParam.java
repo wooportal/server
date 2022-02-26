@@ -3,6 +3,8 @@ package de.codeschluss.wooportal.server.components.activity;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
 import java.util.Date;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,8 +34,10 @@ public class ActivityQueryParam extends FilterSortPaginate {
   /** The targetgroups. */
   protected List<String> targetgroups;
   
+  @DateTimeFormat(iso = ISO.DATE)
   protected Date startDate;
   
+  @DateTimeFormat(iso = ISO.DATE)
   protected Date endDate;
 
   /**
