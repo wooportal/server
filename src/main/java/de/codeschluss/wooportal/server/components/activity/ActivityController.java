@@ -584,7 +584,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read the titleImage
    */
-  @GetMapping("/activities/{activityId}/titleImage")
+  @GetMapping("/activities/{activityId}/titleimage")
   public ResponseEntity<ImageEntity> readTitleImage(@PathVariable String activityId) {
     return ok(service.getTitleImage(activityId));
   }
@@ -592,7 +592,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Adds the titleImage
    */
-  @PostMapping("/activities/{activityId}/titleImage")
+  @PostMapping("/activities/{activityId}/titleimage")
   @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> addTitleImage(@PathVariable String activityId,
       @RequestBody ImageEntity titleImage) {
@@ -619,7 +619,7 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
    * @param titleImageId
    * @return
    */
-  @DeleteMapping("/activity/{activityId}/titleImage")
+  @DeleteMapping("/activity/{activityId}/titleimage")
   @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> deleteTitleImage(@PathVariable String activityId,
       @RequestParam(value = "titleimageId", required = true) String titleImageId) {
