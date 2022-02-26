@@ -597,21 +597,18 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   public ResponseEntity<?> addTitleImage(@PathVariable String activityId,
       @RequestBody ImageEntity titleImage) {
     try {
-      validateTitleImage(titleImage);
-      return ok(service.addTitleImage(activityId, imageService.add(titleImage)));
+      if (titleImage == null) {
+        try {
+          imageService.delete(service.getTitleImage(activityId).getId()); 
+        } catch (NotFoundException e) {}
+        return noContent().build();
+      } else {
+        return ok(service.addTitleImage(activityId, imageService.add(titleImage))); 
+      }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");
     } catch (IOException e) {
       throw new BadParamsException("Image Upload not possible");
-    }
-  }
-
-  private void validateTitleImage(ImageEntity titleImage) {
-    if (titleImage == null) {
-      throw new BadParamsException("Image File must not be null");
-    }
-    if (!imageService.validCreateFieldConstraints(titleImage)) {
-      throw new BadParamsException("Image or Mime Type with correct form required");
     }
   }
 

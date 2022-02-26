@@ -451,14 +451,14 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
     return event;
   }
 
-  public Integer calculateVisitors(String activityId) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
   public ImageEntity getTitleImage(String activityId) {
     ActivityEntity result = repo.findOne(entities.withId(activityId))
         .orElseThrow(() -> new NotFoundException(activityId));
+    
+    if (result.getTitleImage() == null) {
+      throw new NotFoundException("titleImage");
+    }
+    
     return result.getTitleImage();
   }
 
