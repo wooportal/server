@@ -2,12 +2,15 @@ package de.codeschluss.wooportal.server.components.organisation;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import com.icegreen.greenmail.imap.AuthorizationException;
 import de.codeschluss.wooportal.server.core.security.jwt.JwtUserDetails;
@@ -42,6 +45,12 @@ public class OrganisationFilterInterceptor {
     Object result = pjp.proceed();
     if (result instanceof Iterable<?> && !isSuperUser()) {
       List<OrganisationEntity> list = (List<OrganisationEntity>) PageUtils.convertToList(result);
+      if (result instanceof Page<?>) {
+        return new PageImpl<>(
+            list.stream().filter(e -> e.isApproved()).collect(Collectors.toList()), 
+            ((Page<?>) result).getPageable(), 
+            ((Page<?>) result).getTotalElements());
+      }
       list.removeIf(e -> !e.isApproved());
     }
     return result;
