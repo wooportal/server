@@ -3,6 +3,7 @@ package de.codeschluss.wooportal.server.core.i18n;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationHelper;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
+import de.codeschluss.wooportal.server.core.utils.PageUtils;
 import java.util.List;
 import java.util.Optional;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -63,7 +64,7 @@ public class TranslationInterceptor {
   public Object replaceIterableWithTranslations(ProceedingJoinPoint pjp) throws Throwable {
     Object result = pjp.proceed();
     if (result instanceof Iterable<?>) {
-      List<?> list = TranslationHelper.convertToList(result);
+      List<?> list = PageUtils.convertToList(result);
       if (!list.isEmpty() && TranslationHelper.isLocalizable(list.get(0))) {
         translationService.localizeList(list);
       }
