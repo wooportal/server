@@ -452,7 +452,7 @@ public class ActivityService extends ResourceDataService<ActivityEntity, Activit
   }
 
   public ImageEntity getTitleImage(String activityId) {
-    ActivityEntity result = repo.findOne(entities.withId(activityId))
+    var result = repo.findOne(entities.withId(activityId))
         .orElseThrow(() -> new NotFoundException(activityId));
     
     if (result.getTitleImage() == null) {

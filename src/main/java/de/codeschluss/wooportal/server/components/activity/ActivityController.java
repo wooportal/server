@@ -611,23 +611,4 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
       throw new BadParamsException("Image Upload not possible");
     }
   }
-
-  /**
-   * Delete the titleimage
-   * 
-   * @param activityId
-   * @param titleImageId
-   * @return
-   */
-  @DeleteMapping("/activity/{activityId}/titleimage")
-  @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> deleteTitleImage(@PathVariable String activityId,
-      @RequestParam(value = "titleimageId", required = true) String titleImageId) {
-    try {
-      imageService.delete(titleImageId);
-      return noContent().build();
-    } catch (NotFoundException e) {
-      throw new BadParamsException("No TitleImage");
-    }
-  }
 }

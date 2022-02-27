@@ -116,23 +116,23 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
     return ok(visitableService.calculateVisits(service.getById(markupId)));
   }
   
-  @GetMapping("/markups/{markupId}/image")
-  public ResponseEntity<ImageEntity> readImage(@PathVariable String markupId) {
-    return ok(service.getImage(markupId));
+  @GetMapping("/markups/{markupId}/titleimage")
+  public ResponseEntity<ImageEntity> readTitleImage(@PathVariable String markupId) {
+    return ok(service.getTitleImage(markupId));
   }
   
-  @PostMapping("/markups/{markupId}/image")
+  @PostMapping("/markups/{markupId}/titleimage")
   @OwnUserPermission
-  public ResponseEntity<?> addAvatar(@PathVariable String markupId,
+  public ResponseEntity<?> addTitleImage(@PathVariable String markupId,
       @RequestBody(required = false) ImageEntity avatar) {
     try {
       if (avatar == null) {
         try {
-          imageService.delete(service.getImage(markupId).getId()); 
+          imageService.delete(service.getTitleImage(markupId).getId()); 
         } catch (NotFoundException e) {}
         return noContent().build();
       } else {
-        return ok(service.addImage(markupId, imageService.add(avatar))); 
+        return ok(service.addTitleImage(markupId, imageService.add(avatar))); 
       }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Markup does not exist");

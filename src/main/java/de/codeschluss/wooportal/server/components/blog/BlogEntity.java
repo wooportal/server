@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
@@ -114,6 +115,12 @@ public class BlogEntity extends BaseResource {
   @JsonDeserialize
   @Transient
   private String title;
+  
+  @OneToOne
+  @JsonIgnore
+  @ToString.Exclude
+  @JoinColumn(name="title_image_id")
+  private ImageEntity titleImage;
   
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
   @ToString.Exclude

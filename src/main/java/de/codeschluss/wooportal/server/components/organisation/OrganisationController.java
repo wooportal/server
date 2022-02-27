@@ -422,17 +422,11 @@ public class OrganisationController
       }
     }
     
-  /**
-   * Read the avatar
-   */
   @GetMapping("/organisations/{organisationId}/avatar")
   public ResponseEntity<ImageEntity> readAvatar(@PathVariable String organisationId) {
     return ok(service.getAvatar(organisationId));
   }
   
-  /**
-   * Adds the avatar
-   */
   @PostMapping("/organisations/{organisationId}/avatar")
   @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> addAvatar(@PathVariable String organisationId, @RequestBody ImageEntity avatar) {
@@ -449,25 +443,6 @@ public class OrganisationController
       throw new BadParamsException("Given Organisation does not exist");
     } catch (IOException e) {
       throw new BadParamsException("Image Upload not possible");
-    }
-  }
-  
-  /**
-   * Delete the avatar
-   * 
-   * @param organisationId
-   * @param avatarId
-   * @return
-   */
-  @DeleteMapping("/organisations/{organisationId}/avatar")
-  @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> deleteAvatar(@PathVariable String organisationId,
-      @RequestParam(value = "avatarId", required = true) String avatarId) {
-    try {
-      imageService.delete(avatarId);
-      return noContent().build();
-    } catch (NotFoundException e) {
-      throw new BadParamsException("No Avatar");
     }
   }
 

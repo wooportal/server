@@ -87,7 +87,7 @@ databaseChangeLog:
     - include:
           file: database/changes/0042.transform_data_translatables.yaml
     - include:
-          file: database/changes/0043.add_column_organisations_avatar.yaml
+          file: database/changes/0043.add_column_avatar.yaml
     - include:
           file: database/datasets/development.dataset.1.yaml
     - include:
@@ -105,14 +105,12 @@ databaseChangeLog:
     - include:
           file: database/changes/0050.add_columns_blog.yaml
     - include:
-          file: database/changes/0051.add_column_users_avatar.yaml
+          file: database/changes/0051.add_column_image.yaml
     - include:
-          file: database/changes/0052.add_column_activities_titleimage.yaml
+          file: database/changes/0052.create_table_socialmedia.yaml
     - include:
-          file: database/changes/0053.create_table_socialmedia.yaml
+          file: database/changes/0053.add_column_activities_admissionfee.yaml
     - include:
-          file: database/changes/0054.add_column_activities_admissionfee.yaml
-    - include:
-          file: database/changes/0055.add_column_markups_image.yaml
+          file: database/changes/0054.add_column_markupstrans_title.yaml
     - include:
           file: database/datasets/development.dataset.2.yaml

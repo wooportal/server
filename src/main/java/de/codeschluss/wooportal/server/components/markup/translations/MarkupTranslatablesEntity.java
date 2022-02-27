@@ -31,6 +31,9 @@ public class MarkupTranslatablesEntity extends TranslatableEntity<MarkupEntity> 
   
   @Column(nullable = false)
   private String content;
+  
+  @Column(nullable = false)
+  private String title;
 
   @Override
   public List<Link> createResourceLinks() {    
