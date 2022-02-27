@@ -122,7 +122,7 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   }
   
   @PostMapping("/markups/{markupId}/titleimage")
-  @OwnUserPermission
+  @SuperUserPermission
   public ResponseEntity<?> addTitleImage(@PathVariable String markupId,
       @RequestBody(required = false) ImageEntity avatar) {
     try {

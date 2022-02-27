@@ -32,7 +32,6 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
-import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnBlogOrSuperuserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
