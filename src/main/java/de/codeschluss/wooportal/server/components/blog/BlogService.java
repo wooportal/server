@@ -290,6 +290,26 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
           model, 
           blog.getMailAddress());
     }
+  }
+  
+  public ImageEntity getTitleImage(String activityId) {
+    var result = repo.findOne(entities.withId(activityId))
+        .orElseThrow(() -> new NotFoundException(activityId));
+    
+    if (result.getTitleImage() == null) {
+      throw new NotFoundException("titleImage");
+    }
+    
+    return result.getTitleImage();
+  }
 
+  public BlogEntity addTitleImage(String blogId, ImageEntity titleImage)
+      throws IOException {
+    if (blogId == null || blogId.isEmpty()) {
+      throw new NotFoundException("No Blog exists");
+    }
+    var result = getById(blogId);
+    result.setTitleImage(titleImage);
+    return repo.save(result);
   }
 }

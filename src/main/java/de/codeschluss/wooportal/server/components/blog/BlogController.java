@@ -32,6 +32,7 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
+import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnBlogOrSuperuserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
@@ -311,5 +312,30 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   public ResponseEntity<Integer> calculateVisits(
       @PathVariable String blogId) throws Throwable {
     return ok(visitableService.calculateVisits(service.getById(blogId)));
+  }
+  
+  @GetMapping("/blogs/{blogId}/titleimage")
+  public ResponseEntity<ImageEntity> readTitleImage(@PathVariable String blogId) {
+    return ok(service.getTitleImage(blogId));
+  }
+
+  @PostMapping("/blogs/{blogId}/titleimage")
+  @OwnBlogOrSuperuserPermission
+  public ResponseEntity<?> addTitleImage(@PathVariable String blogId,
+      @RequestBody ImageEntity titleImage) {
+    try {
+      if (titleImage == null) {
+        try {
+          imageService.delete(service.getTitleImage(blogId).getId()); 
+        } catch (NotFoundException e) {}
+        return noContent().build();
+      } else {
+        return ok(service.addTitleImage(blogId, imageService.add(titleImage))); 
+      }
+    } catch (NotFoundException e) {
+      throw new BadParamsException("Given Blog does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
+    }
   }
 }

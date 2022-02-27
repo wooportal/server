@@ -142,7 +142,7 @@ public class ActivityEntity extends BaseResource {
   @OneToOne
   @JsonIgnore
   @ToString.Exclude
-  @JoinColumn(name="titleimage_id")
+  @JoinColumn(name="title_image_id")
   private ImageEntity titleImage;
   
   @ManyToMany(fetch = FetchType.EAGER)
@@ -159,8 +159,6 @@ public class ActivityEntity extends BaseResource {
       columns = @Column(name = "id"),
       type = @Type(type = "uuid-char"),
       generator = "UUID"
-      
-      
   )
   private List<TargetGroupEntity> targetGroups;
 

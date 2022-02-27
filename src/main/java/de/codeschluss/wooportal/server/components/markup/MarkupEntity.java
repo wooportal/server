@@ -56,6 +56,11 @@ public class MarkupEntity extends BaseResource {
   @JsonDeserialize
   @Transient
   private String content;
+  
+  @JsonSerialize
+  @JsonDeserialize
+  @Transient
+  private String title;
 
   @OneToMany(
       fetch = FetchType.EAGER, 
@@ -74,7 +79,7 @@ public class MarkupEntity extends BaseResource {
   @JsonIgnore
   @ToString.Exclude
   @JoinColumn
-  private ImageEntity image;
+  private ImageEntity titleImage;
 
   @Override
   public List<Link> createResourceLinks() {

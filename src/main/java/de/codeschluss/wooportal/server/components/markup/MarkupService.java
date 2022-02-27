@@ -59,24 +59,24 @@ public class MarkupService extends ResourceDataService<MarkupEntity, MarkupQuery
     }
   }
   
-  public ImageEntity getImage(String markupId) {
+  public ImageEntity getTitleImage(String markupId) {
     var result = repo.findOne(entities.withId(markupId))
         .orElseThrow(() -> new NotFoundException(markupId));
 
-    if (result.getImage() == null) {
+    if (result.getTitleImage() == null) {
       throw new NotFoundException("image");
     }
     
-    return result.getImage();
+    return result.getTitleImage();
   }
   
-  public MarkupEntity addImage(String markupId, ImageEntity image)
+  public MarkupEntity addTitleImage(String markupId, ImageEntity image)
       throws IOException {
     if (markupId == null || markupId.isEmpty()) {
       throw new NotFoundException("No Markup exists");
     }
     var user = getById(markupId);
-    user.setImage(image);
+    user.setTitleImage(image);
     return repo.save(user);
   }
 
