@@ -2,7 +2,6 @@ package de.codeschluss.wooportal.server.components.markup;
 
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
-
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
@@ -27,7 +26,6 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
-import de.codeschluss.wooportal.server.core.security.permissions.OwnUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.TranslatorOrSuperUserPermission;
 
