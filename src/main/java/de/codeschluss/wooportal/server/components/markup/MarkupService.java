@@ -38,13 +38,15 @@ public class MarkupService extends ResourceDataService<MarkupEntity, MarkupQuery
   }
 
   @Override
-  public MarkupEntity update(String id, MarkupEntity newLabel) {
-    return repo.findById(id).map(label -> {
-      label.setContent(newLabel.getContent());
-      return repo.save(label);
+  public MarkupEntity update(String id, MarkupEntity newEntity) {
+    return repo.findById(id).map(entity -> {
+      entity.setContent(newEntity.getContent());
+      entity.setTagId(newEntity.getTagId());
+      entity.setTitle(newEntity.getTitle());
+      return repo.save(entity);
     }).orElseGet(() -> {
-      newLabel.setId(id);
-      return repo.save(newLabel);
+      newEntity.setId(id);
+      return repo.save(newEntity);
     });
   } 
 
