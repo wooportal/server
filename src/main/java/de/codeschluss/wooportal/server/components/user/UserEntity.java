@@ -103,6 +103,8 @@ public class UserEntity extends BaseResource {
         .readActivities(id, null)).withRel("activities"));
     links.add(linkTo(methodOn(UserController.class)
         .readBlogs(id, null)).withRel("blogs"));
+    links.add(linkTo(methodOn(UserController.class)
+        .readAvatar(id)).withRel("avatar"));
 
     return links;
   }

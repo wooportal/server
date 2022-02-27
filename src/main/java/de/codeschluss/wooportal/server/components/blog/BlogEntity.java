@@ -149,6 +149,8 @@ public class BlogEntity extends BaseResource {
         .readTopic(id)).withRel("topic"));
     links.add(linkTo(methodOn(BlogController.class)
         .readBlogger(id)).withRel("blogger"));
+    links.add(linkTo(methodOn(BlogController.class)
+        .readTitleImage(id)).withRel("titleImage"));
     try {
       links.add(linkTo(methodOn(BlogController.class)
           .calculateVisitors(id)).withRel("visitors"));
