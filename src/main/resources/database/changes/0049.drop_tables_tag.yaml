@@ -5,8 +5,8 @@ databaseChangeLog:
           author: codeschluss
           changes:
               - dropTable:
-                    tableName: tags
-              - dropTable:
                     tableName: activities_tags
               - dropTable:
                     tableName: tag_translatables
+              - dropTable:
+                    tableName: tags
