@@ -15,7 +15,7 @@ databaseChangeLog:
           author: codeschluss
           changes:
               - dropForeignKeyConstraint:
-                    baseTableName: blogs
+                    baseTableName: pages
                     constraintName: CONSTRAINT_A07CAC31
               - dropColumn:
                     columnName: likes
