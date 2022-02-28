@@ -14,6 +14,9 @@ databaseChangeLog:
           id: 0047.rebuild_table_pages.2
           author: codeschluss
           changes:
+              - dropForeignKeyConstraint:
+                    baseTableName: blogs
+                    constraintName: CONSTRAINT_A07CAC31
               - dropColumn:
                     columnName: likes
                     tableName: pages
