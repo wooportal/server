@@ -26,16 +26,16 @@ public class SearchConsoleController {
   @GetMapping("/search-console/overview")
   @SuperUserPermission
   public ResponseEntity<SearchAnalyticsDto> searchConsoleOverview(
-      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate startDate, 
-      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate endDate) throws IOException {
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate startDate, 
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate endDate) throws IOException {
     return ok(service.calculateTotal(startDate, endDate));
   }
   
   @GetMapping("/search-console/details")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsDto>> searchConsoleDetails(
-      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate startDate, 
-      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate endDate,
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate startDate, 
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate endDate,
       @RequestParam SearchDimension dimension) throws IOException {
     return ok(service.calculateForDimension(startDate, endDate, dimension));
   }

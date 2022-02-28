@@ -27,8 +27,8 @@ public class AppStatisticsController {
   @GetMapping("/app-statistics/install")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> appStatisticsInstalls(
-      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate startDate, 
-      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate endDate) throws IOException {
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate startDate, 
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate endDate) throws IOException {
     validateDates(startDate, endDate);
     return ok(service.calculateInstalls(startDate, endDate));
   }
@@ -36,8 +36,8 @@ public class AppStatisticsController {
   @GetMapping("/app-statistics/ratings")
   @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> appStatisticsRatings(
-      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate startDate, 
-      @RequestParam @DateTimeFormat(iso = ISO.DATE) LocalDate endDate) throws IOException {
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate startDate, 
+      @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate endDate) throws IOException {
     validateDates(startDate, endDate);
     return ok(service.calculateRatings(startDate, endDate));
   }
