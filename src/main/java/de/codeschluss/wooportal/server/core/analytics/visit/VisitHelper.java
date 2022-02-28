@@ -34,7 +34,7 @@ public class VisitHelper {
   
   public static Type getEntityClass(Class<?> controllerClass) {
     if (controllerClass != null) {
-      var genericClass = controllerClass.getSuperclass().getGenericSuperclass();
+      var genericClass = controllerClass.getGenericSuperclass();
       if (genericClass != null && genericClass instanceof ParameterizedType) {
         return ((ParameterizedType) genericClass).getActualTypeArguments()[0];
       }
