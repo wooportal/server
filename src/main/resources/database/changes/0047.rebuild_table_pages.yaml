@@ -18,9 +18,6 @@ databaseChangeLog:
                     baseTableName: pages
                     constraintName: CONSTRAINT_A07CAC31
               - dropColumn:
-                    columnName: likes
-                    tableName: pages
-              - dropColumn:
                     columnName: topic_id
                     tableName: pages
     - changeSet:
