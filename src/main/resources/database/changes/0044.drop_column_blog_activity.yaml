@@ -4,6 +4,9 @@ databaseChangeLog:
           id: 0044.drop_column_blog_activity
           author: codeschluss
           changes:
+              - dropForeignKeyConstraint:
+                    baseTableName: blogs
+                    constraintName: CONSTRAINT_DEC74ED0
               - dropColumn:
                     columnName: activity_id
                     tableName: blogs
