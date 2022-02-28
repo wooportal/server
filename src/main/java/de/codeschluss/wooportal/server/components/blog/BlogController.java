@@ -319,7 +319,6 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   }
 
   @PostMapping("/blogs/{blogId}/titleimage")
-  @OwnBlogOrSuperuserPermission
   public ResponseEntity<?> addTitleImage(@PathVariable String blogId,
       @RequestBody ImageEntity titleImage) {
     try {

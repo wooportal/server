@@ -66,11 +66,13 @@ public class AppStatisticsService {
   private List<String> getAnalyticsData(
       String baseUrl, LocalDate startDate, LocalDate endDate) throws IOException {
     var bucket = getBucket();
-    return createDateFilter(startDate, endDate).stream().map(date -> {
-      try {
-        return new String(bucket.get(String.format("%s_%s_%s_overview.csv", baseUrl, config.getProject(), date)).getContent(), "UTF-16");
-      } catch (UnsupportedEncodingException e) { return null; }
-    }).collect(Collectors.toList());
+    return bucket != null
+        ? createDateFilter(startDate, endDate).stream().map(date -> {
+            try {
+              return new String(bucket.get(String.format("%s_%s_%s_overview.csv", baseUrl, config.getProject(), date)).getContent(), "UTF-16");
+            } catch (UnsupportedEncodingException e) { return null; }
+          }).collect(Collectors.toList())
+        : null;
   }
 
   private Bucket getBucket() throws IOException {
