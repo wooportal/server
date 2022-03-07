@@ -103,10 +103,10 @@ public class UserController extends CrudController<UserEntity, UserService> {
   }
 
   @Override
-  @GetMapping("/users/{userId}")
+  @GetMapping("/users/{id}")
   @OwnUserOrSuperUserPermission
-  public Resource<UserEntity> readOne(@PathVariable String userId) {
-    return super.readOne(userId);
+  public Resource<UserEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -133,45 +133,45 @@ public class UserController extends CrudController<UserEntity, UserService> {
   }
 
   @Override
-  @PutMapping("/users/{userId}")
+  @PutMapping("/users/{id}")
   @OwnUserPermission
-  public ResponseEntity<?> update(@RequestBody UserEntity newUser, @PathVariable String userId)
+  public ResponseEntity<?> update(@RequestBody UserEntity newUser, @PathVariable String id)
       throws URISyntaxException {
-    return super.update(newUser, userId);
+    return super.update(newUser, id);
   }
 
   @Override
-  @DeleteMapping("/users/{userId}")
+  @DeleteMapping("/users/{id}")
   @OwnUserOrSuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String userId) {
-    return super.delete(userId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
 
   /**
    * Grant superuser right.
    *
-   * @param userId the user id
+   * @param id the user id
    * @param isSuperuser the is superuser
    * @return the response entity
    */
-  @PutMapping("/users/{userId}/superuser")
+  @PutMapping("/users/{id}/superuser")
   @SuperUserPermission
-  public ResponseEntity<?> grantSuperuserRight(@PathVariable String userId,
+  public ResponseEntity<?> grantSuperuserRight(@PathVariable String id,
       @RequestBody BooleanPrimitive isSuperuser) {
     try {
-      service.grantSuperUser(userId, isSuperuser.getValue());
+      service.grantSuperUser(id, isSuperuser.getValue());
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("User with given ID does not exist!");
     }
   }
   
-  @PutMapping("/users/{userId}/translator")
+  @PutMapping("/users/{id}/translator")
   @SuperUserPermission
-  public ResponseEntity<?> grantTranslatorRight(@PathVariable String userId,
+  public ResponseEntity<?> grantTranslatorRight(@PathVariable String id,
       @RequestBody BooleanPrimitive isTranslator) {
     try {
-      service.grantTranslator(userId, isTranslator.getValue());
+      service.grantTranslator(id, isTranslator.getValue());
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("User with given ID does not exist!");
@@ -181,31 +181,31 @@ public class UserController extends CrudController<UserEntity, UserService> {
   /**
    * Read organisations.
    *
-   * @param userId the user id
+   * @param id the user id
    * @return the response entity
    */
-  @GetMapping("/users/{userId}/organisations")
+  @GetMapping("/users/{id}/organisations")
   @OwnUserOrSuperUserPermission
   public ResponseEntity<?> readOrganisations(
-      @PathVariable String userId) {
-    List<ProviderEntity> providers = providerService.getProvidersByUser(userId);
+      @PathVariable String id) {
+    List<ProviderEntity> providers = providerService.getProvidersByUser(id);
     return ok(organisationService.convertToResourcesEmbeddedProviders(providers));
   }
 
   /**
    * Adds the organisation.
    *
-   * @param userId the user id
+   * @param id the user id
    * @param organisationParam the organisation param
    * @return the response entity
    */
-  @PostMapping("/users/{userId}/organisations")
+  @PostMapping("/users/{id}/organisations")
   @OwnUserOrSuperUserPermission
-  public ResponseEntity<?> addOrganisation(@PathVariable String userId,
+  public ResponseEntity<?> addOrganisation(@PathVariable String id,
       @RequestBody List<String> organisationParam) {
     try {
       return ok(providerService.createApplication(
-          service.getById(userId), organisationParam));
+          service.getById(id), organisationParam));
     } catch (NotFoundException | NullPointerException e) {
       throw new BadParamsException("User or Organisation are null or do not exist!");
     }
@@ -214,16 +214,16 @@ public class UserController extends CrudController<UserEntity, UserService> {
   /**
    * Delete organisation.
    *
-   * @param userId the user id
+   * @param id the user id
    * @param orgaId the orga id
    * @return the response entity
    */
-  @DeleteMapping("/users/{userId}/organisations/{orgaId}")
+  @DeleteMapping("/users/{id}/organisations/{orgaId}")
   @OwnUserOrSuperUserPermission
-  public ResponseEntity<?> deleteOrganisation(@PathVariable String userId,
+  public ResponseEntity<?> deleteOrganisation(@PathVariable String id,
       @PathVariable String orgaId) {
     try {
-      providerService.deleteForUserAndOrga(userId, orgaId);
+      providerService.deleteForUserAndOrga(id, orgaId);
       return noContent().build();
     } catch (NotFoundException e) {
       return noContent().build();
@@ -233,14 +233,14 @@ public class UserController extends CrudController<UserEntity, UserService> {
   /**
    * Read activities.
    *
-   * @param userId the user id
+   * @param id the user id
    * @return the response entity
    */
-  @GetMapping("/users/{userId}/activities")
+  @GetMapping("/users/{id}/activities")
   public ResponseEntity<?> readActivities(
-      @PathVariable String userId,
+      @PathVariable String id,
       BaseParams params) {
-    List<ProviderEntity> providers = providerService.getProvidersByUser(userId);
+    List<ProviderEntity> providers = providerService.getProvidersByUser(id);
     try {
       return ok(activityService.getResourcesByProviders(providers, params));
     } catch (IOException e) {
@@ -251,16 +251,16 @@ public class UserController extends CrudController<UserEntity, UserService> {
   /**
    * Delete activity.
    *
-   * @param userId the user id
+   * @param id the user id
    * @param activityId the activity id
    * @return the response entity
    */
-  @DeleteMapping("/users/{userId}/activities/{activityId}")
+  @DeleteMapping("/users/{id}/activities/{activityId}")
   @OwnUserOrSuperUserPermission
-  public ResponseEntity<?> deleteActivity(@PathVariable String userId,
+  public ResponseEntity<?> deleteActivity(@PathVariable String id,
       @PathVariable String activityId) {
     if (activityService.isActivityForProvider(
-        activityId, providerService.getProvidersByUser(userId))) {
+        activityId, providerService.getProvidersByUser(id))) {
       activityService.delete(activityId);
       return noContent().build();
     } else {
@@ -315,16 +315,16 @@ public class UserController extends CrudController<UserEntity, UserService> {
   /**
    * Read activities.
    *
-   * @param userId the user id
+   * @param id the user id
    * @param params the params
    * @return the response entity
    */
-  @GetMapping("/users/{userId}/blogs")
+  @GetMapping("/users/{id}/blogs")
   public ResponseEntity<?> readBlogs(
-      @PathVariable String userId,
+      @PathVariable String id,
       BaseParams params) {
     try {
-      return ok(blogService.getResourceByUser(userId, params));
+      return ok(blogService.getResourceByUser(id, params));
     } catch (IOException e) {
       throw new BadParamsException("Invalid params: " + params.toString());
     }
@@ -333,15 +333,15 @@ public class UserController extends CrudController<UserEntity, UserService> {
   /**
    * Delete blog.
    *
-   * @param userId the user id
+   * @param id the user id
    * @param blogId the blog id
    * @return the response entity
    */
-  @DeleteMapping("/users/{userId}/blogs/{blogId}")
+  @DeleteMapping("/users/{id}/blogs/{blogId}")
   @OwnUserOrSuperUserPermission
-  public ResponseEntity<?> deleteBlog(@PathVariable String userId,
+  public ResponseEntity<?> deleteBlog(@PathVariable String id,
       @PathVariable String blogId) {
-    if (blogService.isBlogUser(blogId, userId)) {
+    if (blogService.isBlogUser(blogId, id)) {
       blogService.delete(blogId);
       return noContent().build();
     } else {
@@ -363,19 +363,19 @@ public class UserController extends CrudController<UserEntity, UserService> {
   /**
    * Grant blogger right.
    *
-   * @param userId the user id
+   * @param id the user id
    * @param isBlogger the is blogger
    * @return the response entity
    */
-  @PutMapping("/users/{userId}/grantblogger")
+  @PutMapping("/users/{id}/grantblogger")
   @SuperUserPermission
-  public ResponseEntity<?> grantBloggerRight(@PathVariable String userId,
+  public ResponseEntity<?> grantBloggerRight(@PathVariable String id,
       @RequestBody BooleanPrimitive isBlogger) {
     try {
       if (isBlogger.getValue()) {
-        bloggerService.approveByUserId(userId);
+        bloggerService.approveByUserId(id);
       } else {
-        bloggerService.deleteByUser(userId);
+        bloggerService.deleteByUser(id);
       }
       return noContent().build();
     } catch (NotFoundException e) {
@@ -386,49 +386,49 @@ public class UserController extends CrudController<UserEntity, UserService> {
   /**
    * Read blogger.
    *
-   * @param userId the user id
+   * @param id the user id
    * @return the response entity
    */
-  @GetMapping("/users/{userId}/blogger")
+  @GetMapping("/users/{id}/blogger")
   @OwnUserOrSuperUserPermission
-  public ResponseEntity<?> readBlogger(@PathVariable String userId) {
-    return ok(bloggerService.getResourceByUser(userId));
+  public ResponseEntity<?> readBlogger(@PathVariable String id) {
+    return ok(bloggerService.getResourceByUser(id));
   }
   
   /**
    * Delete blogger.
    *
-   * @param userId the user id
+   * @param id the user id
    * @return the response entity
    */
-  @DeleteMapping("/users/{userId}/blogger")
+  @DeleteMapping("/users/{id}/blogger")
   @OwnUserOrSuperUserPermission
-  public ResponseEntity<?> deleteBlogger(@PathVariable String userId) {
+  public ResponseEntity<?> deleteBlogger(@PathVariable String id) {
     try {
-      bloggerService.deleteByUser(userId);
+      bloggerService.deleteByUser(id);
       return noContent().build();
     } catch (NotFoundException e) {
       return noContent().build();
     }
   }
 
-  @GetMapping("/user/{userId}/avatar")
-  public ResponseEntity<ImageEntity> readAvatar(@PathVariable String userId) {
-    return ok(service.getAvatar(userId));
+  @GetMapping("/user/{id}/avatar")
+  public ResponseEntity<ImageEntity> readAvatar(@PathVariable String id) {
+    return ok(service.getAvatar(id));
   }
 
-  @PostMapping("/user/{userId}/avatar")
+  @PostMapping("/user/{id}/avatar")
   @OwnUserPermission
-  public ResponseEntity<?> addAvatar(@PathVariable String userId,
+  public ResponseEntity<?> addAvatar(@PathVariable String id,
       @RequestBody(required = false) ImageEntity avatar) {
     try {
       if (avatar == null) {
         try {
-          imageService.delete(service.getAvatar(userId).getId()); 
+          imageService.delete(service.getAvatar(id).getId()); 
         } catch (NotFoundException e) {}
         return noContent().build();
       } else {
-        return ok(service.addAvatar(userId, imageService.add(avatar))); 
+        return ok(service.addAvatar(id, imageService.add(avatar))); 
       }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given User does not exist");

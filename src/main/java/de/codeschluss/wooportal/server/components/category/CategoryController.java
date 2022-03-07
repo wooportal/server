@@ -45,9 +45,9 @@ public class CategoryController extends CrudController<CategoryEntity, CategoryS
   }
 
   @Override
-  @GetMapping("/categories/{categoryId}")
-  public Resource<CategoryEntity> readOne(@PathVariable String categoryId) {
-    return super.readOne(categoryId);
+  @GetMapping("/categories/{id}")
+  public Resource<CategoryEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -59,30 +59,30 @@ public class CategoryController extends CrudController<CategoryEntity, CategoryS
   }
 
   @Override
-  @PutMapping("/categories/{categoryId}")
+  @PutMapping("/categories/{id}")
   @SuperUserPermission
   public ResponseEntity<?> update(@RequestBody CategoryEntity newCategory,
-      @PathVariable String categoryId) throws URISyntaxException {
-    return super.update(newCategory, categoryId);
+      @PathVariable String id) throws URISyntaxException {
+    return super.update(newCategory, id);
   }
 
   @Override
-  @DeleteMapping("/categories/{categoryId}")
+  @DeleteMapping("/categories/{id}")
   @SuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String categoryId) {
-    return super.delete(categoryId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
   
   /**
    * Read translations.
    *
-   * @param categoryId the category id
+   * @param id the category id
    * @return the response entity
    */
-  @GetMapping("/categories/{categoryId}/translations")
-  public ResponseEntity<?> readTranslations(@PathVariable String categoryId) {
+  @GetMapping("/categories/{id}/translations")
+  public ResponseEntity<?> readTranslations(@PathVariable String id) {
     try {
-      return ok(translationService.getAllTranslations(service.getById(categoryId)));
+      return ok(translationService.getAllTranslations(service.getById(id)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
       throw new RuntimeException(e);

@@ -28,9 +28,9 @@ public class SocialMediaController extends CrudController<SocialMediaEntity, Soc
   }
 
   @Override
-  @GetMapping("/socialmedia/{socialmediaId}")
-  public Resource<SocialMediaEntity> readOne(@PathVariable String socialmediaId) {
-    return super.readOne(socialmediaId);
+  @GetMapping("/socialmedia/{id}")
+  public Resource<SocialMediaEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -41,17 +41,17 @@ public class SocialMediaController extends CrudController<SocialMediaEntity, Soc
   }
 
   @Override
-  @PutMapping("/socialmedia/{socialmediaId}")
+  @PutMapping("/socialmedia/{id}")
   @SuperUserPermission
   public ResponseEntity<?> update(@RequestBody SocialMediaEntity newSocialMedia,
-      @PathVariable String socialmediaId) throws URISyntaxException {
-    return super.update(newSocialMedia, socialmediaId);
+      @PathVariable String id) throws URISyntaxException {
+    return super.update(newSocialMedia, id);
   }
 
   @Override
-  @DeleteMapping("/socialmedia/{socialmediaId}")
+  @DeleteMapping("/socialmedia/{id}")
   @SuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String socialmediaId) {
-    return super.delete(socialmediaId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
 }

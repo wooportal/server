@@ -34,9 +34,9 @@ public class SuburbController extends CrudController<SuburbEntity, SuburbService
   }
 
   @Override
-  @GetMapping("/suburbs/{surburbId}")
-  public Resource<SuburbEntity> readOne(@PathVariable String surburbId) {
-    return super.readOne(surburbId);
+  @GetMapping("/suburbs/{id}")
+  public Resource<SuburbEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -47,17 +47,17 @@ public class SuburbController extends CrudController<SuburbEntity, SuburbService
   }
 
   @Override
-  @PutMapping("/suburbs/{surburbId}")
+  @PutMapping("/suburbs/{id}")
   @SuperUserPermission
   public ResponseEntity<?> update(@RequestBody SuburbEntity newSuburb,
-      @PathVariable String surburbId) throws URISyntaxException {
-    return super.update(newSuburb, surburbId);
+      @PathVariable String id) throws URISyntaxException {
+    return super.update(newSuburb, id);
   }
 
   @Override
-  @DeleteMapping("/suburbs/{surburbId}")
+  @DeleteMapping("/suburbs/{id}")
   @SuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String surburbId) {
-    return super.delete(surburbId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
 }

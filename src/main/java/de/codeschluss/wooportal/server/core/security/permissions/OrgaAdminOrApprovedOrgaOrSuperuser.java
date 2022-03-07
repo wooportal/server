@@ -2,18 +2,12 @@ package de.codeschluss.wooportal.server.core.security.permissions;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
 import org.springframework.security.access.prepost.PreAuthorize;
 
-/**
- * The Annotation ShowUserOrSuperUserPermission.
- * 
- * @author Valmir Etemi
- *
- */
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@authorizationService.showUser(#activityId) "
+@PreAuthorize("@authorizationService.isApprovedOrganisation(#id) "
+    + "or @authorizationService.isOrgaAdmin(authentication, #id) "
     + "or @authorizationService.isSuperUser(authentication)")
-public @interface ShowUserOrSuperUserPermission {
+public @interface OrgaAdminOrApprovedOrgaOrSuperuser {
 
 }

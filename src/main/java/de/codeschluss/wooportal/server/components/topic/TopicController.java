@@ -50,9 +50,9 @@ public class TopicController extends CrudController<TopicEntity, TopicService> {
   }
 
   @Override
-  @GetMapping("/topics/{topicId}")
-  public Resource<TopicEntity> readOne(@PathVariable String topicId) {
-    return super.readOne(topicId);
+  @GetMapping("/topics/{id}")
+  public Resource<TopicEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -64,31 +64,31 @@ public class TopicController extends CrudController<TopicEntity, TopicService> {
   }
 
   @Override
-  @PutMapping("/topics/{topicId}")
+  @PutMapping("/topics/{id}")
   @SuperUserPermission
   public ResponseEntity<?> update(@RequestBody TopicEntity newTopic,
-      @PathVariable String topicId) throws URISyntaxException {
-    return super.update(newTopic, topicId);
+      @PathVariable String id) throws URISyntaxException {
+    return super.update(newTopic, id);
   }
 
   @Override
-  @DeleteMapping("/topics/{topicId}")
+  @DeleteMapping("/topics/{id}")
   @SuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String topicId) {
-    return super.delete(topicId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
   
   /**
    * Read pages.
    *
-   * @param topicId the topic id
+   * @param id the topic id
    * @param params the params
    * @return the response entity
    */
-  @GetMapping("/topics/{topicId}/blogs")
-  public ResponseEntity<?> readBlogs(@PathVariable String topicId, BaseParams params) {
+  @GetMapping("/topics/{id}/blogs")
+  public ResponseEntity<?> readBlogs(@PathVariable String id, BaseParams params) {
     try {
-      return ok(blogService.getResourcesByTopic(topicId, params));
+      return ok(blogService.getResourcesByTopic(id, params));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -97,13 +97,13 @@ public class TopicController extends CrudController<TopicEntity, TopicService> {
   /**
    * Read translations.
    *
-   * @param topicId the topic id
+   * @param id the topic id
    * @return the response entity
    */
-  @GetMapping("/topics/{topicId}/translations")
-  public ResponseEntity<?> readTranslations(@PathVariable String topicId) {
+  @GetMapping("/topics/{id}/translations")
+  public ResponseEntity<?> readTranslations(@PathVariable String id) {
     try {
-      return ok(translationService.getAllTranslations(service.getById(topicId)));
+      return ok(translationService.getAllTranslations(service.getById(id)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
       throw new RuntimeException(e);

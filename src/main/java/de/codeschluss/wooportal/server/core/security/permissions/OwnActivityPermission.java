@@ -12,7 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@authorizationService.isOwnActivity(authentication, #activityId)")
+@PreAuthorize("@authorizationService.isOwnActivity(authentication, #id)")
 public @interface OwnActivityPermission {
 
 }
