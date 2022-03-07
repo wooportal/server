@@ -45,9 +45,9 @@ public class TargetGroupController extends CrudController<TargetGroupEntity, Tar
   }
 
   @Override
-  @GetMapping("/targetgroups/{targetGroupId}")
-  public Resource<TargetGroupEntity> readOne(@PathVariable String targetGroupId) {
-    return super.readOne(targetGroupId);
+  @GetMapping("/targetgroups/{id}")
+  public Resource<TargetGroupEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -59,31 +59,31 @@ public class TargetGroupController extends CrudController<TargetGroupEntity, Tar
   }
 
   @Override
-  @PutMapping("/targetgroups/{targetGroupId}")
+  @PutMapping("/targetgroups/{id}")
   @SuperUserPermission
   public ResponseEntity<?> update(
       @RequestBody TargetGroupEntity newTargetGroup,
-      @PathVariable String targetGroupId) throws URISyntaxException {
-    return super.update(newTargetGroup, targetGroupId);
+      @PathVariable String id) throws URISyntaxException {
+    return super.update(newTargetGroup, id);
   }
 
   @Override
-  @DeleteMapping("/targetgroups/{targetGroupId}")
+  @DeleteMapping("/targetgroups/{id}")
   @SuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String targetGroupId) {
-    return super.delete(targetGroupId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
   
   /**
    * Read translations.
    *
-   * @param targetGroupId the target group id
+   * @param id the target group id
    * @return the response entity
    */
-  @GetMapping("/targetgroups/{targetGroupId}/translations")
-  public ResponseEntity<?> readTranslations(@PathVariable String targetGroupId) {
+  @GetMapping("/targetgroups/{id}/translations")
+  public ResponseEntity<?> readTranslations(@PathVariable String id) {
     try {
-      return ok(translationService.getAllTranslations(service.getById(targetGroupId)));
+      return ok(translationService.getAllTranslations(service.getById(id)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
       throw new RuntimeException(e);

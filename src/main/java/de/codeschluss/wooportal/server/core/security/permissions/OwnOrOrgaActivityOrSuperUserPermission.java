@@ -12,8 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@authorizationService.isOwnActivity(authentication, #activityId) "
-    + "or @authorizationService.isOrgaActivity(authentication, #activityId) "
+@PreAuthorize("@authorizationService.isOwnActivity(authentication, #id) "
+    + "or @authorizationService.isOrgaActivity(authentication, #id) "
     + "or @authorizationService.isSuperUser(authentication)")
 public @interface OwnOrOrgaActivityOrSuperUserPermission {
 

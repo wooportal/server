@@ -43,9 +43,9 @@ public class LabelController extends CrudController<LabelEntity, LabelService> {
   }
 
   @Override
-  @GetMapping("/labels/{labelId}")
-  public Resource<LabelEntity> readOne(@PathVariable String labelId) {
-    return super.readOne(labelId);
+  @GetMapping("/labels/{id}")
+  public Resource<LabelEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -56,24 +56,24 @@ public class LabelController extends CrudController<LabelEntity, LabelService> {
   }
 
   @Override
-  @PutMapping("/labels/{labelId}")
+  @PutMapping("/labels/{id}")
   @TranslatorOrSuperUserPermission
-  public ResponseEntity<?> update(@RequestBody LabelEntity newlabel, @PathVariable String labelId)
+  public ResponseEntity<?> update(@RequestBody LabelEntity newlabel, @PathVariable String id)
       throws URISyntaxException {
-    return super.update(newlabel, labelId);
+    return super.update(newlabel, id);
   }
 
   @Override
-  @DeleteMapping("/labels/{labelId}")
+  @DeleteMapping("/labels/{id}")
   @SuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String labelId) {
-    return super.delete(labelId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
   
-  @GetMapping("/labels/{labelId}/translations")
-  public ResponseEntity<?> readTranslations(@PathVariable String labelId) {
+  @GetMapping("/labels/{id}/translations")
+  public ResponseEntity<?> readTranslations(@PathVariable String id) {
     try {
-      return ok(translationService.getAllTranslations(service.getById(labelId)));
+      return ok(translationService.getAllTranslations(service.getById(id)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
       throw new RuntimeException(e);

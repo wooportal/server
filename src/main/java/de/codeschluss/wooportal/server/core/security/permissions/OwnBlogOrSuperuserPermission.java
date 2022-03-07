@@ -12,7 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
  *
  */
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@authorizationService.isOwnBlog(authentication, #blogId) "
+@PreAuthorize("@authorizationService.isOwnBlog(authentication, #id) "
     + "or @authorizationService.isSuperUser(authentication)")
 public @interface OwnBlogOrSuperuserPermission {
 

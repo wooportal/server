@@ -146,9 +146,9 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   }
 
   @Override
-  @GetMapping("/activities/{activityId}")
-  public Resource<ActivityEntity> readOne(@PathVariable String activityId) {
-    return super.readOne(activityId);
+  @GetMapping("/activities/{id}")
+  public Resource<ActivityEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -172,45 +172,45 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   }
 
   @Override
-  @PutMapping("/activities/{activityId}")
+  @PutMapping("/activities/{id}")
   @OwnOrOrgaActivityOrSuperUserPermission
   public ResponseEntity<?> update(@RequestBody ActivityEntity newActivity,
-      @PathVariable String activityId) throws URISyntaxException {
-    return super.update(newActivity, activityId);
+      @PathVariable String id) throws URISyntaxException {
+    return super.update(newActivity, id);
   }
 
   @Override
-  @DeleteMapping("/activities/{activityId}")
+  @DeleteMapping("/activities/{id}")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String activityId) {
-    return super.delete(activityId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
 
   /**
    * Read address.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @return the response entity
    */
-  @GetMapping("/activities/{activityId}/address")
-  public ResponseEntity<?> readAddress(@PathVariable String activityId) {
-    return ok(addressService.getResourcesByActivity(activityId));
+  @GetMapping("/activities/{id}/address")
+  public ResponseEntity<?> readAddress(@PathVariable String id) {
+    return ok(addressService.getResourcesByActivity(id));
   }
 
   /**
    * Update address.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param addressId the address id
    * @return the response entity
    */
-  @PutMapping("/activities/{activityId}/address")
+  @PutMapping("/activities/{id}/address")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> updateAddress(@PathVariable String activityId,
+  public ResponseEntity<?> updateAddress(@PathVariable String id,
       @RequestBody StringPrimitive addressId) {
-    if (addressService.existsById(addressId.getValue()) && service.existsById(activityId)) {
-      service.updateAddress(activityId, addressService.getById(addressId.getValue()));
-      return readAddress(activityId);
+    if (addressService.existsById(addressId.getValue()) && service.existsById(id)) {
+      service.updateAddress(id, addressService.getById(addressId.getValue()));
+      return readAddress(id);
     } else {
       throw new BadParamsException("Activity or Address with given ID do not exist!");
     }
@@ -219,28 +219,28 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read category.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @return the response entity
    */
-  @GetMapping("/activities/{activityId}/category")
-  public ResponseEntity<?> readCategory(@PathVariable String activityId) {
-    return ok(categoryService.getResourceByActivity(activityId));
+  @GetMapping("/activities/{id}/category")
+  public ResponseEntity<?> readCategory(@PathVariable String id) {
+    return ok(categoryService.getResourceByActivity(id));
   }
 
   /**
    * Update category.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param categoryId the category id
    * @return the response entity
    */
-  @PutMapping("/activities/{activityId}/category")
+  @PutMapping("/activities/{id}/category")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> updateCategory(@PathVariable String activityId,
+  public ResponseEntity<?> updateCategory(@PathVariable String id,
       @RequestBody StringPrimitive categoryId) {
-    if (service.existsById(activityId) && categoryService.existsById(categoryId.getValue())) {
-      service.updateCategory(activityId, categoryService.getById(categoryId.getValue()));
-      return readCategory(activityId);
+    if (service.existsById(id) && categoryService.existsById(categoryId.getValue())) {
+      service.updateCategory(id, categoryService.getById(categoryId.getValue()));
+      return readCategory(id);
     } else {
       throw new BadParamsException("Activity or Category with given ID do not exist!");
     }
@@ -249,29 +249,29 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read organisation.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @return the response entity
    */
-  @GetMapping("/activities/{activityId}/organisation")
-  public ResponseEntity<?> readOrganisation(@PathVariable String activityId) {
-    ProviderEntity provider = providerService.getProviderByActivity(activityId);
+  @GetMapping("/activities/{id}/organisation")
+  public ResponseEntity<?> readOrganisation(@PathVariable String id) {
+    ProviderEntity provider = providerService.getProviderByActivity(id);
     return ok(organisationService.getResourceByProvider(provider));
   }
 
   /**
    * Update organisation.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param organisationId the organisation id
    * @return the response entity
    */
-  @PutMapping("/activities/{activityId}/organisation")
+  @PutMapping("/activities/{id}/organisation")
   @OwnActivityPermission
-  public ResponseEntity<?> updateOrganisation(@PathVariable String activityId,
+  public ResponseEntity<?> updateOrganisation(@PathVariable String id,
       @RequestBody StringPrimitive organisationId) {
     try {
-      service.updateProvider(activityId, getProvider(organisationId.getValue()));
-      return readOrganisation(activityId);
+      service.updateProvider(id, getProvider(organisationId.getValue()));
+      return readOrganisation(id);
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity, Organisation or Provider do not exist!");
     }
@@ -280,14 +280,14 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read target groups.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param params the params
    * @return the response entity
    */
-  @GetMapping("/activities/{activityId}/targetgroups")
-  public ResponseEntity<?> readTargetGroups(@PathVariable String activityId, BaseParams params) {
+  @GetMapping("/activities/{id}/targetgroups")
+  public ResponseEntity<?> readTargetGroups(@PathVariable String id, BaseParams params) {
     try {
-      return ok(targetGroupService.getResourceByActivity(activityId, params));
+      return ok(targetGroupService.getResourceByActivity(id, params));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -296,19 +296,19 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Adds the target groups.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param targetGroupIds the target group ids
    * @return the response entity
    */
-  @PostMapping("/activities/{activityId}/targetgroups")
+  @PostMapping("/activities/{id}/targetgroups")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> addTargetGroups(@PathVariable String activityId,
+  public ResponseEntity<?> addTargetGroups(@PathVariable String id,
       @RequestBody List<String> targetGroupIds) {
     try {
       List<String> distinctTargetGroups =
           targetGroupIds.stream().distinct().collect(Collectors.toList());
       return ok(
-          service.addTargetGroups(activityId, targetGroupService.getByIds(distinctTargetGroups)));
+          service.addTargetGroups(id, targetGroupService.getByIds(distinctTargetGroups)));
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Target Group or Activity do not exist");
     }
@@ -317,16 +317,16 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Delete target groups.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param targetGroupIds the target group ids
    * @return the response entity
    */
-  @DeleteMapping("/activities/{activityId}/targetgroups")
+  @DeleteMapping("/activities/{id}/targetgroups")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> deleteTargetGroups(@PathVariable String activityId,
+  public ResponseEntity<?> deleteTargetGroups(@PathVariable String id,
       @RequestParam(value = "targetGroupIds", required = true) List<String> targetGroupIds) {
     try {
-      service.deleteTargetGroup(activityId, targetGroupIds);
+      service.deleteTargetGroup(id, targetGroupIds);
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");
@@ -336,14 +336,14 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Find schedules.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param params the params
    * @return the response entity
    */
-  @GetMapping("/activities/{activityId}/schedules")
-  public ResponseEntity<?> readSchedules(@PathVariable String activityId, BaseParams params) {
+  @GetMapping("/activities/{id}/schedules")
+  public ResponseEntity<?> readSchedules(@PathVariable String id, BaseParams params) {
     try {
-      return ok(scheduleService.getResourceByActivity(activityId, params));
+      return ok(scheduleService.getResourceByActivity(id, params));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -352,17 +352,17 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Adds the schedules.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param schedules the schedules
    * @return the response entity
    */
-  @PostMapping("/activities/{activityId}/schedules")
+  @PostMapping("/activities/{id}/schedules")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public Resources<?> addSchedules(@PathVariable String activityId,
+  public Resources<?> addSchedules(@PathVariable String id,
       @RequestBody List<ScheduleEntity> schedules) {
     validateSchedules(schedules);
     try {
-      return scheduleService.addAllResourcesWithActivity(schedules, service.getById(activityId));
+      return scheduleService.addAllResourcesWithActivity(schedules, service.getById(id));
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");
     } catch (IOException e) {
@@ -386,13 +386,13 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Delete schedules.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param scheduleIds the schedule ids
    * @return the response entity
    */
-  @DeleteMapping("/activities/{activityId}/schedules")
+  @DeleteMapping("/activities/{id}/schedules")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> deleteSchedules(@PathVariable String activityId,
+  public ResponseEntity<?> deleteSchedules(@PathVariable String id,
       @RequestParam(value = "scheduleIds", required = true) List<String> scheduleIds) {
     try {
       scheduleService.deleteAll(scheduleIds);
@@ -416,28 +416,28 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read images.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @return the response entity
    */
-  @GetMapping("/activities/{activityId}/images")
-  public ResponseEntity<?> readImages(@PathVariable String activityId) {
-    return ok(service.getImages(activityId));
+  @GetMapping("/activities/{id}/images")
+  public ResponseEntity<?> readImages(@PathVariable String id) {
+    return ok(service.getImages(id));
   }
 
   /**
    * Adds the image.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param images the image
    * @return the response entity
    */
-  @PostMapping("/activities/{activityId}/images")
+  @PostMapping("/activities/{id}/images")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> addImage(@PathVariable String activityId,
+  public ResponseEntity<?> addImage(@PathVariable String id,
       @RequestBody List<ImageEntity> images) {
     validateImages(images);
     try {
-      List<ImageEntity> saved = service.addImages(activityId, imageService.addAll(images));
+      List<ImageEntity> saved = service.addImages(id, imageService.addAll(images));
       return ok(saved);
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");
@@ -460,13 +460,13 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Delete images.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param imageIds the image ids
    * @return the response entity
    */
-  @DeleteMapping("/activities/{activityId}/images")
+  @DeleteMapping("/activities/{id}/images")
   @OwnOrOrgaActivityOrSuperUserPermission
-  public ResponseEntity<?> deleteImages(@PathVariable String activityId,
+  public ResponseEntity<?> deleteImages(@PathVariable String id,
       @RequestParam(value = "imageIds", required = true) List<String> imageIds) {
     try {
       imageService.deleteAll(imageIds);
@@ -479,13 +479,13 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Read translations.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @return the response entity
    */
-  @GetMapping("/activities/{activityId}/translations")
-  public ResponseEntity<?> readTranslations(@PathVariable String activityId) {
+  @GetMapping("/activities/{id}/translations")
+  public ResponseEntity<?> readTranslations(@PathVariable String id) {
     try {
-      return ok(translationService.getAllTranslations(service.getById(activityId)));
+      return ok(translationService.getAllTranslations(service.getById(id)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
       throw new RuntimeException(e);
@@ -495,18 +495,18 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   /**
    * Increase like.
    *
-   * @param activityId the activity id
+   * @param id the activity id
    * @param subscriptionId the subscription id
    * @return the response entity
    */
-  @PutMapping("/activities/{activityId}/like")
-  public ResponseEntity<?> increaseLike(@PathVariable String activityId,
+  @PutMapping("/activities/{id}/like")
+  public ResponseEntity<?> increaseLike(@PathVariable String id,
       @RequestBody(required = false) StringPrimitive subscriptionId) {
     try {
-      service.increaseLike(activityId);
+      service.increaseLike(id);
       if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
         subscriptionService.addLikedActivity(subscriptionId.getValue(),
-            service.getById(activityId));
+            service.getById(id));
       }
       return noContent().build();
     } catch (NotFoundException e) {
@@ -514,20 +514,20 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     }
   }
 
-  @GetMapping("/activities/{activityId}/iCal")
-  public ResponseEntity<String> generateAllIcal(@PathVariable String activityId) {
+  @GetMapping("/activities/{id}/iCal")
+  public ResponseEntity<String> generateAllIcal(@PathVariable String id) {
 
     return ResponseEntity.ok().headers(createIcalHeader())
-        .contentType(MediaType.APPLICATION_OCTET_STREAM).body(service.generateAllIcal(activityId));
+        .contentType(MediaType.APPLICATION_OCTET_STREAM).body(service.generateAllIcal(id));
   }
 
-  @GetMapping("/activities/{activityId}/{scheduleId}/iCal")
-  public ResponseEntity<String> generateIcal(@PathVariable String activityId,
+  @GetMapping("/activities/{id}/{scheduleId}/iCal")
+  public ResponseEntity<String> generateIcal(@PathVariable String id,
       @PathVariable String scheduleId) {
 
     return ResponseEntity.ok().headers(createIcalHeader())
         .contentType(MediaType.APPLICATION_OCTET_STREAM)
-        .body(service.generateIcal(activityId, scheduleId));
+        .body(service.generateIcal(id, scheduleId));
   }
 
   public HttpHeaders createIcalHeader() {
@@ -570,40 +570,40 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
     return ok(visitableService.calculateVisits(this));
   }
 
-  @GetMapping("/activities/{activityId}/visitors")
-  public ResponseEntity<Integer> calculateVisitors(@PathVariable String activityId)
+  @GetMapping("/activities/{id}/visitors")
+  public ResponseEntity<Integer> calculateVisitors(@PathVariable String id)
       throws Throwable {
-    return ok(visitableService.calculateVisitors(service.getById(activityId)));
+    return ok(visitableService.calculateVisitors(service.getById(id)));
   }
 
-  @GetMapping("/activities/{activityId}/visits")
-  public ResponseEntity<Integer> calculateVisits(@PathVariable String activityId) throws Throwable {
-    return ok(visitableService.calculateVisits(service.getById(activityId)));
+  @GetMapping("/activities/{id}/visits")
+  public ResponseEntity<Integer> calculateVisits(@PathVariable String id) throws Throwable {
+    return ok(visitableService.calculateVisits(service.getById(id)));
   }
 
   /**
    * Read the titleImage
    */
-  @GetMapping("/activities/{activityId}/titleimage")
-  public ResponseEntity<ImageEntity> readTitleImage(@PathVariable String activityId) {
-    return ok(service.getTitleImage(activityId));
+  @GetMapping("/activities/{id}/titleimage")
+  public ResponseEntity<ImageEntity> readTitleImage(@PathVariable String id) {
+    return ok(service.getTitleImage(id));
   }
 
   /**
    * Adds the titleImage
    */
-  @PostMapping("/activities/{activityId}/titleimage")
+  @PostMapping("/activities/{id}/titleimage")
   @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> addTitleImage(@PathVariable String activityId,
+  public ResponseEntity<?> addTitleImage(@PathVariable String id,
       @RequestBody ImageEntity titleImage) {
     try {
       if (titleImage == null) {
         try {
-          imageService.delete(service.getTitleImage(activityId).getId()); 
+          imageService.delete(service.getTitleImage(id).getId()); 
         } catch (NotFoundException e) {}
         return noContent().build();
       } else {
-        return ok(service.addTitleImage(activityId, imageService.add(titleImage))); 
+        return ok(service.addTitleImage(id, imageService.add(titleImage))); 
       }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Activity does not exist");

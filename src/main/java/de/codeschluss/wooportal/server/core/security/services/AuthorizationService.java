@@ -1,15 +1,16 @@
 package de.codeschluss.wooportal.server.core.security.services;
 
-import de.codeschluss.wooportal.server.components.activity.ActivityService;
-import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
-import de.codeschluss.wooportal.server.components.user.UserEntity;
-import de.codeschluss.wooportal.server.core.exception.NotFoundException;
-import de.codeschluss.wooportal.server.core.security.jwt.JwtUserDetails;
 import java.util.Arrays;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import de.codeschluss.wooportal.server.components.activity.ActivityService;
+import de.codeschluss.wooportal.server.components.blog.BlogService;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationService;
+import de.codeschluss.wooportal.server.components.user.UserEntity;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
+import de.codeschluss.wooportal.server.core.security.jwt.JwtUserDetails;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -23,7 +24,8 @@ public class AuthorizationService {
   
   /** The organisation service. */
   private final OrganisationService organisationService;
-
+  
+  private final BlogService blogService;
 
   /**
    * Instantiates a new authorization service.
@@ -33,21 +35,23 @@ public class AuthorizationService {
    */
   public AuthorizationService(
       ActivityService actitivityService,
-      OrganisationService organisationService) {
+      OrganisationService organisationService,
+      BlogService blogService) {
     this.organisationService = organisationService;
+    this.blogService = blogService;
   }
 
   /**
    * Checks if is own user.
    *
    * @param authentication the authentication
-   * @param userId the user id
+   * @param id the user id
    * @return true, if is own user
    */
-  public boolean isOwnUser(Authentication authentication, String userId) {
+  public boolean isOwnUser(Authentication authentication, String id) {
     if (authentication.getPrincipal() instanceof JwtUserDetails) {
       JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
-      return jwtUserDetails.getUser().getId().equals(userId);
+      return jwtUserDetails.getUser().getId().equals(id);
     }
     return false;
 
@@ -71,13 +75,13 @@ public class AuthorizationService {
    * Checks if is orga admin.
    *
    * @param authentication the authentication
-   * @param organisationId the organisation id
+   * @param id the organisation id
    * @return true, if is orga admin
    */
-  public boolean isOrgaAdmin(Authentication authentication, String organisationId) {
+  public boolean isOrgaAdmin(Authentication authentication, String id) {
     if (authentication.getPrincipal() instanceof JwtUserDetails) {
       JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
-      return Arrays.asList(jwtUserDetails.getAdminOrgas()).contains(organisationId);
+      return Arrays.asList(jwtUserDetails.getAdminOrgas()).contains(id);
     }
     return false;
   }
@@ -96,18 +100,34 @@ public class AuthorizationService {
     }
     return false;
   }
+  
+  public boolean isApprovedBlog(String id) {
+    try {
+      return blogService.getById(id).getApproved();
+    } catch (Throwable e) {
+      return true;
+    }
+  }
+  
+  public boolean isApprovedOrganisation(String id) {
+    try {
+      return organisationService.getById(id).isApproved();
+    } catch (Throwable e) {
+      return true;
+    }
+  }
 
   /**
    * Checks if is own activity.
    *
    * @param authentication the authentication
-   * @param activityId the activity id
+   * @param id the activity id
    * @return true, if is own activity
    */
-  public boolean isOwnActivity(Authentication authentication, String activityId) {
+  public boolean isOwnActivity(Authentication authentication, String id) {
     if (authentication.getPrincipal() instanceof JwtUserDetails) {
       JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
-      return Arrays.asList(jwtUserDetails.getCreatedActivities()).contains(activityId);
+      return Arrays.asList(jwtUserDetails.getCreatedActivities()).contains(id);
     }
     return false;
   }
@@ -116,14 +136,14 @@ public class AuthorizationService {
    * Checks if is orga activity.
    *
    * @param authentication the authentication
-   * @param activityId the activity id
+   * @param id the activity id
    * @return true, if is orga activity
    */
-  public boolean isOrgaActivity(Authentication authentication, String activityId) {
+  public boolean isOrgaActivity(Authentication authentication, String id) {
     try {
       if (authentication.getPrincipal() instanceof JwtUserDetails) {
         JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
-        String orgaId = organisationService.getOrgaActivity(activityId).getId();
+        String orgaId = organisationService.getOrgaActivity(id).getId();
         return Arrays.asList(jwtUserDetails.getAdminOrgas()).contains(orgaId);
       }
       return false;
@@ -166,13 +186,13 @@ public class AuthorizationService {
    * Checks if is own blog.
    *
    * @param authentication the authentication
-   * @param blogId the blog id
+   * @param id the blog id
    * @return true, if is own blog
    */
-  public boolean isOwnBlog(Authentication authentication, String blogId) {
+  public boolean isOwnBlog(Authentication authentication, String id) {
     if (authentication.getPrincipal() instanceof JwtUserDetails) {
       JwtUserDetails jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
-      return Arrays.asList(jwtUserDetails.getCreatedBlogs()).contains(blogId);
+      return Arrays.asList(jwtUserDetails.getCreatedBlogs()).contains(id);
     }
     return false;
   }

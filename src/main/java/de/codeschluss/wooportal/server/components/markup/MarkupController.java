@@ -56,9 +56,9 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   }
 
   @Override
-  @GetMapping("/markups/{markupId}")
-  public Resource<MarkupEntity> readOne(@PathVariable String markupId) {
-    return super.readOne(markupId);
+  @GetMapping("/markups/{id}")
+  public Resource<MarkupEntity> readOne(@PathVariable String id) {
+    return super.readOne(id);
   }
 
   @Override
@@ -69,24 +69,24 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   }
 
   @Override
-  @PutMapping("/markups/{markupId}")
+  @PutMapping("/markups/{id}")
   @TranslatorOrSuperUserPermission
-  public ResponseEntity<?> update(@RequestBody MarkupEntity newmarkup, @PathVariable String markupId)
+  public ResponseEntity<?> update(@RequestBody MarkupEntity newmarkup, @PathVariable String id)
       throws URISyntaxException {
-    return super.update(newmarkup, markupId);
+    return super.update(newmarkup, id);
   }
 
   @Override
-  @DeleteMapping("/markups/{markupId}")
+  @DeleteMapping("/markups/{id}")
   @SuperUserPermission
-  public ResponseEntity<?> delete(@PathVariable String markupId) {
-    return super.delete(markupId);
+  public ResponseEntity<?> delete(@PathVariable String id) {
+    return super.delete(id);
   }
   
-  @GetMapping("/markups/{markupId}/translations")
-  public ResponseEntity<?> readTranslations(@PathVariable String markupId) {
+  @GetMapping("/markups/{id}/translations")
+  public ResponseEntity<?> readTranslations(@PathVariable String id) {
     try {
-      return ok(translationService.getAllTranslations(service.getById(markupId)));
+      return ok(translationService.getAllTranslations(service.getById(id)));
     } catch (NoSuchMethodException | SecurityException | IllegalAccessException
         | IllegalArgumentException | InvocationTargetException | IOException e) {
       throw new RuntimeException(e);
@@ -102,35 +102,35 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
     return noContent().build();
   }
   
-  @GetMapping("/markups/{markupId}/visitors")
+  @GetMapping("/markups/{id}/visitors")
   public ResponseEntity<Integer> calculateVisitors(
-      @PathVariable String markupId) throws Throwable {
-    return ok(visitableService.calculateVisitors(service.getById(markupId)));
+      @PathVariable String id) throws Throwable {
+    return ok(visitableService.calculateVisitors(service.getById(id)));
   }
   
-  @GetMapping("/markups/{markupId}/visits")
+  @GetMapping("/markups/{id}/visits")
   public ResponseEntity<Integer> calculateVisits(
-      @PathVariable String markupId) throws Throwable {
-    return ok(visitableService.calculateVisits(service.getById(markupId)));
+      @PathVariable String id) throws Throwable {
+    return ok(visitableService.calculateVisits(service.getById(id)));
   }
   
-  @GetMapping("/markups/{markupId}/titleimage")
-  public ResponseEntity<ImageEntity> readTitleImage(@PathVariable String markupId) {
-    return ok(service.getTitleImage(markupId));
+  @GetMapping("/markups/{id}/titleimage")
+  public ResponseEntity<ImageEntity> readTitleImage(@PathVariable String id) {
+    return ok(service.getTitleImage(id));
   }
   
-  @PostMapping("/markups/{markupId}/titleimage")
+  @PostMapping("/markups/{id}/titleimage")
   @SuperUserPermission
-  public ResponseEntity<?> addTitleImage(@PathVariable String markupId,
+  public ResponseEntity<?> addTitleImage(@PathVariable String id,
       @RequestBody(required = false) ImageEntity avatar) {
     try {
       if (avatar == null) {
         try {
-          imageService.delete(service.getTitleImage(markupId).getId()); 
+          imageService.delete(service.getTitleImage(id).getId()); 
         } catch (NotFoundException e) {}
         return noContent().build();
       } else {
-        return ok(service.addTitleImage(markupId, imageService.add(avatar))); 
+        return ok(service.addTitleImage(id, imageService.add(avatar))); 
       }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Markup does not exist");
