@@ -57,15 +57,14 @@ public class RssFeedView extends AbstractRssFeedView {
   @Override
   protected List<Item> buildFeedItems(Map<String, Object> model, HttpServletRequest request,
       HttpServletResponse response) {
+    var feedItem = new ArrayList<Item>();
 
-    List<Item> feedItem = new ArrayList<>();
-
-    List<BaseResource> entities = sortEntities(activityService);
+    var entities = sortEntities(activityService);
     entities.addAll(sortEntities(blogService));
     entities.addAll(sortEntities(orgaService));
 
     entities.sort((c1, c2) -> c1.getCreated().compareTo(c2.getCreated()));
-    entities = entities.subList(0, 9);
+    entities = entities.subList(0, entities.size() < 10 ? entities.size() : 10);
 
     for (var entity : entities) {
 
