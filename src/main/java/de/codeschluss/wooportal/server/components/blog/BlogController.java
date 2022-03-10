@@ -155,7 +155,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
 
   @Override
   @DeleteMapping("/blogs/{id}")
-  @OwnBlogOrSuperuserPermission
+//  @OwnBlogOrSuperuserPermission
   public ResponseEntity<?> delete(@PathVariable String id) {
     return super.delete(id);
   }

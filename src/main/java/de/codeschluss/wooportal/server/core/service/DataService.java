@@ -154,7 +154,7 @@ public abstract class DataService<E extends BaseEntity, B extends QueryBuilder<?
    *          the id
    */
   public void delete(String id) {
-    repo.deleteById(id);
+    repo.delete(getById(id));
   }
   
 
