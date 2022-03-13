@@ -2,16 +2,6 @@ package de.codeschluss.wooportal.server.components.blogger;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import de.codeschluss.wooportal.server.components.blog.BlogEntity;
-import de.codeschluss.wooportal.server.components.user.UserController;
-import de.codeschluss.wooportal.server.components.user.UserEntity;
-import de.codeschluss.wooportal.server.core.entity.BaseResource;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -22,14 +12,24 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.core.Relation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.codeschluss.wooportal.server.components.blog.BlogEntity;
+import de.codeschluss.wooportal.server.components.user.UserController;
+import de.codeschluss.wooportal.server.components.user.UserEntity;
+import de.codeschluss.wooportal.server.core.entity.BaseResource;
+import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.hateoas.Link;
-import org.springframework.hateoas.core.Relation;
 
 /**
  * The persistent class for the bloggers database table.
@@ -47,6 +47,11 @@ import org.springframework.hateoas.core.Relation;
 public class BloggerEntity extends BaseResource {
 
   private static final long serialVersionUID = 1L;
+  
+  @JsonSerialize
+  @JsonDeserialize
+  @Transient
+  private ImageEntity avatar;
   
   @JsonSerialize
   @JsonDeserialize
@@ -71,6 +76,10 @@ public class BloggerEntity extends BaseResource {
   public String getName() {
     return getUser().getName();
   }
+  
+  public ImageEntity getAvatar() {
+    return getUser().getAvatar();
+  }
 
   @Override
   public List<Link> createResourceLinks() {
@@ -78,6 +87,8 @@ public class BloggerEntity extends BaseResource {
 
     links.add(linkTo(methodOn(UserController.class)
         .readBlogger(getUser().getId())).withSelfRel());
+    links.add(linkTo(methodOn(UserController.class)
+        .readAvatar(id)).withRel("avatar"));
 
     return links;
   }

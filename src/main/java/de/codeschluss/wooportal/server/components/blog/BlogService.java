@@ -97,6 +97,7 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
   @Override
   public BlogEntity update(String id, BlogEntity newBlog) {
     return repo.findById(id).map(blog -> {
+      blog.setAuthor(newBlog.getAuthor());
       blog.setContent(newBlog.getContent());
       blog.setTitle(newBlog.getTitle());
       return repo.save(blog);
