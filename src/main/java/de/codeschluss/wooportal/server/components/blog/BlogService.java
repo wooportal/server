@@ -147,7 +147,7 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
       return Collections.emptyList();
     }
 
-    return transformList(result);
+    return result;
   }
   
   public Resources<?> getResourcesByTopic(String topicId, BaseParams params)
@@ -165,51 +165,6 @@ public class BlogService extends ResourceDataService<BlogEntity, BlogQueryBuilde
     var page = getById(blogId);
     page.setTopic(topic);
     return assembler.toResource(repo.save(page));
-  }
-
-  @Override
-  public <P extends FilterSortPaginate> List<BlogEntity> getSortedList(P params) {
-    List<BlogEntity> nonEmptyResult = super.getSortedList(params);
-    return transformList(nonEmptyResult);
-  }
-
-  /**
-   * Transform.
-   *
-   * @param stream
-   *          the stream
-   * @return the list
-   */
-  private List<BlogEntity> transformList(List<BlogEntity> list) {
-    return list.parallelStream().map(blog -> {
-      return transformSingle(blog);
-    }).collect(Collectors.toList());
-  }
-
-  /**
-   * Gets the paged.
-   *
-   * @param <P>
-   *          the generic type
-   * @param params
-   *          the params
-   * @return the paged
-   */
-  public <P extends FilterSortPaginate> Page<BlogEntity> getPaged(P params) {
-    Page<BlogEntity> nonEmptyPage = super.getPaged(params);
-    return nonEmptyPage.map(blog -> transformSingle(blog));
-  }
-
-  /**
-   * Transform single.
-   *
-   * @param findOne
-   *          the find one
-   * @return the optional
-   */
-  private BlogEntity transformSingle(BlogEntity single) {
-    single.setAuthor(single.getBlogger().getUser().getName());
-    return single;
   }
 
   /**
