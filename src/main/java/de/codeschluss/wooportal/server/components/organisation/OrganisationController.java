@@ -38,8 +38,8 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
-import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrApprovedOrgaOrSuperuser;
 import de.codeschluss.wooportal.server.core.security.permissions.Authenticated;
+import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrApprovedOrgaOrSuperuser;
 import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
@@ -140,11 +140,14 @@ public class OrganisationController
     } catch (NotFoundException e) {
       throw new BadParamsException("Need existing Address!");
     }
-    
+    var currentUser = authService.getCurrentUser();
+    if (currentUser.isSuperuser()) {
+      newOrga.setApproved(true);
+    }
     Resource<OrganisationEntity> resource = service.addResource(newOrga);
-    providerService.addAdminAndSendMail(resource.getContent(), authService.getCurrentUser());
+    providerService.addAdminAndSendMail(resource.getContent(), currentUser);
     return created(new URI(resource.getId().expand().getHref())).body(resource);
-  }
+  }  
   
   /**
    * Grant approval and if isApproved is false, it will delete all existing activities.
