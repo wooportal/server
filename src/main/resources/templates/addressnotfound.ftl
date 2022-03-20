@@ -12,9 +12,9 @@
 			Ort: <b>${place}</b> <br>
 		</p>
 		
-		<p>Bitte melden Sie sich im ${portalName} an und bearbeiten Sie die Adresse, da die Veranstaltung sonst nicht auf der Karte gefunden werden kann.</p>
+		<p>Bitte melde dich im ${portalName} an und bearbeite die Adresse, da die Veranstaltung sonst nicht auf der Karte gefunden werden kann.</p>
 		
-		<p>Dies ist eine automatisch generierte Mail. Bitte antworten Sie nicht darauf.</p>
+		<p>Dies ist eine automatisch generierte Mail. Bitte antworte nicht darauf.</p>
 		
 		<p>Mit freundlichen Grüßen<br>
 		Ihr ${portalName}-Team</p>

@@ -147,7 +147,7 @@ public class OrganisationController
     Resource<OrganisationEntity> resource = service.addResource(newOrga);
     providerService.addAdminAndSendMail(resource.getContent(), currentUser);
     return created(new URI(resource.getId().expand().getHref())).body(resource);
-  }  
+  }
   
   /**
    * Grant approval and if isApproved is false, it will delete all existing activities.
