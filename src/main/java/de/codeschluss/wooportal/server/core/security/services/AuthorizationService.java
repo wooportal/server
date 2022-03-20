@@ -1,6 +1,8 @@
 package de.codeschluss.wooportal.server.core.security.services;
 
 import java.util.Arrays;
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,6 +28,9 @@ public class AuthorizationService {
   private final OrganisationService organisationService;
   
   private final BlogService blogService;
+  
+  @Autowired
+  protected HttpServletRequest request;
 
   /**
    * Instantiates a new authorization service.
@@ -56,6 +61,20 @@ public class AuthorizationService {
     return false;
 
   }
+  
+  public boolean isSuperUser() {
+    var principal = request.getUserPrincipal();
+    if (principal != null) {
+      if (principal instanceof Authentication) {
+        return isSuperUser((Authentication) principal);
+      }
+      if (principal instanceof JwtUserDetails) {
+        return ((JwtUserDetails) principal).isSuperUser();
+      }
+    }
+    return false;
+  }
+
 
   /**
    * Checks if is super user.
@@ -70,7 +89,6 @@ public class AuthorizationService {
     }
     return false;
   }
-
   /**
    * Checks if is orga admin.
    *

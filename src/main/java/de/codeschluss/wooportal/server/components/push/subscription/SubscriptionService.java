@@ -445,7 +445,7 @@ public class SubscriptionService
     return data.entrySet()
         .stream()
         .map(entry -> 
-          new AnalyticsEntry(entry.getKey().getName(), entry.getValue(), null))
+          new AnalyticsEntry(entry.getKey().getConfigType(), entry.getValue(), null))
         .sorted()
         .collect(Collectors.toList());
   }

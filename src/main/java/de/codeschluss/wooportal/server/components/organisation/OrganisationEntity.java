@@ -160,8 +160,6 @@ public class OrganisationEntity extends BaseResource {
     try {
       links.add(linkTo(methodOn(OrganisationController.class)
           .calculateVisitors(id)).withRel("visitors"));
-      links.add(linkTo(methodOn(OrganisationController.class)
-          .calculateVisits(id)).withRel("visits"));
     } catch (Throwable e) {
       e.printStackTrace();
     }

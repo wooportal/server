@@ -200,8 +200,6 @@ public class ActivityEntity extends BaseResource {
     try {
       links.add(linkTo(methodOn(ActivityController.class)
           .calculateVisitors(id)).withRel("visitors"));
-      links.add(linkTo(methodOn(ActivityController.class)
-          .calculateVisits(id)).withRel("visits"));
     } catch (Throwable e) {
       e.printStackTrace();
     }

@@ -35,6 +35,7 @@ import de.codeschluss.wooportal.server.components.schedule.ScheduleService;
 import de.codeschluss.wooportal.server.components.targetgroup.TargetGroupService;
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.core.analytics.AnalyticsEntry;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableEntity;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
@@ -561,24 +562,14 @@ public class ActivityController extends CrudController<ActivityEntity, ActivityS
   }
 
   @GetMapping("/activities/visitors")
-  public ResponseEntity<Integer> calculateOverviewVisitors() throws Throwable {
-    return ok(visitableService.calculateVisitors(this));
-  }
-
-  @GetMapping("/activities/visits")
-  public ResponseEntity<Integer> calculateOverviewVisits() throws Throwable {
-    return ok(visitableService.calculateVisits(this));
+  public ResponseEntity<List<VisitableEntity<?>>> calculateOverviewVisits() throws Throwable {
+    return ok(visitableService.getVisitablesForOverview(this));
   }
 
   @GetMapping("/activities/{id}/visitors")
-  public ResponseEntity<Integer> calculateVisitors(@PathVariable String id)
+  public ResponseEntity<List<VisitableEntity<?>>> calculateVisitors(@PathVariable String id)
       throws Throwable {
-    return ok(visitableService.calculateVisitors(service.getById(id)));
-  }
-
-  @GetMapping("/activities/{id}/visits")
-  public ResponseEntity<Integer> calculateVisits(@PathVariable String id) throws Throwable {
-    return ok(visitableService.calculateVisits(service.getById(id)));
+    return ok(visitableService.getVisitablesForEntity(service.getById(id)));
   }
 
   /**

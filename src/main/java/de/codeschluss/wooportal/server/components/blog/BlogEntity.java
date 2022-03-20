@@ -154,8 +154,6 @@ public class BlogEntity extends BaseResource {
     try {
       links.add(linkTo(methodOn(BlogController.class)
           .calculateVisitors(id)).withRel("visitors"));
-      links.add(linkTo(methodOn(BlogController.class)
-          .calculateVisits(id)).withRel("visits"));
     } catch (Throwable e) {
       e.printStackTrace();
     }

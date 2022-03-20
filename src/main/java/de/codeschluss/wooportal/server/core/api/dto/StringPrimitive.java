@@ -17,5 +17,9 @@ import lombok.NoArgsConstructor;
 public class StringPrimitive {
   
   private String value;
+  
+  public StringPrimitive(Integer value) {
+    this.value = value.toString();
+  }
 
 }

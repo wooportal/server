@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import de.codeschluss.wooportal.server.components.markup.visitors.MarkupVisitorEntity;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableEntity;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.FilterSortPaginate;
@@ -102,16 +104,16 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
     return noContent().build();
   }
   
-  @GetMapping("/markups/{id}/visitors")
-  public ResponseEntity<Integer> calculateVisitors(
+  @GetMapping("/markups/visitors")
+  public ResponseEntity<List<VisitableEntity<?>>> calculateOverviewVisitors(
       @PathVariable String id) throws Throwable {
-    return ok(visitableService.calculateVisitors(service.getById(id)));
+    return ok(visitableService.getVisitablesForOverview(this));
   }
   
-  @GetMapping("/markups/{id}/visits")
-  public ResponseEntity<Integer> calculateVisits(
+  @GetMapping("/markups/{id}/visitors")
+  public ResponseEntity<List<VisitableEntity<?>>> calculateVisitors(
       @PathVariable String id) throws Throwable {
-    return ok(visitableService.calculateVisits(service.getById(id)));
+    return ok(visitableService.getVisitablesForEntity(service.getById(id)));
   }
   
   @GetMapping("/markups/{id}/titleimage")

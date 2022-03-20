@@ -27,6 +27,7 @@ import de.codeschluss.wooportal.server.components.push.subscription.Subscription
 import de.codeschluss.wooportal.server.components.user.UserService;
 import de.codeschluss.wooportal.server.components.video.VideoEntity;
 import de.codeschluss.wooportal.server.components.video.VideoService;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableEntity;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BaseParams;
@@ -532,24 +533,13 @@ public class OrganisationController
   }
   
   @GetMapping("/organisations/visitors")
-  public ResponseEntity<Integer> calculateOverviewVisitors() throws Throwable {
-    return ok(visitableService.calculateVisitors(this));
-  }
-  
-  @GetMapping("/organisations/visits")
-  public ResponseEntity<Integer> calculateOverviewVisits() throws Throwable {
-    return ok(visitableService.calculateVisits(this));
+  public ResponseEntity<List<VisitableEntity<?>>> calculateOverviewVisitors() throws Throwable {
+    return ok(visitableService.getVisitablesForOverview(this));
   }
   
   @GetMapping("/organisations/{id}/visitors")
-  public ResponseEntity<Integer> calculateVisitors(
+  public ResponseEntity<List<VisitableEntity<?>>> calculateVisitors(
       @PathVariable String id) throws Throwable {
-    return ok(visitableService.calculateVisitors(service.getById(id)));
-  }
-  
-  @GetMapping("/organisations/{id}/visits")
-  public ResponseEntity<Integer> calculateVisits(
-      @PathVariable String id) throws Throwable {
-    return ok(visitableService.calculateVisits(service.getById(id)));
+    return ok(visitableService.getVisitablesForEntity(service.getById(id)));
   }
 }

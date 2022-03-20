@@ -13,9 +13,10 @@ import de.codeschluss.wooportal.server.core.analytics.visit.visitor.VisitorServi
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.config.GeneralPropertyConfiguration;
 import de.codeschluss.wooportal.server.core.entity.BaseEntity;
+import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.repository.DataRepository;
 import de.codeschluss.wooportal.server.core.repository.RepositoryService;
-import de.codeschluss.wooportal.server.core.security.jwt.JwtUserDetails;
+import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
 
 @Service
 public class VisitableService<V extends VisitableEntity<?>> {
@@ -28,6 +29,9 @@ public class VisitableService<V extends VisitableEntity<?>> {
   
   @Autowired
   protected HttpServletRequest request;
+  
+  @Autowired
+  protected AuthorizationService authService;
   
   @Autowired
   private RepositoryService repoService;
@@ -75,44 +79,29 @@ public class VisitableService<V extends VisitableEntity<?>> {
     return visitorService.add(visitor);
   }
   
-  public Integer calculateVisitors(BaseEntity entity) 
+  public List<VisitableEntity<?>> getVisitablesForEntity(BaseEntity entity) 
       throws Throwable {
-    var visitables = getVisitables(entity);
-    return visitables != null && !visitables.isEmpty() ? visitables.size() : 0;
+    var result = getVisitables(entity);
+    if (result != null && !result.isEmpty()) {
+      return result;
+    }
+    throw new NotFoundException("no visitors so far");
   }
   
-  public Integer calculateVisitors(CrudController<?,?> controller) 
+  public List<VisitableEntity<?>> getVisitablesForOverview(CrudController<?,?> controller) 
       throws Throwable {
-    var visitables = getVisitables(
-        pageService.getByName(VisitHelper.getVisitableOverview(controller)));
-    return visitables != null && !visitables.isEmpty() ? visitables.size() : 0;
-  }
-  
-  public Integer calculateVisits(BaseEntity entity) 
-      throws Throwable {
-    var visitables = getVisitables(entity);
-    return visitables != null && !visitables.isEmpty() 
-        ? visitables.stream().map(v -> v.getVisits()).reduce(0, Integer::sum)
-        : 0;
-  }
-  
-  public Integer calculateVisits(CrudController<?,?> controller) 
-      throws Throwable {
-    var visitables = getVisitables(
-        pageService.getByName(VisitHelper.getVisitableOverview(controller)));
-    return visitables != null && !visitables.isEmpty() 
-        ? visitables.stream().map(v -> v.getVisits()).reduce(0, Integer::sum)
-        : 0;
+    return getVisitables(
+        pageService.getByName(VisitHelper.getVisitableOverview(controller.getClass())));
   }
   
   @SuppressWarnings("unchecked")
-  private List<V> getVisitables(BaseEntity entity) throws Throwable {
+  private List<VisitableEntity<?>> getVisitables(BaseEntity entity) throws Throwable {
     var visitableRepo = getRepository(VisitHelper.getVisitableType(entity));
     
     var findByParent = visitableRepo.getClass().getMethod(
         "findByParent", entity.getClass().getSuperclass());
 
-    return (List<V>) findByParent.invoke(visitableRepo, entity);
+    return (List<VisitableEntity<?>>) findByParent.invoke(visitableRepo, entity);
   }
 
   public VisitableRepository<?> getRepository(Class<VisitableEntity<?>> visitableClass) {
@@ -125,7 +114,7 @@ public class VisitableService<V extends VisitableEntity<?>> {
   }
 
   public boolean isValidVisitor() {
-    return !isPrivateIpAddress() && !isSuperUser();
+    return !isPrivateIpAddress() && !authService.isSuperUser();
   }
 
   private boolean isPrivateIpAddress() {
@@ -142,13 +131,4 @@ public class VisitableService<V extends VisitableEntity<?>> {
         ? ipAddress
         : request.getRemoteAddr();
   }
-
-  private boolean isSuperUser() {
-    var userPrincipal = request.getUserPrincipal();
-    if (userPrincipal != null && userPrincipal instanceof JwtUserDetails) {
-      return ((JwtUserDetails) userPrincipal).isSuperUser(); 
-    }
-    return false;
-  }
-
 }

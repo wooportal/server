@@ -4,6 +4,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,7 @@ public class VisitInterceptor<V extends VisitableEntity<?>> {
   public <E extends BaseEntity> Object saveVisitForEntity(ProceedingJoinPoint pjp) 
         throws Throwable {
     Object result = pjp.proceed();
-    if (visitableService.isValidVisitor() && VisitHelper.isVisitable(pjp.getThis())) {
+    if (visitableService.isValidVisitor() && VisitHelper.isVisitable(AopUtils.getTargetClass(pjp.getThis()))) {
       if (result != null) {
         visitableService.saveEntityVisit((E) ((Resource<?>) result).getContent());
       }
@@ -41,7 +42,7 @@ public class VisitInterceptor<V extends VisitableEntity<?>> {
   public <E extends BaseEntity>  Object saveVisitForOverviewPage(ProceedingJoinPoint pjp)
         throws Throwable {
     Object result = pjp.proceed();
-    var overviewName = VisitHelper.getVisitableOverview(pjp.getThis());
+    var overviewName = VisitHelper.getVisitableOverview(AopUtils.getTargetClass(pjp.getThis()));
     if (visitableService.isValidVisitor() && overviewName != null) {
       visitableService.saveOverviewVisit(overviewName);
     }

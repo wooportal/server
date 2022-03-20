@@ -23,6 +23,7 @@ import de.codeschluss.wooportal.server.components.push.PushService;
 import de.codeschluss.wooportal.server.components.push.subscription.SubscriptionService;
 import de.codeschluss.wooportal.server.components.topic.TopicEntity;
 import de.codeschluss.wooportal.server.components.topic.TopicService;
+import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableEntity;
 import de.codeschluss.wooportal.server.core.analytics.visit.visitable.VisitableService;
 import de.codeschluss.wooportal.server.core.api.CrudController;
 import de.codeschluss.wooportal.server.core.api.dto.BooleanPrimitive;
@@ -294,25 +295,14 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   }
   
   @GetMapping("/blogs/visitors")
-  public ResponseEntity<Integer> calculateOverviewVisitors() throws Throwable {
-    return ok(visitableService.calculateVisitors(this));
-  }
-  
-  @GetMapping("/blogs/visits")
-  public ResponseEntity<Integer> calculateOverviewVisits() throws Throwable {
-    return ok(visitableService.calculateVisits(this));
+  public ResponseEntity<List<VisitableEntity<?>>> calculateOverviewVisitors() throws Throwable {
+    return ok(visitableService.getVisitablesForOverview(this));
   }
   
   @GetMapping("/blogs/{id}/visitors")
-  public ResponseEntity<Integer> calculateVisitors(
+  public ResponseEntity<List<VisitableEntity<?>>> calculateVisitors(
       @PathVariable String id) throws Throwable {
-    return ok(visitableService.calculateVisitors(service.getById(id)));
-  }
-  
-  @GetMapping("/blogs/{id}/visits")
-  public ResponseEntity<Integer> calculateVisits(
-      @PathVariable String id) throws Throwable {
-    return ok(visitableService.calculateVisits(service.getById(id)));
+    return ok(visitableService.getVisitablesForEntity(service.getById(id)));
   }
   
   @GetMapping("/blogs/{id}/titleimage")

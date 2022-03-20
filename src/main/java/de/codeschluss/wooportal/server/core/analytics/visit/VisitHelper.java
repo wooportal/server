@@ -11,22 +11,23 @@ import de.codeschluss.wooportal.server.core.entity.BaseEntity;
 public class VisitHelper {
 
   @SuppressWarnings("unchecked")
-  public static <E extends BaseEntity> boolean isVisitable(Object controller) {
-    if (controller != null && controller instanceof CrudController<?, ?>) {
-      var entityClass = (Class<E>) getEntityClass(controller.getClass());
+  public static <E extends BaseEntity> boolean isVisitable(Class<?> controllerClass) {
+    if (controllerClass != null && CrudController.class.isAssignableFrom(controllerClass)) {
+      var entityClass = (Class<E>) getEntityClass(controllerClass);
       return entityClass != null && entityClass.getDeclaredAnnotation(Visitable.class) != null;
     }
     return false;
   }
   
   @SuppressWarnings("unchecked")
-  public static <E extends BaseEntity> String getVisitableOverview(Object controller) {
-    if (controller != null && controller instanceof CrudController<?, ?>) {
-      var entityClass = (Class<E>) getEntityClass(controller.getClass());
+  public static <E extends BaseEntity> String getVisitableOverview(Class<?> controllerClass) {
+    if (controllerClass != null && CrudController.class.isAssignableFrom(controllerClass)) {
+      var entityClass = (Class<E>) getEntityClass(controllerClass);
       if (entityClass != null ) {
         var annotation = entityClass.getDeclaredAnnotation(Visitable.class);
-        if (annotation != null && !annotation.overview().isBlank())
-        return annotation.overview();
+        if (annotation != null && !annotation.overview().isBlank()) {
+          return annotation.overview(); 
+        }
       }
     }
     return null;

@@ -2,7 +2,6 @@ package de.codeschluss.wooportal.server.components.organisation;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -11,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
-import de.codeschluss.wooportal.server.core.security.jwt.JwtUserDetails;
+import de.codeschluss.wooportal.server.core.security.services.AuthorizationService;
 import de.codeschluss.wooportal.server.core.utils.PageUtils;
 
 @Component
@@ -23,13 +22,13 @@ public class OrganisationFilterInterceptor {
   private void findAll() { }
   
   @Autowired
-  protected HttpServletRequest request;
+  protected AuthorizationService authService;
   
   @SuppressWarnings("unchecked")
   @Around("findAll()")
   public Object filterOutNotApproved(ProceedingJoinPoint pjp) throws Throwable {
     Object result = pjp.proceed();
-    if (result instanceof Iterable<?> && !isSuperUser()) {
+    if (result instanceof Iterable<?> && !authService.isSuperUser()) {
       List<OrganisationEntity> list = (List<OrganisationEntity>) PageUtils.convertToList(result);
       if (result instanceof Page<?>) {
         return new PageImpl<>(
@@ -40,13 +39,5 @@ public class OrganisationFilterInterceptor {
       list.removeIf(e -> !e.isApproved());
     }
     return result;
-  }
-  
-  private boolean isSuperUser() {
-    var userPrincipal = request.getUserPrincipal();
-    if (userPrincipal != null && userPrincipal instanceof JwtUserDetails) {
-      return ((JwtUserDetails) userPrincipal).isSuperUser(); 
-    }
-    return false;
   }
 }
