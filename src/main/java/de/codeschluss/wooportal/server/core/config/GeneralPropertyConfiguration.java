@@ -9,8 +9,10 @@ import lombok.Data;
 @ConfigurationProperties(prefix = "general")
 public class GeneralPropertyConfiguration {
 
-  private String portalName;
-  
   private String clientIpHeader;
+  
+  private String host;
+  
+  private String portalName;
   
 }

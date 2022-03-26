@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import de.codeschluss.wooportal.server.core.config.GeneralPropertyConfiguration;
 
 /**
  * The Class SitemapController.
@@ -15,20 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SitemapController {
   
+  private final GeneralPropertyConfiguration config;
+  
   private final SitemapService sitemapService;
   
   public SitemapController(
+      GeneralPropertyConfiguration config,
       SitemapService service) {
+    this.config = config;
     this.sitemapService = service;
   }
   
   @GetMapping("/sitemap")
   public ResponseEntity<Sitemap> getSitemap(HttpServletRequest request) 
       throws MalformedURLException {
-    var host = request.getHeader("host");
-    if (!host.startsWith("http") && !host.startsWith("www")) {
-      host = "http://" + host;
-    }
-    return ok(sitemapService.generateSitemap(new URL(host)));
+    return ok(sitemapService.generateSitemap(new URL(config.getHost())));
   }
 }
