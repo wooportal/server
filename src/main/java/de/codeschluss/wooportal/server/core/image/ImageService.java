@@ -113,7 +113,7 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
     ByteArrayInputStream inputStream = new ByteArrayInputStream(imageByte);
     BufferedImage imageBuff = ImageIO.read(inputStream);
     
-    return needsResize(imageBuff)
+    return needsResize(imageBuff, formatType)
         ? resize(imageBuff, formatType)
         : imageByte;
   }
@@ -134,14 +134,15 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
       throws IOException {
     URL url = new URL(imageUrl);
     BufferedImage imageBuff = ImageIO.read(url);
-    return needsResize(imageBuff)
+    return needsResize(imageBuff, formatType)
         ? resize(imageBuff, formatType)
         : convertToByte(imageBuff, formatType);
   }
   
-  private boolean needsResize(BufferedImage imageBuff) {
-    return imageBuff.getHeight() >= config.getMaxHeight()
-        || imageBuff.getWidth() >= config.getMaxWidth();
+  private boolean needsResize(BufferedImage imageBuff, String formatType) {
+    return !formatType.contains("svg") &&
+        (imageBuff.getHeight() >= config.getMaxHeight() 
+          || imageBuff.getWidth() >= config.getMaxWidth());
   }
   
   private byte[] resize(BufferedImage imageBuff, String formatType) 
