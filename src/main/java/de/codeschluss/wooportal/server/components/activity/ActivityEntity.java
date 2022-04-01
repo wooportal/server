@@ -167,7 +167,7 @@ public class ActivityEntity extends BaseResource {
   @JsonIgnore
   protected Set<ActivityTranslatablesEntity> translatables;
   
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<ActivityVisitorEntity> visits;

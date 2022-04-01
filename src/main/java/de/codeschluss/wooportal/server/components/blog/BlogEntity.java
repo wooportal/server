@@ -81,7 +81,7 @@ public class BlogEntity extends BaseResource {
   
   private String mailAddress;
   
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JsonIgnore
   @JoinColumn(nullable = false)
   private BloggerEntity blogger;
@@ -122,12 +122,12 @@ public class BlogEntity extends BaseResource {
   @JoinColumn(name="title_image_id")
   private ImageEntity titleImage;
   
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<BlogTranslatablesEntity> translatables;
   
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<BlogVisitorEntity> visits;

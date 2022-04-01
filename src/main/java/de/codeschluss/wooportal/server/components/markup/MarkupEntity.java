@@ -70,7 +70,7 @@ public class MarkupEntity extends BaseResource {
   @JsonIgnore
   protected Set<MarkupTranslatablesEntity> translatables;
   
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<MarkupVisitorEntity> visits;
