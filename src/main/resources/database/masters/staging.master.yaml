@@ -112,3 +112,5 @@ databaseChangeLog:
           file: database/changes/0053.add_column_activities_admissionfee.yaml
     - include:
           file: database/changes/0054.add_column_markupstrans_title.yaml
+    - include:
+          file: database/changes/0055.change_cascade_blogs.yaml

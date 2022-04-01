@@ -1,0 +1,17 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0055.change_cascade_blogs
+          author: codeschluss
+          changes:
+              - addForeignKeyConstraint:
+                    baseColumnNames: blogger_id
+                    baseTableName: blogs
+                    constraintName: CONSTRAINT_LWCH48H6
+                    deferrable: false
+                    initiallyDeferred: false
+                    onDelete: SET NULL
+                    onUpdate: CASCADE
+                    referencedColumnNames: id
+                    referencedTableName: bloggers
+                    validate: true

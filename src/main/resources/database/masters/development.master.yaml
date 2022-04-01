@@ -113,4 +113,6 @@ databaseChangeLog:
     - include:
           file: database/changes/0054.add_column_markupstrans_title.yaml
     - include:
+          file: database/changes/0055.change_cascade_blogs.yaml
+    - include:
           file: database/datasets/development.dataset.2.yaml
