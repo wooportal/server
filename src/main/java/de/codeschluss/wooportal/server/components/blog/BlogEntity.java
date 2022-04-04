@@ -122,7 +122,7 @@ public class BlogEntity extends BaseResource {
   @JoinColumn(name="title_image_id")
   private ImageEntity titleImage;
   
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<BlogTranslatablesEntity> translatables;
