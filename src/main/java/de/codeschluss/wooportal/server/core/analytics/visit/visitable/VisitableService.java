@@ -51,31 +51,33 @@ public class VisitableService<V extends VisitableEntity<?>> {
   }
 
   @SuppressWarnings("unchecked")
-  private void createVisitable(BaseEntity parent) 
-      throws Throwable {
-    var visitableClass = VisitHelper.getVisitableType(parent);
-    var visitableRepo = getRepository(visitableClass);
-    var visitor = (VisitorEntity) Hibernate.unproxy(createVisitor());
-    
-    var findByParentAndVisitor = visitableRepo.getClass().getMethod(
-        "findByParentAndVisitor", parent.getClass().getSuperclass(), visitor.getClass());
+  private void createVisitable(BaseEntity parent) {
+    try {
+      var visitableClass = VisitHelper.getVisitableType(parent);
+      var visitableRepo = getRepository(visitableClass);
+      var visitor = (VisitorEntity) Hibernate.unproxy(createVisitor());
+      
+      var findByParentAndVisitor = visitableRepo.getClass().getMethod(
+          "findByParentAndVisitor", parent.getClass().getSuperclass(), visitor.getClass());
 
-    var visitable = (V) findByParentAndVisitor.invoke(visitableRepo, parent, visitor);
+      var visitable = (V) findByParentAndVisitor.invoke(visitableRepo, parent, visitor);
 
-    if (visitable == null) {
-      visitable = (V) visitableClass.getDeclaredConstructor().newInstance();
-      visitable.setVisitor(visitor);
-      visitable.setParent(parent);
-    }
-    
-    visitable.addVisit();
-    repoService.save(visitable);
+      if (visitable == null) {
+        visitable = (V) visitableClass.getDeclaredConstructor().newInstance();
+        visitable.setVisitor(visitor);
+        visitable.setParent(parent);
+      }
+      
+      visitable.addVisit();
+      repoService.save(visitable);
+    } catch(Exception ignore) { }
+
   }
   
   private VisitorEntity createVisitor() throws ServiceUnavailableException {
     var visitor = new VisitorEntity();
     visitor.setUserAgent(request.getHeader("User-Agent"));
-    visitor.setIpAddress(request.getRemoteAddr());
+    visitor.setIpAddress(retrieveUserAddress());
     return visitorService.add(visitor);
   }
   
