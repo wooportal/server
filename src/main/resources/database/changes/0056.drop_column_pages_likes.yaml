@@ -1,0 +1,9 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0056.drop_column_pages_likes
+          author: codeschluss
+          changes:
+              - dropColumn:
+                    columnName: likes
+                    tableName: pages
