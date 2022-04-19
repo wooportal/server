@@ -69,7 +69,7 @@ public class MailService {
           templateService.createMessage(template, templateModel),
           to);
       return true;
-    } catch (TemplateException | IOException | MessagingException e) {
+    } catch (Exception e) {
       return false;
     }
   }

@@ -25,30 +25,15 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-/**
- * The Class BingMapService.
- * 
- * @author Valmir Etemi
- *
- */
 @Service
 public class BingMapService {
 
-  /** The config. */
   private final LocationConfiguration config;
   
-  /** The language service. */
   private final LanguageService languageService;
 
-  /** The geo location client. */
   private final WebClient geoLocationClient;
 
-  /**
-   * Instantiates a new bing map service.
-   *
-   * @param config the config
-   * @param languageService the language service
-   */
   public BingMapService(
       LocationConfiguration config,
       LanguageService languageService) {
@@ -57,13 +42,6 @@ public class BingMapService {
     this.geoLocationClient = WebClient.create();
   }
 
-  /**
-   * Retrieve external address.
-   *
-   * @param newAddress the new address
-   * @return the address entity
-   * @throws ServiceUnavailableException the service unavailable exception
-   */
   public AddressEntity retrieveExternalAddress(AddressEntity newAddress)
       throws ServiceUnavailableException, NotFoundException {
     BingMapAddressResult result = geoLocationClient
@@ -75,12 +53,6 @@ public class BingMapService {
     return transformResultToAddress(result, newAddress);
   }
 
-  /**
-   * Creates the address uri.
-   *
-   * @param newAddress the new address
-   * @return the uri
-   */
   private URI createAddressUri(AddressEntity newAddress) {
     return UriComponentsBuilder.fromUriString(config.getAddressUrl())
         .path(newAddress.getPostalCode()).path("/" + newAddress.getPlace())
