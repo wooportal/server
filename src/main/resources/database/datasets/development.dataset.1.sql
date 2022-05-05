@@ -5,6 +5,11 @@ INSERT INTO `organisations` (`id`, `approved`, `name`, `website`, `mail`, `phone
 ('00000002-0000-0000-0008-000000000000', 0, 'notApprovedOrga2', 'www.notApprovedOrga2.de', 'notApprovedOrga2@1.de', '01234567890', '00000000-0000-0000-0006-100000000000'),
 ('00000003-0000-0000-0008-000000000000', 0, 'notApprovedOrga3', 'www.notApprovedOrga3.de', 'notApprovedOrga3@1.de', '01234567890', '00000000-0000-0000-0006-100000000000');
 
+INSERT INTO `markups` (`id`, `tag_id`) VALUES
+('00000000-0000-0000-0029-100000000000', 'markup1'),
+('00000000-0000-0000-0029-200000000000', 'markupToChange'),
+('00000000-0000-0000-0029-300000000000', 'markupToDelete');
+
 INSERT INTO `users` (`id`, `superuser`, `translator`, `username`, `password`, `name`, `phone`) VALUES
 ('00000001-0000-0000-0004-000000000000', 0, 0, 'notapprovedorga@user', '$2a$10$0pLpBHF8gWe9UFz1eJzAHOwwUHMIjfkaImWTP1BX9wAmWLdcOvbNW', 'notapprovedorga', '01234567890'),
 ('00000002-0000-0000-0004-000000000000', 0, 0, 'createorga@user', '$2a$10$0pLpBHF8gWe9UFz1eJzAHOwwUHMIjfkaImWTP1BX9wAmWLdcOvbNW', 'createorga', '01234567890'),

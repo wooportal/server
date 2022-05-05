@@ -1,0 +1,89 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0060.create_table_organisation_videos.1
+    author: codeschluss
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+                nullable: false
+            name: organisation_id
+            type: CHAR(36)
+        - column:
+            constraints:
+                nullable: false
+            name: video_id
+            type: CHAR(36)
+        - column:
+            constraints:
+                primaryKey: true
+            name: id
+            type: CHAR(36)
+        tableName: organisation_videos
+    - sql:
+        comment: set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE organisation_videos CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+- changeSet:
+    id: 0060.create_table_organisation_videos.2
+    author: codeschluss
+    changes:
+    - addUniqueConstraint:
+        columnNames: organisation_id, video_id
+        constraintName: CONSTRAINT_0BC5RK9L
+        tableName: organisation_videos
+- changeSet:
+    id: 0060.create_table_organisation_videos.3
+    author: codeschluss
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: video_id
+        indexName: CONSTRAINT_I2V0TC7X
+        tableName: organisation_videos
+- changeSet:
+    id: 0060.create_table_organisation_videos.4
+    author: codeschluss
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: organisation_id
+        indexName: CONSTRAINT_7IGMMFAI
+        tableName: organisation_videos
+- changeSet:
+    id: 0060.create_table_organisation_videos.5
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: organisation_id
+        baseTableName: organisation_videos
+        constraintName: CONSTRAINT_DVELPJE5
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: organisations
+        validate: true
+- changeSet:
+    id: 0060.create_table_organisation_videos.6
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: video_id
+        baseTableName: organisation_videos
+        constraintName: CONSTRAINT_Q2VP40XI
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: videos
+        validate: true
+        

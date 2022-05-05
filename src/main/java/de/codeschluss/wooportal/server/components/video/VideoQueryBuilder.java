@@ -27,11 +27,11 @@ public class VideoQueryBuilder extends QueryBuilder<QVideoEntity> {
     return query.url.likeIgnoreCase(filter);
   }
 
-  public Predicate withIdAndOrgaId(String id, String organisationId) {
-    return query.id.eq(id).and(withOrgaId(organisationId));
-  }
+//  public Predicate withIdAndOrgaId(String id, String organisationId) {
+//    return query.id.eq(id).and(withOrgaId(organisationId));
+//  }
 
-  public Predicate withOrgaId(String organisationId) {
-    return query.organisation.id.eq(organisationId);
-  }
+//  public Predicate withOrgaId(String organisationId) {
+//    return query.organisation.id.eq(organisationId);
+//  }
 }

@@ -72,6 +72,7 @@ public class ImageService extends ResourceDataService<ImageEntity, ImageQueryBui
     });
   }
 
+  @Override
   public ImageEntity add(ImageEntity image) {
     setImageDate(image);
     return repo.save(image);

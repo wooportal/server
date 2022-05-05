@@ -1,0 +1,89 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0058.create_table_markupimages.1
+    author: codeschluss
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+                nullable: false
+            name: markup_id
+            type: CHAR(36)
+        - column:
+            constraints:
+                nullable: false
+            name: image_id
+            type: CHAR(36)
+        - column:
+            constraints:
+                primaryKey: true
+            name: id
+            type: CHAR(36)
+        tableName: markup_images
+    - sql:
+        comment: set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE markup_images CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+- changeSet:
+    id: 0058.create_table_markupimages.2
+    author: codeschluss
+    changes:
+    - addUniqueConstraint:
+        columnNames: markup_id, image_id
+        constraintName: CONSTRAINT_XB557B69
+        tableName: markup_images
+- changeSet:
+    id: 0058.create_table_markupimages.3
+    author: codeschluss
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: image_id
+        indexName: CONSTRAINT_KMA739NT
+        tableName: markup_images
+- changeSet:
+    id: 0058.create_table_markupimages.4
+    author: codeschluss
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: markup_id
+        indexName: CONSTRAINT_KJH729K8
+        tableName: markup_images
+- changeSet:
+    id: 0058.create_table_markupimages.5
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: markup_id
+        baseTableName: markup_images
+        constraintName: CONSTRAINT_KD873B63
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: markups
+        validate: true
+- changeSet:
+    id: 0058.create_table_markupimages.6
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: image_id
+        baseTableName: markup_images
+        constraintName: CONSTRAINT_184BH7D9
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: images
+        validate: true
+        

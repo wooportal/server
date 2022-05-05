@@ -1,0 +1,14 @@
+databaseChangeLog:
+    - logicalFilePath: path_independent
+    - changeSet:
+          id: 0060.transform_videos_to_organisation_videos.1
+          author: codeschluss
+          changes:
+              - sql:
+                    comment: create one blogger from first superuser
+                    dbms: mysql, h2
+                    splitStatements: true
+                    sql: /*!40101 SET character_set_client = utf8 */;
+                        insert into organisation_videos (id, organisation_id, video_id)
+                        select uuid(),  organisation_id, id
+                        from videos;

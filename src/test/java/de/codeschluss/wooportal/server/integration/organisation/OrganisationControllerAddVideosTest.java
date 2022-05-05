@@ -1,11 +1,6 @@
 package de.codeschluss.wooportal.server.integration.organisation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
-import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
-import de.codeschluss.wooportal.server.components.video.VideoEntity;
-import de.codeschluss.wooportal.server.core.exception.BadParamsException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.assertj.core.api.Condition;
@@ -17,6 +12,9 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
+import de.codeschluss.wooportal.server.components.organisation.OrganisationController;
+import de.codeschluss.wooportal.server.components.video.VideoEntity;
+import de.codeschluss.wooportal.server.core.exception.BadParamsException;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,7 +25,7 @@ public class OrganisationControllerAddVideosTest {
 
   @Test
   @WithUserDetails("super@user")
-  public void addVideosSuperUserOk() throws IOException {
+  public void addVideosSuperUserOk() throws Exception {
     
     String organisationId = "00000000-0000-0000-0008-100000000000";
     var video = newVideoEntity();
@@ -43,7 +41,7 @@ public class OrganisationControllerAddVideosTest {
 
   @Test
   @WithUserDetails("admin@user")
-  public void addVideosOwnOrgaOk() throws IOException {
+  public void addVideosOwnOrgaOk() throws Exception {
     
     String organisationId = "00000000-0000-0000-0008-100000000000";
     var video = newVideoEntity();
@@ -59,7 +57,7 @@ public class OrganisationControllerAddVideosTest {
   
   @Test(expected = AccessDeniedException.class)
   @WithUserDetails("admin@user")
-  public void addOtherOrgaVideoDenied() throws IOException {
+  public void addOtherOrgaVideoDenied() throws Exception {
     
     String organisationId = "00000000-0000-0000-0008-200000000000";
     var video = newVideoEntity();
@@ -70,7 +68,7 @@ public class OrganisationControllerAddVideosTest {
   }
   
   @Test(expected = AuthenticationCredentialsNotFoundException.class)
-  public void addVideosNotRegisteredDenied() throws IOException {
+  public void addVideosNotRegisteredDenied() throws Exception {
 
     String organisationId = "00000000-0000-0000-0008-200000000000";
     var video = newVideoEntity();
@@ -82,7 +80,7 @@ public class OrganisationControllerAddVideosTest {
 
   @Test(expected = BadParamsException.class)
   @WithUserDetails("super@user")
-  public void addVideosByOrganisationNotFound() {
+  public void addVideosByOrganisationNotFound() throws Exception {
     String organisationId = "00000000-0000-0000-0008-XX0000000000";
     var video = newVideoEntity();
     List<VideoEntity> videoInput = new ArrayList<>();
