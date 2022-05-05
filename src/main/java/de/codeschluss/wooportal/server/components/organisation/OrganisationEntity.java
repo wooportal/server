@@ -58,23 +58,20 @@ import lombok.ToString;
 @Visitable(overview = "organisations")
 @Table(name = "organisations")
 @Relation(collectionRelation = "data")
-@GenericGenerator(
-    name = "UUID",
-    strategy = "org.hibernate.id.UUIDGenerator"
-)
+@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
 public class OrganisationEntity extends BaseResource {
-  
+
   private static final long serialVersionUID = 1L;
-  
+
   @Transient
   @JsonDeserialize
   private String addressId;
-  
+
   @ManyToOne
   @JsonIgnore
   @ToString.Exclude
   private AddressEntity address;
-  
+
   @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
   @JsonProperty(access = Access.READ_ONLY)
   private boolean approved;
@@ -83,24 +80,17 @@ public class OrganisationEntity extends BaseResource {
   @JsonDeserialize
   @Transient
   private String description;
-  
+
   @ManyToMany(fetch = FetchType.EAGER)
   @ToString.Exclude
   @JsonIgnore
-  @JoinTable(
-      name = "organisations_images",
-      joinColumns = @JoinColumn(name = "organisation_id"),
+  @JoinTable(name = "organisations_images", joinColumns = @JoinColumn(name = "organisation_id"),
       inverseJoinColumns = @JoinColumn(name = "image_id"),
-      uniqueConstraints = {
-          @UniqueConstraint(columnNames = { "organisation_id", "image_id" })
-      })
-  @CollectionId(
-      columns = @Column(name = "id"),
-      type = @Type(type = "uuid-char"),
-      generator = "UUID"
-  )
+      uniqueConstraints = {@UniqueConstraint(columnNames = {"organisation_id", "image_id"})})
+  @CollectionId(columns = @Column(name = "id"), type = @Type(type = "uuid-char"),
+      generator = "UUID")
   private List<ImageEntity> images;
-  
+
   @JsonProperty(access = Access.READ_ONLY)
   private int likes;
 
@@ -110,63 +100,64 @@ public class OrganisationEntity extends BaseResource {
   private String name;
 
   private String phone;
-  
+
   @OneToMany(mappedBy = "organisation", fetch = FetchType.LAZY)
   @JsonIgnore
   @ToString.Exclude
   private List<ProviderEntity> providers;
-  
+
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
   @JsonIgnore
   @ToString.Exclude
   protected Set<OrganisationTranslatablesEntity> translatables;
-  
+
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
   @ToString.Exclude
   @JsonIgnore
   protected Set<OrganisationVisitorEntity> visits;
-  
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "organisation")
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @ToString.Exclude
   @JsonIgnore
+  @JoinTable(name = "organisation_videos", joinColumns = @JoinColumn(name = "organisation_id"),
+      inverseJoinColumns = @JoinColumn(name = "video_id"),
+      uniqueConstraints = {@UniqueConstraint(columnNames = {"organisation_id", "video_id"})})
+  @CollectionId(columns = @Column(name = "id"), type = @Type(type = "uuid-char"),
+      generator = "UUID")
   private List<VideoEntity> videos;
-  
+
   @OneToOne
   @JsonIgnore
   @ToString.Exclude
-  @JoinColumn(name="avatar_id")
+  @JoinColumn(name = "avatar_id")
   private ImageEntity avatar;
-  
+
   private String website;
 
   @Override
   public List<Link> createResourceLinks() {
     List<Link> links = new ArrayList<Link>();
 
-    links.add(linkTo(methodOn(OrganisationController.class)
-        .readOne(id)).withSelfRel());
-    links.add(linkTo(methodOn(OrganisationController.class)
-        .readActivities(id, null)).withRel("activities"));
-    links.add(linkTo(methodOn(OrganisationController.class)
-        .readUsers(id)).withRel("users"));
-    links.add(linkTo(methodOn(OrganisationController.class)
-        .readAddress(id)).withRel("address"));
-    links.add(linkTo(methodOn(OrganisationController.class)
-        .readTranslations(id)).withRel("translations"));
-    links.add(linkTo(methodOn(OrganisationController.class)
-        .readImages(id)).withRel("images"));
-    links.add(linkTo(methodOn(OrganisationController.class)
-        .readAvatar(id)).withRel("avatar"));
-    
+    links.add(linkTo(methodOn(OrganisationController.class).readOne(id)).withSelfRel());
+    links.add(linkTo(methodOn(OrganisationController.class).readActivities(id, null))
+        .withRel("activities"));
+    links.add(linkTo(methodOn(OrganisationController.class).readUsers(id)).withRel("users"));
+    links.add(linkTo(methodOn(OrganisationController.class).readAddress(id)).withRel("address"));
+    links.add(linkTo(methodOn(OrganisationController.class).readTranslations(id))
+        .withRel("translations"));
+    links.add(linkTo(methodOn(OrganisationController.class).readImages(id)).withRel("images"));
+    links.add(linkTo(methodOn(OrganisationController.class).readAvatar(id)).withRel("avatar"));
+
     try {
-      links.add(linkTo(methodOn(OrganisationController.class)
-          .calculateVisitors(id)).withRel("visitors"));
+      links.add(
+          linkTo(methodOn(OrganisationController.class).calculateVisitors(id)).withRel("visitors"));
     } catch (Throwable e) {
       e.printStackTrace();
     }
 
     return links;
   }
-  
+
   public Link selfLink() {
     return linkTo(methodOn(OrganisationController.class).readOne(id)).withSelfRel();
   }

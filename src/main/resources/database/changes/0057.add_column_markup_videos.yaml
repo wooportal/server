@@ -1,0 +1,90 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0057.create_table_markupvideos.1
+    author: codeschluss
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+                nullable: false
+            name: markup_id
+            type: CHAR(36)
+        - column:
+            constraints:
+                nullable: false
+            name: video_id
+            type: CHAR(36)
+        - column:
+            constraints:
+                primaryKey: true
+            name: id
+            type: CHAR(36)
+        tableName: markup_videos
+    - sql:
+        comment: set char set for mysql
+        dbms: mysql
+        endDelimiter: \nGO
+        splitStatements: true
+        sql: ALTER TABLE markup_videos CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+- changeSet:
+    id: 0057.create_table_markupvideos.2
+    author: codeschluss
+    changes:
+    - addUniqueConstraint:
+        columnNames: markup_id, video_id
+        constraintName: CONSTRAINT_3JZSMHOM
+        tableName: markup_videos
+- changeSet:
+    id: 0057.create_table_markupvideos.3
+    author: codeschluss
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: video_id
+        indexName: CONSTRAINT_XFWBON9U
+        tableName: markup_videos
+- changeSet:
+    id: 0057.create_table_markupvideos.4
+    author: codeschluss
+    changes:
+    - createIndex:
+        columns:
+        - column:
+            name: markup_id
+        indexName: CONSTRAINT_ITS4ASOO
+        tableName: markup_videos
+- changeSet:
+    id: 0057.create_table_markupvideos.5
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: markup_id
+        baseTableName: markup_videos
+        constraintName: CONSTRAINT_B3VWWOLP
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: markups
+        validate: true
+- changeSet:
+    id: 0057.create_table_markupvideos.6
+    author: codeschluss
+    changes:
+    - addForeignKeyConstraint:
+        baseColumnNames: video_id
+        baseTableName: markup_videos
+        constraintName: CONSTRAINT_E1V2SJH4
+        deferrable: false
+        initiallyDeferred: false
+        onDelete: CASCADE
+        onUpdate: CASCADE
+        referencedColumnNames: id
+        referencedTableName: videos
+        validate: true
+        
+        

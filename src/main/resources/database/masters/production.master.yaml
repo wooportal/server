@@ -114,3 +114,13 @@ databaseChangeLog:
           file: database/changes/0055.change_cascade_blogs.yaml
     - include:
           file: database/changes/0056.drop_column_pages_likes.yaml
+    - include:
+          file: database/changes/0057.add_column_markup_videourl.yaml
+    - include:
+          file: database/changes/0058.create_table_markupimages.yaml
+    - include:
+          file: database/changes/0059.create_table_organisation_videos.yaml
+    - include:
+          file: database/changes/0060.transform_videos_to_organisation_videos.yaml
+    - include:
+          file: database/changes/0061.drop_column_video_organisation_id.yaml                    

@@ -66,37 +66,32 @@ public class OrganisationController
 
   /** The activity service. */
   private final ActivityService activityService;
-  
+
   /** The translation service. */
   private final TranslationService translationService;
-  
+
   /** The image service. */
   private final ImageService imageService;
-  
+
   /** The video service. */
   private final VideoService videoService;
-  
+
   /** The authorization service. */
   private final AuthorizationService authService;
-  
+
   /** The subscription service. */
   private final SubscriptionService subscriptionService;
-  
+
   private final VisitableService<OrganisationVisitorEntity> visitableService;
 
   /**
    * Instantiates a new organisation controller.
    *
-   * @param service
-   *          the service
-   * @param providerService
-   *          the provider service
-   * @param userService
-   *          the user service
-   * @param addressService
-   *          the address service
-   * @param activityService
-   *          the activity service
+   * @param service the service
+   * @param providerService the provider service
+   * @param userService the user service
+   * @param addressService the address service
+   * @param activityService the activity service
    */
   public OrganisationController(OrganisationService service, ProviderService providerService,
       UserService userService, AddressService addressService, ActivityService activityService,
@@ -131,10 +126,9 @@ public class OrganisationController
   @Override
   @PostMapping("/organisations")
   @Authenticated
-  public ResponseEntity<?> create(@RequestBody OrganisationEntity newOrga) 
-      throws Exception {
+  public ResponseEntity<?> create(@RequestBody OrganisationEntity newOrga) throws Exception {
     validateCreate(newOrga);
-    
+
     try {
       newOrga.setAddress(addressService.getById(newOrga.getAddressId()));
     } catch (NotFoundException e) {
@@ -148,7 +142,7 @@ public class OrganisationController
     providerService.addAdminAndSendMail(resource.getContent(), currentUser);
     return created(new URI(resource.getId().expand().getHref())).body(resource);
   }
-  
+
   /**
    * Grant approval and if isApproved is false, it will delete all existing activities.
    *
@@ -158,8 +152,7 @@ public class OrganisationController
    */
   @PutMapping("/organisations/{id}/approve")
   @SuperUserPermission
-  public ResponseEntity<?> grantApproval(
-      @PathVariable String id,
+  public ResponseEntity<?> grantApproval(@PathVariable String id,
       @RequestBody BooleanPrimitive isApproved) {
     try {
       service.setApproval(id, isApproved.getValue());
@@ -175,12 +168,12 @@ public class OrganisationController
   @Override
   @PutMapping("/organisations/{id}")
   @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> update(@RequestBody OrganisationEntity newOrga,
-      @PathVariable String id) throws URISyntaxException {
+  public ResponseEntity<?> update(@RequestBody OrganisationEntity newOrga, @PathVariable String id)
+      throws URISyntaxException {
     return super.update(newOrga, id);
   }
 
-  
+
   @Override
   @DeleteMapping("/organisations/{id}")
   @OrgaAdminOrSuperUserPermission
@@ -191,8 +184,7 @@ public class OrganisationController
   /**
    * Read address.
    *
-   * @param id
-   *          the organisation id
+   * @param id the organisation id
    * @return the response entity
    */
   @GetMapping("/organisations/{id}/address")
@@ -203,18 +195,15 @@ public class OrganisationController
   /**
    * Update address.
    *
-   * @param id
-   *          the organisation id
-   * @param addressId
-   *          the address id
+   * @param id the organisation id
+   * @param addressId the address id
    * @return the response entity
    */
   @PutMapping("/organisations/{id}/address")
   @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> updateAddress(@PathVariable String id,
       @RequestBody StringPrimitive addressId) {
-    if (addressService.existsById(addressId.getValue())
-        && service.existsById(id)) {
+    if (addressService.existsById(addressId.getValue()) && service.existsById(id)) {
       service.updateAddress(id, addressService.getById(addressId.getValue()));
       return ok(readAddress(id));
     } else {
@@ -225,14 +214,11 @@ public class OrganisationController
   /**
    * Read activities.
    *
-   * @param id
-   *          the organisation id
+   * @param id the organisation id
    * @return the response entity
    */
   @GetMapping("/organisations/{id}/activities")
-  public ResponseEntity<?> readActivities(
-      @PathVariable String id,
-      BaseParams params) {
+  public ResponseEntity<?> readActivities(@PathVariable String id, BaseParams params) {
     List<ProviderEntity> providers = providerService.getProvidersByOrganisation(id);
     try {
       return ok(activityService.getResourcesByProviders(providers, params));
@@ -244,10 +230,8 @@ public class OrganisationController
   /**
    * Delete activity.
    *
-   * @param id
-   *          the organisation id
-   * @param activityId
-   *          the activity id
+   * @param id the organisation id
+   * @param activityId the activity id
    * @return the response entity
    */
   @DeleteMapping("/organisations/{id}/activities/{activityId}")
@@ -266,14 +250,12 @@ public class OrganisationController
   /**
    * Read users.
    *
-   * @param id
-   *          the organisation id
+   * @param id the organisation id
    * @return the response entity
    */
   @GetMapping("/organisations/{id}/users")
   @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> readUsers(
-      @PathVariable String id) {
+  public ResponseEntity<?> readUsers(@PathVariable String id) {
     List<ProviderEntity> providers = providerService.getProvidersByOrganisation(id);
     return ok(userService.convertToResourcesEmbeddedProviders(providers));
   }
@@ -281,18 +263,15 @@ public class OrganisationController
   /**
    * Approve or reject user.
    *
-   * @param id
-   *          the organisation id
-   * @param userId
-   *          the user id
-   * @param isApproved
-   *          the is approved
+   * @param id the organisation id
+   * @param userId the user id
+   * @param isApproved the is approved
    * @return the response entity
    */
   @PutMapping("/organisations/{id}/users/{userId}/approve")
   @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> approveOrRejectUser(@PathVariable String id,
-      @PathVariable String userId, @RequestBody BooleanPrimitive isApproved) {
+  public ResponseEntity<?> approveOrRejectUser(@PathVariable String id, @PathVariable String userId,
+      @RequestBody BooleanPrimitive isApproved) {
     try {
       if (isApproved.getValue()) {
         providerService.setApprovedByUserAndOrga(userId, id);
@@ -308,18 +287,15 @@ public class OrganisationController
   /**
    * Grant admin right.
    *
-   * @param id
-   *          the organisation id
-   * @param userId
-   *          the user id
-   * @param isAdmin
-   *          the is admin
+   * @param id the organisation id
+   * @param userId the user id
+   * @param isAdmin the is admin
    * @return the response entity
    */
   @PutMapping("/organisations/{id}/users/{userId}/admin")
   @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> grantAdminRight(@PathVariable String id,
-      @PathVariable String userId, @RequestBody BooleanPrimitive isAdmin) {
+  public ResponseEntity<?> grantAdminRight(@PathVariable String id, @PathVariable String userId,
+      @RequestBody BooleanPrimitive isAdmin) {
     try {
       providerService.setAdminByUserAndOrga(userId, id, isAdmin.getValue());
       return noContent().build();
@@ -331,16 +307,13 @@ public class OrganisationController
   /**
    * Delete user.
    *
-   * @param id
-   *          the organisation id
-   * @param userId
-   *          the user id
+   * @param id the organisation id
+   * @param userId the user id
    * @return the response entity
    */
   @DeleteMapping("/organisations/{id}/users/{userId}")
   @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> deleteUser(@PathVariable String id,
-      @PathVariable String userId) {
+  public ResponseEntity<?> deleteUser(@PathVariable String id, @PathVariable String userId) {
     try {
       providerService.deleteForUserAndOrga(userId, id);
       return noContent().build();
@@ -348,7 +321,7 @@ public class OrganisationController
       return noContent().build();
     }
   }
-  
+
   /**
    * Read translations.
    *
@@ -364,19 +337,18 @@ public class OrganisationController
       throw new RuntimeException(e);
     }
   }
-  
+
   /**
    * Read images.
    *
-   * @param id
-   *          the organisation id
+   * @param id the organisation id
    * @return the response entity
    */
   @GetMapping("/organisations/{id}/images")
   public ResponseEntity<?> readImages(@PathVariable String id) {
     return ok(service.getImages(id));
   }
-  
+
   /**
    * Adds the image.
    *
@@ -397,7 +369,7 @@ public class OrganisationController
       throw new BadParamsException("Image Upload not possible");
     }
   }
-  
+
   private void validateImages(List<ImageEntity> images) {
     if (images == null || images.isEmpty()) {
       throw new BadParamsException("Image File must not be null");
@@ -425,25 +397,26 @@ public class OrganisationController
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
-      }
     }
-    
+  }
+
   @GetMapping("/organisations/{id}/avatar")
   public ResponseEntity<ImageEntity> readAvatar(@PathVariable String id) {
     return ok(service.getAvatar(id));
   }
-  
+
   @PostMapping("/organisations/{id}/avatar")
   @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> addAvatar(@PathVariable String id, @RequestBody ImageEntity avatar) {
     try {
       if (avatar == null) {
         try {
-          imageService.delete(service.getAvatar(id).getId()); 
-        } catch (NotFoundException e) {}
+          imageService.delete(service.getAvatar(id).getId());
+        } catch (NotFoundException e) {
+        }
         return noContent().build();
       } else {
-        return ok(service.addAvatar(id, imageService.add(avatar))); 
+        return ok(service.addAvatar(id, imageService.add(avatar)));
       }
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
@@ -452,31 +425,25 @@ public class OrganisationController
     }
   }
 
-  
   @GetMapping("/organisations/{id}/videos")
   public ResponseEntity<?> readVideos(@PathVariable String id) {
-    return ok(videoService.getResourcesWithEmbeddables(id));
+    return ok(service.getVideos(id));
   }
-  
-  /**
-   * Adds the videos.
-   *
-   * @param id the organisation id
-   * @param videos the videos
-   * @return the response entity
-   */
+
   @PostMapping("/organisations/{id}/videos")
   @OrgaAdminOrSuperUserPermission
-  public ResponseEntity<?> addVideos(@PathVariable String id,
-      @RequestBody List<VideoEntity> videos) {
+  public ResponseEntity<?> addVideos(@PathVariable String id, @RequestBody List<VideoEntity> videos)
+      throws Exception {
     validateVideos(videos);
     try {
-      return ok(videoService.addAll(videos, service.getById(id)));
+      return ok(service.addVideos(id, videoService.addAll(videos)));
     } catch (NotFoundException e) {
-      throw new BadParamsException("Given Organisation does not exist");
+      throw new BadParamsException("Given Markup does not exist");
+    } catch (IOException e) {
+      throw new BadParamsException("Image Upload not possible");
     }
   }
-  
+
   private void validateVideos(List<VideoEntity> videos) {
     if (videos == null || videos.isEmpty()) {
       throw new BadParamsException("Video must not be null");
@@ -487,30 +454,19 @@ public class OrganisationController
       }
     }
   }
-  
-  /**
-   * Delete videos.
-   *
-   * @param id the organisation id
-   * @param videoIds the video ids
-   * @return the response entity
-   */
+
   @DeleteMapping("/organisations/{id}/videos")
   @OrgaAdminOrSuperUserPermission
   public ResponseEntity<?> deleteVideos(@PathVariable String id,
       @RequestParam(value = "videoIds", required = true) List<String> videoIds) {
     try {
-      if (videoService.belongsToOrga(id, videoIds)) {
-        videoService.deleteAll(videoIds);
-        return noContent().build();
-      } else {
-        throw new BadParamsException("Videos do not belong to Organisation");
-      }
+      videoService.deleteAll(videoIds);
+      return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
     }
   }
-  
+
   /**
    * Increase like.
    *
@@ -519,30 +475,28 @@ public class OrganisationController
    * @return the response entity
    */
   @PutMapping("/organisations/{id}/like")
-  public ResponseEntity<?> increaseLike(
-      @PathVariable String id, 
-      @RequestBody(required = false) StringPrimitive subscriptionId) { 
-    try { 
-      service.increaseLike(id); 
-      if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) { 
-        subscriptionService.addLikedOrganisation(
-            subscriptionId.getValue(),  
-            service.getById(id)); 
-      } 
+  public ResponseEntity<?> increaseLike(@PathVariable String id,
+      @RequestBody(required = false) StringPrimitive subscriptionId) {
+    try {
+      service.increaseLike(id);
+      if (subscriptionId != null && !subscriptionId.getValue().isEmpty()) {
+        subscriptionService.addLikedOrganisation(subscriptionId.getValue(), service.getById(id));
+      }
       return noContent().build();
     } catch (NotFoundException e) {
       throw new BadParamsException("Given Organisation does not exist");
     }
   }
-  
+
   @GetMapping("/organisations/visitors")
   public ResponseEntity<List<VisitableEntity<?>>> calculateOverviewVisitors() throws Throwable {
     return ok(visitableService.getVisitablesForOverview(this));
   }
-  
+
   @GetMapping("/organisations/{id}/visitors")
-  public ResponseEntity<List<VisitableEntity<?>>> calculateVisitors(
-      @PathVariable String id) throws Throwable {
+  public ResponseEntity<List<VisitableEntity<?>>> calculateVisitors(@PathVariable String id)
+      throws Throwable {
     return ok(visitableService.getVisitablesForEntity(service.getById(id)));
   }
+
 }

@@ -1,0 +1,9 @@
+databaseChangeLog:
+- logicalFilePath: path_independent
+- changeSet:
+    id: 0059.drop_column_video_organisation_id
+    author: codeschluss
+    changes:
+    - dropColumn:
+        columnName: organisation_id
+        tableName: videos
