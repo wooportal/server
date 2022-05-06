@@ -5,7 +5,7 @@ databaseChangeLog:
           author: codeschluss
           changes:
               - sql:
-                    comment: create one blogger from first superuser
+                    comment: insert into organisation_videos existing videos
                     dbms: mysql, h2
                     splitStatements: true
                     sql: /*!40101 SET character_set_client = utf8 */;
