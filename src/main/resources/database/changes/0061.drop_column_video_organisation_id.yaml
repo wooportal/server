@@ -1,9 +1,12 @@
 databaseChangeLog:
 - logicalFilePath: path_independent
 - changeSet:
-    id: 0059.drop_column_video_organisation_id
+    id: 0061.drop_column_video_organisation_id
     author: codeschluss
     changes:
+    - dropForeignKeyConstraint:
+        constraintName: CONSTRAINT_B8401F1A
+        baseTableName: videos
     - dropColumn:
         columnName: organisation_id
         tableName: videos

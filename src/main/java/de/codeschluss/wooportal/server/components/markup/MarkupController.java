@@ -30,7 +30,6 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
-import de.codeschluss.wooportal.server.core.security.permissions.OrgaAdminOrSuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.TranslatorOrSuperUserPermission;
 
@@ -152,7 +151,7 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   }
 
   @PostMapping("/markups/{id}/videos")
-  @OrgaAdminOrSuperUserPermission
+  @SuperUserPermission
   public ResponseEntity<?> addVideos(@PathVariable String id,
       @RequestBody List<VideoEntity> videos) {
     validateVideos(videos);
@@ -177,7 +176,7 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   }
 
   @DeleteMapping("/markups/{id}/videos")
-  @OrgaAdminOrSuperUserPermission
+  @SuperUserPermission
   public ResponseEntity<?> deleteVideos(@PathVariable String id,
       @RequestParam(value = "videoIds", required = true) List<String> videoIds) {
     try {
@@ -194,7 +193,7 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   }
 
   @PostMapping("/markups/{id}/images")
-  @OrgaAdminOrSuperUserPermission
+  @SuperUserPermission
   public ResponseEntity<?> addImage(@PathVariable String id,
       @RequestBody List<ImageEntity> images) {
     validateImages(images);
@@ -219,7 +218,7 @@ public class MarkupController extends CrudController<MarkupEntity, MarkupService
   }
 
   @DeleteMapping("/markups/{id}/images")
-  @OrgaAdminOrSuperUserPermission
+  @SuperUserPermission
   public ResponseEntity<?> deleteImages(@PathVariable String id,
       @RequestParam(value = "imageIds", required = true) List<String> imageIds) {
     try {

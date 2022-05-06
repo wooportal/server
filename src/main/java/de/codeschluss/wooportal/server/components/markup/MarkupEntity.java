@@ -112,6 +112,8 @@ public class MarkupEntity extends BaseResource {
     try {
       links.add(linkTo(methodOn(MarkupController.class).calculateVisitors(id)).withRel("visitors"));
       links.add(linkTo(methodOn(MarkupController.class).readTitleImage(id)).withRel("titleImage"));
+      links.add(linkTo(methodOn(MarkupController.class).readImages(id)).withRel("images"));
+      links.add(linkTo(methodOn(MarkupController.class).readVideos(id)).withRel("videos"));
     } catch (Throwable e) {
       e.printStackTrace();
     }

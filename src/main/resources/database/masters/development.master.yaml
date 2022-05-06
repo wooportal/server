@@ -117,7 +117,7 @@ databaseChangeLog:
     - include:
           file: database/changes/0056.drop_column_pages_likes.yaml
     - include:
-          file: database/changes/0057.add_column_markup_videos.yaml
+          file: database/changes/0057.create_table_markupvideos.yaml
     - include:
           file: database/changes/0058.create_table_markupimages.yaml
     - include:
