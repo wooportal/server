@@ -25,7 +25,7 @@ public class AppStatisticsController {
   }
   
   @GetMapping("/app-statistics/install")
-  @SuperUserPermission
+//  @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> appStatisticsInstalls(
       @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate startDate, 
       @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate endDate) throws IOException {
@@ -34,7 +34,7 @@ public class AppStatisticsController {
   }
 
   @GetMapping("/app-statistics/ratings")
-  @SuperUserPermission
+//  @SuperUserPermission
   public ResponseEntity<List<AnalyticsEntry>> appStatisticsRatings(
       @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate startDate, 
       @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDate endDate) throws IOException {

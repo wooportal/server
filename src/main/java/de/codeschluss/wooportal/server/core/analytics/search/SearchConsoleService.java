@@ -15,7 +15,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.searchconsole.v1.SearchConsole;
 import com.google.api.services.searchconsole.v1.model.SearchAnalyticsQueryRequest;
-import com.google.api.services.searchconsole.v1.model.WmxSite;
+import com.google.auth.oauth2.GoogleCredentials;
 import de.codeschluss.wooportal.server.core.analytics.AnalyticsDto;
 import de.codeschluss.wooportal.server.core.config.GeneralPropertyConfiguration;
 
@@ -40,24 +40,23 @@ public class SearchConsoleService {
   public SearchAnalyticsDto calculateTotal(
       LocalDate startDate, LocalDate endDate) throws IOException {
     var searchService = createSearchService();
-    var queryRequest = new SearchAnalyticsQueryRequest()
+    var query = new SearchAnalyticsQueryRequest()
         .setSearchType(null)
         .setStartDate(startDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
         .setEndDate(endDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
-    
+
     var result = new SearchAnalyticsDto();
-    for (WmxSite site : searchService.sites().list().execute().getSiteEntry()) {
-      for (var row : searchService
-            .searchanalytics()
-            .query(site.getSiteUrl(), queryRequest)
-            .execute().getRows()) {
-        result.addClicks(row.getClicks().intValue());
-        result.addImpressions(row.getImpressions().intValue());
-        result.addPosition(row.getPosition());
-        result.addCtr(row.getCtr());
-      }
+    for (var row : searchService
+        .searchanalytics()
+        .query(generalConfig.getHost(), query)
+        .execute()
+        .getRows()) {
+      result.addClicks(row.getClicks().intValue());
+      result.addImpressions(row.getImpressions().intValue());
+      result.addPosition(row.getPosition());
+      result.addCtr(row.getCtr());
     }
-    
+
     return result;
   }
   
@@ -70,23 +69,22 @@ public class SearchConsoleService {
         .setStartDate(startDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
         .setEndDate(endDate.format(DateTimeFormatter.ISO_LOCAL_DATE))
         .setDimensions(Arrays.asList(dimension.toString()));
-    
+
     var result = new HashMap<String, HashMap<String, Double>>();
-    for (var site : searchService.sites().list().execute().getSiteEntry()) {
-      for (var row : searchService
-            .searchanalytics()
-            .query(site.getSiteUrl(), query)
-            .execute().getRows()) {
-        var entry = result.containsKey(row.getKeys().get(0))
-            ? result.get(row.getKeys().get(0))
-            : new HashMap<String, Double>();
-        entry.put(clicks, 
-            entry.containsKey(clicks) ? entry.get(clicks) + row.getClicks() : row.getClicks());
-        entry.put(impressions, 
-            entry.containsKey(impressions) ? entry.get(impressions) + row.getImpressions() : row.getImpressions());
-        
-        result.put(row.getKeys().get(0), entry);
-      }
+    for (var row : searchService
+        .searchanalytics()
+        .query(generalConfig.getHost(), query)
+        .execute()
+        .getRows()) {
+      var entry = result.containsKey(row.getKeys().get(0))
+          ? result.get(row.getKeys().get(0))
+          : new HashMap<String, Double>();
+      entry.put(clicks, 
+          entry.containsKey(clicks) ? entry.get(clicks) + row.getClicks() : row.getClicks());
+      entry.put(impressions, 
+          entry.containsKey(impressions) ? entry.get(impressions) + row.getImpressions() : row.getImpressions());
+      
+      result.put(row.getKeys().get(0), entry);
     }
     
     return result.entrySet().stream().map(e -> new AnalyticsDto(e.getKey(), e.getValue()))
@@ -95,11 +93,12 @@ public class SearchConsoleService {
 
   public SearchConsole createSearchService() throws IOException {
 //  // As of now, this cannot be passed to SearchConsole.Builder
-//  GoogleCredentials test = GoogleCredentials
-//    .fromStream(configFile.getInputStream())
-//    .createScoped(scopes);
+//  var credentials = GoogleCredentials
+//    .fromStream(new ClassPathResource(searchConfig.getCredentials())
+//        .getInputStream())
+//    .createScoped(Collections.singletonList(searchConfig.getScope()));
   
-  // Only the depecrated method works
+  // Only the deprecated method works
   @SuppressWarnings("deprecation")
   var credentials = GoogleCredential
     .fromStream(new ClassPathResource(searchConfig.getCredentials())
@@ -109,9 +108,7 @@ public class SearchConsoleService {
   return new SearchConsole.Builder(
       new NetHttpTransport(), 
       new GsonFactory(), 
-      credentials)
-        .setApplicationName(generalConfig.getPortalName())
-        .build();
+      credentials).build();
   }
   
 }

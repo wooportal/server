@@ -17,6 +17,6 @@
 		<p>Dies ist eine automatisch generierte Mail. Bitte antworte nicht darauf.</p>
 		
 		<p>Mit freundlichen Grüßen<br>
-		Ihr ${portalName}-Team</p>
+		Dein ${portalName}-Team</p>
 	</body>
 </html>

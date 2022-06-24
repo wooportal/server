@@ -5,6 +5,7 @@ import static org.springframework.http.ResponseEntity.ok;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ import de.codeschluss.wooportal.server.core.exception.NotFoundException;
 import de.codeschluss.wooportal.server.core.i18n.translation.TranslationService;
 import de.codeschluss.wooportal.server.core.image.ImageEntity;
 import de.codeschluss.wooportal.server.core.image.ImageService;
+import de.codeschluss.wooportal.server.core.mail.MailService;
 import de.codeschluss.wooportal.server.core.security.permissions.ApprovedBlogOrSuperuser;
 import de.codeschluss.wooportal.server.core.security.permissions.OwnBlogOrSuperuserPermission;
 import de.codeschluss.wooportal.server.core.security.permissions.SuperUserPermission;
@@ -55,6 +57,8 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   
   /** The image service. */
   private final ImageService imageService;
+  
+  private final MailService mailService;
   
   /** The push service. */
   private final PushService pushService;
@@ -79,6 +83,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
       BlogService service,
       BloggerService bloggerService,
       ImageService imageService,
+      MailService mailService,
       PushService pushService,
       SubscriptionService subscriptionService,
       TranslationService translationService,
@@ -88,6 +93,7 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
     this.authService = authService;
     this.bloggerService = bloggerService;
     this.imageService = imageService;
+    this.mailService = mailService;
     this.pushService = pushService;
     this.subscriptionService = subscriptionService;
     this.translationService = translationService;
@@ -111,12 +117,16 @@ public class BlogController extends CrudController<BlogEntity, BlogService> {
   @PostMapping("/blogs")
   public ResponseEntity<?> create(@RequestBody BlogEntity newBlog) throws Exception {
     
-    BloggerEntity blogger = getBlogger();
+    var blogger = getBlogger();
     if (blogger != null) {
       newBlog.setBlogger(blogger);
       newBlog.setApproved(true);
     } else {
       newBlog.setApproved(false);
+      mailService.sendEmail(
+          "Beitrag eingereicht",
+          "newblog.ftl",
+          new HashMap<String, Object>());
     }
     
     TopicEntity topic = topicService.getById(newBlog.getTopicId());

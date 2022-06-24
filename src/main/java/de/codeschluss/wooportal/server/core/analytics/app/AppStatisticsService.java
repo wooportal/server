@@ -32,12 +32,14 @@ public class AppStatisticsService {
     if (csvFiles != null && !csvFiles.isEmpty()) {
       var result = new ArrayList<AnalyticsEntry>();
       for (var csv : csvFiles) {
-        var entries = new CsvToBeanBuilder<GoogleRatingDto>(new StringReader(csv))
-            .withType(GoogleRatingDto.class).build().parse();
-        
-        if (entries != null && !entries.isEmpty()) {
-          result.addAll(entries.stream().map(e -> new AnalyticsEntry(e.getDate(), e.getRating(), null))
-              .collect(Collectors.toList()));
+        if (csv != null) {
+          var entries = new CsvToBeanBuilder<GoogleRatingDto>(new StringReader(csv))
+              .withType(GoogleRatingDto.class).build().parse();
+          
+          if (entries != null && !entries.isEmpty()) {
+            result.addAll(entries.stream().map(e -> new AnalyticsEntry(e.getDate(), e.getRating(), null))
+                .collect(Collectors.toList()));
+          }
         }
       }
       return result;
@@ -69,8 +71,9 @@ public class AppStatisticsService {
     return bucket != null
         ? createDateFilter(startDate, endDate).stream().map(date -> {
             try {
-              return new String(bucket.get(String.format("%s_%s_%s_overview.csv", baseUrl, config.getProject(), date)).getContent(), "UTF-16");
-            } catch (UnsupportedEncodingException e) { return null; }
+              return new String(
+                  bucket.get(String.format("%s_%s_%s_overview.csv", baseUrl, config.getProject(), date)).getContent(), "UTF-16");
+            } catch (Exception e) { return null; }
           }).collect(Collectors.toList())
         : null;
   }

@@ -15,6 +15,6 @@
 		<p>Auf ein weiteres spannendes Jahr, mit vielen Angeboten rund um das ${portalName}.</p>
 		
 		<p>Vielen Dank und viele Grüße<br>
-		Ihr ${portalName}-Team</p>
+		Dein ${portalName}-Team</p>
 	</body>
 </html>
